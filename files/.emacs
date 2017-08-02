@@ -213,7 +213,7 @@
 ;; to have an idea of what it looks like http://imgur.com/b0SNN
 ;; inspired by Amit Patel screenshot http://www.emacswiki.org/pics/static/NyanModeWithCustomBackground.png
 ;;
-(global-semantic-stickyfunc-mode -1)
+;; (global-semantic-stickyfunc-mode -1)
 (require 'tabbar)
 ;; Tabbar settings
 (set-face-attribute

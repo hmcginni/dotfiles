@@ -1,14 +1,14 @@
 #!/bin/bash
 
-mkdir -p ~/.cfgbackup
+mkdir -p ~/.dotbackup
 
 for file in files/.[^.]*; do
     shortfile=${file/files\/}
-    mv ~/$shortfile ~/.cfgbackup/ -v
+    mv ~/$shortfile ~/.dotbackup/ -v
     #echo $shortfile
 done
 
-printf '\n\nExisting dotfiles backed up to ~/.cfgbackup folder.\n\n'
+printf '\n\nExisting dotfiles backed up to ~/.dotbackup folder.\n\n'
 
 for file in files/.[^.]*; do
     shortfile=${file/files\/}
