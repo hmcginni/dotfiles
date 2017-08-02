@@ -1,7 +1,6 @@
-!URxvt*boldFont: xft:Terminus:pixelsize=10
-URxvt*font: xft:Consolas:pixelsize=14
-URxvt*boldFont: xft:Consolas:pixelsize=14:style=bold
-URxvt*italicFont: xft:Consolas:pixelsize=14:style=italic
+URxvt*font: xft:Consolas:pixelsize=12
+URxvt*boldFont: xft:Consolas:pixelsize=12:style=bold
+URxvt*italicFont: xft:Consolas:pixelsize=12:style=italic
 
 URxvt.termName: rxvt-256color
 URxvt.internalBorder: 0
@@ -12,75 +11,8 @@ URxvt*transparent: true
 URxvt*shading: 10
 URxvt*tintColor: #000000
 URxvt*blurRadius: 5
-
 URxvt*colorUL: #86a2b0
-
-! black
-!URxvt*color0  : #2E3436
-!URxvt*color8  : #555753
-! red
-!URxvt*color1  : #CC0000
-!URxvt*color9  : #EF2929
-! green
-!URxvt*color2  : #4E9A06
-!URxvt*color10 : #8AE234
-! yellow
-!URxvt*color3  : #C4A000
-!URxvt*color11 : #FCE94F
-! blue
-!URxvt*color4  : #3465A4
-!URxvt*color12 : #729FCF
-! magenta
-!URxvt*color5  : #75507B
-!URxvt*color13 : #AD7FA8
-! cyan
-!URxvt*color6  : #06989A
-!URxvt*color14 : #34E2E2
-! white
-!URxvt*color7  : #D3D7CF
-!URxvt*color15 : #EEEEEC
-
-! Fall
-! ! special
-! *.foreground:   #dce7c3
-! *.background:   #000000
-! *.cursorColor:  #dce7c3
-
-! ! black
-! *.color0:       #000000
-! *.color8:       #77abbd
-
-! ! red
-! *.color1:       #10110c
-! *.color9:       #eaba9b
-
-! ! green
-! *.color2:       #22241d
-! *.color10:      #deb398
-
-! ! yellow
-! *.color3:       #3a3d32
-! *.color11:      #a9e7d0
-
-! ! blue
-! *.color4:       #595e4e
-! *.color12:      #e795bc
-
-! ! magenta
-! *.color5:       #7e856f
-! *.color13:      #7cb3c7
-
-! ! cyan
-! *.color6:       #aab396
-! *.color14:      #9db164
-
-! ! white
-! *.color7:       #dce7c3
-! *.color15:      #abbe78
-
-
 URxvt*letterSpace: -1
-
 URxvt*saveLines:         12000
 URxvt*scrollBar:         False
 URxvt*scrollTtyOutput:   False
@@ -98,28 +30,6 @@ URxvt.tabbed.tabbar-bg:  0
 URxvt.tabbed.tab-fg:     14
 URxvt.tabbed.tab-bg:     0
 
-!colors:
-!scheme: pnevma
-!*foreground: #696969
-!*background: #282626
-! *foreground: #6F6767
-! *background: #3A3636
-! *color0: #363636
-! *color8: #424242
-! *color1: #C37561
-! *color9: #D19485
-! *color2: #A0A57E
-! *color10: #B6B99D
-! *color3: #D1A375
-! *color11: #DEBC9C
-! *color4: #7985A3
-! *color12: #98A1B9
-! *color5: #AB716D
-! *color13: #BE918E
-! *color6: #98B9B1
-! *color14: #CBE6CB
-! *color7: #D0D0D0
-! *color15: #E6E6E6
 
 ! Monokai
 *background: #101010

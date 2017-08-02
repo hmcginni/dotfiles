@@ -112,15 +112,16 @@ fi
 
 
 
-# new aliases
-#alias emacs='emacs -nw'
+# New Aliases
 alias update='sudo apt-get autoclean && sudo apt update && sudo apt upgrade && sudo apt-get autoremove && sudo updatedb'
 #alias editdwm='sudo emacs -nw /usr/local/src/dwm-6.1/config.h'
 #alias rebuild='a=$(pwd) && cd /usr/local/src/dwm-6.1 && sudo make clean install && cd $a'
 #alias cddwm='cd /usr/local/src/dwm-6.1'
 export PS1=$'\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;37m\]] 
 \[\033[1;37m\]└───\xe2\x86\x92 \[\033[00m\]'
-alias emacs='emacs &'
+alias ebashrc='emacs ~/.cfg/dotfiles/files/.bashrc'
+alias gitdots='cd ~/.cfg/dotfiles'
+
 
 #export PS1='\[\e]0;\u@\h: \w\a\]\[\033[1;36m\][\[\033[1;33m\]\t\[\033[1;36m\]]──[\[\033[1;31m\]\w\[\033[1;36m\]]\n└─>\$ \[\033[0;38m\]'
 
