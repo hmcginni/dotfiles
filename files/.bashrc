@@ -88,7 +88,6 @@ alias la='ls -A'
 alias l='ls -CF'
 
 
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -129,18 +128,3 @@ alias gitdots='cd ~/.cfg/dotfiles'
 export TERM=xterm-256color
 export DISPLAY=:0.0
 
-# let promptsize=$(echo -n "--(${usernam}@${hostnam}:${cur_tty})---(${PWD})--" \
-#                  | wc -c | tr -d " ")
-# let fillsize=${TERMWIDTH}-${promptsize}
-# fill=""
-# while [ "$fillsize" -gt "0" ] 
-# do 
-#     fill="${fill}-"
-#     let fillsize=${fillsize}-1
-# done
- 
-# if [ "$fillsize" -lt "0" ]
-# then
-#    let cut=3-${fillsize}
-#    newPWD="...$(echo -n $PWD | sed -e "s/\(^.\{$cut\}\)\(.*\)/\2/")"
-# fi
