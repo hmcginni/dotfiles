@@ -4,7 +4,7 @@ mkdir -p ~/.cfgbackup
 
 for file in files/.[^.]*; do
     shortfile=${file/files\/}
-    cp ~/$shortfile ~/.cfgbackup/ -v
+    mv ~/$shortfile ~/.cfgbackup/ -v
     #echo $shortfile
 done
 
