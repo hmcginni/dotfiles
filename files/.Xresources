@@ -1,23 +1,23 @@
-URxvt*font: xft:Consolas:pixelsize=14
-URxvt*boldFont: xft:Consolas:pixelsize=14:style=bold
-URxvt*italicFont: xft:Consolas:pixelsize=14:style=italic
+URxvt.font: xft:Consolas:size=10
+URxvt.boldFont: xft:Consolas:size=10:style=bold
+URxvt.italicFont: xft:Consolas:size=10:style=italic
 
 URxvt.termName: rxvt-256color
 URxvt.internalBorder: 5
-URxvt*background: #1B1B1B
-URxvt*foreground: #DEDEDE
+URxvt.background: #1B1B1B
+URxvt.foreground: #DEDEDE
 
-URxvt*transparent: true
-URxvt*shading: 10
-URxvt*tintColor: #000000
-URxvt*blurRadius: 5
-URxvt*colorUL: #86a2b0
-URxvt*letterSpace: -1
-URxvt*saveLines:         12000
-URxvt*scrollBar:         False
-URxvt*scrollTtyOutput:   False
-URxvt*scrollTtyKeypress: True
-URxvt*secondaryScroll:   True
+URxvt.transparent: true
+URxvt.shading: 10
+URxvt.tintColor: #000000
+URxvt.blurRadius: 5
+URxvt.colorUL: #86a2b0
+URxvt.letterSpace: -1
+URxvt.saveLines:         12000
+URxvt.scrollBar:         False
+URxvt.scrollTtyOutput:   False
+URxvt.scrollTtyKeypress: True
+URxvt.secondaryScroll:   True
 
 URxvt.perl-ext-common:   default,matcher
 URxvt.urlLauncher:       google-chrome
