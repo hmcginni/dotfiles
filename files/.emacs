@@ -2,6 +2,11 @@
 (global-set-key [C-kp-subtract] 'text-scale-decrease)
 
 
+;; Default GUI size
+;;
+(add-to-list 'default-frame-alist '(height . 64))
+(add-to-list 'default-frame-alist '(width . 110))
+
 ;; PuTTY fix. Ugly. Bad. But it works. (Good)
 ;;
 (define-key input-decode-map "\e\eOA" (kbd "<M-up>"))
