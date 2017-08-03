@@ -1,9 +1,9 @@
-URxvt*font: xft:Consolas:pixelsize=12
-URxvt*boldFont: xft:Consolas:pixelsize=12:style=bold
-URxvt*italicFont: xft:Consolas:pixelsize=12:style=italic
+URxvt*font: xft:Consolas:pixelsize=14
+URxvt*boldFont: xft:Consolas:pixelsize=14:style=bold
+URxvt*italicFont: xft:Consolas:pixelsize=14:style=italic
 
 URxvt.termName: rxvt-256color
-URxvt.internalBorder: 0
+URxvt.internalBorder: 5
 URxvt*background: #1B1B1B
 URxvt*foreground: #DEDEDE
 
@@ -19,16 +19,16 @@ URxvt*scrollTtyOutput:   False
 URxvt*scrollTtyKeypress: True
 URxvt*secondaryScroll:   True
 
-URxvt.perl-ext-common:   default,matcher,tabbed
+URxvt.perl-ext-common:   default,matcher
 URxvt.urlLauncher:       google-chrome
 URxvt.matcher.button:    1
 URxvt.keysym.C-Delete:   perl:matcher:last
 URxvt.keysym.M-Delete:   perl:matcher:list
 
-URxvt.tabbed.tabbar-fg:  5
-URxvt.tabbed.tabbar-bg:  0
-URxvt.tabbed.tab-fg:     14
-URxvt.tabbed.tab-bg:     0
+!URxvt.tabbed.tabbar-fg:  5
+!URxvt.tabbed.tabbar-bg:  0
+!URxvt.tabbed.tab-fg:     14
+!URxvt.tabbed.tab-bg:     0
 
 
 ! Monokai
@@ -51,8 +51,4 @@ URxvt.tabbed.tab-bg:     0
 *color13: #bb88dd
 *color14: #4eb4fa
 *color15: #d0d0d0
-
-
-
-    
 
