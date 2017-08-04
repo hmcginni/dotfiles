@@ -1,6 +1,6 @@
-URxvt.font: xft:Consolas:size=10
-URxvt.boldFont: xft:Consolas:size=10:style=bold
-URxvt.italicFont: xft:Consolas:size=10:style=italic
+URxvt.font: xft:Consolas:pixelsize=14:antialias=true
+URxvt.boldFont: xft:Consolas:pixelsize=14:style=bold:antialias=true
+URxvt.italicFont: xft:Consolas:pixelsize=14:style=italic:antialias=true
 
 URxvt.termName: rxvt-256color
 URxvt.internalBorder: 5
