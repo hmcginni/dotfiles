@@ -42,6 +42,10 @@
   (normal-top-level-add-subdirs-to-load-path))
 
   
+;; MATLAB Mode
+
+
+
 ;; Dynamically change font size
 ;;
 (global-set-key [C-kp-add] 'text-scale-increase)

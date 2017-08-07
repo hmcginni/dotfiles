@@ -120,6 +120,7 @@ export PS1=$'\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\
 \[\033[1;37m\]└───\xe2\x86\x92 \[\033[00m\]'
 alias ebashrc='emacs ~/.cfg/dotfiles/files/.bashrc'
 alias gitdots='cd ~/.cfg/dotfiles'
+alias ml='matlab -nosplash -nodesktop -useStartupFolderPref'
 
 
 #export PS1='\[\e]0;\u@\h: \w\a\]\[\033[1;36m\][\[\033[1;33m\]\t\[\033[1;36m\]]──[\[\033[1;31m\]\w\[\033[1;36m\]]\n└─>\$ \[\033[0;38m\]'
