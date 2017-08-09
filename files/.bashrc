@@ -6,9 +6,9 @@
 [ -z "$PS1" ] && return
 
 # Start TMUX
-if command -v tmux>/dev/null; then
-  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-fi
+# if command -v tmux>/dev/null; then
+#   [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+# fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -120,12 +120,15 @@ export PS1=$'\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\
 \[\033[1;37m\]└───\xe2\x86\x92 \[\033[00m\]'
 alias ebashrc='emacs ~/.cfg/dotfiles/files/.bashrc'
 alias gitdots='cd ~/.cfg/dotfiles'
+alias notes='cd ~/Dropbox/Notes'
 alias ml='matlab -nosplash -nodesktop -useStartupFolderPref'
-
+alias tl='tmux ls'
+alias ta='tmux attach -t'
+alias tn='tmux new -s'
 
 #export PS1='\[\e]0;\u@\h: \w\a\]\[\033[1;36m\][\[\033[1;33m\]\t\[\033[1;36m\]]──[\[\033[1;31m\]\w\[\033[1;36m\]]\n└─>\$ \[\033[0;38m\]'
 
  PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-export TERM=xterm-256color
+# export TERM=xterm-256color
 export DISPLAY=:0.0
 
