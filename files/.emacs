@@ -7,18 +7,40 @@
 (add-to-list 'default-frame-alist '(height . 64))
 (add-to-list 'default-frame-alist '(width . 110))
 
+
 ;; PuTTY fix. Ugly. Bad. But it works. (Good)
 ;;
-(define-key input-decode-map "\e\eOA" (kbd "<M-up>"))
-(define-key input-decode-map "\e\eOB" (kbd "<M-down>"))
-(define-key input-decode-map "\e\eOC" (kbd "<M-right>"))
-(define-key input-decode-map "\e\eOD" (kbd "<M-left>"))
+;; (define-key input-decode-map "\e\eOA" (kbd "<M-up>"))
+;; (define-key input-decode-map "\e\eOB" (kbd "<M-down>"))
+;; (define-key input-decode-map "\e\eOC" (kbd "<M-right>"))
+;; (define-key input-decode-map "\e\eOD" (kbd "<M-left>"))
 
 
 ;; MELPA
 ;;
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+
+;; Org-mode
+;;
+(require 'org)
+(define-key org-mode-map "\M-q" 'toggle-truncate-lines)
+(add-hook 'org-load-hook '(lambda () (visual-line-mode)))
+
+
+;; Spell-check (flyspell)
+;;
+(global-set-key (kbd "C-S-<f8>") 'flyspell-mode)
+(global-set-key (kbd "C-M-<f8>") 'flyspell-buffer)
+(global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
+(defun flyspell-check-next-highlighted-word ()
+  "Custom function to spell check next highlighted word"
+  (interactive)
+  (flyspell-goto-next-error)
+  (ispell-word)
+  )
+(global-set-key (kbd "M-<f8>") 'flyspell-check-next-highlighted-word)
 
 
 ;; Custom

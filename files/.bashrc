@@ -6,9 +6,9 @@
 [ -z "$PS1" ] && return
 
 # Start TMUX
-# if command -v tmux>/dev/null; then
-#   [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-# fi
+if command -v tmux>/dev/null; then
+    [ -z $TMUX ] && { tmux attach >> /dev/null 2>&1 || tmux new-session >> /dev/null; }
+fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -125,6 +125,7 @@ alias ml='matlab -nosplash -nodesktop -useStartupFolderPref'
 alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tn='tmux new -s'
+alias tr='tmux rename-session'
 
 #export PS1='\[\e]0;\u@\h: \w\a\]\[\033[1;36m\][\[\033[1;33m\]\t\[\033[1;36m\]]──[\[\033[1;31m\]\w\[\033[1;36m\]]\n└─>\$ \[\033[0;38m\]'
 

@@ -1,16 +1,23 @@
-URxvt.font: xft:Consolas:pixelsize=14:antialias=true
-URxvt.boldFont: xft:Consolas:pixelsize=14:style=bold:antialias=true
-URxvt.italicFont: xft:Consolas:pixelsize=14:style=italic:antialias=true
+! Xft.antialias: false
+! Xft.rgba: rgb
+! Xft.hinting: true
+! Xft.autohint: false
 
-URxvt.termName: rxvt-256color
+
+URxvt.font: xft:Consolas:style=Regular:size=10:antialias=true
+URxvt.boldFont: xft:Consolas:style=Bold:size=10:antialias=true
+URxvt.italicFont: xft:Consolas:style=Italic:size=10:antialias=true
+
+URxvt.termName: rxvt-unicode-256color
 URxvt.internalBorder: 5
+URxvt.externalBorder: 2
 URxvt.background: #1B1B1B
 URxvt.foreground: #DEDEDE
 
-URxvt.transparent: true
-URxvt.shading: 10
-URxvt.tintColor: #000000
-URxvt.blurRadius: 5
+URxvt.transparent: 0
+!URxvt.shading: 10
+!URxvt.tintColor: #000000
+!URxvt.blurRadius: 5
 URxvt.colorUL: #86a2b0
 URxvt.letterSpace: -1
 URxvt.saveLines:         12000
