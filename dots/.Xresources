@@ -1,12 +1,12 @@
-! Xft.antialias: false
+Xft.antialias: true
 Xft.rgba: rgb
 Xft.hinting: false
 Xft.hintstyle: hintnone
-Xft.autohint: false
+Xft.lcdfilter: lcdnone
 
-URxvt.font: xft:Consolas:style=Regular:size=9:antialias=true
-URxvt.boldFont: xft:Consolas:style=Bold:size=9:antialias=true
-URxvt.italicFont: xft:Consolas:style=Italic:size=9:antialias=true
+URxvt.font: xft:Consolas:style=Regular:size=10:antialias=true
+URxvt.boldFont: xft:Consolas:style=Bold:size=10:antialias=true
+URxvt.italicFont: xft:Consolas:style=Italic:size=10:antialias=true
 
 URxvt.termName: rxvt-unicode-256color
 URxvt.internalBorder: 5

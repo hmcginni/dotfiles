@@ -130,6 +130,7 @@ alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tn='tmux new -s'
 alias tr='tmux rename-session'
+alias tk='tmux kill-session -t'
 
 
 # Functions
