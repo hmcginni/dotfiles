@@ -1,12 +1,12 @@
 ! Xft.antialias: false
-! Xft.rgba: rgb
-! Xft.hinting: true
-! Xft.autohint: false
+Xft.rgba: rgb
+Xft.hinting: false
+Xft.hintstyle: hintnone
+Xft.autohint: false
 
-
-URxvt.font: xft:Consolas:style=Regular:size=10:antialias=true
-URxvt.boldFont: xft:Consolas:style=Bold:size=10:antialias=true
-URxvt.italicFont: xft:Consolas:style=Italic:size=10:antialias=true
+URxvt.font: xft:Consolas:style=Regular:size=9:antialias=true
+URxvt.boldFont: xft:Consolas:style=Bold:size=9:antialias=true
+URxvt.italicFont: xft:Consolas:style=Italic:size=9:antialias=true
 
 URxvt.termName: rxvt-unicode-256color
 URxvt.internalBorder: 5
@@ -19,7 +19,7 @@ URxvt.transparent: 0
 !URxvt.tintColor: #000000
 !URxvt.blurRadius: 5
 URxvt.colorUL: #86a2b0
-URxvt.letterSpace: -1
+URxvt.letterSpace: -2
 URxvt.saveLines:         12000
 URxvt.scrollBar:         False
 URxvt.scrollTtyOutput:   False

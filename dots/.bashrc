@@ -109,16 +109,20 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 
-
+# Custom Environment Variables
+export DISPLAY=:0.0
+export PS1="\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\]└───\342\206\222 \[\033[00m\]"
+export DWMDIR="/usr/local/src/dwm-6.1"
+export STDIR="/usr/local/src/st-0.7"
 
 # New Aliases
 alias update='sudo apt-get autoclean && sudo apt update && sudo apt upgrade && sudo apt-get autoremove && sudo updatedb'
-#alias editdwm='sudo emacs -nw /usr/local/src/dwm-6.1/config.h'
-#alias rebuild='a=$(pwd) && cd /usr/local/src/dwm-6.1 && sudo make clean install && cd $a'
-#alias cddwm='cd /usr/local/src/dwm-6.1'
-export PS1=$'\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;37m\]] 
-\[\033[1;37m\]└───\xe2\x86\x92 \[\033[00m\]'
-alias ebashrc='emacs ~/.cfg/dotfiles/files/.bashrc'
+alias editdwm='sudo emacs -nw ${DWMDIR}/config.def.h'
+alias editst='sudo emacs -nw ${STDIR}/config.def.h'
+alias cdwm='cd $DWMDIR'
+alias cdst='cd $STDIR'
+alias rd='a=$(pwd) && cd $DWMDIR && sudo make clean install && cd $a'
+alias buildst='a=$(pwd) && cd $STDIR && sudo make clean install && cd $a'
 alias gitdots='cd ~/.cfg/dotfiles'
 alias notes='cd ~/Dropbox/Notes'
 alias ml='matlab -nosplash -nodesktop -useStartupFolderPref'
@@ -127,9 +131,9 @@ alias ta='tmux attach -t'
 alias tn='tmux new -s'
 alias tr='tmux rename-session'
 
-#export PS1='\[\e]0;\u@\h: \w\a\]\[\033[1;36m\][\[\033[1;33m\]\t\[\033[1;36m\]]──[\[\033[1;31m\]\w\[\033[1;36m\]]\n└─>\$ \[\033[0;38m\]'
 
- PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-# export TERM=xterm-256color
-export DISPLAY=:0.0
+# Functions
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 

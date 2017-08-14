@@ -1,10 +1,3 @@
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-;;(package-initialize)
-
 (global-set-key [C-kp-add] 'text-scale-increase)
 (global-set-key [C-kp-subtract] 'text-scale-decrease)
 
@@ -32,11 +25,11 @@
 ;; Org-mode
 ;;
 (require 'org)
-(define-key org-mode-map "\M-q" 'toggle-truncate-lines)
-(add-hook 'org-load-hook '(lambda () (visual-line-mode)))
+(define-key org-mode-map "\M-q" 'visual-line-mode)
 
 
 ;; Windows-style line endings (MedAcuity Requirement)
+;;
 (set-buffer-file-coding-system 'utf-8-dos)
 
 ;; Spell-check (flyspell)
@@ -67,6 +60,7 @@
    (quote
     ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
  '(show-paren-mode t)
+ '(cursor-type 'bar)
  '(tabbar-separator (quote (0.5))))
 
 
@@ -133,7 +127,7 @@
 ;;
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 (require 'linum)
 (global-linum-mode 1)
 
@@ -236,11 +230,11 @@
 
 ;; Reload emacs
 ;;
-(defun reload-dot-emacs-file ()
-	"reload your .emacs file without restarting Emacs"
+(defun reload-emacs-init-file ()
+	"reload your init.el file without restarting Emacs"
 	(interactive)
-	(load-file "~/.emacs") )
-(global-set-key (kbd "C-R") 'reload-dot-emacs-file)
+	(load-file "~/.emacs.d/init.el") )
+(global-set-key (kbd "C-R") 'reload-emacs-init-file)
 
 
 ;; Scrolling fix
@@ -267,70 +261,65 @@
 ;; inspired by Amit Patel screenshot http://www.emacswiki.org/pics/static/NyanModeWithCustomBackground.png
 ;;
 ;;(global-semantic-stickyfunc-mode -1)
-(require 'tabbar)
-;; Tabbar settings
-(set-face-attribute
- 'tabbar-default nil
- :background "gray20"
- :foreground "gray20"
- :box '(:line-width 1 :color "gray20" :style nil))
-(set-face-attribute
- 'tabbar-unselected nil
- :background "gray30"
- :foreground "white"
- :box '(:line-width 5 :color "gray30" :style nil))
-(set-face-attribute
- 'tabbar-selected nil
- :background "gray75"
- :foreground "black"
- :box '(:line-width 5 :color "gray75" :style nil))
-(set-face-attribute
- 'tabbar-highlight nil
- :background "white"
- :foreground "black"
- :underline nil
- :box '(:line-width 5 :color "white" :style nil))
-(set-face-attribute
- 'tabbar-button nil
- :box '(:line-width 1 :color "gray20" :style nil))
-(set-face-attribute
- 'tabbar-separator nil
- :background "gray20"
- :height 0.6)
+;; (require 'tabbar)
+;; ;; Tabbar settings
+;; (set-face-attribute
+;;  'tabbar-default nil
+;;  :background "gray20"
+;;  :foreground "gray20"
+;;  :box '(:line-width 1 :color "gray20" :style nil))
+;; (set-face-attribute
+;;  'tabbar-unselected nil
+;;  :background "gray30"
+;;  :foreground "white"
+;;  :box '(:line-width 5 :color "gray30" :style nil))
+;; (set-face-attribute
+;;  'tabbar-selected nil
+;;  :background "gray75"
+;;  :foreground "black"
+;;  :box '(:line-width 5 :color "gray75" :style nil))
+;; (set-face-attribute
+;;  'tabbar-highlight nil
+;;  :background "white"
+;;  :foreground "black"
+;;  :underline nil
+;;  :box '(:line-width 5 :color "white" :style nil))
+;; (set-face-attribute
+;;  'tabbar-button nil
+;;  :box '(:line-width 1 :color "gray20" :style nil))
+;; (set-face-attribute
+;;  'tabbar-separator nil
+;;  :background "gray20"
+;;  :height 0.6)
 
 
-;; Tab keybindings
-;;
-(global-set-key (kbd "C-M-<right>") 'tabbar-forward)
-(global-set-key (kbd "C-M-<left>") 'tabbar-backward)
+;; ;; Tab keybindings
+;; ;;
+;; (global-set-key (kbd "C-M-<right>") 'tabbar-forward)
+;; (global-set-key (kbd "C-M-<left>") 'tabbar-backward)
 
-;; Change padding of the tabs
-;; we also need to set separator to avoid overlapping tabs by highlighted tabs
-;;
+;; ;; Change padding of the tabs
+;; ;; we also need to set separator to avoid overlapping tabs by highlighted tabs
+;; ;;
 
-;; adding spaces
-;;
-(defun tabbar-buffer-tab-label (tab)
-  "Return a label for TAB.
-That is, a string used to represent it on the tab bar."
-  (let ((label  (if tabbar--buffer-show-groups
-                    (format "[%s]  " (tabbar-tab-tabset tab))
-                  (format "%s  " (tabbar-tab-value tab)))))
-    ;; Unless the tab bar auto scrolls to keep the selected tab
-    ;; visible, shorten the tab label to keep as many tabs as possible
-    ;; in the visible area of the tab bar.
-       ;;
-    (if tabbar-auto-scroll-flag
-        label
-      (tabbar-shorten
-       label (max 1 (/ (window-width)
-                       (length (tabbar-view
-                                (tabbar-current-tabset)))))))))
+;; ;; adding spaces
+;; ;;
+;; (defun tabbar-buffer-tab-label (tab)
+;;   "Return a label for TAB.
+;; That is, a string used to represent it on the tab bar."
+;;   (let ((label  (if tabbar--buffer-show-groups
+;;                     (format "[%s]  " (tabbar-tab-tabset tab))
+;;                   (format "%s  " (tabbar-tab-value tab)))))
+;;     ;; Unless the tab bar auto scrolls to keep the selected tab
+;;     ;; visible, shorten the tab label to keep as many tabs as possible
+;;     ;; in the visible area of the tab bar.
+;;        ;;
+;;     (if tabbar-auto-scroll-flag
+;;         label
+;;       (tabbar-shorten
+;;        label (max 1 (/ (window-width)
+;;                        (length (tabbar-view
+;;                                 (tabbar-current-tabset)))))))))
 
-(tabbar-mode 1)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; (tabbar-mode 1)
+
