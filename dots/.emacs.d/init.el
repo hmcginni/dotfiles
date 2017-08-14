@@ -1,3 +1,26 @@
+;; Custom
+;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(cursor-type (quote bar))
+ '(custom-safe-themes
+   (quote
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+ '(display-time-mode t)
+ '(inhibit-startup-screen t)
+ '(mlint-programs
+   (quote
+    ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
+ '(show-paren-mode t)
+ '(tabbar-separator (quote (0.5))))
+
+
+;; Text size increase/decrease
+;;
 (global-set-key [C-kp-add] 'text-scale-increase)
 (global-set-key [C-kp-subtract] 'text-scale-decrease)
 
@@ -32,6 +55,12 @@
 ;;
 (set-buffer-file-coding-system 'utf-8-dos)
 
+
+;; Smart Mode Line Theme
+;;
+(setq sml/theme 'dark)
+
+
 ;; Spell-check (flyspell)
 ;;
 (global-set-key (kbd "C-S-<f8>") 'flyspell-mode)
@@ -46,22 +75,6 @@
 (global-set-key (kbd "M-<f8>") 'flyspell-check-next-highlighted-word)
 
 
-;; Custom
-;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(display-time-mode t)
- '(inhibit-startup-screen t)
- '(mlint-programs
-   (quote
-    ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
- '(show-paren-mode t)
- '(cursor-type 'bar)
- '(tabbar-separator (quote (0.5))))
 
 
 ;; Add paths
@@ -323,3 +336,9 @@
 
 ;; (tabbar-mode 1)
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

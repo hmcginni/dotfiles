@@ -2,10 +2,10 @@ Xft.antialias: true
 Xft.rgba: rgb
 Xft.hinting: false
 Xft.hintstyle: hintnone
-Xft.lcdfilter: lcdnone
+Xft.lcdfilter: lcddefault
 
 URxvt.font: xft:Consolas:style=Regular:size=10:antialias=true
-URxvt.boldFont: xft:Consolas:style=Bold:size=10:antialias=true
+URxvt.boldFont: xft:Consolas:style=Bold:size=10:antialias=true:lcdlight
 URxvt.italicFont: xft:Consolas:style=Italic:size=10:antialias=true
 
 URxvt.termName: rxvt-unicode-256color
