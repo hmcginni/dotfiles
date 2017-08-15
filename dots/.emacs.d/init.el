@@ -38,7 +38,7 @@
 ;; Org-mode
 ;;
 (require 'org)
-(define-key org-mode-map "\M-q" 'visual-line-mode)
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (setq org-default-notes-file "/home/hmcginnis/Dropbox/Notes/notes.org")
 (setq org-default-diary-file "~/Dropbox/Notes/stream-of-consciousness.org")
 (define-key global-map "\C-cc" 'org-capture)
@@ -74,10 +74,12 @@
 (set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
 (global-set-key (kbd "C-x t") 'transpose-frame)              ;; Transpose frame
+(global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
 (windmove-default-keybindings 'meta)                         ;; Windmove
 (setq ediff-window-setup-function                            ;; Ediff
       'ediff-setup-windows-plain)                            ;;      stuff
-(global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
+(define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
+
 
 ;; Spell-check (flyspell)
 ;;
