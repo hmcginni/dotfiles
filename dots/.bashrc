@@ -110,8 +110,11 @@ fi
 
 
 # Custom Environment Variables
+
+# arrow character: \342\206\222
+
 export DISPLAY=:0.0
-export PS1="\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\]└───\342\206\222 \[\033[00m\]"
+export PS1="\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\]└───[ \[\033[00m\]"
 export DWMDIR="/usr/local/src/dwm-6.1"
 export STDIR="/usr/local/src/st-0.7"
 
