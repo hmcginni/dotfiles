@@ -37,7 +37,7 @@
 (set-default-font "Consolas-10:spacing=80")                  ;; Font
 (add-to-list 'default-frame-alist '(height . 64))            ;; Startup window size
 (add-to-list 'default-frame-alist '(width . 110))            ;;         ||
-(setq frame-title-format "GNU Emacs 24 -- %b")               ;; Set title to name of open file
+(setq frame-title-format "GNU Emacs 24 · [%b]")               ;; Set title to name of open file
 (define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
 (setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
