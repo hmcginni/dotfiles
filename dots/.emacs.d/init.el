@@ -16,17 +16,41 @@
  '(tabbar-separator (quote (0.5))))
 
 
-;; Default GUI size
+;; Basic EMACS configurations
 ;;
-(add-to-list 'default-frame-alist '(height . 64))
-(add-to-list 'default-frame-alist '(width . 110))
-
-
-;; Dynamically change font size
-;;
-(global-set-key [C-kp-add] 'text-scale-increase)
-(global-set-key [C-kp-subtract] 'text-scale-decrease)
-(set-default-font "Consolas-10:spacing=80")
+;- Appearance
+(global-set-key [C-kp-add] 'text-scale-increase)             ;; Dynamic font size {in,de}crease
+(global-set-key [C-kp-subtract] 'text-scale-decrease)        ;;         ||
+(set-default-font "Consolas-10:spacing=80")                  ;; Font
+(add-to-list 'default-frame-alist '(height . 64))            ;; Startup window size
+(add-to-list 'default-frame-alist '(width . 110))            ;;         ||
+(define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
+(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
+(setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(require 'linum)                                             ;; Enable line numbers globally
+(global-linum-mode 1)                                        ;;             ||
+;- Scrolling
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+(setq smooth-scroll-margin 5)
+(setq scroll-preserve-screen-position 1)                     ;; keep cursor at same position when scrolling
+(global-set-key (kbd "M-n") (kbd "C-u 4 C-v"))               ;; scroll window up/down by one line
+(global-set-key (kbd "M-p") (kbd "C-u 4 M-v"))               ;;               ||
+;- Try to fix Emacs colors in tmux
+(defun terminal-init-screen ()
+  "Terminal initialization function for screen."
+   ;; Use the xterm color initialization code.
+  (tty-run-terminal-initialization (selected-frame) "rxvt")
+  (tty-run-terminal-initialization (selected-frame) "xterm"))
+(set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
+(global-set-key (kbd "C-x t") 'transpose-frame)              ;; Transpose frame
+(global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
+(windmove-default-keybindings 'meta)                         ;; Windmove
+(setq ediff-window-setup-function                            ;; Ediff stuff
+      'ediff-setup-windows-plain)                            ;;      ||
 
 
 ;; MELPA
@@ -66,19 +90,6 @@
 ;;     (shell-command (format "pandoc -f html -t pdf -o %s %s.pdf"
 ;; 			   outfile
 ;; 			   (file-name-sans-extension outfile)))))
-
-
-;; General Settings
-;;
-(setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
-(set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
-(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
-(global-set-key (kbd "C-x t") 'transpose-frame)              ;; Transpose frame
-(global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
-(windmove-default-keybindings 'meta)                         ;; Windmove
-(setq ediff-window-setup-function                            ;; Ediff
-      'ediff-setup-windows-plain)                            ;;      stuff
-(define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
 
 
 ;; Spell-check (flyspell)
@@ -125,15 +136,6 @@
 (recentf-mode 1)
 (setq recentf-max-menu-items 35)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-
-;; Turn off Toolbar/Scrollbar/Menubar and turn on line numbers
-;;
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(require 'linum)
-(global-linum-mode 1)
 
   
 ;; Color themes
@@ -186,19 +188,6 @@
 (global-set-key (kbd "C-r") 'reload-emacs-init-file)
 
 
-;; Scrolling fix
-;;
-(setq scroll-step           1
-      scroll-conservatively 10000)
-
-
-;; Try to fix Emacs colors in tmux
-;;
-(defun terminal-init-screen ()
-  "Terminal initialization function for screen."
-   ;; Use the xterm color initialization code.
-  (tty-run-terminal-initialization (selected-frame) "rxvt")
-  (tty-run-terminal-initialization (selected-frame) "xterm"))
 
 
 
