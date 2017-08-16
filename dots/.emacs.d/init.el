@@ -16,6 +16,19 @@
  '(tabbar-separator (quote (0.5))))
 
 
+;; MELPA
+;;
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+
+;; Add paths
+;;
+(let ((default-directory "~/.emacs.d/elpa"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
+
+  
 ;; Basic EMACS configurations
 ;;
 ;- Appearance
@@ -24,6 +37,7 @@
 (set-default-font "Consolas-10:spacing=80")                  ;; Font
 (add-to-list 'default-frame-alist '(height . 64))            ;; Startup window size
 (add-to-list 'default-frame-alist '(width . 110))            ;;         ||
+(setq frame-title-format "GNU Emacs 24 -- %b")               ;; Set title to name of open file
 (define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
 (setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
@@ -51,12 +65,6 @@
 (windmove-default-keybindings 'meta)                         ;; Windmove
 (setq ediff-window-setup-function                            ;; Ediff stuff
       'ediff-setup-windows-plain)                            ;;      ||
-
-
-;; MELPA
-;;
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 
 ;; Org-mode
@@ -106,13 +114,6 @@
 (global-set-key (kbd "M-<f8>") 'flyspell-check-next-highlighted-word)
 
 
-;; Add paths
-;;
-(let ((default-directory "~/.emacs.d/addons"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
-
-  
 ;; MATLAB Integration
 ;;
 (autoload 'matlab-mode "matlab" "MATLAB Editing Mode" t)
