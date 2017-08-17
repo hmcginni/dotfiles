@@ -1,0 +1,278 @@
+diff -ur dwm-6.1/config.def.h /usr/local/src/dwm-6.1/config.def.h
+--- dwm-6.1/config.def.h	2015-11-08 17:39:37.000000000 -0500
++++ /usr/local/src/dwm-6.1/config.def.h	2017-08-16 16:01:26.636544000 -0400
+@@ -2,47 +2,53 @@
+ 
+ /* appearance */
+ static const char *fonts[] = {
+-	"monospace:size=10"
++	"Lato:size=10"
+ };
+-static const char dmenufont[]       = "monospace:size=10";
+-static const char normbordercolor[] = "#444444";
++static const char dmenufont[]       = "Lato:size=10";
++static const char normbordercolor[] = "#1b1b1b";
+ static const char normbgcolor[]     = "#222222";
+-static const char normfgcolor[]     = "#bbbbbb";
+-static const char selbordercolor[]  = "#005577";
+-static const char selbgcolor[]      = "#005577";
++static const char normfgcolor[]     = "#bfbfbf";
++static const char selbordercolor[]  = "#889090";
++static const char selbgcolor[]      = "#3e3e40";
+ static const char selfgcolor[]      = "#eeeeee";
+-static const unsigned int borderpx  = 1;        /* border pixel of windows */
++static const unsigned int borderpx  = 2;        /* border pixel of windows */
+ static const unsigned int snap      = 32;       /* snap pixel */
+ static const int showbar            = 1;        /* 0 means no bar */
+ static const int topbar             = 1;        /* 0 means bottom bar */
++static const int gappx              = 8;        /* useless gap in pixels */
+ 
+ /* tagging */
+-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
++static const char *tags[] = { "term", "web", "misc" };
+ 
+ static const Rule rules[] = {
+ 	/* xprop(1):
+ 	 *	WM_CLASS(STRING) = instance, class
+ 	 *	WM_NAME(STRING) = title
+ 	 */
+-	/* class      instance    title       tags mask     isfloating   monitor */
+-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
++	/* class                       instance    title       tags mask     isfloating   monitor */
++	{ "Gimp",                      NULL,       NULL,       0,            1,           -1 },
++	{ "Firefox",                   NULL,       NULL,       1 << 1,       0,           -1 },
++	{ "Chromium-browser",          NULL,       NULL,       1 << 1,       0,           -1 },
++	{ "MATLAB R2017a - trial use", NULL,       NULL,       1 << 2,       1,           -1 },
+ };
+ 
+ /* layout(s) */
+ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+ static const int nmaster     = 1;    /* number of clients in master area */
+-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
++static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+ 
+ static const Layout layouts[] = {
+ 	/* symbol     arrange function */
+-	{ "[]=",      tile },    /* first entry is default */
+-	{ "><>",      NULL },    /* no layout function means floating behavior */
++	{ "[T]",      tile },    /* first entry is default */
++	{ "[F]",      NULL },    /* no layout function means floating behavior */
+ 	{ "[M]",      monocle },
+ };
+ 
++/* custom functions declarations */
++static void SwitchToTag2(const Arg *arg);
++
+ /* key definitions */
+-#define MODKEY Mod1Mask
++#define MODKEY Mod4Mask
+ #define TAGKEYS(KEY,TAG) \
+ 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+ 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+@@ -54,20 +60,22 @@
+ 
+ /* commands */
+ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+-static const char *termcmd[]  = { "st", NULL };
++static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
++static const char *termcmd[]   = { "st", NULL };
++static const char *chromecmd[] = { "chromium-browser", NULL };
++static const char *emacscmd[]  = { "emacs", NULL };
+ 
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
++	{ MODKEY|ShiftMask,             XK_t,      spawn,          {.v = termcmd } },
+ 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+ 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+ 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
++	{ MODKEY|ShiftMask,             XK_i,      incnmaster,     {.i = +1 } },
++	{ MODKEY|ShiftMask,             XK_d,      incnmaster,     {.i = -1 } },
++	{ MODKEY|ShiftMask,             XK_j,      setmfact,       {.f = -0.05} },
++	{ MODKEY|ShiftMask,             XK_k,      setmfact,       {.f = +0.05} },
+ 	{ MODKEY,                       XK_Return, zoom,           {0} },
+ 	{ MODKEY,                       XK_Tab,    view,           {0} },
+ 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+@@ -85,13 +93,15 @@
+ 	TAGKEYS(                        XK_1,                      0)
+ 	TAGKEYS(                        XK_2,                      1)
+ 	TAGKEYS(                        XK_3,                      2)
+-	TAGKEYS(                        XK_4,                      3)
+-	TAGKEYS(                        XK_5,                      4)
+-	TAGKEYS(                        XK_6,                      5)
+-	TAGKEYS(                        XK_7,                      6)
+-	TAGKEYS(                        XK_8,                      7)
+-	TAGKEYS(                        XK_9,                      8)
++	/* TAGKEYS(                        XK_4,                      3) */
++	/* TAGKEYS(                        XK_5,                      4) */
++	/* TAGKEYS(                        XK_6,                      5) */
++	/* TAGKEYS(                        XK_7,                      6) */
++	/* TAGKEYS(                        XK_8,                      7) */
++	/* TAGKEYS(                        XK_9,                      8) */
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
++	{ MODKEY,                       XK_w,      SwitchToTag2,   {.v = chromecmd } },
++	{ MODKEY,                       XK_e,      spawn,          {.v = emacscmd } },
+ };
+ 
+ /* button definitions */
+@@ -111,3 +121,15 @@
+ 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+ };
+ 
++
++
++/* custom functions */
++
++void
++SwitchToTag2(const Arg *arg)
++{
++  const Arg webTag = {.ui = 1 << 1 };
++
++  spawn(arg);
++  view(&webTag);
++}
+Only in /usr/local/src/dwm-6.1: config.h
+diff -ur dwm-6.1/config.mk /usr/local/src/dwm-6.1/config.mk
+--- dwm-6.1/config.mk	2015-11-08 17:39:37.000000000 -0500
++++ /usr/local/src/dwm-6.1/config.mk	2017-08-08 14:47:32.136916121 -0400
+@@ -7,8 +7,8 @@
+ PREFIX = /usr/local
+ MANPREFIX = ${PREFIX}/share/man
+ 
+-X11INC = /usr/X11R6/include
+-X11LIB = /usr/X11R6/lib
++X11INC = /usr/include
++X11LIB = /usr/lib
+ 
+ # Xinerama, comment if you don't want it
+ XINERAMALIBS  = -lXinerama
+diff -ur dwm-6.1/dwm.c /usr/local/src/dwm-6.1/dwm.c
+--- dwm-6.1/dwm.c	2015-11-08 17:39:37.000000000 -0500
++++ /usr/local/src/dwm-6.1/dwm.c	2017-08-16 15:28:01.662412598 -0400
+@@ -52,8 +52,8 @@
+ #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
+ #define LENGTH(X)               (sizeof X / sizeof X[0])
+ #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
+-#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+-#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
++#define WIDTH(X)                ((X)->w + 2 * (X)->bw + gappx)
++#define HEIGHT(X)               ((X)->h + 2 * (X)->bw + gappx)
+ #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
+ #define TEXTW(X)                (drw_text(drw, 0, 0, 0, 0, (X), 0) + drw->fonts[0]->h)
+ 
+@@ -704,13 +704,15 @@
+ void
+ drawbar(Monitor *m)
+ {
+-	int x, xx, w, dx;
+-	unsigned int i, occ = 0, urg = 0;
++	int x, xx, w, dx, tw, mw;
++	unsigned int i, occ = 0, urg = 0, n = 0, extra = 0;
+ 	Client *c;
+ 
+ 	dx = (drw->fonts[0]->ascent + drw->fonts[0]->descent + 2) / 4;
+ 
+ 	for (c = m->clients; c; c = c->next) {
++		if (ISVISIBLE(c))
++			n++;
+ 		occ |= c->tags;
+ 		if (c->isurgent)
+ 			urg |= c->tags;
+@@ -741,14 +743,40 @@
+ 		x = m->ww;
+ 	if ((w = x - xx) > bh) {
+ 		x = xx;
+-		if (m->sel) {
+-			drw_setscheme(drw, m == selmon ? &scheme[SchemeSel] : &scheme[SchemeNorm]);
+-			drw_text(drw, x, 0, w, bh, m->sel->name, 0);
+-			drw_rect(drw, x + 1, 1, dx, dx, m->sel->isfixed, m->sel->isfloating, 0);
+-		} else {
+-			drw_setscheme(drw, &scheme[SchemeNorm]);
+-			drw_rect(drw, x, 0, w, bh, 1, 0, 1);
++		if (n > 0) {
++			tw = m->sel->name ? TEXTW(m->sel->name) : 0;
++			mw = (tw >= w || n == 1) ? 0 : (w - tw) / (n - 1);
++
++			i = 0;
++			for (c = m->clients; c; c = c->next) {
++				if (!ISVISIBLE(c) || c == m->sel)
++					continue;
++				tw = TEXTW(c->name);
++				if(tw < mw)
++					extra += (mw - tw);
++				else
++					i++;
++			}
++			if (i > 0)
++				mw += extra / i;
++
++			for (c = m->clients; c; c = c->next) {
++				if (!ISVISIBLE(c))
++					continue;
++				xx = x + w;
++				tw = TEXTW(c->name);
++				w = MIN(m->sel == c ? w : mw, tw);
++
++				drw_setscheme(drw, m->sel == c ? &scheme[SchemeSel] : &scheme[SchemeNorm]);
++				drw_text(drw, x, 0, w, bh, c->name, 0);
++				drw_rect(drw, x + 1, 1, dx, dx, c->isfixed, c->isfloating, 0);
++
++				x += w;
++				w = xx - x;
++			}
+ 		}
++		drw_setscheme(drw, &scheme[SchemeNorm]);
++		drw_rect(drw, x, 0, w, bh, 1, 0, 1);
+ 	}
+ 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
+ }
+@@ -1293,12 +1321,36 @@
+ resizeclient(Client *c, int x, int y, int w, int h)
+ {
+ 	XWindowChanges wc;
++	unsigned int n;
++	unsigned int gapoffset;
++	unsigned int gapincr;
++	Client *nbc;
+ 
+-	c->oldx = c->x; c->x = wc.x = x;
+-	c->oldy = c->y; c->y = wc.y = y;
+-	c->oldw = c->w; c->w = wc.width = w;
+-	c->oldh = c->h; c->h = wc.height = h;
+ 	wc.border_width = c->bw;
++
++	/* Get number of clients for the selected monitor */
++	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
++
++	/* Do nothing if layout is floating */
++	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
++		gapincr = gapoffset = 0;
++	} else {
++		/* Remove border and gap if layout is monocle */
++	  if (selmon->lt[selmon->sellt]->arrange == monocle) {
++			gapoffset = 0;
++			gapincr = -2 * borderpx;
++			wc.border_width = 0;
++		} else {
++			gapoffset = gappx;
++			gapincr = 2 * gappx;
++		}
++	}
++
++	c->oldx = c->x; c->x = wc.x = x + gapoffset;
++	c->oldy = c->y; c->y = wc.y = y + gapoffset;
++	c->oldw = c->w; c->w = wc.width = w - gapincr;
++	c->oldh = c->h; c->h = wc.height = h - gapincr;
++
+ 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+ 	configure(c);
+ 	XSync(dpy, False);
+Only in /usr/local/src/dwm-6.1: dwm-fancybar-6.1.diff
+Only in /usr/local/src/dwm-6.1: dwm-uselessgap-6.1.diff

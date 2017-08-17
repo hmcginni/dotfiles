@@ -10,7 +10,7 @@
 
 #------------- Load X settings -------------#
 
-xrdb -merge ~/.Xresources
+xrdb -merge ~/.Xresources.hidpi
 
 #------- Set the time in the dwm bar -------#
 
