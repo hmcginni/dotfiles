@@ -10,22 +10,26 @@
 
 #------------- Load X settings -------------#
 
-xrdb -merge ~/.Xresources.hidpi
+xrdb -merge ~/.Xresources
+#xrdb -merge ~/.Xresources.hidpi
 
 #------- Set the time in the dwm bar -------#
 
 while true; do
-    xsetroot -name "$( date +"%A  ·  %F  · %r" )"
-    sleep 1m
+    xsetroot -name "$( date +"• %A  •  %F  • %r •" )"
+    sleep 1s
 done &
 
 #-------------- Set wallpaper --------------#
 
-feh --bg-fill ~/Pictures/Wallpapers/gensingen-plant.jpg
+while true; do
+    feh --bg-fill ~/Pictures/Wallpapers/gensingen-plant.jpg
+    sleep 1m
+done &
 
 #------------ Enable compositing -----------#
 
-compton -bcC --focus-exclude "x = 0 && y = 0 && override_redirect = true"
+compton -bcCf -o 0.8 -r 16 -D 5 --inactive-dim 0.2 #--focus-exclude "x = 0 && y = 0 && override_redirect = true"
 
 #------------------ Other ------------------#
 

@@ -1,4 +1,4 @@
-;; Custom
+ ;; Custom
 ;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -12,6 +12,7 @@
  '(mlint-programs
    (quote
     ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
+ '(org-list-allow-alphabetical t)
  '(show-paren-mode t)
  '(tabbar-separator (quote (0.5))))
 
@@ -31,28 +32,34 @@
   
 ;; Basic EMACS configurations
 ;;
+
 ;- Appearance
 (global-set-key [C-kp-add] 'text-scale-increase)             ;; Dynamic font size {in,de}crease
 (global-set-key [C-kp-subtract] 'text-scale-decrease)        ;;         ||
 (set-default-font "Consolas-10:spacing=80")                  ;; Font
 (add-to-list 'default-frame-alist '(height . 64))            ;; Startup window size
 (add-to-list 'default-frame-alist '(width . 110))            ;;         ||
-(setq frame-title-format "GNU Emacs 24 · [%b]")               ;; Set title to name of open file
+(setq frame-title-format "GNU Emacs • %b ")                   ;; ·• Set title to name of open file
 (define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
-(setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
+;(setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (require 'linum)                                             ;; Enable line numbers globally
 (global-linum-mode 1)                                        ;;             ||
+(global-set-key (kbd "<f8>") 'linum-mode)
+(set-face-foreground 'linum "#c0c0c0")
+(setq linum-format "%4d\u2502")
+
 ;- Scrolling
 (require 'smooth-scrolling)
 (smooth-scrolling-mode 1)
-(setq smooth-scroll-margin 5)
+(setq smooth-scroll-margin 15)
 (setq scroll-preserve-screen-position 1)                     ;; keep cursor at same position when scrolling
-(global-set-key (kbd "M-n") (kbd "C-u 4 C-v"))               ;; scroll window up/down by one line
-(global-set-key (kbd "M-p") (kbd "C-u 4 M-v"))               ;;               ||
+(global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))               ;; scroll window up/down by one line
+(global-set-key (kbd "M-p") (kbd "C-u 2 M-v"))               ;;               ||
+
 ;- Try to fix Emacs colors in tmux
 (defun terminal-init-screen ()
   "Terminal initialization function for screen."
@@ -65,6 +72,27 @@
 (windmove-default-keybindings 'meta)                         ;; Windmove
 (setq ediff-window-setup-function                            ;; Ediff stuff
       'ediff-setup-windows-plain)                            ;;      ||
+
+;- Navigation
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key (kbd "C-s-<down>") 'move-line-down)
+(global-set-key (kbd "C-s-<up>") 'move-line-up)
+
+
 
 
 ;; Org-mode
@@ -183,10 +211,10 @@
 ;; Reload emacs
 ;;
 (defun reload-emacs-init-file ()
-	"reload your init.el file without restarting Emacs"
+  "reload your init.el file without restarting Emacs"
 	(interactive)
 	(load-file "~/.emacs.d/init.el") )
-(global-set-key (kbd "C-r") 'reload-emacs-init-file)
+(global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 
 
 
