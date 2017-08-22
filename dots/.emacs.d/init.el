@@ -13,6 +13,7 @@
    (quote
     ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
  '(org-list-allow-alphabetical t)
+; '(org-startup-folded nil)
  '(show-paren-mode t)
  '(tabbar-separator (quote (0.5))))
 
@@ -99,21 +100,34 @@
 ;;
 (require 'org)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-(setq org-default-notes-file "/home/hmcginnis/Dropbox/Notes/notes.org")
-(setq org-default-diary-file "~/Dropbox/Notes/stream-of-consciousness.org")
+(setq org-default-notes-file "~/Dropbox/Notes/todo.org")
+(setq org-default-diary-file "~/Dropbox/Notes/notes.org")
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map (kbd "C-c C-x t")
+  (lambda()
+    (interactive)
+    (find-file org-default-notes-file)))
+(define-key global-map (kbd "C-c C-x n")
+  (lambda()
+    (interactive)
+    (find-file org-default-diary-file)))
 ;; Define the custum capture templates
 (setq org-capture-templates
        '(("t" "todo" entry (file org-default-notes-file)
 	  "* TODO %?\n%u\n%a\n" :clock-in t :clock-resume t :kill-buffer t)
 	 ("m" "Meeting" entry (file org-default-notes-file)
 	  "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t :kill-buffer t)
-	 ("s" "Stream of Consciousness" entry (file+datetree org-default-diary-file)
+	 ("n" "Stream of Consciousness" entry (file+datetree org-default-diary-file)
 	  "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
 	 ("i" "Idea" entry (file org-default-notes-file)
 	  "* %? :IDEA: \n%t" :clock-in t :clock-resume t :kill-buffer t)
-	 ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
+	 ("N" "Next Task" entry (file+headline org-default-notes-file "Tasks")
 	  "** NEXT %? \nDEADLINE: %t" :kill-buffer t) ))
+(setq org-agenda-files (list org-default-notes-file
+			     org-default-diary-file
+			     ))
+(define-key global-map (kbd "C-c a") 'org-agenda)
+
 
 
 ;; Attempt at modifying PDF export to go through pandoc and wkhtmltopdf
@@ -290,9 +304,3 @@
 
 ;; (tabbar-mode 1)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

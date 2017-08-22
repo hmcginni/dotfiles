@@ -10,13 +10,13 @@
 
 #------------- Load X settings -------------#
 
-xrdb -merge ~/.Xresources
+#xrdb -merge ~/.Xresources
 #xrdb -merge ~/.Xresources.hidpi
 
 #------- Set the time in the dwm bar -------#
 
 while true; do
-    xsetroot -name "$( date +"• %A  •  %F  • %r •" )"
+    xsetroot -name "$( date +"• %A • %F •%r •" )"
     sleep 1s
 done &
 
@@ -29,7 +29,7 @@ done &
 
 #------------ Enable compositing -----------#
 
-compton -bcCf -o 0.8 -r 16 -D 5 --inactive-dim 0.2 #--focus-exclude "x = 0 && y = 0 && override_redirect = true"
+compton -bcCf -o 0.8 -r 16 -D 5 --inactive-dim 0.25 #--focus-exclude "xo = 0 && y = 0 && override_redirect = true"
 
 #------------------ Other ------------------#
 
@@ -50,6 +50,7 @@ do
         csum=$new_csum
         dwm
     else
+	
         exit 0
     fi
     new_csum=$(sha1sum $(which dwm))
