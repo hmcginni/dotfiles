@@ -8,17 +8,10 @@
 #############################################
 
 
-#------------- Load X settings -------------#
-
-#xrdb -merge ~/.Xresources
-#xrdb -merge ~/.Xresources.hidpi
-
 #------- Set the time in the dwm bar -------#
 
-while true; do
-    xsetroot -name "$( date +"• %A • %F •%r •" )"
-    sleep 1s
-done &
+killall setdwmtitle.sh
+.scripts/setdwmtitle.sh &
 
 #-------------- Set wallpaper --------------#
 
