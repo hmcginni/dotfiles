@@ -100,33 +100,44 @@
 ;;
 (require 'org)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-(setq org-default-notes-file "~/Dropbox/Notes/todo.org")
-(setq org-default-diary-file "~/Dropbox/Notes/notes.org")
+
+(setq org-meetings-file "~/org/meetings.org" )
+(setq org-default-notes-file "~/org/notes.org")
+(setq org-default-diary-file "~/org/diary.org")
+
 (define-key global-map "\C-cc" 'org-capture)
-(define-key global-map (kbd "C-c C-x t")
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cm"
   (lambda()
     (interactive)
-    (find-file org-default-notes-file)))
+    (org-capture nil "m")))
+(define-key global-map (kbd "C-c C-x m")
+  (lambda()
+    (interactive)
+    (find-file org-meetings-file)))
 (define-key global-map (kbd "C-c C-x n")
   (lambda()
     (interactive)
+    (find-file org-default-notes-file)))
+(define-key global-map (kbd "C-c C-x d")
+  (lambda()
+    (interactive)
     (find-file org-default-diary-file)))
-;; Define the custum capture templates
+
 (setq org-capture-templates
        '(("t" "todo" entry (file org-default-notes-file)
 	  "* TODO %?\n%u\n%a\n" :clock-in t :clock-resume t :kill-buffer t)
-	 ("m" "Meeting" entry (file org-default-notes-file)
+	 ("m" "meeting" entry (file+datetree org-meetings-file)
 	  "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t :kill-buffer t)
-	 ("n" "Stream of Consciousness" entry (file+datetree org-default-diary-file)
-	  "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
-	 ("i" "Idea" entry (file org-default-notes-file)
-	  "* %? :IDEA: \n%t" :clock-in t :clock-resume t :kill-buffer t)
-	 ("N" "Next Task" entry (file+headline org-default-notes-file "Tasks")
-	  "** NEXT %? \nDEADLINE: %t" :kill-buffer t) ))
+	 ("d" "diary" entry (file+datetree org-default-diary-file)
+	  "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t) ))
+
 (setq org-agenda-files (list org-default-notes-file
 			     org-default-diary-file
+			     org-meetings-file
 			     ))
-(define-key global-map (kbd "C-c a") 'org-agenda)
+
+
 
 
 
