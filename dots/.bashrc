@@ -6,9 +6,9 @@
 [ -z "$PS1" ] && return
 
 # Start TMUX
-if command -v tmux>/dev/null; then
-    [ -z $TMUX ] && { tmux attach >> /dev/null 2>&1 || tmux new-session >> /dev/null; }
-fi
+# if command -v tmux>/dev/null; then
+#     [ -z $TMUX ] && { tmux attach >> /dev/null 2>&1 || tmux new-session >> /dev/null; }
+# fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -114,21 +114,28 @@ fi
 # arrow character: \342\206\222
 
 export DISPLAY=:0.0
-export PS1="\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\]└───[ \[\033[00m\]"
+#export PS1="\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\]└───[ \[\033[00m\]"
+export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] in [\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\] $ \[\033[00m\]"
 export DWMDIR="/usr/local/src/dwm-6.1"
 export STDIR="/usr/local/src/st-0.7"
 export DMENUDIR="/usr/local/src/dmenu-4.7"
 export GITDOTS="/home/$USER/.cfg/dotfiles"
+export FT2_SUBPIXEL_HINTING=0  # Classic mode
+export LIC="/opt/matlab/2017a/etc/license.dat"
+export LMUTIL="/opt/matlab/2017a/etc/glnxa64/lmutil"
+# export MATLAB_JAVA="/usr/lib/jvm/java-7-openjdk-amd64/jre"
 
 # New Aliases
 
-alias update='sudo apt-get autoclean && sudo apt update && sudo apt upgrade && sudo apt-get autoremove && sudo updatedb'
+alias update='yes | sudo apt-get autoclean && yes | sudo apt update && yes | sudo apt upgrade && yes | sudo apt-get autoremove && sudo updatedb'
 alias editdwm='sudo emacs -nw ${DWMDIR}/config.def.h'
 alias editst='sudo emacs -nw ${STDIR}/config.def.h'
 alias editdmenu='sudo emacs -nw ${DMENUDIR}/config.def.h'
+
 alias cdwm='cd $DWMDIR'
 alias cdst='cd $STDIR'
 alias cdmenu='cd $DMENUDIR'
+
 alias gitdots='cd $GITDOTS'
 alias buildwm='a=$(pwd) && cd $DWMDIR && sudo make -B clean install && cd $a'
 alias buildst='a=$(pwd) && cd $STDIR && sudo make -B clean install && cd $a'
@@ -137,13 +144,38 @@ alias bs='buildmenu && buildst && buildwm'
 alias cdgit='cd ~/.cfg/dotfiles'
 alias notes='cd ~/Dropbox/Notes'
 alias addtogit='~/.scripts/addtogitdots.sh'
-alias ml='matlab -nosplash -nodesktop -useStartupFolderPref'
 alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tn='tmux new -s'
 alias tr='tmux rename-session'
 alias tk='tmux kill-session -t'
+alias ml='MATLAB_JAVA=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre matlab -useStartupFolderPref'
 
+
+# M*IC Stuff
+
+export BPQNXIP=192.168.0.208
+export DDQNXIP=192.168.0.94
+alias sshbp='ssh root@${BPQNXIP}'
+alias sshdd='ssh root@${DDQNXIP}'
+alias qnxenv='source /opt/qnx/6.6.0/qnx660-env.sh'
+alias pspdir='cd /opt/matlab/2017a/toolbox/psp/QNX_Target_PSP/'
+alias licenses='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -a -c /opt/matlab/2017a/licenses/license.lic'
+alias lic='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f ${1} -c /opt/matlab/2017a/licenses/license.lic'
+alias lictest='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f Simulink_Test -c /opt/matlab/2017a/licenses/license.lic'
+alias licsf='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f Stateflow -c /opt/matlab/2017a/licenses/license.lic'
+alias licdv='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f Simulink_Design_Verifier -c /opt/matlab/2017a/licenses/license.lic'
+alias licvnv='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f SL_Verification_Validation -c /opt/matlab/2017a/licenses/license.lic'
+alias licsl='licdv && licvnv && lictest && licsf'
+alias licrm='_licrm'
+alias mylic="licenses | grep 'hrm\|Users' | sed '$!N;/\n.*hrm/! d;P;D'"
+alias qnxtargetdir='cd /opt/matlab/2017a/toolbox/psp/QNX_Target_PSP/'
+alias gitit='git pull && git submodule init && git submodule sync && git submodule update --recursive'
+alias copy='function _copy(){ "$1" | \tr -d '"'\n'"' | xclip -selection clipboard; };_copy'
+alias licfree='_licfree'
+alias einfs='sshfs publicfiles@ein-fs.thcg.net:pub/software/mcginh2 /mnt/ein-fs -C -o nonempty'
+alias gitupdate='git pull && git submodule sync && git submodule update --recursive'
+alias quiet='_quiet'
 
 # Functions
 
@@ -151,4 +183,28 @@ parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+_licfree() {
+    lic $1 | grep "Users of $1" | sed -e '/Total of /!d;s//&\n/;s/.*\n//;:a;/license/bb;$!{n;ba};:b;s//\n&/;P;D' 
+}
 
+_licrm() {
+    /opt/matlab/2017a/etc/glnxa64/lmutil lmremove -c /opt/matlab/2017a/licenses/license.lic $1 hrm hmcginnis-dell5520 $2
+}
+
+_quiet() {
+    ("$@") &>/dev/null
+}
+
+# === Begin Einstein Provisioned Setting. === #
+# export PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# export NDDSHOME=/opt/RTI/ndds.5.2.3
+# export PATH=/opt/qt/5.8.0/bin:$PATH
+# export PATH=/opt/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/bin:$PATH
+# export PATH=/opt/synopsys/8.7.1/bin:$PATH
+# export PATH=/opt/microchip/xc16/1.26/bin:$PATH
+# export JAVA_HOME=/opt/jdk/jdk1.8.0_102
+# export PATH=${JAVA_HOME}/bin:$PATH
+# export PATH=/opt/Xilinx/Vivado/2016.1/bin:$PATH
+# export PATH=/opt/Xilinx/SDK/2016.1/bin:$PATH
+
+# === End Einstein Provisioned Setting. Place personal settings below this line. === #

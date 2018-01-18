@@ -1,4 +1,4 @@
- ;; Custom
+;; Custom
 ;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -7,15 +7,23 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(cursor-type (quote bar))
+ '(debug-on-error t)
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(mlint-programs
    (quote
     ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
+ '(org-clock-into-drawer 2)
+ '(org-export-initial-scope (quote subtree))
+ '(org-export-with-sub-superscripts (quote {}))
  '(org-list-allow-alphabetical t)
-; '(org-startup-folded nil)
+ '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
  '(tabbar-separator (quote (0.5))))
+
+;; Server mode
+;;
+(server-mode 1)
 
 
 ;; MELPA
@@ -67,7 +75,7 @@
    ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
-(set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
+;(set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
 (global-set-key (kbd "C-x t") 'transpose-frame)              ;; Transpose frame
 (global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
 (windmove-default-keybindings 'meta)                         ;; Windmove
@@ -101,9 +109,10 @@
 (require 'org)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-(setq org-meetings-file "~/org/meetings.org" )
-(setq org-default-notes-file "~/org/notes.org")
+(setq org-meetings-file "~/org/meetings.org")
+(setq org-todos-file "~/org/todos.org")
 (setq org-default-diary-file "~/org/diary.org")
+(setq org-presentations-file "~/org/presentations.org")
 
 (define-key global-map "\C-cc" 'org-capture)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -111,6 +120,22 @@
   (lambda()
     (interactive)
     (org-capture nil "m")))
+(define-key global-map "\C-cp"
+  (lambda()
+    (interactive)
+    (org-capture nil "p")))
+(define-key global-map "\C-cd"
+  (lambda()
+    (interactive)
+    (org-capture nil "d")))
+(define-key global-map "\C-ct"
+  (lambda()
+    (interactive)
+    (org-capture nil "t")))
+(define-key global-map "\C-ce"
+  (lambda()
+    (interactive)
+    (org-capture nil "e")))
 (define-key global-map (kbd "C-c C-x m")
   (lambda()
     (interactive)
@@ -118,24 +143,44 @@
 (define-key global-map (kbd "C-c C-x n")
   (lambda()
     (interactive)
-    (find-file org-default-notes-file)))
+    (find-file org-todos-file)))
 (define-key global-map (kbd "C-c C-x d")
   (lambda()
     (interactive)
     (find-file org-default-diary-file)))
 
 (setq org-capture-templates
-       '(("t" "todo" entry (file org-default-notes-file)
-	  "* TODO %?\n%u\n%a\n" :clock-in t :clock-resume t :kill-buffer t)
-	 ("m" "meeting" entry (file+datetree org-meetings-file)
-	  "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t :kill-buffer t)
-	 ("d" "diary" entry (file+datetree org-default-diary-file)
-	  "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t) ))
+      '(("t" "todo" entry (file org-todos-file)
+	 "** TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
+	("m" "meeting" entry (file+datetree org-meetings-file)
+	 "* MEETING: %? :MEETING:NOTES:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n** Meeting Participants\n\n** Todos and Questions\n\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+	("p" "presentation" entry (file+datetree org-presentations-file)
+	 "* %? :PRESENTATION:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+	("d" "diary" entry (file+datetree org-default-diary-file)
+	 "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
+	("e" "email" entry (file+datetree org-default-diary-file)
+	 "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
 
-(setq org-agenda-files (list org-default-notes-file
-			     org-default-diary-file
-			     org-meetings-file
-			     ))
+
+(setq org-agenda-files
+      (list org-todos-file
+	    org-default-diary-file
+	    org-meetings-file
+	    org-presentations-file
+	    ))
+
+(setq org-refile-targets
+      '( (org-meetings-file :level . 3)
+	 (org-presentations-file :level . 3)
+	 (org-default-diary-file :level . 4)
+	 (org-todos-file :maxlevel . 2)))
+
+(setq org-todo-keywords
+      '((sequence "TODO" "QUESTION" "IN PROGRESS" "DISCUSS" "|" "DONE" "ANSWERED" "NO ACTION")))
+
+
+
+
 
 
 
@@ -315,3 +360,9 @@
 
 ;; (tabbar-mode 1)
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
