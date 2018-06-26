@@ -6,30 +6,22 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(cursor-type (quote bar))
- '(debug-on-error t)
+ '(cursor-type (quote box))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
+ '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(mlint-programs
    (quote
     ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
- '(org-export-initial-scope (quote subtree))
+ '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-with-sub-superscripts (quote {}))
  '(org-list-allow-alphabetical t)
  '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
+ '(sr-speedbar-default-width 30)
+ '(sr-speedbar-right-side nil)
  '(tabbar-separator (quote (0.5))))
-
-;; Server mode
-;;
-(server-mode 1)
-
-
-;; MELPA
-;;
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 
 ;; Add paths
@@ -38,41 +30,78 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-  
-;; Basic EMACS configurations
+
+;; Server mode
+;;
+(server-mode 0)
+
+
+;; MELPA
+;;
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+
+;; Speedbar
+;;
+(require 'sr-speedbar)
+(global-set-key (kbd "<f9>") 'sr-speedbar-toggle)
+
+;; Company mode
+;;
+(add-hook 'after-init-hook 'global-company-mode)
+
+
+;; Basic EMACS configurations ==================================================
 ;;
 
-;- Appearance
-(global-set-key [C-kp-add] 'text-scale-increase)             ;; Dynamic font size {in,de}crease
-(global-set-key [C-kp-subtract] 'text-scale-decrease)        ;;         ||
-(set-default-font "Consolas-10:spacing=80")                  ;; Font
-(add-to-list 'default-frame-alist '(height . 64))            ;; Startup window size
-(add-to-list 'default-frame-alist '(width . 110))            ;;         ||
-(setq frame-title-format "GNU Emacs • %b ")                   ;; ·• Set title to name of open file
-(define-key global-map "\M-q" 'visual-line-mode)             ;; Toggle line wrap
-(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)          ;; Menu bar mode
-;(setq sml/theme 'dark)                                       ;; Smart Mode Line Theme
+;; Appearance
+(global-set-key (kbd "C-=") 'text-scale-increase)          ;; Dynamic font size {in,de}crease
+(global-set-key (kbd "C--") 'text-scale-decrease)          ;;         ||
+;; (set-default-font "Fantasque Sans Mono:pixelsize=14")      ;; Font
+;; (set-frame-font "SF Mono:pixelsize=15:weight=Semibold")      ;; Font
+(set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
+
+;; (add-to-list 'default-frame-alist '(height . 30))          ;; Startup window size
+;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")      ;; Font
+;; (add-to-list 'default-frame-alist '(width . 90))          ;;         ||
+
+(define-key global-map (kbd "C-c C-8")
+  (lambda()
+    (interactive)
+    (set-frame-width (selected-frame) 86))) 
+
+(setq frame-title-format
+      (list
+	   "GNU Emacs • %b • "
+	   (getenv "USER")))       ;; ·• Set title to name of open file
+(define-key global-map "\M-q" 'visual-line-mode)           ;; Toggle line wrap
+(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)        ;; Menu bar mode
+;; (setq sml/theme 'dark)                                    ;; Smart Mode Line Theme
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-(require 'linum)                                             ;; Enable line numbers globally
-(global-linum-mode 1)                                        ;;             ||
-(global-set-key (kbd "<f8>") 'linum-mode)
+(require 'linum)                                           ;; Enable line numbers globally
+(global-linum-mode 1)                                      ;;             ||
+;; (global-set-key (kbd "<f8>") 'linum-mode)
 (set-face-foreground 'linum "#c0c0c0")
 (setq linum-format "%4d\u2502")
+(setq-default line-spacing 2)
+(setq debug-on-error t)
+(add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 
-;- Scrolling
+;; Scrolling
 (require 'smooth-scrolling)
 (smooth-scrolling-mode 1)
 (setq smooth-scroll-margin 15)
-(setq scroll-preserve-screen-position 1)                     ;; keep cursor at same position when scrolling
-(global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))               ;; scroll window up/down by one line
-(global-set-key (kbd "M-p") (kbd "C-u 2 M-v"))               ;;               ||
+(setq scroll-preserve-screen-position 1)                   ;; keep cursor at same position when scrolling
+(global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))             ;; scroll window up/down by one line
+(global-set-key (kbd "M-p") (kbd "C-u 2 M-v"))             ;;               ||
 
-;- Try to fix Emacs colors in tmux
+;; Try to fix Emacs colors in tmux
 (defun terminal-init-screen ()
   "Terminal initialization function for screen."
-   ;; Use the xterm color initialization code.
+  ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 ;(set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
@@ -82,7 +111,7 @@
 (setq ediff-window-setup-function                            ;; Ediff stuff
       'ediff-setup-windows-plain)                            ;;      ||
 
-;- Navigation
+;; Navigation
 (defun move-line-up ()
   "Move up the current line."
   (interactive)
@@ -98,22 +127,106 @@
   (forward-line -1)
   (indent-according-to-mode))
 
-(global-set-key (kbd "C-s-<down>") 'move-line-down)
-(global-set-key (kbd "C-s-<up>") 'move-line-up)
+(global-set-key (kbd "s-<up>") 'move-line-up)
+(global-set-key (kbd "s-<down>") 'move-line-down)
 
+;; Commenting
+(defun comment-or-uncomment-region-or-line ()
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (let (beg end)
+	(if (region-active-p)
+		(setq beg (region-beginning) end (region-end))
+	  (setq beg (line-beginning-position) end (line-end-position)))
+	(comment-or-uncomment-region beg end)))
+(global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 
+;; Highlight current line
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#333333")
 
+;; Copy current buffer to clipboard
+(defun my-put-file-name-on-clipboard ()
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
+(global-set-key (kbd "C-x M-s") 'my-put-file-name-on-clipboard)
 
-;; Org-mode
+;; Switch to previous buffer
+(defun switch-to-previous-buffer ()
+  "Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+(global-set-key (kbd "C-c b") 'switch-to-previous-buffer)
+
+;; Reload emacs
+(defun reload-emacs-init-file ()
+  "reload your init.el file without restarting Emacs"
+  (interactive)
+  (load-file "~/.emacs.d/init.el") )
+(global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
+
+;; Shell Commands ==============================================================
 ;;
+
+;; Start diff from Command Line
+(defun command-line-diff (switch)
+  (let ((file1 (pop command-line-args-left))
+		(file2 (pop command-line-args-left)))
+    (ediff file1 file2)))
+
+(add-to-list 'command-switch-alist '("diff" . command-line-diff))
+
+;; Print date in 'ddMMMyyyy' form
+(defun date-command-on-buffer ()
+  (interactive)
+  (shell-command "printf '%s' $(date +%d%^b%Y)" t)
+  (forward-word))
+(global-set-key (kbd "C-c C-1") 'date-command-on-buffer)
+
+;; Print date in 'ddMMMyyyy' form
+(defun deadline-date ()
+  (interactive)
+  (shell-command "printf 'DEADLINE: <%s %s>' $(date '+%Y-%m-%d %a')" t)
+  (forward-word))
+(global-set-key (kbd "C-c C-2") 'deadline-date)
+
+;; Insert html<br>
+(defun html-break-on-buffer ()
+  (interactive)
+  (shell-command "echo \"@@html:<br>@@\"" t))
+(global-set-key (kbd "C-c C-<return>") 'html-break-on-buffer)
+
+;; pandoc current buffer to markdown
+(defun to-markdown ()
+  (interactive)
+  (my-put-file-name-on-clipboard)
+  (let currentfile ('yank))
+  (let filename
+	(concat "pandoc -s " currentfile " " currentfile ".md")))
+
+
+
+;; Org-mode ====================================================================
+;;
+
 (require 'org)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(require 'ox-confluence)
 
 (setq org-meetings-file "~/org/meetings.org")
 (setq org-todos-file "~/org/todos.org")
 (setq org-default-diary-file "~/org/diary.org")
 (setq org-presentations-file "~/org/presentations.org")
-
+(setq org-log-done 'time)									;(setq org-return-follows-link t)
 (define-key global-map "\C-cc" 'org-capture)
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cm"
@@ -139,51 +252,98 @@
 (define-key global-map (kbd "C-c C-x m")
   (lambda()
     (interactive)
-    (find-file org-meetings-file)))
-(define-key global-map (kbd "C-c C-x n")
+    (find-file org-meetings-file))) 
+(define-key global-map (kbd "C-c 1")
   (lambda()
     (interactive)
     (find-file org-todos-file)))
-(define-key global-map (kbd "C-c C-x d")
+(define-key global-map (kbd "C-c 2")
   (lambda()
     (interactive)
     (find-file org-default-diary-file)))
+(define-key global-map (kbd "C-c C-o")
+  (lambda()
+    (org-open-at-point)
+    (delete-window)))
 
 (setq org-capture-templates
-      '(("t" "todo" entry (file org-todos-file)
-	 "** TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
-	("m" "meeting" entry (file+datetree org-meetings-file)
-	 "* MEETING: %? :MEETING:NOTES:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n** Meeting Participants\n\n** Todos and Questions\n\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
-	("p" "presentation" entry (file+datetree org-presentations-file)
-	 "* %? :PRESENTATION:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
-	("d" "diary" entry (file+datetree org-default-diary-file)
-	 "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
-	("e" "email" entry (file+datetree org-default-diary-file)
-	 "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
-
+      '(("t" "todo" entry (file+headline org-todos-file "Ongoing")
+		 "* TODO [#A] %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
+		("m" "meeting" entry (file+datetree org-meetings-file)
+		 "* MEETING: %? :MEETING:NOTES:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n** Meeting Participants\n\n** Todos and Questions\n\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+		("p" "presentation" entry (file+datetree org-presentations-file)
+		 "* %? :PRESENTATION:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+		("d" "diary" entry (file+datetree org-default-diary-file)
+		 "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
+		("e" "email" entry (file+datetree org-default-diary-file)
+		 "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
 
 (setq org-agenda-files
       (list org-todos-file
-	    org-default-diary-file
-	    org-meetings-file
-	    org-presentations-file
-	    ))
+			org-default-diary-file
+			org-meetings-file
+			org-presentations-file
+			)
+      )
 
 (setq org-refile-targets
       '( (org-meetings-file :level . 3)
-	 (org-presentations-file :level . 3)
-	 (org-default-diary-file :level . 4)
-	 (org-todos-file :maxlevel . 2)))
+		 (org-presentations-file :level . 3)
+		 (org-default-diary-file :level . 4)
+		 (org-todos-file :maxlevel . 2)
+		 )
+      )
 
 (setq org-todo-keywords
-      '((sequence "TODO" "QUESTION" "IN PROGRESS" "DISCUSS" "|" "DONE" "ANSWERED" "NO ACTION")))
+      '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
+
+
+;; (defun org-html-remove-first-line (html)
+;;   (org-map-entries
+;;    (lambda ()
+;; 	 (org-html-trim-html-for-word))))
+
+
+(defun org-html-remove-first-line (backend)
+  (lambda () (delete-region
+			  (progn (beginning-of-buffer) (point))
+			  (progn (forward-line) (point)) )))
+
+(add-hook
+ 'org-export-preprocess-final-hook
+ 'org-html-remove-first-line)
+
+
+;; Trim first line of org-mode HTML export
+(defun org-html-trim-html-for-word ()
+  (interactive)
+  (shell-command-on-region
+   (point-min) (point-max)
+   "tail -n+2 "
+   (current-buffer) t nil))
+
+										; (add-hook
+;;  'org-export-preprocess-final-hook
+;;  'org-html-remove-first-line)
+
+;; (defun my-headline-removal (backend)
+;;   "Remove all headlines in the current buffer.
+;; BACKEND is the export back-end being used, as a symbol."
+;;   (org-map-entries
+;;    (lambda () (delete-region (point) (progn (forward-line) (point))))))
 
 
 
+;; (add-hook 'org-export-before-parsing-hook 'my-headline-removal)
 
+;; (shell-command
+;; 	 (format "tail -n+2 %s > %s-msword.html"
+;; 			 outfile
+;; 			 (file-name-sans-extension outfile))))
 
-
-
+;; (add-to-list 'org-emphasis-alist
+;;              '("*" (:foreground "red")
+;;                ))
 
 
 ;; Attempt at modifying PDF export to go through pandoc and wkhtmltopdf
@@ -198,97 +358,122 @@
 ;; 			   (file-name-sans-extension outfile)))))
 
 
+;; Extra Command Line Args =====================================================
+;;
+
+
 ;; Spell-check (flyspell)
 ;;
-(global-set-key (kbd "C-S-<f8>") 'flyspell-mode)
+
+(global-set-key (kbd "<f7>") 'flyspell-mode)
 (global-set-key (kbd "C-M-<f8>") 'flyspell-buffer)
-(global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
+(global-set-key (kbd "M-<f7>") 'flyspell-check-previous-highlighted-word)
 (defun flyspell-check-next-highlighted-word ()
   "Custom function to spell check next highlighted word"
   (interactive)
   (flyspell-goto-next-error)
   (ispell-word)
   )
-(global-set-key (kbd "M-<f8>") 'flyspell-check-next-highlighted-word)
+(global-set-key (kbd "C-<f7>") 'flyspell-check-next-highlighted-word)
 
 
-;; MATLAB Integration
+;; Company-mode and Irony-mode ==================================================
 ;;
+
+;; (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(setq tab-width 4
+	  c-default-style "linux"
+	  indent-tabs-mode . nil)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(add-hook 'c++-mode-hook 'global-flycheck-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+
+(add-hook 'c++-mode-hook 'company-mode)
+(add-hook 'c-mode-hook 'company-mode)
+(add-hook 'emacs-lisp-mode-hook 'company-mode)
+(global-set-key [C-tab] 'company-complete)
+
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony))
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-c-headers))
+
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+
+
+;; MATLAB Integration ==========================================================
+;;
+
 (autoload 'matlab-mode "matlab" "MATLAB Editing Mode" t)
+
 (add-to-list
  'auto-mode-alist
  '("\\.m$" . matlab-mode))
+
 (setq matlab-indent-function t)
 (setq matlab-shell-command "matlab")
-(setq matlab-shell-command-switches (list "-nosplash" "-nodesktop"))
+(setq matlab-shell-command-switches
+	  (list "-nosplash" "-nodesktop"))
+
 (add-hook 'matlab-mode
-	  (lambda ()
-	    (auto-complete-mode 1)
-	    (matlab-cedet-setup)
-	    (matlab-toggle-show-mlint-warnings)
-	    ))
+		  (lambda ()
+			(auto-complete-mode 1)
+			(matlab-cedet-setup)
+			(matlab-toggle-show-mlint-warnings)
+			))
 
 
-;; Open recent File Menu option
+;; Open recent File Menu option ================================================
 ;;
+
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 35)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-  
-;; Color themes
+
+;; Color themes ================================================================
 ;;
+
 (defun color-theme-almost-monokai ()
   (interactive)
   (color-theme-install
    '(color-theme-almost-monokai
      ((background-color . "#191919")
       (foreground-color . "#F8F8F2")
-      (cursor-color . "#DAD085"))
+      (cursor-color . "#dddddd"))
      (default ((t (nil))))
      (modeline ((t (:background "white" :foreground "black" :box (:line-width 1 :style released-button)))))
      (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
      (font-lock-comment-face ((t (:italic t :foreground "#75715D"))))
      (font-lock-constant-face ((t (:foreground "#A6E22A"))))
      (font-lock-doc-string-face ((t (:foreground "#65B042"))))
-     (font-lock-string-face ((t (:foreground "#DFD874"))))
+     (font-lock-string-face ((t (:foreground "#c9b980")))) ;dfd874
      (font-lock-function-name-face ((t (:foreground "#F1266F" :italic t))))
      (font-lock-keyword-face ((t (:foreground "#66D9EF"))))
-     (font-lock-type-face ((t (:underline t :foreground "#89BDFF"))))
+     (font-lock-type-face ((t (:foreground "#89BDFF"))))
      (font-lock-variable-name-face ((t (:foreground "#A6E22A"))))
      (font-lock-warning-face ((t (:bold t :foreground "#FD5FF1"))))
      (highlight-80+ ((t (:background "#D62E00"))))
-     (hl-line ((t (:background "#1A1A1A"))))
+     (hl-line ((t (:background "#333333"))))
      (region ((t (:background "#6DC5F1"))))
      (ido-subdir ((t (:foreground "#F1266F"))))
-    )
+	 )
+   )
   )
-)
 (provide 'color-theme-almost-monokai)
 
 (require 'color-theme)
-;(color-theme-initialize)
+										;(color-theme-initialize)
 (color-theme-almost-monokai)
-
-
-;; Highlight current line
-;;
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "#333333")
-
-
-;; Reload emacs
-;;
-(defun reload-emacs-init-file ()
-  "reload your init.el file without restarting Emacs"
-	(interactive)
-	(load-file "~/.emacs.d/init.el") )
-(global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
-
-
-
-
 
 
 ;; Tabbar
@@ -366,3 +551,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'narrow-to-region 'disabled nil)
