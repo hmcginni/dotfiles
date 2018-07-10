@@ -59,8 +59,8 @@
 (global-set-key (kbd "C-=") 'text-scale-increase)          ;; Dynamic font size {in,de}crease
 (global-set-key (kbd "C--") 'text-scale-decrease)          ;;         ||
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=14")      ;; Font
-;; (set-frame-font "SF Mono:pixelsize=15:weight=Semibold")      ;; Font
-(set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
+(set-frame-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
+;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
 
 ;; (add-to-list 'default-frame-alist '(height . 30))          ;; Startup window size
 ;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")      ;; Font
