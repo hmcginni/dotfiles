@@ -1,0 +1,120 @@
+#!/bin/bash
+#
+# Get desktop resolutions and offsets using xrandr
+#
+#   desk -n       :: print number of desktops
+#   desk -d1 -r   :: print desktop 1 resolution
+#   desk -d3 -ro  :: print desktop 2 resolution and offset
+#   desk -a       :: print number of desktops and desktop
+#                        1,2, and 3 resolution and offset
+#
+#   Dependencies: xrandr
+#
+################################################################################
+
+
+#-------------------------------------------------------------------------------
+# Parse Inputs
+
+
+function usage()
+{
+    printf "\n\tOn line: ${BASH_LINENO[0]}\n"
+    printf "\tUsage: \n\t  desk [-n(umdesks)][-r(es)][-o(ff)][-a(ll)][-d desktop]\n"
+}
+
+if [[ $# == 0 ]]; then
+    usage
+    exit
+fi
+
+outputRequested=1
+while getopts ":hnroad:" opt; do
+    case ${opt} in
+	h )
+	    echo -e "\tHelp for desk"
+	    usage
+	    exit
+	    ;;
+	n )
+	    prDesks=true
+	    ;;
+	r )
+	    prRes=true
+	    ;;
+	o )
+	    prOffset=true
+	    ;;
+	a )
+	    prOffset=true
+	    prRes=true
+	    prDesks=true
+	    ;;
+	d )
+	    desktop=$OPTARG
+	    ;;
+	* )
+	    echo -e "\tUnrecognized option"
+	    usage
+	    exit 1
+	    ;;
+    esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z $outputRequested ]; then
+    echo -e "\tdesk -n, -r or -o must be specified"
+    usage
+    exit 1
+fi
+
+
+#-------------------------------------------------------------------------------
+# Set Default Values
+
+
+if [ -z $prDesks ]; then
+    prDesks=false
+fi
+
+if [ -z $prRes ]; then
+    prRes=false
+fi
+
+if [ -z $prOffset ]; then
+    prOffset=false
+fi
+
+
+#-------------------------------------------------------------------------------
+# Parse xrandr
+
+deskInfo=$(xrandr --current \
+		  | grep "\<connected" \
+		  | sed -r 's#([^\(]*)(.*)#\1#g' \
+		  | awk '{print $NF}' \
+		  | sed 's#[a-wyzA-WYZ]##g')
+numDesks=$(wc -w <<< $deskInfo)
+res=$(sed -r 's#\+\w+##g' <<< $deskInfo)
+offset=$(sed -r 's#\w+x\w+\+##g' <<< $deskInfo)
+
+
+#-------------------------------------------------------------------------------
+# Outputs
+
+
+if [ ! -z $desktop ]; then
+    if [[ $desktop > $numDesks ]]; then
+	echo "Invalid Desktop number requested."
+	exit 1
+    fi
+
+    res=$(cut -d" " -f$desktop <<< $res)
+    res=$(sed 's#x# #g' <<< $res)
+    offset=$(cut -d" " -f$desktop <<< $offset)
+    offset=$(sed 's#+# #g' <<< $offset)
+fi
+
+$prDesks  && printf "$numDesks\n"
+$prRes    && printf "$res\n"
+$prOffset && printf "$offset\n"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+wid=$(sed -E "s#[^0]+([[:alnum:]]+).+#\1#" <<< $(xwininfo) )
+wid=$(sed 's|x|x0|' <<< $wid)
+pid=$(awk '{print $3}' <<< $(grep "$wid" <<< "$(wmctrl -lp)") )
+
+ps -o comm $pid

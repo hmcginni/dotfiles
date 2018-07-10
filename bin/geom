@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $# != 1 ]]; then
+    echo -e "\n\tgeom -\tprints x,y location of upper left corner"
+    echo -e "\t\t and width, height of window\n"
+    echo -e "\tUsage:\tgeom <programName>\n"
+    exit 1
+fi
+
+WID=$(pnw $1)
+xywh=$(wmctrl -lG | grep $WID | awk '{print $3,$4,$5,$6}')
+
+echo "$xywh"

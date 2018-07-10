@@ -1,0 +1,155 @@
+#!/usr/bin/env python
+"""
+SC
+
+    Create directory shortcuts
+    Stored in ${HOME}/sc.txt
+
+    Usage:
+        sc [command] [alias] [dir]
+        sc('save|remove|list','alias','dir');
+        sc [alias]
+
+    Commands:
+        save   (add)                 -> add alias to cache
+        remove (rm|rem|d|del|delete) -> remove alias from cache
+        list   (show|ls)             -> show cache
+        clip   (copy)                -> copy alias to clipboard
+        <none> [alias]               -> go to dir specified by alias
+"""
+
+import os
+import sys
+import csv
+
+
+## MAIN  -------------------------------------------------------------------- ##
+
+
+def main():
+    """
+    SC
+
+        Create directory shortcuts
+        Stored in ${HOME}/sc.txt
+
+        Usage:
+            sc [command] [alias] [dir]
+            sc('save|remove|list','alias','dir');
+            sc [alias]
+
+        Commands:
+            save   (add)                 -> add alias to cache
+            remove (rm|rem|d|del|delete) -> remove alias from cache
+            list   (show|ls)             -> show cache
+            clip   (copy)                -> copy alias to clipboard
+            <none> [alias]               -> go to dir specified by alias
+    """
+
+
+    ## PARSE INPUTS  -------------------------------------------------------- ##
+
+
+    argc = len(sys.argv) - 1
+
+    if argc == 0:
+        print main.__doc__
+        return
+    elif argc == 1:
+        cmd, = sys.argv[1:]
+    elif argc == 2:
+        cmd, alias = sys.argv[1:]
+        dr = os.getcwd()
+    else:
+        cmd, alias, dr = sys.argv[1:]
+
+    # else:
+    #     raise ValueError("Bad argcount (got %d, expected 0 or 2)" % argc)
+
+
+    ## LOAD SHORTCUTS  ------------------------------------------------------ ##
+
+
+    scFile = os.environ["HOME"] + "/sc.txt"
+
+    try:
+        with open(scFile, "rb") as scCache:
+            cr = csv.reader(scCache, delimiter=",")
+            shortcuts = list(cr)
+    except IOError:
+        print "Shortcuts file \"%s\" not found" % scFile
+        shortcuts = [["Shortcuts", "Directories"]]
+        save_shortcuts(scFile, shortcuts)
+
+
+    ## ACTIONS  ------------------------------------------------------------- ##
+
+
+    if cmd in ["save", "add"]:
+        aMask = [alias in entry for entry in shortcuts]
+        if any(aMask):
+            aIdx = aMask.index(True)
+            shortcuts[aIdx][1] = dr
+        else:
+            shortcuts.append([alias, dr])
+        save_shortcuts(scFile, shortcuts)
+
+    elif cmd in ["rm", "rem", "remove", "d", "del", "delete"]:
+        aMask = [alias in entry for entry in shortcuts]
+        try:
+            aIdx = aMask.index(True)
+            del shortcuts[aIdx]
+        except ValueError:
+            print "Alias \"%s\" does not exist" % alias
+        save_shortcuts(scFile, shortcuts)
+
+    elif cmd in ["ls", "list", "show"]:
+        dispOffset = max([len(st[0]) for st in shortcuts])
+        for st in shortcuts:
+            st[1] = st[1].replace(os.environ["HOME"], "~")
+            print "%-15s %s" % tuple(st)
+
+    elif cmd in ["clip", "copy"]:
+        print "Copy to clipboard is unavailable. Implement this"
+
+    else:
+        alias = cmd
+        aMask = [alias in entry for entry in shortcuts]
+        if not any(aMask):
+            print "Alias \"%s\" does not exist" % alias
+        else:
+            aIdx = aMask.index(True)
+            aPath = shortcuts[aIdx][1]
+            print aPath
+
+
+## SAVE_SHORTCUTS  ---------------------------------------------------------- ##
+
+
+def save_shortcuts(scFile, shortcuts):
+    """
+    SAVE_SHORTCUTS
+
+        Write list-of-lists "shortcuts" to text file "scFile"
+    """
+
+    shortcuts.sort()
+    try:
+        with open(scFile, "wb+") as scCache:
+            wr = csv.writer(scCache)
+            wr.writerows(shortcuts)
+    except IOError:
+        print "Creating new file: \"%s\"." % scFile
+
+
+
+
+
+## RUN MAIN()  -------------------------------------------------------------- ##
+
+
+if __name__ == "__main__":
+    main()
+
+
+## END ---------------------------------------------------------------------- ##

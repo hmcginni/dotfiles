@@ -1,0 +1,11 @@
+#!/bin/bash
+# Toggle the touchpad
+
+ps ax | grep "[t]ouchpad-indicator"
+if [[ $? == 0 ]]; then
+    (pkill -9 -f touchpad-indicator) &> /dev/null
+    echo "touchpad-indicator killed"
+else
+    (/opt/extras.ubuntu.com/touchpad-indicator/bin/touchpad-indicator &) &> /dev/null
+    echo "touchpad-indicator started"
+fi

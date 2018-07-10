@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Print window ID for process <name> or window with title <name>
+
+if [[ $# != 1 && $# != 2 ]]; then
+    echo -e "\n\tpnw -\tprints window ID for a specified process"
+    echo -e "\t\t or window title"
+    echo -e "\tUsage:\tpnw <windowName>"
+    exit 1
+fi
+
+windowName=$1
+topLine=$(expr $(wmctrl -l | grep -m1 -n "Desktop" | cut -d":" -f1) + 1 )
+wmList=$(wmctrl -lp | tail -n +$topLine)
+
+PID=$(ps hc -p $(echo "$wmList" | awk '{print $3}') | grep -i $windowName | awk '{print $1}') 
+
+if [[ ! $PID == "" ]]; then
+    WID=$( echo "$wmList" | grep $PID | awk '{print $1}')
+fi
+if [[ $(wc -w <<< $WID) > $(wc -w <<< $PID) || $PID == "" ]]; then
+    WID=$( echo "$wmList" | grep -i $windowName | awk '{print $1}')
+fi 
+
+numMatches=$(wc -w <<< $WID)
+
+if [[ $numMatches != 1 ]]; then
+    echo "${numMatches} matches found with that name."
+    exit 1
+fi
+
+echo $WID

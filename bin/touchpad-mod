@@ -1,0 +1,8 @@
+#!/bin/bash
+# Make touchpad usable
+
+#killall syndaemon
+#syndaemon -i 1.0 -K -R -d
+xinput set-prop "DLL07BF:01 06CB:7A13 Touchpad" "Synaptics Palm Detection" 1
+xinput set-prop "DLL07BF:01 06CB:7A13 Touchpad" "Synaptics Area" 49, 1179, 0, 0
+notify-send "Touchpad fix enabled."
