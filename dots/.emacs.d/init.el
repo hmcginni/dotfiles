@@ -59,8 +59,8 @@
 (global-set-key (kbd "C-=") 'text-scale-increase)          ;; Dynamic font size {in,de}crease
 (global-set-key (kbd "C--") 'text-scale-decrease)          ;;         ||
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=14")      ;; Font
-(set-frame-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
-;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
+;; (set-frame-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
+(set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
 
 ;; (add-to-list 'default-frame-alist '(height . 30))          ;; Startup window size
 ;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")      ;; Font
@@ -127,8 +127,17 @@
   (forward-line -1)
   (indent-according-to-mode))
 
+(defun narrow-to-eof ()
+  "Narrow from (point) to end-of-file"
+  (interactive)
+  (save-excursion
+    (narrow-to-region
+     (point)
+     (point-max))))
+
 (global-set-key (kbd "s-<up>") 'move-line-up)
 (global-set-key (kbd "s-<down>") 'move-line-down)
+(global-set-key (kbd "C-x n f") 'narrow-to-eof)
 
 ;; Commenting
 (defun comment-or-uncomment-region-or-line ()
@@ -139,6 +148,7 @@
 		(setq beg (region-beginning) end (region-end))
 	  (setq beg (line-beginning-position) end (line-end-position)))
 	(comment-or-uncomment-region beg end)))
+
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 
 ;; Highlight current line
@@ -176,14 +186,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 ;; Shell Commands ==============================================================
 ;;
-
-;; Start diff from Command Line
-(defun command-line-diff (switch)
-  (let ((file1 (pop command-line-args-left))
-		(file2 (pop command-line-args-left)))
-    (ediff file1 file2)))
-
-(add-to-list 'command-switch-alist '("diff" . command-line-diff))
 
 ;; Print date in 'ddMMMyyyy' form
 (defun date-command-on-buffer ()
@@ -282,85 +284,36 @@ Repeated invocations toggle between the two most recently open buffers."
       (list org-todos-file
 			org-default-diary-file
 			org-meetings-file
-			org-presentations-file
-			)
-      )
+			org-presentations-file))
 
 (setq org-refile-targets
       '( (org-meetings-file :level . 3)
 		 (org-presentations-file :level . 3)
 		 (org-default-diary-file :level . 4)
-		 (org-todos-file :maxlevel . 2)
-		 )
-      )
+		 (org-todos-file :maxlevel . 2)))
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
 
 
-;; (defun org-html-remove-first-line (html)
-;;   (org-map-entries
-;;    (lambda ()
-;; 	 (org-html-trim-html-for-word))))
-
-
-(defun org-html-remove-first-line (backend)
-  (lambda () (delete-region
-			  (progn (beginning-of-buffer) (point))
-			  (progn (forward-line) (point)) )))
-
-(add-hook
- 'org-export-preprocess-final-hook
- 'org-html-remove-first-line)
-
-
-;; Trim first line of org-mode HTML export
-(defun org-html-trim-html-for-word ()
-  (interactive)
-  (shell-command-on-region
-   (point-min) (point-max)
-   "tail -n+2 "
-   (current-buffer) t nil))
-
-										; (add-hook
-;;  'org-export-preprocess-final-hook
-;;  'org-html-remove-first-line)
-
-;; (defun my-headline-removal (backend)
-;;   "Remove all headlines in the current buffer.
-;; BACKEND is the export back-end being used, as a symbol."
-;;   (org-map-entries
-;;    (lambda () (delete-region (point) (progn (forward-line) (point))))))
-
-
-
-;; (add-hook 'org-export-before-parsing-hook 'my-headline-removal)
-
-;; (shell-command
-;; 	 (format "tail -n+2 %s > %s-msword.html"
-;; 			 outfile
-;; 			 (file-name-sans-extension outfile))))
 
 ;; (add-to-list 'org-emphasis-alist
 ;;              '("*" (:foreground "red")
 ;;                ))
 
 
-;; Attempt at modifying PDF export to go through pandoc and wkhtmltopdf
-;;     which would allow use of CSS in the PDF export
-;;
-;; (defun org-html-to-pdf (plist filename pub-dir)
-;;   "Export .org file to HTML (using CSS if desired) and then convert to PDF with pandoc"
-;;   (let ((outfile
-;; 	 (org-publish-org-to 'html filename ".html" plist pub-dir)))
-;;     (shell-command (format "pandoc -f html -t pdf -o %s %s.pdf"
-;; 			   outfile
-;; 			   (file-name-sans-extension outfile)))))
 
 
 ;; Extra Command Line Args =====================================================
 ;;
 
+;; Start diff from Command Line
+(defun command-line-diff (switch)
+  (let ((file1 (pop command-line-args-left))
+		(file2 (pop command-line-args-left)))
+    (ediff file1 file2)))
+
+(add-to-list 'command-switch-alist '("diff" . command-line-diff))
 
 ;; Spell-check (flyspell)
 ;;
@@ -475,75 +428,6 @@ Repeated invocations toggle between the two most recently open buffers."
 										;(color-theme-initialize)
 (color-theme-almost-monokai)
 
-
-;; Tabbar
-;; 
-;; This are setting for nice tabbar items
-;; to have an idea of what it looks like http://imgur.com/b0SNN
-;; inspired by Amit Patel screenshot http://www.emacswiki.org/pics/static/NyanModeWithCustomBackground.png
-;;
-;;(global-semantic-stickyfunc-mode -1)
-;; (require 'tabbar)
-;; ;; Tabbar settings
-;; (set-face-attribute
-;;  'tabbar-default nil
-;;  :background "gray20"
-;;  :foreground "gray20"
-;;  :box '(:line-width 1 :color "gray20" :style nil))
-;; (set-face-attribute
-;;  'tabbar-unselected nil
-;;  :background "gray30"
-;;  :foreground "white"
-;;  :box '(:line-width 5 :color "gray30" :style nil))
-;; (set-face-attribute
-;;  'tabbar-selected nil
-;;  :background "gray75"
-;;  :foreground "black"
-;;  :box '(:line-width 5 :color "gray75" :style nil))
-;; (set-face-attribute
-;;  'tabbar-highlight nil
-;;  :background "white"
-;;  :foreground "black"
-;;  :underline nil
-;;  :box '(:line-width 5 :color "white" :style nil))
-;; (set-face-attribute
-;;  'tabbar-button nil
-;;  :box '(:line-width 1 :color "gray20" :style nil))
-;; (set-face-attribute
-;;  'tabbar-separator nil
-;;  :background "gray20"
-;;  :height 0.6)
-
-
-;; ;; Tab keybindings
-;; ;;
-;; (global-set-key (kbd "C-M-<right>") 'tabbar-forward)
-;; (global-set-key (kbd "C-M-<left>") 'tabbar-backward)
-
-;; ;; Change padding of the tabs
-;; ;; we also need to set separator to avoid overlapping tabs by highlighted tabs
-;; ;;
-
-;; ;; adding spaces
-;; ;;
-;; (defun tabbar-buffer-tab-label (tab)
-;;   "Return a label for TAB.
-;; That is, a string used to represent it on the tab bar."
-;;   (let ((label  (if tabbar--buffer-show-groups
-;;                     (format "[%s]  " (tabbar-tab-tabset tab))
-;;                   (format "%s  " (tabbar-tab-value tab)))))
-;;     ;; Unless the tab bar auto scrolls to keep the selected tab
-;;     ;; visible, shorten the tab label to keep as many tabs as possible
-;;     ;; in the visible area of the tab bar.
-;;        ;;
-;;     (if tabbar-auto-scroll-flag
-;;         label
-;;       (tabbar-shorten
-;;        label (max 1 (/ (window-width)
-;;                        (length (tabbar-view
-;;                                 (tabbar-current-tabset)))))))))
-
-;; (tabbar-mode 1)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

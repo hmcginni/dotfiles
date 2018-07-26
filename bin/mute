@@ -1,3 +1,4 @@
 #!/bin/bash
 
-pactl set-sink-volume 0 0%
+pactl set-sink-volume 1 0%
+pactl set-sink-volume 2 0%

@@ -120,8 +120,7 @@ yTitle=$(xprop -id $WID1 | awk '/FRAME/ {print substr($5,1,length($5)-1)}')
 # Determine Monitor Count and Resolution
 
 
-read -r xLeft yTop <<< $(wmctrl -lG \
-    | grep -m1 "unity-launcher" | awk '{print $5, $4}')
+read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
 
 if [[ $(desk -n) == 1 ]]; then #Single Monitor
     desktop=1
@@ -161,7 +160,7 @@ case $numWindows in
 	w1=$(( xRes-xLeft-(2*borderWidth) ))
 	h1=$(( yRes-yTop-yTitle-(2*borderWidth) ))
 
-	wtp $x1 $y1 $w1 $h1 $WID1
+	move $x1 $y1 $w1 $h1 $WID1
 	;;
     2)
 	x1=$(( xDispOffset+xLeft+borderWidth ))
@@ -174,8 +173,8 @@ case $numWindows in
 	w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
 	h2=$(( h1 ))
 
-	wtp $x1 $y1 $w1 $h1 $WID1
-	wtp $x2 $y2 $w2 $h2 $WID2
+	move $x1 $y1 $w1 $h1 $WID1
+	move $x2 $y2 $w2 $h2 $WID2
 	;;
     3)
 	x1=$(( xDispOffset+xLeft+borderWidth ))
@@ -193,9 +192,9 @@ case $numWindows in
 	w3=$(( w2 ))
 	h3=$(( yRes-yHorizSep-yTitle-2*borderWidth ))
 
-	wtp $x1 $y1 $w1 $h1 $WID1
-	wtp $x2 $y2 $w2 $h2 $WID2
-	wtp $x3 $y3 $w3 $h3 $WID3
+	move $x1 $y1 $w1 $h1 $WID1
+	move $x2 $y2 $w2 $h2 $WID2
+	move $x3 $y3 $w3 $h3 $WID3
 	;;
     *)
 	echo "Invalid number of windows specified"
