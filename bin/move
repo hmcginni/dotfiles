@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if (( $# < 5 )); then
+    exit 1
+fi
+
+x=$1
+y=$2
+w=$3
+h=$4
+WID=$5
+
+wmctrl -i -r $WID -e 0,$x,$y,$w,$h
