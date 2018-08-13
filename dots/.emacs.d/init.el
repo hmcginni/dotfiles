@@ -17,6 +17,7 @@
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-with-sub-superscripts (quote {}))
  '(org-list-allow-alphabetical t)
+ '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
  '(sr-speedbar-default-width 30)
@@ -59,8 +60,8 @@
 (global-set-key (kbd "C-=") 'text-scale-increase)          ;; Dynamic font size {in,de}crease
 (global-set-key (kbd "C--") 'text-scale-decrease)          ;;         ||
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=14")      ;; Font
-;; (set-frame-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
-(set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
+(set-frame-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
+;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
 
 ;; (add-to-list 'default-frame-alist '(height . 30))          ;; Startup window size
 ;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")      ;; Font
@@ -192,29 +193,20 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (shell-command "printf '%s' $(date +%d%^b%Y)" t)
   (forward-word))
-(global-set-key (kbd "C-c C-1") 'date-command-on-buffer)
+(global-set-key (kbd "C-c C-d") 'date-command-on-buffer)
 
 ;; Print date in 'ddMMMyyyy' form
 (defun deadline-date ()
   (interactive)
   (shell-command "printf 'DEADLINE: <%s %s>' $(date '+%Y-%m-%d %a')" t)
   (forward-word))
-(global-set-key (kbd "C-c C-2") 'deadline-date)
+(global-set-key (kbd "C-c C-x C-d") 'deadline-date)
 
 ;; Insert html<br>
 (defun html-break-on-buffer ()
   (interactive)
   (shell-command "echo \"@@html:<br>@@\"" t))
 (global-set-key (kbd "C-c C-<return>") 'html-break-on-buffer)
-
-;; pandoc current buffer to markdown
-(defun to-markdown ()
-  (interactive)
-  (my-put-file-name-on-clipboard)
-  (let currentfile ('yank))
-  (let filename
-	(concat "pandoc -s " currentfile " " currentfile ".md")))
-
 
 
 ;; Org-mode ====================================================================
@@ -229,6 +221,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq org-default-diary-file "~/org/diary.org")
 (setq org-presentations-file "~/org/presentations.org")
 (setq org-log-done 'time)									;(setq org-return-follows-link t)
+(global-set-key [C-iso-lefttab] 'pcomplete)
 (define-key global-map "\C-cc" 'org-capture)
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cm"
@@ -269,16 +262,16 @@ Repeated invocations toggle between the two most recently open buffers."
     (delete-window)))
 
 (setq org-capture-templates
-      '(("t" "todo" entry (file+headline org-todos-file "Ongoing")
-		 "* TODO [#A] %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
-		("m" "meeting" entry (file+datetree org-meetings-file)
-		 "* MEETING: %? :MEETING:NOTES:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n** Meeting Participants\n\n** Todos and Questions\n\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
-		("p" "presentation" entry (file+datetree org-presentations-file)
-		 "* %? :PRESENTATION:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
-		("d" "diary" entry (file+datetree org-default-diary-file)
-		 "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
-		("e" "email" entry (file+datetree org-default-diary-file)
-		 "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
+      '(("t" "todo" entry (file+headline org-todos-file "Unfiled")
+         "* TODO [#B] %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
+        ("m" "meeting" entry (file+datetree org-meetings-file)
+         "* MEETING: %? :MEETING:NOTES:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n** Meeting Participants\n\n** Todos and Questions\n\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+        ("p" "presentation" entry (file+datetree org-presentations-file)
+         "* %? :PRESENTATION:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+        ("d" "diary" entry (file+datetree org-default-diary-file)
+         "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
+        ("e" "email" entry (file+datetree org-default-diary-file)
+         "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
 
 (setq org-agenda-files
       (list org-todos-file
@@ -295,17 +288,16 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq org-todo-keywords
       '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
 
+;; Refile to "Today" or "This Week"
+(defun refile-to (headline)
+  (interactive)
+  (let ((pos (save-excursion
+	       org-todos-file
+	       (org-find-exact-headline-in-buffer headline))))
+    (org-refile nil nil (list headline org-todos-file nil pos))))
 
-
-;; (add-to-list 'org-emphasis-alist
-;;              '("*" (:foreground "red")
-;;                ))
-
-
-
-
-;; Extra Command Line Args =====================================================
-;;
+(global-set-key (kbd "C-c C-1") (lambda () (interactive) (refile-to "Today")))
+(global-set-key (kbd "C-c C-2") (lambda () (interactive) (refile-to "This Week")))
 
 ;; Start diff from Command Line
 (defun command-line-diff (switch)

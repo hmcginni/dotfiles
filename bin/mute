@@ -1,4 +1,7 @@
 #!/bin/bash
 
-pactl set-sink-volume 1 0%
-pactl set-sink-volume 2 0%
+sinks=($(grep "Sink #" <<< "$(pactl list)" | sed "s|Sink #||"))
+
+for thisSink in "${sinks[@]}"; do
+    pactl set-sink-volume $thisSink 0%
+done

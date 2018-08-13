@@ -1,22 +1,5 @@
 #!/usr/bin/env python
-"""
-SC
 
-    Create directory shortcuts
-    Stored in ${HOME}/sc.txt
-
-    Usage:
-        sc [command] [alias] [dir]
-        sc('save|remove|list','alias','dir');
-        sc [alias]
-
-    Commands:
-        save   (add)                 -> add alias to cache
-        remove (rm|rem|d|del|delete) -> remove alias from cache
-        list   (show|ls)             -> show cache
-        clip   (copy)                -> copy alias to clipboard
-        <none> [alias]               -> go to dir specified by alias
-"""
 
 import os
 import sys
@@ -51,17 +34,18 @@ def main():
 
 
     argc = len(sys.argv) - 1
+    cmd, alias, dr = None, None, os.getcwd()
 
     if argc == 0:
         print main.__doc__
         return
-    elif argc == 1:
+    if argc == 1:
         cmd, = sys.argv[1:]
     elif argc == 2:
         cmd, alias = sys.argv[1:]
-        dr = os.getcwd()
     else:
         cmd, alias, dr = sys.argv[1:]
+
 
     # else:
     #     raise ValueError("Bad argcount (got %d, expected 0 or 2)" % argc)
@@ -105,6 +89,7 @@ def main():
 
     elif cmd in ["ls", "list", "show"]:
         dispOffset = max([len(st[0]) for st in shortcuts])
+        #TODO: use dispOffset
         for st in shortcuts:
             st[1] = st[1].replace(os.environ["HOME"], "~")
             print "%-15s %s" % tuple(st)
@@ -120,7 +105,13 @@ def main():
         else:
             aIdx = aMask.index(True)
             aPath = shortcuts[aIdx][1]
-            print aPath
+            if "TMUX" in os.environ:
+                goStr = "tmux send -t . \"cd " + aPath + "\" ENTER"
+                os.system(goStr)
+            else:
+                goStr = "tmux new -s default \\; send -t default \"cd " \
+                        + aPath + "\" ENTER"
+                os.system(goStr)
 
 
 ## SAVE_SHORTCUTS  ---------------------------------------------------------- ##
@@ -140,9 +131,6 @@ def save_shortcuts(scFile, shortcuts):
             wr.writerows(shortcuts)
     except IOError:
         print "Creating new file: \"%s\"." % scFile
-
-
-
 
 
 ## RUN MAIN()  -------------------------------------------------------------- ##
