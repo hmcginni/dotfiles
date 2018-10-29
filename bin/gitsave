@@ -1,4 +1,4 @@
-#!/bin/basxsh
+#!/bin/bash
 
 
 file=$1
