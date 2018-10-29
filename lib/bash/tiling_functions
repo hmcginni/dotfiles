@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#===============================================================================
+# getCursorDesktop
+#
+#   Return the desktop (monitor) where the cursor currently is
+#
+#   Arguments:
+#       None
+#
+#   Dependencies:
+#       xdotool, desk
+#===============================================================================
+
+function getCursorDesktop()
+{
+    if [[ $(desk -n) > 1 ]]; then
+	cursorPos=($(awk -F'[: ]' '{print $2,$4}' \
+			 <<< $(xdotool getmouselocation)))
+
+	numDesks=$(desk -n)
+	for (( ctr=1 ; ctr<=numDesks ; ctr++ )); do
+	    res=($(desk -r -d$ctr))
+	    off=($(desk -o -d$ctr))
+	    xMin+=(${off[0]})
+	    yMin+=(${off[1]})
+	    xMax+=($(( res[0] + off[0] )))
+	    yMax+=($(( res[1] + off[1] )))
+	done
+
+	for (( ctr=0 ; ctr<numDesks ; ctr++ )); do
+	    if (( cursorPos[0] < xMax[ctr] && cursorPos[0] > xMin[ctr] ))
+	    then
+		if (( cursorPos[1] < yMax[ctr] && cursorPos[1] > yMin[ctr] ))
+		then
+		    desktop=$(( ctr + 1 ))
+		fi
+	    fi
+	done
+    else
+	desktop=1
+    fi
+	
+    echo "$desktop"
+}
+
+
+function getWindowSize()
+{
+    local eqn=$(awk -F"[ x]" '/Geometry/ {print $4"*"$5}' <<< \
+		    "$(xdotool getwindowgeometry ${1})")
+    local wSize=$(( $eqn ))
+    echo "$wSize"
+}
