@@ -7,7 +7,7 @@ function out = sc(cmd, alias, dir)
 	%    Usage:
 	%        sc [command] [alias] [dir]
 	%        sc('save|remove|list','alias','dir');
-    %        sc [alias]
+	%        sc [alias]
 	%
 	%    Commands:
 	%        save   (add)                 -> add alias to cache
