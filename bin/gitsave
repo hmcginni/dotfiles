@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/basxsh
 
 
 file=$1
-src=$(which $file)
-dest="/home/hrm/repos/dotfiles/bin/"
+subdir=$2
+src=$(readlink -f $file)
+dest="/home/hrm/repos/dotfiles/${subdir}/"
 destfile="${dest}${file}"
 
 mv -v $src -t $dest
-ln -sv -T $destfile $src
+ln -s -T $destfile $src

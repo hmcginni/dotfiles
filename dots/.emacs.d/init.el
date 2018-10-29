@@ -133,7 +133,8 @@
   (interactive)
   (save-excursion
     (narrow-to-region
-     (point)
+     (- (point)
+        (current-column))
      (point-max))))
 
 (global-set-key (kbd "s-<up>") 'move-line-up)
@@ -193,14 +194,14 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (shell-command "printf '%s' $(date +%d%^b%Y)" t)
   (forward-word))
-(global-set-key (kbd "C-c C-d") 'date-command-on-buffer)
+(global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
 
 ;; Print date in 'ddMMMyyyy' form
 (defun deadline-date ()
   (interactive)
   (shell-command "printf 'DEADLINE: <%s %s>' $(date '+%Y-%m-%d %a')" t)
   (forward-word))
-(global-set-key (kbd "C-c C-x C-d") 'deadline-date)
+(global-set-key (kbd "C-c C-x M-d") 'deadline-date)
 
 ;; Insert html<br>
 (defun html-break-on-buffer ()
@@ -214,12 +215,11 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (require 'org)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'text-mode-hook 'flyspell-mode)
 (require 'ox-confluence)
 
-(setq org-meetings-file "~/org/meetings.org")
 (setq org-todos-file "~/org/todos.org")
 (setq org-default-diary-file "~/org/diary.org")
-(setq org-presentations-file "~/org/presentations.org")
 (setq org-log-done 'time)									;(setq org-return-follows-link t)
 (global-set-key [C-iso-lefttab] 'pcomplete)
 (define-key global-map "\C-cc" 'org-capture)
@@ -232,11 +232,11 @@ Repeated invocations toggle between the two most recently open buffers."
   (lambda()
     (interactive)
     (org-capture nil "p")))
-(define-key global-map "\C-cd"
+(define-key global-map (kbd "C-c d")
   (lambda()
     (interactive)
     (org-capture nil "d")))
-(define-key global-map "\C-ct"
+(define-key global-map (kbd "C-c t")
   (lambda()
     (interactive)
     (org-capture nil "t")))
@@ -244,15 +244,11 @@ Repeated invocations toggle between the two most recently open buffers."
   (lambda()
     (interactive)
     (org-capture nil "e")))
-(define-key global-map (kbd "C-c C-x m")
-  (lambda()
-    (interactive)
-    (find-file org-meetings-file))) 
-(define-key global-map (kbd "C-c 1")
+(define-key global-map (kbd "C-c C-t")
   (lambda()
     (interactive)
     (find-file org-todos-file)))
-(define-key global-map (kbd "C-c 2")
+(define-key global-map (kbd "C-c C-d")
   (lambda()
     (interactive)
     (find-file org-default-diary-file)))
@@ -263,32 +259,25 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (setq org-capture-templates
       '(("t" "todo" entry (file+headline org-todos-file "Unfiled")
-         "* TODO [#B] %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
-        ("m" "meeting" entry (file+datetree org-meetings-file)
-         "* MEETING: %? :MEETING:NOTES:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n** Meeting Participants\n\n** Todos and Questions\n\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
-        ("p" "presentation" entry (file+datetree org-presentations-file)
-         "* %? :PRESENTATION:\n:PROPERTIES:\n:EXPORT_TITLE:\n:EXPORT_FILE_NAME:\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t)
+         "* TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
         ("d" "diary" entry (file+datetree org-default-diary-file)
-         "* %?\n%U\n" :clock-in t :clock-resume t :kill-buffer t)
+         "* %?\n%U\n\nCaptured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
         ("e" "email" entry (file+datetree org-default-diary-file)
          "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
 
 (setq org-agenda-files
       (list org-todos-file
 			org-default-diary-file
-			org-meetings-file
-			org-presentations-file))
+            ))
 
 (setq org-refile-targets
-      '( (org-meetings-file :level . 3)
-		 (org-presentations-file :level . 3)
-		 (org-default-diary-file :level . 4)
+      '( (org-default-diary-file :level . 4)
 		 (org-todos-file :maxlevel . 2)))
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
 
-;; Refile to "Today" or "This Week"
+;; Refile shortcuts
 (defun refile-to (headline)
   (interactive)
   (let ((pos (save-excursion
@@ -296,8 +285,11 @@ Repeated invocations toggle between the two most recently open buffers."
 	       (org-find-exact-headline-in-buffer headline))))
     (org-refile nil nil (list headline org-todos-file nil pos))))
 
+(global-set-key (kbd "C-c C-`") (lambda () (interactive) (refile-to "Done This Week")))
 (global-set-key (kbd "C-c C-1") (lambda () (interactive) (refile-to "Today")))
 (global-set-key (kbd "C-c C-2") (lambda () (interactive) (refile-to "This Week")))
+(global-set-key (kbd "C-c C-3") (lambda () (interactive) (refile-to "Next Week")))
+(global-set-key (kbd "C-c C-4") (lambda () (interactive) (refile-to "Low Priority")))
 
 ;; Start diff from Command Line
 (defun command-line-diff (switch)
@@ -350,7 +342,7 @@ Repeated invocations toggle between the two most recently open buffers."
   '(add-to-list 'company-backends 'company-c-headers))
 
 (eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+  '(add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
 
 
 
