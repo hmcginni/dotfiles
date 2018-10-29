@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# stick - select window to make {un,"or "}sticky
+#
+################################################################################
+
+wid=$(xdotool selectwindow)
+wid=$(printf 0x%x $wid)
+wmctrl -i -r $wid -b toggle,sticky
+

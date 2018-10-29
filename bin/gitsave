@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+file=$1
+src=$(which $file)
+dest="/home/hrm/repos/dotfiles/bin/"
+destfile="${dest}${file}"
+
+mv -v $src -t $dest
+ln -sv -T $destfile $src
