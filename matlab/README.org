@@ -1,0 +1,12 @@
+* dotfiles/matlab
+
+MATLAB utility files
+
+** Summary
+
++ ~check.m~ :: Check for specified licenses in a background task. Attempts to checkout the specified license every 30 seconds.
++ ~sc.m~ :: Create directory shortcuts that are stored in <userpath>/shortcuts.txt
+
+** Note
+
+~functionSignatures.json~ is required for some tab-complete functionality used in these functions and should remain in the same directory as the functions themselves.

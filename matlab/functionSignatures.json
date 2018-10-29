@@ -1,0 +1,16 @@
+{
+  "sc":
+  {
+    "inputs":
+    [
+      {"name":"alias","kind":"required","type":"choices=sc('getaliases')'"}
+    ]
+  },
+  "bv":
+  {
+    "inputs":
+    [
+      {"name":"build_dir","kind":"required","type":"choices=strsplit(ls(fullfile(getenv('HOME'),'build')),' ')"}
+    ]
+  }
+}
