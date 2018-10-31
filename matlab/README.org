@@ -4,8 +4,8 @@ MATLAB utility files
 
 ** Summary
 
-+ *~check.m~:* Check for specified licenses in a background task. Attempts to checkout the specified license every 30 seconds.
-+ *~sc.m:~* Create directory shortcuts that are stored in ~<userpath>/shortcuts.txt~
++ ~check.m~: Check for specified licenses in a background task. Attempts to checkout the specified license every 30 seconds.
++ ~sc.m~: Create directory shortcuts that are stored in ~<userpath>/shortcuts.txt~
 
 ** Note
 
