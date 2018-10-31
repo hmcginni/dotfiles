@@ -1,10 +1,10 @@
-* hrmcginnis/dotfiles
+* hrmutils
 
 Dotfiles and utilities. Developed for an Ubuntu 16.04 Unity development environment.
 
 Command-line utilities are developed in ~bash~ and ~python~. MATLAB functions have *not* been tested with Octave.
 
-** To-do Items [0/2]
+** Todo [0/2]
 
 + [ ] add installation script
 + [ ] convert MATLAB files into a package or toolbox

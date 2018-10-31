@@ -3,7 +3,7 @@
 file=$1
 subdir=$2
 dest="$HOME/repos/dotfiles/$subdir"
-destfile="${dest}${file}"
+destfile="${dest}/${file}"
 
 if [ -z $subdir ]; then
     printf "Please specify a subdirectory of the repository.\n"
@@ -17,5 +17,6 @@ else
     src=$(readlink -f $file)
 fi
 
+mkdir -p $dest
 mv -v $src -t $dest
-ln -s -T $destfile $src
+ln -bsv -T $destfile $src

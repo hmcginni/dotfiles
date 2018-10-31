@@ -1,4 +1,4 @@
-* dotfiles/bin
+* hrmutils/bin
 
 Not dotfiles. Executable ~bash~ or ~python~ scripts.
 
@@ -8,6 +8,7 @@ Not dotfiles. Executable ~bash~ or ~python~ scripts.
 + gcw :: Get the window ID (hex) of the currently selected window
 + geom :: Get the window geometry (x,y,w,h) of the window with specified WID
 + gitsave :: Move local file to git repo and create symlink in its place
++ initrepo :: Create symlinks to files in ~bin/~, ~lib/~ and ~matlab/~
 + list :: Show listing of executable file
 + move :: Change the geometry (x,y,w,h) of the window with specified WID
 + mute :: Mute all output devices
@@ -17,4 +18,8 @@ Not dotfiles. Executable ~bash~ or ~python~ scripts.
 + tile :: Tile 1, 2, or 3 windows on the specified desktop
 + vis :: List window IDs that are currently visible on the specified desktop
 + wincomm :: Select a window to determine what its parent process is
+
+** Todo [0/1]
+
++ [ ] Make ~initrepo~ smarter - paths shouldn't be hardcoded
 
