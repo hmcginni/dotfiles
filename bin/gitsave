@@ -1,11 +1,21 @@
 #!/bin/bash
 
-
 file=$1
 subdir=$2
-src=$(readlink -f $file)
-dest="/home/hrm/repos/dotfiles/${subdir}/"
+dest="$HOME/repos/dotfiles/$subdir"
 destfile="${dest}${file}"
+
+if [ -z $subdir ]; then
+    printf "Please specify a subdirectory of the repository.\n"
+    exit 1;
+fi
+
+if [ -L $file ]; then
+    printf "%s is a symbolic link. Nothing to be done.\n" $file
+    exit 0;
+else
+    src=$(readlink -f $file)
+fi
 
 mv -v $src -t $dest
 ln -s -T $destfile $src
