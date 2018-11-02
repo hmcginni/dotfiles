@@ -43,6 +43,11 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 
+;; Persistent Scratch
+;;
+(require 'persistent-scratch)
+(persistent-scratch-setup-default)
+
 ;; Speedbar
 ;;
 (require 'sr-speedbar)
@@ -216,6 +221,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (require 'org)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
+(setq-default major-mode 'org-mode)
 (require 'ox-confluence)
 
 (setq org-todos-file "~/org/todos.org")

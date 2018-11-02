@@ -1,0 +1,32 @@
+#!/bin/bash
+
+baseDir=${PWD%/*}
+binDir=$HOME/bin
+libDir=$HOME/lib
+mlDir=$HOME/Documents/MATLAB
+dotsDir=$HOME
+
+# Make directories
+mkdir -p $binDir $libDir $mlDir
+
+# Create symlinks to repository files
+for filePath in $baseDir/bin/*; do
+    fileName=${filePath##/*/}
+    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $binDir/$fileName
+done
+
+for filePath in $baseDir/lib/*; do
+    fileName=${filePath##/*/}
+    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $libDir/$fileName
+done
+
+for filePath in $baseDir/dots/.[^.]*; do
+    fileName=${filePath##/*/}
+    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $dotsDir/$fileName
+done
+
+for filePath in $baseDir/matlab/*; do
+    fileName=${filePath##/*/}
+    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $mlDir/$fileName
+done
+
