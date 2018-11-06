@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Restart Franz
+
+notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
+$notify_repl "Restarting Franz..."
+
+if [ ! -z $(which franz) ]; then
+    killall franz;
+    sleep 1;
+    franz &
+    sleep 0.5;
+    xdotool windowminimize $(pnw franz)
+fi
+

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+space=5
+
+WID=$(wmctrl -lpG | awk "/$(pgrep nautilus)/ && "'!/Desktop/ {print $1}')
+
+if [ -z $WID ]; then
+    echo "No Nautilus window found."
+    exit 1;
+fi
+
+wDims=$(geom $WID)
+
+x=$(awk '{print $1}' <<< $wDims)
+y=$(awk '{print $2}' <<< $wDims)
+w=$(awk '{print $3}' <<< $wDims)
+h=$(awk '{print $4}' <<< $wDims)
+
+wNew=$(( w/2 - 2*space ))
+xNew=$(( x + wNew + space ))
+
+move $x $y $wNew $h $WID
+nautilus -w &>/dev/null &
+
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# SCREEN_UNLOCK - Listen for dbus screen unlock signal
+#
+
+LOCK_DIR=${HOME}/bin/lock_scripts
+UNLOCK_DIR=${HOME}/bin/unlock_scripts
+
+dbus-monitor --session "type='signal',interface='com.canonical.Unity.Session'" | \
+    ( while true; do
+	  read event
+	  if echo $event | grep "Unlocked" &>/dev/null; then
+	      find $UNLOCK_DIR/* -type f -exec {} &>/dev/null \; &
+	  elif echo $event | grep "Locked" &>/dev/null; then
+	      find $LOCK_DIR/* -type f -exec {} &>/dev/null \; &
+	  fi
+	  sleep 1;
+      done )
+

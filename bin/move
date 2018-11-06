@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if (( $# < 5 )); then
+    printf " MOVE - move window with WMCTRL\n\n\tmove x y w h WID\n\n"
     exit 1
 fi
 
