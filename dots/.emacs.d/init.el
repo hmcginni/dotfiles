@@ -32,6 +32,12 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 
+;; Enable use-package
+;;
+(eval-when-compile
+  (require 'use-package))
+
+
 ;; Server mode
 ;;
 (server-mode 0)
@@ -64,12 +70,12 @@
 ;; Appearance
 (global-set-key (kbd "C-=") 'text-scale-increase)          ;; Dynamic font size {in,de}crease
 (global-set-key (kbd "C--") 'text-scale-decrease)          ;;         ||
-;; (set-default-font "Fantasque Sans Mono:pixelsize=14")      ;; Font
-(set-frame-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
+;; (set-default-font "Fantasque Sans Mono:pixelsize=15")      ;; Font
+(set-default-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
 ;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
 
+;; (set-default-font "IBM Plex Mono:pixelsize=13:weight=medium")      ;; Font
 ;; (add-to-list 'default-frame-alist '(height . 30))          ;; Startup window size
-;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")      ;; Font
 ;; (add-to-list 'default-frame-alist '(width . 90))          ;;         ||
 
 (define-key global-map (kbd "C-c C-8")
@@ -89,12 +95,14 @@
 (menu-bar-mode -1)
 (require 'linum)                                           ;; Enable line numbers globally
 (global-linum-mode 1)                                      ;;             ||
-;; (global-set-key (kbd "<f8>") 'linum-mode)
+
 (set-face-foreground 'linum "#c0c0c0")
 (setq linum-format "%4d\u2502")
 (setq-default line-spacing 2)
 (setq debug-on-error t)
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'text-mode-hook 'flyspell-mode)
 
 ;; Scrolling
 (require 'smooth-scrolling)
@@ -110,12 +118,13 @@
   ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
-;(set-buffer-file-coding-system 'utf-8-dos)                   ;; Windows-style line endings (MedAcuity)
+
 (global-set-key (kbd "C-x t") 'transpose-frame)              ;; Transpose frame
 (global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
 (windmove-default-keybindings 'meta)                         ;; Windmove
 (setq ediff-window-setup-function                            ;; Ediff stuff
       'ediff-setup-windows-plain)                            ;;      ||
+
 
 ;; Navigation
 (defun move-line-up ()
@@ -125,6 +134,8 @@
   (forward-line -2)
   (indent-according-to-mode))
 
+(global-set-key (kbd "s-<up>") 'move-line-up)
+
 (defun move-line-down ()
   "Move down the current line."
   (interactive)
@@ -133,18 +144,22 @@
   (forward-line -1)
   (indent-according-to-mode))
 
+(global-set-key (kbd "s-<down>") 'move-line-down)
+
 (defun narrow-to-eof ()
   "Narrow from (point) to end-of-file"
   (interactive)
   (save-excursion
-    (narrow-to-region
-     (- (point)
-        (current-column))
-     (point-max))))
+    (narrow-to-region (- (point)
+                         (current-column)
+                         )
+                      (point-max)
+                      )
+    )
+  )
 
-(global-set-key (kbd "s-<up>") 'move-line-up)
-(global-set-key (kbd "s-<down>") 'move-line-down)
 (global-set-key (kbd "C-x n f") 'narrow-to-eof)
+
 
 ;; Commenting
 (defun comment-or-uncomment-region-or-line ()
@@ -152,15 +167,24 @@
   (interactive)
   (let (beg end)
 	(if (region-active-p)
-		(setq beg (region-beginning) end (region-end))
-	  (setq beg (line-beginning-position) end (line-end-position)))
-	(comment-or-uncomment-region beg end)))
+		(setq beg (region-beginning)
+              end (region-end)
+              )
+	  (setq beg (line-beginning-position)
+            end (line-end-position)
+            )
+      )
+	(comment-or-uncomment-region beg end)
+    )
+  )
 
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
+
 
 ;; Highlight current line
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#333333")
+
 
 ;; Copy current buffer to clipboard
 (defun my-put-file-name-on-clipboard ()
@@ -168,27 +192,44 @@
   (interactive)
   (let ((filename (if (equal major-mode 'dired-mode)
                       default-directory
-                    (buffer-file-name))))
+                    (buffer-file-name)
+                    )
+                  )
+        )
     (when filename
       (with-temp-buffer
         (insert filename)
-        (clipboard-kill-region (point-min) (point-max)))
-      (message filename))))
+        (clipboard-kill-region
+         (point-min)
+         (point-max)
+         )
+        )
+      (message filename)
+      )
+    )
+  )
+
 (global-set-key (kbd "C-x M-s") 'my-put-file-name-on-clipboard)
+
 
 ;; Switch to previous buffer
 (defun switch-to-previous-buffer ()
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
+  (switch-to-buffer (other-buffer (current-buffer) 1)
+                    )
+  )
+
 (global-set-key (kbd "C-c b") 'switch-to-previous-buffer)
+
 
 ;; Reload emacs
 (defun reload-emacs-init-file ()
   "reload your init.el file without restarting Emacs"
   (interactive)
   (load-file "~/.emacs.d/init.el") )
+
 (global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 
 ;; Shell Commands ==============================================================
@@ -198,20 +239,23 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun date-command-on-buffer ()
   (interactive)
   (shell-command "printf '%s' $(date +%d%^b%Y)" t)
-  (forward-word))
+  (forward-word)
+  )
 (global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
 
 ;; Print date in 'ddMMMyyyy' form
 (defun deadline-date ()
   (interactive)
   (shell-command "printf 'DEADLINE: <%s %s>' $(date '+%Y-%m-%d %a')" t)
-  (forward-word))
+  (forward-word)
+  )
 (global-set-key (kbd "C-c C-x M-d") 'deadline-date)
 
 ;; Insert html<br>
 (defun html-break-on-buffer ()
   (interactive)
-  (shell-command "echo \"@@html:<br>@@\"" t))
+  (shell-command "echo \"@@html:<br>@@\"" t)
+  )
 (global-set-key (kbd "C-c C-<return>") 'html-break-on-buffer)
 
 
@@ -219,66 +263,88 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;
 
 (require 'org)
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-(add-hook 'text-mode-hook 'flyspell-mode)
-(setq-default major-mode 'org-mode)
 (require 'ox-confluence)
+
+(setq-default major-mode 'org-mode)
 
 (setq org-todos-file "~/org/todos.org")
 (setq org-default-diary-file "~/org/diary.org")
-(setq org-log-done 'time)									;(setq org-return-follows-link t)
+(setq org-log-done 'time)
+(setq debug-on-message
+      "Template is not a valid Org entry or tree")
 (global-set-key [C-iso-lefttab] 'pcomplete)
 (define-key global-map "\C-cc" 'org-capture)
 (define-key global-map "\C-ca" 'org-agenda)
-(define-key global-map "\C-cm"
-  (lambda()
-    (interactive)
-    (org-capture nil "m")))
-(define-key global-map "\C-cp"
-  (lambda()
-    (interactive)
-    (org-capture nil "p")))
 (define-key global-map (kbd "C-c d")
-  (lambda()
+  (lambda ()
     (interactive)
-    (org-capture nil "d")))
+    (org-capture nil "d")
+    )
+  )
 (define-key global-map (kbd "C-c t")
-  (lambda()
+  (lambda ()
     (interactive)
     (org-capture nil "t")))
-(define-key global-map "\C-ce"
-  (lambda()
+(define-key global-map (kbd "C-c n")
+  (lambda ()
     (interactive)
-    (org-capture nil "e")))
+    (org-capture nil "n")))
 (define-key global-map (kbd "C-c C-t")
-  (lambda()
+  (lambda ()
     (interactive)
     (find-file org-todos-file)))
 (define-key global-map (kbd "C-c C-d")
-  (lambda()
+  (lambda ()
     (interactive)
     (find-file org-default-diary-file)))
 (define-key global-map (kbd "C-c C-o")
-  (lambda()
+  (lambda ()
     (org-open-at-point)
-    (delete-window)))
+    (delete-window)
+    )
+  )
+
+(defun generate-new-filename (path)
+  (let ((name (read-string
+               "File name: ")
+              )
+        )
+    (expand-file-name
+     (format "%s-%s.org"
+             (format-time-string "%Y%m%d")
+             name)
+     path)
+    )
+  )
 
 (setq org-capture-templates
-      '(("t" "todo" entry (file+headline org-todos-file "Unfiled")
+      '(
+        ("t" "todo" entry
+         (file+headline org-todos-file "Unfiled")
          "* TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
-        ("d" "diary" entry (file+datetree org-default-diary-file)
+        ("d" "diary" entry
+         (file+datetree org-default-diary-file)
          "* %?\n%U\n\nCaptured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
-        ("e" "email" entry (file+datetree org-default-diary-file)
-         "* EMAIL to: %? :EMAIL:\n:PROPERTIES:\n:EXPORT_FILE_NAME: email\n:END:\n%t\n" :clock-in t :clock-resume t :kill-buffer t) ))
+        )
+      )
+
+(add-to-list 'org-structure-template-alist
+             '(
+               "H"
+               "#+STARTUP: overview\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/hrm.css\"/>\n#+LATEX_CLASS: beamer\n#+LATEX_CLASS_OPTIONS: [presentation]\n#+BEAMER_THEME: metropolis\n#+OPTIONS: toc:nil title:nil num:nil \n:nil ::t -:t\n#+TITLE:\n#+AUTHOR: Hassan McGinnis\n#+DATE: %u\n\n* ")
+             )
 
 (setq org-agenda-files
       (list org-todos-file
-			org-default-diary-file
-            ))
+            org-default-diary-file
+            )
+      )
 
 (setq org-refile-targets
       '( (org-default-diary-file :level . 4)
-		 (org-todos-file :maxlevel . 2)))
+		 (org-todos-file :maxlevel . 2)
+         )
+      )
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
@@ -287,8 +353,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun refile-to (headline)
   (interactive)
   (let ((pos (save-excursion
-	       org-todos-file
-	       (org-find-exact-headline-in-buffer headline))))
+               org-todos-file
+               (org-find-exact-headline-in-buffer headline))))
     (org-refile nil nil (list headline org-todos-file nil pos))))
 
 (global-set-key (kbd "C-c C-`") (lambda () (interactive) (refile-to "Done This Week")))
@@ -392,9 +458,9 @@ Repeated invocations toggle between the two most recently open buffers."
    '(color-theme-almost-monokai
      ((background-color . "#191919")
       (foreground-color . "#F8F8F2")
-      (cursor-color . "#dddddd"))
+      (cursor-color . "#e0e0e0"))
      (default ((t (nil))))
-     (modeline ((t (:background "white" :foreground "black" :box (:line-width 1 :style released-button)))))
+     (mode-line ((t (:font "Roboto Mono:pixelsize=12:slant=italic" :background "#505050" :foreground "#F8F8F8" :box (:line-width 2 :color "#191919") ))))
      (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
      (font-lock-comment-face ((t (:italic t :foreground "#75715D"))))
      (font-lock-constant-face ((t (:foreground "#A6E22A"))))
@@ -424,5 +490,5 @@ Repeated invocations toggle between the two most recently open buffers."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(markdown-inline-code-face ((t (:inherit font-lock-constant-face)))))
 (put 'narrow-to-region 'disabled nil)
