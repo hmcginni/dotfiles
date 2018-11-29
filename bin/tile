@@ -112,6 +112,7 @@ fi
 #-------------------------------------------------------------------------------
 # Get title bar width
 
+
 for wID in $WID1 $WID2 $WID3; do
     yTitle+=($(xprop -id $wID | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
 done

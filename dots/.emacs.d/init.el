@@ -7,6 +7,12 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(cursor-type (quote box))
+ '(custom-safe-themes
+   (quote
+    ("43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
+ '(custom-theme-directory "~/.emacs.d/themes/")
+ '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(desktop-save-mode t)
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
@@ -67,29 +73,36 @@
 ;; Basic EMACS configurations ==================================================
 ;;
 
-;; Appearance
-(global-set-key (kbd "C-=") 'text-scale-increase)          ;; Dynamic font size {in,de}crease
-(global-set-key (kbd "C--") 'text-scale-decrease)          ;;         ||
-;; (set-default-font "Fantasque Sans Mono:pixelsize=15")      ;; Font
-(set-default-font "SF Mono:pixelsize=13:weight=Semibold")      ;; Font
-;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")      ;; Font
+;; Global keyboard shortcuts
+;;
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
+(global-set-key (kbd "C-x t") 'transpose-frame)
+(global-set-key (kbd "M-q") 'visual-line-mode)
 
-;; (set-default-font "IBM Plex Mono:pixelsize=13:weight=medium")      ;; Font
-;; (add-to-list 'default-frame-alist '(height . 30))          ;; Startup window size
-;; (add-to-list 'default-frame-alist '(width . 90))          ;;         ||
 
+;; Font
+;;
+(set-default-font "SF Mono:pixelsize=13:weight=Semibold")
+;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
+;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")
+;; (set-default-font "IBM Plex Mono:pixelsize=13:weight=medium")
+
+;; Resize Emacs
+;;
 (define-key global-map (kbd "C-c C-8")
   (lambda()
     (interactive)
     (set-frame-width (selected-frame) 86))) 
 
+;; Set Emacs Title
+;;
 (setq frame-title-format
       (list
 	   "GNU Emacs • %b • "
-	   (getenv "USER")))       ;; ·• Set title to name of open file
-(define-key global-map "\M-q" 'visual-line-mode)           ;; Toggle line wrap
-(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)        ;; Menu bar mode
-;; (setq sml/theme 'dark)                                    ;; Smart Mode Line Theme
+	   (getenv "USER")))
+
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -101,32 +114,29 @@
 (setq-default line-spacing 2)
 (setq debug-on-error t)
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 
-;; Scrolling
-(require 'smooth-scrolling)
-(smooth-scrolling-mode 1)
-(setq smooth-scroll-margin 15)
-(setq scroll-preserve-screen-position 1)                   ;; keep cursor at same position when scrolling
-(global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))             ;; scroll window up/down by one line
-(global-set-key (kbd "M-p") (kbd "C-u 2 M-v"))             ;;               ||
-
 ;; Try to fix Emacs colors in tmux
+;;
 (defun terminal-init-screen ()
   "Terminal initialization function for screen."
   ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
-(global-set-key (kbd "C-x t") 'transpose-frame)              ;; Transpose frame
-(global-set-key (kbd "C-x M-x b") 'buffer-menu-other-window) ;; List buffers 
-(windmove-default-keybindings 'meta)                         ;; Windmove
-(setq ediff-window-setup-function                            ;; Ediff stuff
-      'ediff-setup-windows-plain)                            ;;      ||
-
+(setq ediff-window-setup-function
+      'ediff-setup-windows-plain)
 
 ;; Navigation
+;;
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+(setq smooth-scroll-margin 15)
+(setq scroll-preserve-screen-position 1)
+(global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))
+(global-set-key (kbd "M-p") (kbd "C-u 2 M-v"))
+
 (defun move-line-up ()
   "Move up the current line."
   (interactive)
@@ -134,7 +144,6 @@
   (forward-line -2)
   (indent-according-to-mode))
 
-(global-set-key (kbd "s-<up>") 'move-line-up)
 
 (defun move-line-down ()
   "Move down the current line."
@@ -144,6 +153,7 @@
   (forward-line -1)
   (indent-according-to-mode))
 
+(global-set-key (kbd "s-<up>") 'move-line-up)
 (global-set-key (kbd "s-<down>") 'move-line-down)
 
 (defun narrow-to-eof ()
@@ -151,12 +161,8 @@
   (interactive)
   (save-excursion
     (narrow-to-region (- (point)
-                         (current-column)
-                         )
-                      (point-max)
-                      )
-    )
-  )
+                         (current-column))
+                      (point-max))))
 
 (global-set-key (kbd "C-x n f") 'narrow-to-eof)
 
@@ -171,12 +177,8 @@
               end (region-end)
               )
 	  (setq beg (line-beginning-position)
-            end (line-end-position)
-            )
-      )
-	(comment-or-uncomment-region beg end)
-    )
-  )
+            end (line-end-position)))
+	(comment-or-uncomment-region beg end)))
 
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 
@@ -242,22 +244,6 @@ Repeated invocations toggle between the two most recently open buffers."
   (forward-word)
   )
 (global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
-
-;; Print date in 'ddMMMyyyy' form
-(defun deadline-date ()
-  (interactive)
-  (shell-command "printf 'DEADLINE: <%s %s>' $(date '+%Y-%m-%d %a')" t)
-  (forward-word)
-  )
-(global-set-key (kbd "C-c C-x M-d") 'deadline-date)
-
-;; Insert html<br>
-(defun html-break-on-buffer ()
-  (interactive)
-  (shell-command "echo \"@@html:<br>@@\"" t)
-  )
-(global-set-key (kbd "C-c C-<return>") 'html-break-on-buffer)
-
 
 ;; Org-mode ====================================================================
 ;;
@@ -460,7 +446,7 @@ Repeated invocations toggle between the two most recently open buffers."
       (foreground-color . "#F8F8F2")
       (cursor-color . "#e0e0e0"))
      (default ((t (nil))))
-     (mode-line ((t (:font "Roboto Mono:pixelsize=12:slant=italic" :background "#505050" :foreground "#F8F8F8" :box (:line-width 2 :color "#191919") ))))
+     (mode-line ((t (:font "IBM Plex Sans:pixelsize=13:slant=italic:weight=medium" :background "#505050" :foreground "#F8F8F8" :box (:line-width 6 :color "#191919") ))))
      (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
      (font-lock-comment-face ((t (:italic t :foreground "#75715D"))))
      (font-lock-constant-face ((t (:foreground "#A6E22A"))))

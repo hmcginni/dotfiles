@@ -10,7 +10,7 @@
   {
     "inputs":
     [
-      {"name":"build_dir","kind":"required","type":"choices=strsplit(ls(fullfile(getenv('HOME'),'build')),' ')"}
+      {"name":"build_dir","kind":"required","type":"choices=strsplit(strtrim(ls(fullfile(getenv('HOME'),'build'))))"}
     ]
   }
 }
