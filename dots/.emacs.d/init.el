@@ -12,7 +12,6 @@
     ("43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)))
- '(desktop-save-mode t)
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
@@ -21,6 +20,7 @@
     ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
+ '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
  '(org-list-allow-alphabetical t)
  '(org-reverse-note-order t)
@@ -108,6 +108,7 @@
 (menu-bar-mode -1)
 (require 'linum)                                           ;; Enable line numbers globally
 (global-linum-mode 1)                                      ;;             ||
+(global-visual-line-mode t)
 
 (set-face-foreground 'linum "#c0c0c0")
 (setq linum-format "%4d\u2502")
@@ -174,8 +175,7 @@
   (let (beg end)
 	(if (region-active-p)
 		(setq beg (region-beginning)
-              end (region-end)
-              )
+              end (region-end))
 	  (setq beg (line-beginning-position)
             end (line-end-position)))
 	(comment-or-uncomment-region beg end)))
@@ -194,22 +194,14 @@
   (interactive)
   (let ((filename (if (equal major-mode 'dired-mode)
                       default-directory
-                    (buffer-file-name)
-                    )
-                  )
-        )
+                    (buffer-file-name))))
     (when filename
       (with-temp-buffer
         (insert filename)
         (clipboard-kill-region
          (point-min)
-         (point-max)
-         )
-        )
-      (message filename)
-      )
-    )
-  )
+         (point-max)))
+      (message filename))))
 
 (global-set-key (kbd "C-x M-s") 'my-put-file-name-on-clipboard)
 
@@ -219,9 +211,7 @@
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)
-                    )
-  )
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (global-set-key (kbd "C-c b") 'switch-to-previous-buffer)
 
@@ -292,16 +282,12 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun generate-new-filename (path)
   (let ((name (read-string
-               "File name: ")
-              )
-        )
+               "File name: ")))
     (expand-file-name
      (format "%s-%s.org"
              (format-time-string "%Y%m%d")
              name)
-     path)
-    )
-  )
+     path)))
 
 (setq org-capture-templates
       '(
@@ -310,9 +296,7 @@ Repeated invocations toggle between the two most recently open buffers."
          "* TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
         ("d" "diary" entry
          (file+datetree org-default-diary-file)
-         "* %?\n%U\n\nCaptured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
-        )
-      )
+         "* %?\n%U\n\nCaptured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)))
 
 (add-to-list 'org-structure-template-alist
              '(
@@ -322,15 +306,11 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (setq org-agenda-files
       (list org-todos-file
-            org-default-diary-file
-            )
-      )
+            org-default-diary-file))
 
 (setq org-refile-targets
       '( (org-default-diary-file :level . 4)
-		 (org-todos-file :maxlevel . 2)
-         )
-      )
+		 (org-todos-file :maxlevel . 2)))
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))

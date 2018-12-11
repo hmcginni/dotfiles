@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto');
+
+
+/* TEXT ****************************/
+
+
+h1, h2 {
+    font-family:    'Raleway';
+    font-size:       45px;
+    line-height:     42px;
+}
+
+h3 {
+    font-family:    'Raleway';
+    font-size:       20px;
+}
+
+h4, h5 {
+    font-family:    'Roboto';
+    font-size:       16px;
+    /* line-height:     10px; */
+}
+
+p, li {
+    font-family:    'Roboto';
+    font-size:	     14px;
+}
+
+li {
+    margin-bottom:   8px;
+}
+
+hr {
+    border:          0;
+    height:          1;
+    border-top:      2px solid rgba(0, 0, 0, 0.2);
+    border-bottom:   1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+/* FLEXBOX LAYOUT ****************************/
+
+
+.row {
+    display: flex;
+    align-items: baseline;
+}
+
+.row > div {
+    text-align: left;
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    padding-left: 0.15in;
+    padding-right: 0.15in;
+}
+
+.row > :first-child {
+    width: 1.3in;
+    flex: none;
+    padding-right: 0.15in;
+    text-align: right;
+    padding-left: 0;
+    border: 0;
+}
+
+.row.title {
+    align-items: center;
+    margin-bottom: -40px;
+}
+
+.row.title > :first-child {
+    width: 2in;
+}
+
+.row:not([class~="title"]) {
+    padding-bottom: 10px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.notext > div:first-of-type, .col > :first-child {
+    display: none;
+}
+
+
+@media all and (max-width: 6in) {
+    .row {
+    	display: flex;
+    	flex-direction: column;
+        align-items: center;
+    }
+    
+    .row > div, .col > div {
+    	width: 100%;
+	flex: 1 1 auto;
+  	text-align: left;
+	border: 0;
+    }
+    
+    .row.title > div {
+    	text-align: center;
+        margin: 0;
+    	padding: 0;
+        border: 0;
+    }
+    
+    .row > :first-child, .row.title > :first-child, .col > :first-child {
+    	width: auto;
+	text-align: center;
+	padding: 0;
+    }
+}

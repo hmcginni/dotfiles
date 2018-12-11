@@ -1,0 +1,128 @@
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="resume.css"/>
+#+OPTIONS: toc:nil num:nil \n:nil ::t -:t ::t html-postamble:nil
+#+TITLE: 
+
+# #+HTML_CONTAINER: div
+* Hassan McGinnis
+  :PROPERTIES: 
+  :HTML_CONTAINER_CLASS: row title
+  :CUSTOM_ID: hassan-mcginnis
+  :END:      
+  
+  Controls Engineer *|* Software Developer
+
+  Natick, MA *|* *(502) 295-8499*
+
+  [[mailto:hassan.mcginnis@gmail.com][hassan.mcginnis@gmail.com]] *|* [[https://www.linkedin.com/in/hmcginnis][www.linkedin.com/in/hmcginnis]]
+  
+* 
+
+  --------------
+
+** Summary
+   :PROPERTIES: 
+   :HTML_CONTAINER_CLASS: row
+   :CUSTOM_ID: summary
+   :END:      
+   
+   Engineer with professional software development and test experience in MATLAB, Simulink, and C++, as well as research experience in robust control and signal processing for structural vibration analysis.
+   
+** Software Skills
+   :PROPERTIES: 
+   :HTML_CONTAINER_CLASS: row
+   :CUSTOM_ID: software-skills
+   :END:      
+   
+   *Tools/Environments*: MATLAB, Simulink, Stateflow, GNU/Linux, Emacs
+   
+   *Languages*: MATLAB, C++, bash, python
+   
+** Work Experience
+   :PROPERTIES: 
+   :HTML_CONTAINER_CLASS: row notext
+   :CUSTOM_ID: work-experience
+   :END:
+*** 
+     :PROPERTIES:
+     :HTML_CONTAINER_CLASS: col notext
+     :END:      
+**** MedAcuity Software | Software Specialist | Westford, MA
+    :PROPERTIES: 
+    :CUSTOM_ID: medacuity-software-software-specialist
+    :END:      
+    
+    /July 2017 - present/
+    
++  Software consultant for clients in the medical device industry, serving as the domain expert with MATLAB and Simulink test and development.
+   
+**** MathWorks | Senior Application Engineer (Post-sales) | Natick, MA
+    :PROPERTIES: 
+    :CUSTOM_ID: mathworks-senior-application-engineer-post-sales
+    :END:      
+    
+    /Sept 2013 - July 2016/
+    
++  As a domain expert in Simulink code generation workflows, provided solutions for major customers using Simulink Coder and Embedded Coder for production C/C++ code generation.
++  Developed/advocated for software improvements for MATLAB and Simulink based on customer needs, including achievement of MISRA compliant code, enhanced user customization of generated code, and improved support for third-party compilers.
+
+** Projects
+   :PROPERTIES: 
+   :HTML_CONTAINER_CLASS: row notext
+   :CUSTOM_ID: projects
+   :END:      
+*** 
+   :PROPERTIES: 
+   :HTML_CONTAINER_CLASS: col notext
+   :END:      
+**** MedAcuity Software | Verification of Controls Software for Surgical Robot
+    :PROPERTIES: 
+    :CUSTOM_ID: medacuity-software-verification
+    :END:      
+
+    /Aug 2017 - present/
+    
++  Developed a comprehensive strategy for verification and full MC/DC test coverage of Simulink-based state machines and control algorithms governing robotic arm motion.
++  Lead a team of engineers through verification of 150 functional and non-functional software requirements implemented in Simulink, C++, and MATLAB code.
++  Collaborated with a third-party software vendor to unit test custom software that allows Simulink code generation that targets the QNX Neutrino real-time operating system.
+   
+**** MathWorks | Development of Python System Object for Simulink Raspberry Pi Support Package
+    :PROPERTIES: 
+    :CUSTOM_ID: mathworks-python-system-object
+    :END:      
+    
+    /May 2016/
+
++  Developed a Simulink block in MATLAB and C for the Raspberry Pi support package that interfaces with the Python/C API, allowing users to easily send simulation data to any Python module on the Raspberry Pi in soft real-time.
++  Demonstrated the functionality by using Simulink to drive a servomotor with a Raspberry Pi using the RaspiRobot Python library.
+   
+**** Purdue University | Sensitivity analysis of wear prognosis in an $H_\infty$ controlled F-16 simulation
+    :PROPERTIES: 
+    :CUSTOM_ID: purdue-h-infinity-control
+    :END:      
+    
+    /Aug 2010 - Dec 2011/
+
++  Investigated the minimization of fault propagation in a hydraulic actuator through real-time adjustment in the commanded flight path.
++  Developed a robust altitude controller for an F-16 fighter aircraft model using $H_\infty$ synthesis.
++  Performed sensitivity analysis of the path adjustment algorithm under modeling error.
++  Demonstrated the improved control strategy using a hydraulic solenoid valve hardware-in-the-loop system prototyped in Simulink and driven by dSPACE software.
+   
+** Education
+   :PROPERTIES: 
+   :HTML_CONTAINER_CLASS: row notext
+   :CUSTOM_ID: education
+   :END:      
+   
+*** Purdue University
+    :PROPERTIES: 
+    :CUSTOM_ID: purdue-university
+    :END:      
+    
+    MS Mechanical Engineering *•* 3.81/4.00 *•* Dec 2011
+    
+*** University of Kentucky
+    :PROPERTIES: 
+    :CUSTOM_ID: university-of-kentucky
+    :END:      
+    
+    ​BS Mechanical Engineering *•* 3.46/4.00 *•* May 2009
