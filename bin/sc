@@ -18,7 +18,8 @@ def main():
 
         Usage:
             sc [command] [alias] [dir]   -> general form
-            sc list                      -> display this help
+            sc                           -> display this help
+            sc list                      -> print all saved aliases
             sc save src ~/Documents/src  -> create new alias "src"  
             sc src                       -> go to directory saved as "src"
 
