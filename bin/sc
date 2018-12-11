@@ -11,10 +11,7 @@ import csv
 
 def main():
     """
-    SC
-
-        Create directory shortcuts
-        Stored in ${HOME}/sc.txt
+    SC - Create directory shortcuts stored in ${HOME}/sc.txt
 
         Usage:
             sc [command] [alias] [dir]   -> general form
