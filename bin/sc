@@ -17,9 +17,10 @@ def main():
         Stored in ${HOME}/sc.txt
 
         Usage:
-            sc [command] [alias] [dir]
-            sc('save|remove|list','alias','dir');
-            sc [alias]
+            sc [command] [alias] [dir]   -> general form
+            sc list                      -> display this help
+            sc save src ~/Documents/src  -> create new alias "src"  
+            sc src                       -> go to directory saved as "src"
 
         Commands:
             save   (add)                 -> add alias to cache
