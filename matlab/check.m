@@ -1,9 +1,9 @@
 function check(varargin)
 	% CHECK - Check for specified licenses in a background task. Attempts to
-	% checkout the specified license every 30 seconds.
+	%     checkout the specified license every 30 seconds.
 	%
 	%     EXAMPLE:
-	%       check Simulink Stateflow Simulink_Test Simulink_Design_Verifier
+	%         check Simulink Stateflow Simulink_Test Simulink_Design_Verifier
 	
 	%% Construct Timer Object
 	
@@ -20,28 +20,47 @@ function check(varargin)
 			'Name',timerName,...
 			'Period',30,...
 			'StartDelay',1);
-		tObj.TimerFcn = {@tryLicense, char(productCode)};
+		tObj.TimerFcn = {@try_license, char(productCode)};
 		start(tObj);
 	end
 	
 end
 
 
-%% FUNCTION 'tryLicense' ---------------------------------------------------- %%
+%% FUNCTION 'try_license' --------------------------------------------------- %%
 
 
-function tryLicense(tObj,~,productCode)
+function try_license(tObj,~,productCode)
 	
 	[status,msg] = license('checkout', productCode);
 	
 	if status
-		fprintf('%s acquired at [%s]\n', productCode, datestr(now))
+		title = sprintf('%s license acquired', productCode);
+		msg = datestr(now);
+		notify_send(title, msg);
 		stop(tObj);
 		delete(tObj);
 	elseif contains(msg, 'Cannot find a license for')
 		stop(tObj);
 		delete(tObj);
 		error('  Unknown product "%s".', productCode);
+	end
+	
+end
+
+
+%% FUNCTION 'notify_send' --------------------------------------------------- %%
+
+
+function notify_send(title, msg)
+
+	[notifySendMissing,~] = system('which notify-send');
+	
+	if ~notifySendMissing
+		execStr = sprintf('notify-send "%s" "%s"', title, msg);
+		system(execStr);
+	else
+		fprintf('%s at %s\n', title, msg);
 	end
 	
 end

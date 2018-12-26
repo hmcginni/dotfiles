@@ -17,12 +17,11 @@
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(mlint-programs
    (quote
-    ("mlint" "/usr/local/MATLAB/R2017a/bin/glnxa64/mlint")))
+    ("mlint" "/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
- '(org-list-allow-alphabetical t)
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
@@ -40,8 +39,8 @@
 
 ;; Enable use-package
 ;;
-(eval-when-compile
-  (require 'use-package))
+;; (eval-when-compile
+;;   (require 'use-package))
 
 
 ;; Server mode
@@ -49,11 +48,14 @@
 (server-mode 0)
 
 
-;; MELPA
+;; Emacs Packages
 ;;
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
 
 ;; Persistent Scratch
 ;;
@@ -115,7 +117,6 @@
 (setq-default line-spacing 2)
 (setq debug-on-error t)
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
-(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 
 ;; Try to fix Emacs colors in tmux
@@ -213,7 +214,7 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(global-set-key (kbd "C-c b") 'switch-to-previous-buffer)
+(global-set-key (kbd "C-b") 'switch-to-previous-buffer)
 
 
 ;; Reload emacs
@@ -230,17 +231,16 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; Print date in 'ddMMMyyyy' form
 (defun date-command-on-buffer ()
   (interactive)
-  (shell-command "printf '%s' $(date +%d%^b%Y)" t)
-  (forward-word)
-  )
+  (shell-command "printf '%s' $(date +%Y%m%d)" t)
+  (forward-word))
+
 (global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
 
 ;; Org-mode ====================================================================
 ;;
 
 (require 'org)
-(require 'ox-confluence)
-
+(require 'ox-jira)
 (setq-default major-mode 'org-mode)
 
 (setq org-todos-file "~/org/todos.org")
@@ -254,17 +254,11 @@ Repeated invocations toggle between the two most recently open buffers."
 (define-key global-map (kbd "C-c d")
   (lambda ()
     (interactive)
-    (org-capture nil "d")
-    )
-  )
+    (org-capture nil "d")))
 (define-key global-map (kbd "C-c t")
   (lambda ()
     (interactive)
     (org-capture nil "t")))
-(define-key global-map (kbd "C-c n")
-  (lambda ()
-    (interactive)
-    (org-capture nil "n")))
 (define-key global-map (kbd "C-c C-t")
   (lambda ()
     (interactive)
@@ -276,9 +270,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (define-key global-map (kbd "C-c C-o")
   (lambda ()
     (org-open-at-point)
-    (delete-window)
-    )
-  )
+    (delete-window)))
 
 (defun generate-new-filename (path)
   (let ((name (read-string
@@ -290,19 +282,15 @@ Repeated invocations toggle between the two most recently open buffers."
      path)))
 
 (setq org-capture-templates
-      '(
-        ("t" "todo" entry
+      '(("t" "todo" entry
          (file+headline org-todos-file "Unfiled")
          "* TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
         ("d" "diary" entry
-         (file+datetree org-default-diary-file)
+         (file+olp+datetree org-default-diary-file)
          "* %?\n%U\n\nCaptured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)))
 
 (add-to-list 'org-structure-template-alist
-             '(
-               "H"
-               "#+STARTUP: overview\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/hrm.css\"/>\n#+LATEX_CLASS: beamer\n#+LATEX_CLASS_OPTIONS: [presentation]\n#+BEAMER_THEME: metropolis\n#+OPTIONS: toc:nil title:nil num:nil \n:nil ::t -:t\n#+TITLE:\n#+AUTHOR: Hassan McGinnis\n#+DATE: %u\n\n* ")
-             )
+             '("H" "#+STARTUP: overview\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/hrm.css\"/>\n#+LATEX_CLASS: beamer\n#+LATEX_CLASS_OPTIONS: [presentation]\n#+BEAMER_THEME: metropolis\n#+OPTIONS: toc:nil title:nil num:nil \n:nil ::t -:t\n#+TITLE:\n#+AUTHOR: Hassan McGinnis\n#+DATE: %u\n\n* "))
 
 (setq org-agenda-files
       (list org-todos-file
@@ -323,7 +311,6 @@ Repeated invocations toggle between the two most recently open buffers."
                (org-find-exact-headline-in-buffer headline))))
     (org-refile nil nil (list headline org-todos-file nil pos))))
 
-(global-set-key (kbd "C-c C-`") (lambda () (interactive) (refile-to "Done This Week")))
 (global-set-key (kbd "C-c C-1") (lambda () (interactive) (refile-to "Today")))
 (global-set-key (kbd "C-c C-2") (lambda () (interactive) (refile-to "This Week")))
 (global-set-key (kbd "C-c C-3") (lambda () (interactive) (refile-to "Next Week")))
@@ -440,14 +427,10 @@ Repeated invocations toggle between the two most recently open buffers."
      (highlight-80+ ((t (:background "#D62E00"))))
      (hl-line ((t (:background "#333333"))))
      (region ((t (:background "#6DC5F1"))))
-     (ido-subdir ((t (:foreground "#F1266F"))))
-	 )
-   )
-  )
-(provide 'color-theme-almost-monokai)
+     (ido-subdir ((t (:foreground "#F1266F")))))))
 
+(provide 'color-theme-almost-monokai)
 (require 'color-theme)
-										;(color-theme-initialize)
 (color-theme-almost-monokai)
 
 

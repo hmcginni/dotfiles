@@ -3,23 +3,30 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title></title>
-<!-- 2018-12-11 Tue 10:30 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="Hassan McGinnis" />
+<!-- 2018-12-15 Sat 13:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Hassan McGinnis" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
   .todo   { font-family: monospace; color: red; }
-  .done   { color: green; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
   .tag    { background-color: #eee; font-family: monospace;
             padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
   .underline { text-decoration: underline; }
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
@@ -46,27 +53,111 @@
     border: 1px solid black;
   }
   pre.src:hover:before { display: inline;}
-  pre.src-sh:before    { content: 'sh'; }
-  pre.src-bash:before  { content: 'sh'; }
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
   pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-R:before     { content: 'R'; }
-  pre.src-perl:before  { content: 'Perl'; }
-  pre.src-java:before  { content: 'Java'; }
-  pre.src-sql:before   { content: 'SQL'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
 
   table { border-collapse:collapse; }
   caption.t-above { caption-side: top; }
   caption.t-bottom { caption-side: bottom; }
   td, th { vertical-align:top;  }
-  th.right  { text-align: center;  }
-  th.left   { text-align: center;   }
-  th.center { text-align: center; }
-  td.right  { text-align: right;  }
-  td.left   { text-align: left;   }
-  td.center { text-align: center; }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
   dt { font-weight: bold; }
-  .footpara:nth-child(2) { display: inline; }
-  .footpara { display: block; }
+  .footpara { display: inline; }
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
@@ -86,6 +177,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
 <link rel="stylesheet" type="text/css" href="resume.css"/>
@@ -94,7 +186,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -135,56 +227,34 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
-<script type="text/javascript">
-<!--/*--><![CDATA[/*><!--*/
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
-        // Only one of the two following lines, depending on user settings
-        // First allows browser-native MathML display, second forces HTML/CSS
-        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
-            jax: ["input/TeX", "output/HTML-CSS"],
-        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
-                     "TeX/noUndefined.js"],
-        tex2jax: {
-            inlineMath: [ ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
-            skipTags: ["script","noscript","style","textarea","pre","code"],
-            ignoreClass: "tex2jax_ignore",
-            processEscapes: false,
-            processEnvironments: true,
-            preview: "TeX"
-        },
-        showProcessingMessages: true,
         displayAlign: "center",
-        displayIndent: "2em",
+        displayIndent: "0em",
 
-        "HTML-CSS": {
-             scale: 100,
-             availableFonts: ["STIX","TeX"],
-             preferredFont: "TeX",
-             webFont: "TeX",
-             imageFont: "TeX",
-             showMathMenu: true,
-        },
-        MMLorHTML: {
-             prefer: {
-                 MSIE:    "MML",
-                 Firefox: "MML",
-                 Opera:   "HTML",
-                 other:   "HTML"
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
              }
-        }
-    });
-/*]]>*///-->
+});
 </script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
-<h1 class="title"></h1>
-<div id="outline-container-hassan-mcginnis" class="outline-2 row title">
-<h2 id="hassan-mcginnis"><a id="sec-1" name="sec-1"></a>Hassan McGinnis</h2>
+<div id="outline-container-orgbbbf15f" class="outline-2 row title">
+<h2 id="hassan-mcginnis"><a id="orgbbbf15f"></a>Hassan McGinnis</h2>
 <div class="outline-text-2" id="text-hassan-mcginnis">
-
 <p>
 Controls Engineer <b>|</b> Software Developer
 </p>
@@ -194,31 +264,29 @@ Natick, MA <b>|</b> <b>(502) 295-8499</b>
 </p>
 
 <p>
-<a href="mailto:hassan.mcginnis@gmail.com">hassan.mcginnis@gmail.com</a> <b>|</b> <a href="https://www.linkedin.com/in/hmcginnis">www.linkedin.com/in/hmcginnis</a>
+<a href="mailto:hassan.mcginnis@gmail.com">hassan.mcginnis@gmail.com</a> <b>|</b> <a href="https://hrmcginnis.github.io/">hrmcginnis.github.io</a>
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"></h2>
-<div class="outline-text-2" id="text-2">
-<hr  />
+<div id="outline-container-org9acb9c8" class="outline-2">
+<h2 id="org9acb9c8"></h2>
+<div class="outline-text-2" id="text-org9acb9c8">
+<hr />
 </div>
 
-<div id="outline-container-summary" class="outline-3 row">
-<h3 id="summary"><a id="sec-2-1" name="sec-2-1"></a>Summary</h3>
+<div id="outline-container-orgc8fe61f" class="outline-3 row">
+<h3 id="summary"><a id="orgc8fe61f"></a>Summary</h3>
 <div class="outline-text-3" id="text-summary">
-
 <p>
-Engineer with professional software development and test experience in MATLAB, Simulink, and C++, as well as research experience in robust control and signal processing for structural vibration analysis.
+I'm an engineer with professional software development and test experience using MATLAB, Simulink, and C++, as well as research experience in robust control and signal processing for structural vibration analysis.
 </p>
 </div>
 </div>
 
-<div id="outline-container-software-skills" class="outline-3 row">
-<h3 id="software-skills"><a id="sec-2-2" name="sec-2-2"></a>Software Skills</h3>
+<div id="outline-container-orgffe8d6f" class="outline-3 row">
+<h3 id="software-skills"><a id="orgffe8d6f"></a>Software Skills</h3>
 <div class="outline-text-3" id="text-software-skills">
-
 <p>
 <b>Tools/Environments</b>: MATLAB, Simulink, Stateflow, GNU/Linux, Emacs
 </p>
@@ -229,134 +297,115 @@ Engineer with professional software development and test experience in MATLAB, S
 </div>
 </div>
 
-<div id="outline-container-work-experience" class="outline-3 row notext">
-<h3 id="work-experience"><a id="sec-2-3" name="sec-2-3"></a>Work Experience</h3>
+<div id="outline-container-org87f4778" class="outline-3 row notext">
+<h3 id="work-experience"><a id="org87f4778"></a>Work Experience</h3>
 <div class="outline-text-3" id="text-work-experience">
 </div>
-<div id="outline-container-sec-2-3-1" class="outline-4 col notext">
-<h4 id="sec-2-3-1"></h4>
-<div class="outline-text-4" id="text-2-3-1">
+<div id="outline-container-org1ce9340" class="outline-4 col notext">
+<h4 id="org1ce9340"></h4>
+<div class="outline-text-4" id="text-org1ce9340">
 </div>
-<div id="outline-container-medacuity-software-software-specialist" class="outline-5">
-<h5 id="medacuity-software-software-specialist"><a id="sec-2-3-1-1" name="sec-2-3-1-1"></a>MedAcuity Software | Software Specialist | Westford, MA</h5>
+<div id="outline-container-orga6eed0b" class="outline-5">
+<h5 id="medacuity-software-software-specialist"><a id="orga6eed0b"></a>MedAcuity Software | Software Specialist | Westford, MA</h5>
 <div class="outline-text-5" id="text-medacuity-software-software-specialist">
-
 <p>
 <i>July 2017 - present</i>
 </p>
 
 <ul class="org-ul">
-<li>Software consultant for clients in the medical device industry, serving as the domain expert with MATLAB and Simulink test and development.
-</li>
+<li>Software consultant for clients in the medical device industry, serving as the domain expert with MATLAB and Simulink test and development.</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-mathworks-senior-application-engineer-post-sales" class="outline-5">
-<h5 id="mathworks-senior-application-engineer-post-sales"><a id="sec-2-3-1-2" name="sec-2-3-1-2"></a>MathWorks | Senior Application Engineer (Post-sales) | Natick, MA</h5>
+<div id="outline-container-org31f7b95" class="outline-5">
+<h5 id="mathworks-senior-application-engineer-post-sales"><a id="org31f7b95"></a>MathWorks | Senior Application Engineer (Post-sales) | Natick, MA</h5>
 <div class="outline-text-5" id="text-mathworks-senior-application-engineer-post-sales">
-
 <p>
 <i>Sept 2013 - July 2016</i>
 </p>
 
 <ul class="org-ul">
-<li>As a domain expert in Simulink code generation workflows, provided solutions for major customers using Simulink Coder and Embedded Coder for production C/C++ code generation.
-</li>
-<li>Developed/advocated for software improvements for MATLAB and Simulink based on customer needs, including achievement of MISRA compliant code, enhanced user customization of generated code, and improved support for third-party compilers.
-</li>
+<li>As a domain expert in Simulink code generation workflows, provided solutions for major customers using Simulink Coder and Embedded Coder for production C/C++ code generation.</li>
+<li>Developed/advocated for software improvements for MATLAB and Simulink based on customer needs, including achievement of MISRA compliant code, enhanced user customization of generated code, and improved support for third-party compilers.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-projects" class="outline-3 row notext">
-<h3 id="projects"><a id="sec-2-4" name="sec-2-4"></a>Projects</h3>
+<div id="outline-container-orgfcce559" class="outline-3 row notext">
+<h3 id="projects"><a id="orgfcce559"></a>Projects</h3>
 <div class="outline-text-3" id="text-projects">
 </div>
-<div id="outline-container-sec-2-4-1" class="outline-4 col notext">
-<h4 id="sec-2-4-1"></h4>
-<div class="outline-text-4" id="text-2-4-1">
+<div id="outline-container-org62eb1d0" class="outline-4 col notext">
+<h4 id="org62eb1d0"></h4>
+<div class="outline-text-4" id="text-org62eb1d0">
 </div>
-<div id="outline-container-medacuity-software-verification" class="outline-5">
-<h5 id="medacuity-software-verification"><a id="sec-2-4-1-1" name="sec-2-4-1-1"></a>MedAcuity Software | Verification of Controls Software for Surgical Robot</h5>
+<div id="outline-container-org65916df" class="outline-5">
+<h5 id="medacuity-software-verification"><a id="org65916df"></a>MedAcuity Software | Verification of Controls Software for Surgical Robot</h5>
 <div class="outline-text-5" id="text-medacuity-software-verification">
-
 <p>
 <i>Aug 2017 - present</i>
 </p>
 
 <ul class="org-ul">
-<li>Developed a comprehensive strategy for verification and full MC/DC test coverage of Simulink-based state machines and control algorithms governing robotic arm motion.
-</li>
-<li>Lead a team of engineers through verification of 150 functional and non-functional software requirements implemented in Simulink, C++, and MATLAB code.
-</li>
-<li>Collaborated with a third-party software vendor to unit test custom software that allows Simulink code generation that targets the QNX Neutrino real-time operating system.
-</li>
+<li>Developed a comprehensive strategy for verification and full MC/DC test coverage of Simulink-based state machines and control algorithms governing robotic arm motion.</li>
+<li>Lead a team of engineers through verification of 150 functional and non-functional software requirements implemented in Simulink, C++, and MATLAB code.</li>
+<li>Collaborated with a third-party software vendor to unit test custom software that allows Simulink code generation that targets the QNX Neutrino real-time operating system.</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-mathworks-python-system-object" class="outline-5">
-<h5 id="mathworks-python-system-object"><a id="sec-2-4-1-2" name="sec-2-4-1-2"></a>MathWorks | Development of Python System Object for Simulink Raspberry Pi Support Package</h5>
+<div id="outline-container-orge0e1a0c" class="outline-5">
+<h5 id="mathworks-python-system-object"><a id="orge0e1a0c"></a>MathWorks | Development of Python System Object for Simulink Raspberry Pi Support Package</h5>
 <div class="outline-text-5" id="text-mathworks-python-system-object">
-
 <p>
 <i>May 2016</i>
 </p>
 
 <ul class="org-ul">
-<li>Developed a Simulink block in MATLAB and C for the Raspberry Pi support package that interfaces with the Python/C API, allowing users to easily send simulation data to any Python module on the Raspberry Pi in soft real-time.
-</li>
-<li>Demonstrated the functionality by using Simulink to drive a servomotor with a Raspberry Pi using the RaspiRobot Python library.
-</li>
+<li>Developed a Simulink block in MATLAB and C for the Raspberry Pi support package that interfaces with the Python/C API, allowing users to easily send simulation data to any Python module on the Raspberry Pi in soft real-time.</li>
+<li>Demonstrated the functionality by using Simulink to drive a servomotor with a Raspberry Pi using the RaspiRobot Python library.</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-purdue-h-infinity-control" class="outline-5">
-<h5 id="purdue-h-infinity-control"><a id="sec-2-4-1-3" name="sec-2-4-1-3"></a>Purdue University | Sensitivity analysis of wear prognosis in an \(H_\infty\) controlled F-16 simulation</h5>
+<div id="outline-container-org97ccb27" class="outline-5">
+<h5 id="purdue-h-infinity-control"><a id="org97ccb27"></a>Purdue University | Sensitivity analysis of wear prognosis in an \(H_\infty\) controlled F-16 simulation</h5>
 <div class="outline-text-5" id="text-purdue-h-infinity-control">
-
 <p>
 <i>Aug 2010 - Dec 2011</i>
 </p>
 
 <ul class="org-ul">
-<li>Investigated the minimization of fault propagation in a hydraulic actuator through real-time adjustment in the commanded flight path.
-</li>
-<li>Developed a robust altitude controller for an F-16 fighter aircraft model using \(H_\infty\) synthesis.
-</li>
-<li>Performed sensitivity analysis of the path adjustment algorithm under modeling error.
-</li>
-<li>Demonstrated the improved control strategy using a hydraulic solenoid valve hardware-in-the-loop system prototyped in Simulink and driven by dSPACE software.
-</li>
+<li>Investigated the minimization of fault propagation in a hydraulic actuator through real-time adjustment in the commanded flight path.</li>
+<li>Developed a robust altitude controller for an F-16 fighter aircraft model using \(H_\infty\) synthesis.</li>
+<li>Performed sensitivity analysis of the path adjustment algorithm under modeling error.</li>
+<li>Demonstrated the improved control strategy using a hydraulic solenoid valve hardware-in-the-loop system prototyped in Simulink and driven by dSPACE software.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-education" class="outline-3 row notext">
-<h3 id="education"><a id="sec-2-5" name="sec-2-5"></a>Education</h3>
+<div id="outline-container-org41166a8" class="outline-3 row notext">
+<h3 id="education"><a id="org41166a8"></a>Education</h3>
 <div class="outline-text-3" id="text-education">
 </div>
 
-<div id="outline-container-purdue-university" class="outline-4">
-<h4 id="purdue-university"><a id="sec-2-5-1" name="sec-2-5-1"></a>Purdue University</h4>
+<div id="outline-container-org68e6aff" class="outline-4">
+<h4 id="purdue-university"><a id="org68e6aff"></a>Purdue University</h4>
 <div class="outline-text-4" id="text-purdue-university">
-
 <p>
 MS Mechanical Engineering <b>•</b> 3.81/4.00 <b>•</b> Dec 2011
 </p>
 </div>
 </div>
 
-<div id="outline-container-university-of-kentucky" class="outline-4">
-<h4 id="university-of-kentucky"><a id="sec-2-5-2" name="sec-2-5-2"></a>University of Kentucky</h4>
+<div id="outline-container-org1bab439" class="outline-4">
+<h4 id="university-of-kentucky"><a id="org1bab439"></a>University of Kentucky</h4>
 <div class="outline-text-4" id="text-university-of-kentucky">
-
 <p>
 ​BS Mechanical Engineering <b>•</b> 3.46/4.00 <b>•</b> May 2009
 </p>

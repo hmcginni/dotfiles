@@ -13,7 +13,7 @@
 
   Natick, MA *|* *(502) 295-8499*
 
-  [[mailto:hassan.mcginnis@gmail.com][hassan.mcginnis@gmail.com]] *|* [[https://www.linkedin.com/in/hmcginnis][www.linkedin.com/in/hmcginnis]]
+  [[mailto:hassan.mcginnis@gmail.com][hassan.mcginnis@gmail.com]] *|* [[https://hrmcginnis.github.io][hrmcginnis.github.io]]
   
 * 
 
@@ -25,7 +25,7 @@
    :CUSTOM_ID: summary
    :END:      
    
-   Engineer with professional software development and test experience in MATLAB, Simulink, and C++, as well as research experience in robust control and signal processing for structural vibration analysis.
+   I'm an engineer with professional software development and test experience using MATLAB, Simulink, and C++, as well as research experience in robust control and signal processing for structural vibration analysis.
    
 ** Software Skills
    :PROPERTIES: 

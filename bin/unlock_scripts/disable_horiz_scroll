@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Disable horizontal scrolling on touchpad
+xinput set-prop "DLL07BF:01 06CB:7A13 Touchpad" \
+       "Synaptics Two-Finger Scrolling" 1, 0
