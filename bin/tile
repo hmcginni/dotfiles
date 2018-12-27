@@ -96,11 +96,11 @@ if (( autoTile )); then
 
     sortedwSize=$(sort -nr <<< "$(sed -r 's# #\n#g' <<< ${wSize[@]})" )
 
-    for wID in $sortedwSize; do
-	WID1=${wMap[$(awk '{print $1}' <<< $sortedwSize)]}
-	WID2=${wMap[$(awk '{print $2}' <<< $sortedwSize)]}
-	WID3=${wMap[$(awk '{print $3}' <<< $sortedwSize)]}
-    done
+#    for wID in $sortedwSize; do
+	WID1=${wMap[$(awk '{print $1}' <<< ${sortedwSize[@]})]}
+	WID2=${wMap[$(awk '{print $2}' <<< ${sortedwSize[@]})]}
+	WID3=${wMap[$(awk '{print $3}' <<< ${sortedwSize[@]})]}
+#    done
 
 else
     WID1=$(pnw $1)
