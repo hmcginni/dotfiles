@@ -16,7 +16,7 @@ killall setdwmtitle.sh
 #-------------- Set wallpaper --------------#
 
 while true; do
-    feh --bg-fill ~/Pictures/Wallpapers/gensingen-plant.jpg
+    feh --bg-fill ~/Dropbox/Walls/002.png
     sleep 1m
 done &
 
@@ -43,7 +43,7 @@ do
         csum=$new_csum
         dwm
     else
-	
+
         exit 0
     fi
     new_csum=$(sha1sum $(which dwm))
