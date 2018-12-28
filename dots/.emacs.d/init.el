@@ -39,8 +39,8 @@
 
 ;; Enable use-package
 ;;
-;; (eval-when-compile
-;;   (require 'use-package))
+(eval-when-compile
+  (require 'use-package))
 
 
 ;; Server mode
@@ -86,7 +86,7 @@
 
 ;; Font
 ;;
-(set-default-font "SF Mono:pixelsize=13:weight=Semibold")
+(set-default-font "SF Mono:pixelsize=13")
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
 ;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")
 ;; (set-default-font "IBM Plex Mono:pixelsize=13:weight=medium")
