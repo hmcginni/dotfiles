@@ -30,22 +30,8 @@
  '(tabbar-separator (quote (0.5))))
 
 
-;; Add paths
+;; Package Init ================================================================
 ;;
-(let ((default-directory "~/.emacs.d/elpa"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
-
-
-;; Enable use-package
-;;
-(eval-when-compile
-  (require 'use-package))
-
-
-;; Server mode
-;;
-(server-mode 0)
 
 
 ;; Emacs Packages
@@ -57,23 +43,127 @@
         ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
+
+;; Add paths
+;;
+(let ((default-directory "~/.emacs.d/packages"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
+
+
+;; Enable use-package
+;;
+(eval-when-compile
+  (require 'use-package))
+
+
+;; Automatically update packages
+;;
+(use-package auto-package-update
+  :ensure t
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+
 ;; Persistent Scratch
 ;;
-(require 'persistent-scratch)
-(persistent-scratch-setup-default)
+(use-package persistent-scratch
+  :ensure t
+  :config
+  (persistent-scratch-setup-default))
+
 
 ;; Speedbar
 ;;
-(require 'sr-speedbar)
-(global-set-key (kbd "<f9>") 'sr-speedbar-toggle)
+(use-package sr-speedbar
+  :ensure t
+  :bind ("<f9>" . sr-speedbar-toggle))
+
 
 ;; Company mode
 ;;
-(add-hook 'after-init-hook 'global-company-mode)
+(use-package company
+  :ensure t
+  :bind ("C-<tab>" . company-complete)
+  :hook ((after-init . global-company-mode)
+	 (c++-mode . company-mode)
+	 (c-mode . company-mode)
+	 (emacs-lisp-mode . company-mode))
+  :config
+  (use-package company-irony
+    :ensure t
+    :config
+    (eval-after-load 'company
+      '(add-to-list 'company-backends 'company-irony)))
+  (use-package company-c-headers
+    :ensure t
+    :config
+    (eval-after-load 'company
+      '(add-to-list 'company-backends 'company-c-headers))))
+
+
+;; Irony mode
+;;
+(use-package irony
+  :ensure t
+  :hook ((c-mode . irony-mode)
+	 (c++-mode . irony-mode)
+	 (objc-mode . irony-mode)
+	 (irony-mode . irony-cdb-autosetup-compile-options)))
+
+
+;; Smooth scrolling mode
+;;
+(use-package smooth-scrolling
+  :ensure t
+  :config
+  (smooth-scrolling-mode 1)
+  (setq smooth-scroll-margin 15)
+  (setq scroll-preserve-screen-position 1))
+
+
+;; Org-mode JIRA export
+;;
+(use-package ox-jira
+  :ensure t)
+
+
+;; Flycheck mode
+;;
+(use-package flycheck
+  :ensure t
+  :hook ((c++-mode . global-flycheck-mode)
+	 (flycheck-mode . flycheck-irony-setup)))
+
+
+;;;; MATLAB mode
+;;
+;; (use-package matlab-mode
+;;   :hook (matlab-mode . (lambda ()
+;; 			(auto-complete-mode 1)
+;; 			(matlab-cedet-setup)
+;; 			(matlab-toggle-show-mlint-warnings)))
+;;   :config
+;;   (autoload 'matlab-mode "matlab" "MATLAB Editing Mode" t)
+;;   (add-to-list
+;;    'auto-mode-alist
+;;    '("\\.m$" . matlab-mode))
+;;   (setq matlab-indent-function t)
+;;   (setq matlab-shell-command "matlab")
+;;   (setq matlab-shell-command-switches
+;; 	(list "-nosplash" "-nodesktop")))
 
 
 ;; Basic EMACS configurations ==================================================
 ;;
+
+
+;; Server mode
+;;
+(server-mode 0)
+
 
 ;; Global keyboard shortcuts
 ;;
@@ -96,7 +186,7 @@
 (define-key global-map (kbd "C-c C-8")
   (lambda()
     (interactive)
-    (set-frame-width (selected-frame) 86))) 
+    (set-frame-width (selected-frame) 86)))
 
 ;; Set Emacs Title
 ;;
@@ -108,8 +198,8 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-(require 'linum)                                           ;; Enable line numbers globally
-(global-linum-mode 1)                                      ;;             ||
+(require 'linum)
+(global-linum-mode 1)
 (global-visual-line-mode t)
 
 (set-face-foreground 'linum "#c0c0c0")
@@ -132,10 +222,6 @@
 
 ;; Navigation
 ;;
-(require 'smooth-scrolling)
-(smooth-scrolling-mode 1)
-(setq smooth-scroll-margin 15)
-(setq scroll-preserve-screen-position 1)
 (global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))
 (global-set-key (kbd "M-p") (kbd "C-u 2 M-v"))
 
@@ -170,6 +256,7 @@
 
 
 ;; Commenting
+;;
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
@@ -185,11 +272,13 @@
 
 
 ;; Highlight current line
+;;
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#333333")
 
 
 ;; Copy current buffer to clipboard
+;;
 (defun my-put-file-name-on-clipboard ()
   "Put the current file name on the clipboard"
   (interactive)
@@ -208,6 +297,7 @@
 
 
 ;; Switch to previous buffer
+;;
 (defun switch-to-previous-buffer ()
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
@@ -218,6 +308,7 @@ Repeated invocations toggle between the two most recently open buffers."
 
 
 ;; Reload emacs
+;;
 (defun reload-emacs-init-file ()
   "reload your init.el file without restarting Emacs"
   (interactive)
@@ -225,10 +316,13 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 
+
 ;; Shell Commands ==============================================================
 ;;
 
+
 ;; Print date in 'ddMMMyyyy' form
+;;
 (defun date-command-on-buffer ()
   (interactive)
   (shell-command "printf '%s' $(date +%Y%m%d)" t)
@@ -236,11 +330,11 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
 
+
 ;; Org-mode ====================================================================
 ;;
 
 (require 'org)
-(require 'ox-jira)
 (setq-default major-mode 'org-mode)
 
 (setq org-todos-file "~/org/todos.org")
@@ -348,49 +442,6 @@ Repeated invocations toggle between the two most recently open buffers."
 	  indent-tabs-mode . nil)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
-
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-(add-hook 'c++-mode-hook 'global-flycheck-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
-
-
-(add-hook 'c++-mode-hook 'company-mode)
-(add-hook 'c-mode-hook 'company-mode)
-(add-hook 'emacs-lisp-mode-hook 'company-mode)
-(global-set-key [C-tab] 'company-complete)
-
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-irony))
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-c-headers))
-
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
-
-
-
-;; MATLAB Integration ==========================================================
-;;
-
-(autoload 'matlab-mode "matlab" "MATLAB Editing Mode" t)
-
-(add-to-list
- 'auto-mode-alist
- '("\\.m$" . matlab-mode))
-
-(setq matlab-indent-function t)
-(setq matlab-shell-command "matlab")
-(setq matlab-shell-command-switches
-	  (list "-nosplash" "-nodesktop"))
-
-(add-hook 'matlab-mode
-		  (lambda ()
-			(auto-complete-mode 1)
-			(matlab-cedet-setup)
-			(matlab-toggle-show-mlint-warnings)
-			))
 
 
 ;; Open recent File Menu option ================================================
