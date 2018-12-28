@@ -31,7 +31,7 @@ function usage()
 
 
 desktop=$(getCursorDesktop)
-borderWidth=20
+borderWidth=12
 vertSepPos=60
 horizSepPos=48
 
@@ -204,4 +204,3 @@ case $numWindows in
 	exit 1
 	;;
 esac
-
