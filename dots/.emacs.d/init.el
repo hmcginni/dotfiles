@@ -24,8 +24,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
  '(sr-speedbar-default-width 30)
- '(sr-speedbar-right-side nil)
- '(tabbar-separator (quote (0.5))))
+ '(sr-speedbar-right-side nil))
 
 
 ;; Package Init ================================================================
@@ -127,13 +126,6 @@
   (setq smooth-scroll-margin 15)
   (setq scroll-preserve-screen-position 1))
 
-
-;; Org-mode
-;;
-(use-package org
-  :ensure t
-  :defer t)
-  
 
 ;; Org-mode JIRA export
 ;;
