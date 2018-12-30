@@ -127,6 +127,12 @@
   (setq scroll-preserve-screen-position 1))
 
 
+;; Org-mode
+;;
+(use-package org
+  :ensure t)
+
+
 ;; Org-mode JIRA export
 ;;
 (use-package ox-jira
