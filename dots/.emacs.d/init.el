@@ -11,13 +11,11 @@
    (quote
     ("43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(mlint-programs
-   (quote
-    ("mlint" "/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(mlint-programs (quote ("mlint" "/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -53,6 +51,10 @@
 
 ;; Enable use-package
 ;;
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (eval-when-compile
   (require 'use-package))
 
@@ -86,6 +88,7 @@
 ;;
 (use-package company
   :ensure t
+  :defer t
   :bind ("C-<tab>" . company-complete)
   :hook ((after-init . global-company-mode)
 	 (c++-mode . company-mode)
@@ -108,6 +111,7 @@
 ;;
 (use-package irony
   :ensure t
+  :defer t
   :hook ((c-mode . irony-mode)
 	 (c++-mode . irony-mode)
 	 (objc-mode . irony-mode)
@@ -124,10 +128,18 @@
   (setq scroll-preserve-screen-position 1))
 
 
+;; Org-mode
+;;
+(use-package org
+  :ensure t
+  :defer t)
+  
+
 ;; Org-mode JIRA export
 ;;
 (use-package ox-jira
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;; Flycheck mode
@@ -334,7 +346,6 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; Org-mode ====================================================================
 ;;
 
-(require 'org)
 (setq-default major-mode 'org-mode)
 
 (setq org-todos-file "~/org/todos.org")
@@ -439,7 +450,7 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (setq tab-width 4
 	  c-default-style "linux"
-	  indent-tabs-mode . nil)
+	  indent-tabs-mode nil)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
