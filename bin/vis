@@ -61,7 +61,7 @@ shift $(($OPTIND - 1))
 # Find all visible windows
 
 
-allWIDs=$(wmctrl -l | egrep -v "(unity|Xdnd|Hud|Desktop)" | awk '{print $1}')
+allWIDs=$(wmctrl -l | egrep -v "($(pgrep compiz)|-1)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id $thisWID | grep "Hidden") == "" ]]; then
