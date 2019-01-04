@@ -129,8 +129,6 @@ export PATH=/opt/Xilinx/SDK/2016.1/bin:$PATH
 tput smkx
 
 export DISPLAY=:0.0
-#export PS1="\[\033[1;37m\]┌─[\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[0;32m\]\h\[\033[1;37m\]]─────[\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\]└───[ \[\033[00m\]"
-export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] in [\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\] $ \[\033[00m\]"
 export DWMDIR="/usr/local/src/dwm-6.1"
 export STDIR="${HOME}/repos/st"
 export DMENUDIR="/usr/local/src/dmenu-4.7"
@@ -161,4 +159,3 @@ alias licvnv='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f SL_Verification_Val
 alias lics='licdv && licvnv && lictest && licsf'
 alias licrm='_licrm'
 alias licfree='_licfree'
-
