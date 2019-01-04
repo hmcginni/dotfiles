@@ -11,11 +11,11 @@
    (quote
     ("43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)) t)
+ '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(mlint-programs (quote ("mlint" "/opt/matlab/2017a/bin/glnxa64/mlint")))
+ ;; '(mlint-programs (quote ("mlint" "/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -24,7 +24,8 @@
  '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
  '(sr-speedbar-default-width 30)
- '(sr-speedbar-right-side nil))
+ '(sr-speedbar-right-side nil)
+ '(text-scale-mode-step 1.1))
 
 
 ;; Package Init ================================================================
@@ -87,12 +88,11 @@
 ;;
 (use-package company
   :ensure t
-  :defer t
   :bind ("C-<tab>" . company-complete)
   :hook ((after-init . global-company-mode)
-	 (c++-mode . company-mode)
-	 (c-mode . company-mode)
-	 (emacs-lisp-mode . company-mode))
+         (c++-mode . company-mode)
+         (c-mode . company-mode)
+         (emacs-lisp-mode . company-mode))
   :config
   (use-package company-irony
     :ensure t
@@ -110,11 +110,10 @@
 ;;
 (use-package irony
   :ensure t
-  :defer t
   :hook ((c-mode . irony-mode)
-	 (c++-mode . irony-mode)
-	 (objc-mode . irony-mode)
-	 (irony-mode . irony-cdb-autosetup-compile-options)))
+         (c++-mode . irony-mode)
+         (objc-mode . irony-mode)
+         (irony-mode . irony-cdb-autosetup-compile-options)))
 
 
 ;; Smooth scrolling mode
@@ -127,7 +126,7 @@
   (setq scroll-preserve-screen-position 1))
 
 
-;; Org-mode
+;; Org mode
 ;;
 (use-package org
   :ensure t)
@@ -145,16 +144,19 @@
 (use-package flycheck
   :ensure t
   :hook ((c++-mode . global-flycheck-mode)
-	 (flycheck-mode . flycheck-irony-setup)))
+         (flycheck-mode . flycheck-irony-setup)))
 
 
-;;;; MATLAB mode
+;; MATLAB mode
 ;;
-;; (use-package matlab-mode
-;;   :hook (matlab-mode . (lambda ()
-;; 			(auto-complete-mode 1)
-;; 			(matlab-cedet-setup)
-;; 			(matlab-toggle-show-mlint-warnings)))
+(use-package matlab-mode
+  :mode "\\.m$"
+  :interpreter "MATLAB"
+  :hook (matlab-mode . (lambda ()
+                         (auto-complete-mode 1)
+                         (matlab-cedet-setup)
+                         (matlab-toggle-show-mlint-warnings))))
+
 ;;   :config
 ;;   (autoload 'matlab-mode "matlab" "MATLAB Editing Mode" t)
 ;;   (add-to-list
@@ -166,7 +168,7 @@
 ;; 	(list "-nosplash" "-nodesktop")))
 
 
-;; Basic EMACS configurations ==================================================
+;; EMACS configurations ========================================================
 ;;
 
 
@@ -186,7 +188,7 @@
 
 ;; Font
 ;;
-(set-default-font "SF Mono:pixelsize=13")
+(set-default-font "SF Mono:pixelsize=12:weight=semibold")
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
 ;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")
 ;; (set-default-font "IBM Plex Mono:pixelsize=13:weight=medium")
@@ -433,12 +435,12 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "<f7>") 'flyspell-mode)
 (global-set-key (kbd "C-M-<f8>") 'flyspell-buffer)
 (global-set-key (kbd "M-<f7>") 'flyspell-check-previous-highlighted-word)
+
 (defun flyspell-check-next-highlighted-word ()
   "Custom function to spell check next highlighted word"
   (interactive)
   (flyspell-goto-next-error)
-  (ispell-word)
-  )
+  (ispell-word))
 (global-set-key (kbd "C-<f7>") 'flyspell-check-next-highlighted-word)
 
 

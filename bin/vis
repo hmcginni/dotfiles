@@ -4,7 +4,7 @@
 #
 #   vis -d1  :: print IDs of windows visible on desktop 1
 #
-#   Dependencies: wmctrl, xwininfo, desk
+#   Dependencies: wmctrl, x11-utils, desk
 #
 ################################################################################
 

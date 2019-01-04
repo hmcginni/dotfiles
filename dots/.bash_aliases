@@ -64,7 +64,7 @@ alias copy='_copy'
 parse_git_branch() {
     branch=$(git branch 2>/dev/null | grep \* | cut -d"*" -f2)
     if [ ! -z $branch ]; then
-	printf "\n[⎇ %s]" $branch
+	printf "\n ⎇ : %s" $branch
     fi
 }
 
