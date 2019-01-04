@@ -1,0 +1,35 @@
+#!/bin/bash
+
+## ADD REPOSITORIES
+
+
+sudo add-apt-repository -y ppa:noobslab/themes
+sudo add-apt-repository -y ppa:noobslab/icons
+
+
+## INSTALL PACKAGES
+
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y ubuntu-unity-desktop unity-tweak-tool tmux git emacs emacs-goodies-el ipython gmrun arc-theme moka-icon-theme arc-icons wmctrl xdotool youtube-dl dropbox chromium-browser
+sudo snap install atom --classic
+sudo snap install mailspring --classic
+sudo snap install slack --classic
+sudo snap install google-play-music-desktop-player --classic
+sudo snap install remmina --classic
+
+
+## CLONE REPOSITORY
+
+
+cd ~
+mkdir git
+cd git
+git clone https://github.com/hrmcginnis/hrmutils.git
+
+
+## INSTALL REPOSITORY FILES
+
+
+cd hrmutils/install
+./install_utils

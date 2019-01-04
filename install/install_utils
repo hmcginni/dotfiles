@@ -1,6 +1,6 @@
 #!/bin/bash
 
-baseDir=${PWD%/*}
+repoDir=${PWD%/*}
 binDir=$HOME/bin
 libDir=$HOME/lib
 mlDir=$HOME/Documents/MATLAB
@@ -10,23 +10,26 @@ dotsDir=$HOME
 mkdir -p $binDir $libDir $mlDir
 
 # Create symlinks to repository files
-for filePath in $baseDir/bin/*; do
+for filePath in $repoDir/bin/*; do
     fileName=${filePath##/*/}
     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $binDir/$fileName
 done
 
-for filePath in $baseDir/lib/*; do
+for filePath in $repoDir/lib/*; do
     fileName=${filePath##/*/}
     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $libDir/$fileName
 done
 
-for filePath in $baseDir/dots/.[^.]*; do
+for filePath in $repoDir/dots/.[^.]*; do
     fileName=${filePath##/*/}
     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $dotsDir/$fileName
 done
 
-for filePath in $baseDir/matlab/*; do
-    fileName=${filePath##/*/}
-    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $mlDir/$fileName
-done
+rm -r $dotsDir/.emacs.d
+mkdir $dotsDir/.emacs.d
+ln -bsv -T $repoDir/dots/.emacs.d/init.el $dotsDir/.emacs.d/init.el
 
+# for filePath in $repoDir/matlab/*; do
+#     fileName=${filePath##/*/}
+#     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $mlDir/$fileName
+# done

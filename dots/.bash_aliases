@@ -17,7 +17,7 @@ export STDIR="${HOME}/repos/st"
 export DMENUDIR="/usr/local/src/dmenu-4.7"
 export GOPATH="/home/hrm/Documents/go"
 export PATH=$PATH:$GOPATH/bin
-export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] in [\[\033[1;34m\]\w\[\033[1;31m\]\$(parse_git_branch)\[\033[1;37m\]]\n\[\033[1;37m\] $ \[\033[00m\]"
+export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] in [\[\033[1;34m\]\w\[\033[1;37m\]]\[\033[1;31m\]\$(parse_git_branch)\n\[\033[1;37m\] $ \[\033[00m\]"
 
 
 # Aliases ======================================================================
@@ -62,8 +62,10 @@ alias copy='_copy'
 
 
 parse_git_branch() {
-    git branch 2>/dev/null | grep \* | cut -d"*" -f2
-    #git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+    branch=$(git branch 2>/dev/null | grep \* | cut -d"*" -f2)
+    if [ ! -z $branch ]; then
+	printf "\n[⎇ %s]" $branch
+    fi
 }
 
 _copy(){
