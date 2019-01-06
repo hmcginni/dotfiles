@@ -17,7 +17,7 @@ sudo add-apt-repository -y ppa:noobslab/icons
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y ubuntu-unity-desktop unity-tweak-tool tmux git emacs emacs-goodies-el ipython gmrun arc-theme moka-icon-theme arc-icons wmctrl xdotool x11-utils youtube-dl dropbox chromium-browser
+sudo apt install -y ubuntu-unity-desktop unity-tweak-tool tmux git emacs emacs-goodies-el ipython gmrun arc-theme moka-icon-theme arc-icons wmctrl xdotool x11-utils youtube-dl dropbox chromium-browser build-essential
 
 sudo snap install atom --classic
 sudo snap install mailspring --classic

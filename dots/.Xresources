@@ -1,7 +1,6 @@
-emacs.FontBackend: xft
-
-Xft.antialias: true
-Xft.rgba: bgr
-Xft.hinting: false
+Xft.autohint: 0
+Xft.antialias: 1
+Xft.rgba: rgb
+Xft.hinting: 0
 Xft.hintstyle: hintnone
 Xft.lcdfilter: lcddefault
