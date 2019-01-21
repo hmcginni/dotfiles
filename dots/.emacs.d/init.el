@@ -9,13 +9,13 @@
  '(cursor-type (quote box))
  '(custom-safe-themes
    (quote
-    ("43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
+    ("a4c2c731654f9269f07044bb893bf88f1263e4bee317661638e7c794a6f32f23" "92588014550aedbbecc6f1be9f65fcda99e3733fe7c620bd885ca53614c5b9d2" "05d2292db5ae6531a279f33a61754e7ac5ac6db3348d87389df3f9e7638d8712" "aed525734775471a0feb7787e5f412abfca25885c6ccac49780315d8b5cc97aa" "2313b7550e9143cc315a363b7660ccfa055d14c0dbc4ed1694c3c6018152fcfd" "2c2bd5a09b6738cd50978e9e9a705f1b2209ab6b25144ccb8c7ddc3c86833f3d" "59fe6fab028ae15105e3a0317aa2973caf47485e7909d20732e8533618bb538c" "dfcd0579ccb40fa8682afbb05d51f99d7b20c095e0b66155c4b239523cff65ae" "b25a447790ff23f81bb3805e8ff4aa603568facfa516e36d4cbd7c2c9347fe55" "37d1b503efa46c7998930bd7611f78ec91c43c82a22799881c588b968a0f04c3" "455b282ed6e8fd47821c065c7d274c28f96e7805df5e383ca7f75dc4d852959a" "ffff2f8b99614d0e3d8d1b143d6cc53647760d5cea49f5314166be68f0d59c57" "c6e9656d02f2d3411536633282cb2b5677586b5410b637e28e3e17bac779a142" "504fbb22f7f6fd96e417401d25c6d6b884eb6b36880db7c7e0a0be6356c63fa2" "8b0ec40d36a2216a64788ddecd94bbc260c2ed61c3a9cfb50e7e4a395ab8e55e" "63743f5499643852e14bced8a0d089aa6c578a2e7bbae4d603b6f32c6fae367c" "4464d77656ba267984d8ab41338eab72548b92445005bf6bd5d7c64db834ca17" "7cbae9092a2138833ec757bd7547111bc29daf10cec8013f1b51d359ba547c99" "43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- ;; '(mlint-programs (quote ("mlint" "/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(line-spacing nil)
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -23,6 +23,18 @@
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(show-paren-mode t)
+ '(speedbar-frame-parameters
+   (quote
+    ((minibuffer)
+     (width . 16)
+     (border-width . 0)
+     (menu-bar-lines . 0)
+     (tool-bar-lines . 0)
+     (unsplittable . t)
+     (left-fringe . 0))))
+ '(speedbar-show-unknown-files t)
+ '(speedbar-use-images nil)
+ '(speedbar-verbosity-level 0)
  '(sr-speedbar-default-width 30)
  '(sr-speedbar-right-side nil)
  '(text-scale-mode-step 1.1))
@@ -59,6 +71,20 @@
   (require 'use-package))
 
 
+;; PACKAGE INIT/INSTALL ========================================================
+;;
+
+
+;; Recent file list
+;;
+(use-package recentf
+  :ensure t
+  :bind ("C-x C-r" . recentf-open-files)
+  :config
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 35))
+
+  
 ;; Automatically update packages
 ;;
 (use-package auto-package-update
@@ -82,6 +108,13 @@
 (use-package sr-speedbar
   :ensure t
   :bind ("<f9>" . sr-speedbar-toggle))
+
+
+;; Transpose frame
+;;
+(use-package transpose-frame
+  :ensure t
+  :bind ("C-x t" . transpose-frame))
 
 
 ;; Company mode
@@ -182,16 +215,15 @@
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
-(global-set-key (kbd "C-x t") 'transpose-frame)
 (global-set-key (kbd "M-q") 'visual-line-mode)
 
 
 ;; Font
 ;;
-(set-default-font "SF Mono:pixelsize=12:weight=semibold")
+(set-default-font "SF Mono:pixelsize=12:weight=medium")
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
-;; (set-default-font "Roboto Mono:pixelsize=14:weight=regular")
-;; (set-default-font "IBM Plex Mono:pixelsize=13:weight=medium")
+;; (set-default-font "Roboto Mono:pixelsize=13:weight=regular")
+;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")
 
 ;; Resize Emacs
 ;;
@@ -286,7 +318,6 @@
 ;; Highlight current line
 ;;
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#333333")
 
 
 ;; Copy current buffer to clipboard
@@ -455,13 +486,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (defvaralias 'cperl-indent-level 'tab-width)
 
 
-;; Open recent File Menu option ================================================
-;;
 
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-items 35)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 
 ;; Color themes ================================================================
@@ -475,7 +500,7 @@ Repeated invocations toggle between the two most recently open buffers."
       (foreground-color . "#F8F8F2")
       (cursor-color . "#e0e0e0"))
      (default ((t (nil))))
-     (mode-line ((t (:font "IBM Plex Sans:pixelsize=13:slant=italic:weight=medium" :background "#505050" :foreground "#F8F8F8" :box (:line-width 6 :color "#191919") ))))
+     ;; (mode-line ((t (:font "IBM Plex Sans:pixelsize=13:slant=italic:weight=medium" :background "#505050" :foreground "#F8F8F8" :box (:line-width 6 :color "#191919") ))))
      (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
      (font-lock-comment-face ((t (:italic t :foreground "#75715D"))))
      (font-lock-constant-face ((t (:foreground "#A6E22A"))))
@@ -492,14 +517,19 @@ Repeated invocations toggle between the two most recently open buffers."
      (ido-subdir ((t (:foreground "#F1266F")))))))
 
 (provide 'color-theme-almost-monokai)
-(require 'color-theme)
-(color-theme-almost-monokai)
-
+;; (require 'color-theme)
+;; (color-theme-almost-monokai)
+(load-theme 'atom-one-light t)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(markdown-inline-code-face ((t (:inherit font-lock-constant-face)))))
+ '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
+ '(speedbar-button-face ((t (:foreground "green4" :height 70 :family "IBM Plex Sans"))))
+ '(speedbar-directory-face ((t (:foreground "dim gray" :height 90 :family "IBM Plex Sans"))))
+ '(speedbar-file-face ((t (:foreground "cyan4" :height 90 :family "IBM Plex Sans"))))
+ '(speedbar-highlight-face ((t (:background "light gray" :height 90 :family "IBM Plex Sans"))))
+ '(speedbar-selected-face ((t (:foreground "red" :height 90 :family "IBM Plex Sans")))))
 (put 'narrow-to-region 'disabled nil)

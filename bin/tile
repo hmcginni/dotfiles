@@ -42,33 +42,33 @@ horizSepPos=48
 
 while getopts ":123v:h:d:b:" opt; do
     case ${opt} in
-	[1-3] )
-	    desktop=$opt
-	    ;;
-	v )
-	    vertSepPos=$OPTARG
-	    if (( (20 > vertSepPos) || (80 < vertSepPos) )); then
-		echo "Unsupported width"
-		exit 1
-	    fi
-	    ;;
-	h )
-	    horizSepPos=$OPTARG
-	    if (( (30 > horizSepPos) || (70 < horizSepPos) )); then
-		echo "Unsupported height"
-		exit 1
-	    fi
-	    ;;
-	d )
-	    desktop=$OPTARG
-	    ;;
-	b )
-	    borderWidth=$OPTARG
-	    ;;
-	\?)
-	    usage
-	    exit 1
-	    ;;
+        [1-3] )
+            desktop=$opt
+            ;;
+        v )
+            vertSepPos=$OPTARG
+            if (( (20 > vertSepPos) || (80 < vertSepPos) )); then
+                echo "Unsupported width"
+                exit 1
+            fi
+            ;;
+        h )
+            horizSepPos=$OPTARG
+            if (( (30 > horizSepPos) || (70 < horizSepPos) )); then
+                echo "Unsupported height"
+                exit 1
+            fi
+            ;;
+        d )
+            desktop=$OPTARG
+            ;;
+        b )
+            borderWidth=$OPTARG
+            ;;
+        \?)
+            usage
+            exit 1
+            ;;
     esac
 done
 
@@ -89,18 +89,18 @@ if (( autoTile )); then
     numWindows=$(wc -w <<< $WIDList)
 
     for wID in $WIDList; do
-	sizeOfwID="$(getWindowSize $wID)"
-	wSize+=($sizeOfwID)
-	wMap["$sizeOfwID"]=$wID
+        sizeOfwID="$(getWindowSize $wID)"
+        wSize+=($sizeOfwID)
+        wMap["$sizeOfwID"]=$wID
     done
 
     sortedwSize=$(sort -nr <<< "$(sed -r 's# #\n#g' <<< ${wSize[@]})" )
 
-#    for wID in $sortedwSize; do
-	WID1=${wMap[$(awk '{print $1}' <<< ${sortedwSize[@]})]}
-	WID2=${wMap[$(awk '{print $2}' <<< ${sortedwSize[@]})]}
-	WID3=${wMap[$(awk '{print $3}' <<< ${sortedwSize[@]})]}
-#    done
+    #    for wID in $sortedwSize; do
+    WID1=${wMap[$(awk '{print $1}' <<< ${sortedwSize[@]})]}
+    WID2=${wMap[$(awk '{print $2}' <<< ${sortedwSize[@]})]}
+    WID3=${wMap[$(awk '{print $3}' <<< ${sortedwSize[@]})]}
+    #    done
 
 else
     WID1=$(pnw $1)
@@ -130,21 +130,21 @@ fi
 
 case $desktop in
     1)
-	read -r xDispOffset yDispOffset <<< $(desk -d1 -o)
-	read -r xRes yRes <<< $(desk -d1 -r)
-	;;
+        read -r xDispOffset yDispOffset <<< $(desk -d1 -o)
+        read -r xRes yRes <<< $(desk -d1 -r)
+        ;;
     2)
-	read -r xDispOffset yDispOffset <<< $(desk -d2 -o)
-	read -r xRes yRes <<< $(desk -d2 -r)
-	;;
+        read -r xDispOffset yDispOffset <<< $(desk -d2 -o)
+        read -r xRes yRes <<< $(desk -d2 -r)
+        ;;
     3)
-	read -r xDispOffset yDispOffset <<< $(desk -d3 -o)
-	read -r xRes yRes <<< $(desk -d3 -r)
-	;;
+        read -r xDispOffset yDispOffset <<< $(desk -d3 -o)
+        read -r xRes yRes <<< $(desk -d3 -r)
+        ;;
     *)
-	echo "Invalid display selection."
-	exit 1
-	;;
+        echo "Invalid display selection."
+        exit 1
+        ;;
 esac
 
 
@@ -157,50 +157,50 @@ yHorizSep=$(( (horizSepPos*(yRes-yTop)/100) ))
 
 case $numWindows in
     1)
-	x1=$(( xDispOffset+xLeft+borderWidth ))
-	y1=$(( yDispOffset+yTop+borderWidth ))
-	w1=$(( xRes-xLeft-(2*borderWidth) ))
-	h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
+        x1=$(( xDispOffset+xLeft+borderWidth ))
+        y1=$(( yDispOffset+yTop+borderWidth ))
+        w1=$(( xRes-xLeft-(2*borderWidth) ))
+        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
 
-	move $x1 $y1 $w1 $h1 $WID1
-	;;
+        move $x1 $y1 $w1 $h1 $WID1
+        ;;
     2)
-	x1=$(( xDispOffset+xLeft+borderWidth ))
-	y1=$(( yDispOffset+yTop+borderWidth ))
-	w1=$(( xVertSep-borderWidth ))
-	h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
+        x1=$(( xDispOffset+xLeft+borderWidth ))
+        y1=$(( yDispOffset+yTop+borderWidth ))
+        w1=$(( xVertSep-borderWidth ))
+        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
 
-	x2=$(( x1+w1+borderWidth ))
-	y2=$(( y1 ))
-	w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
-	h2=$(( yRes-yTop-yTitle[1]-(2*borderWidth) ))
+        x2=$(( x1+w1+borderWidth ))
+        y2=$(( y1 ))
+        w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
+        h2=$(( yRes-yTop-yTitle[1]-(2*borderWidth) ))
 
-	move $x1 $y1 $w1 $h1 $WID1
-	move $x2 $y2 $w2 $h2 $WID2
-	;;
+        move $x1 $y1 $w1 $h1 $WID1
+        move $x2 $y2 $w2 $h2 $WID2
+        ;;
     3)
-	x1=$(( xDispOffset+xLeft+borderWidth ))
-	y1=$(( yDispOffset+yTop+borderWidth ))
-	w1=$(( xVertSep-borderWidth ))
-	h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
+        x1=$(( xDispOffset+xLeft+borderWidth ))
+        y1=$(( yDispOffset+yTop+borderWidth ))
+        w1=$(( xVertSep-borderWidth ))
+        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
 
-	x2=$(( x1+w1+borderWidth ))
-	y2=$(( y1 ))
-	w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
-	h2=$(( yHorizSep-yTitle[1]-2*borderWidth ))
+        x2=$(( x1+w1+borderWidth ))
+        y2=$(( y1 ))
+        w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
+        h2=$(( yHorizSep-yTitle[1]-2*borderWidth ))
 
-	x3=$(( x2 ))
-	y3=$(( y2+h2+yTitle[1]+borderWidth ))
-	w3=$(( w2 ))
-	h3=$(( yRes-yHorizSep-yTitle[2]-2*borderWidth ))
+        x3=$(( x2 ))
+        y3=$(( y2+h2+yTitle[1]+borderWidth ))
+        w3=$(( w2 ))
+        h3=$(( yRes-yHorizSep-yTitle[2]-2*borderWidth ))
 
-	move $x1 $y1 $w1 $h1 $WID1
-	move $x2 $y2 $w2 $h2 $WID2
-	move $x3 $y3 $w3 $h3 $WID3
-	;;
+        move $x1 $y1 $w1 $h1 $WID1
+        move $x2 $y2 $w2 $h2 $WID2
+        move $x3 $y3 $w3 $h3 $WID3
+        ;;
     *)
-	echo "Invalid number of windows specified"
-	usage
-	exit 1
-	;;
+        echo "Invalid number of windows specified"
+        usage
+        exit 1
+        ;;
 esac
