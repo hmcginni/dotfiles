@@ -7,11 +7,9 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(cursor-type (quote box))
- '(custom-safe-themes
-   (quote
-    ("a4c2c731654f9269f07044bb893bf88f1263e4bee317661638e7c794a6f32f23" "92588014550aedbbecc6f1be9f65fcda99e3733fe7c620bd885ca53614c5b9d2" "05d2292db5ae6531a279f33a61754e7ac5ac6db3348d87389df3f9e7638d8712" "aed525734775471a0feb7787e5f412abfca25885c6ccac49780315d8b5cc97aa" "2313b7550e9143cc315a363b7660ccfa055d14c0dbc4ed1694c3c6018152fcfd" "2c2bd5a09b6738cd50978e9e9a705f1b2209ab6b25144ccb8c7ddc3c86833f3d" "59fe6fab028ae15105e3a0317aa2973caf47485e7909d20732e8533618bb538c" "dfcd0579ccb40fa8682afbb05d51f99d7b20c095e0b66155c4b239523cff65ae" "b25a447790ff23f81bb3805e8ff4aa603568facfa516e36d4cbd7c2c9347fe55" "37d1b503efa46c7998930bd7611f78ec91c43c82a22799881c588b968a0f04c3" "455b282ed6e8fd47821c065c7d274c28f96e7805df5e383ca7f75dc4d852959a" "ffff2f8b99614d0e3d8d1b143d6cc53647760d5cea49f5314166be68f0d59c57" "c6e9656d02f2d3411536633282cb2b5677586b5410b637e28e3e17bac779a142" "504fbb22f7f6fd96e417401d25c6d6b884eb6b36880db7c7e0a0be6356c63fa2" "8b0ec40d36a2216a64788ddecd94bbc260c2ed61c3a9cfb50e7e4a395ab8e55e" "63743f5499643852e14bced8a0d089aa6c578a2e7bbae4d603b6f32c6fae367c" "4464d77656ba267984d8ab41338eab72548b92445005bf6bd5d7c64db834ca17" "7cbae9092a2138833ec757bd7547111bc29daf10cec8013f1b51d359ba547c99" "43bede8b8b3c9f35562ce029d80ee71c1c67e7769c4028ba647c773385c6aa76" default)))
+ '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
@@ -212,7 +210,7 @@
 
 ;; Global keyboard shortcuts
 ;;
-(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
 (global-set-key (kbd "M-q") 'visual-line-mode)
