@@ -4,8 +4,9 @@ Dotfiles and utilities. Developed for an Ubuntu 16.04 Unity development environm
 
 Command-line utilities are developed in ~bash~ and ~python~. MATLAB functions have *not* been tested with Octave.
 
-** Todo [0/2]
+** Todo [1/2]
 
-+ [ ] add installation script
++ [X] add installation script
 + [ ] convert MATLAB files into a package or toolbox
++ [ ] include current `dwm` and `st` configs
 
