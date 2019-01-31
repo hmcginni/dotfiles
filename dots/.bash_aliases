@@ -56,7 +56,7 @@ alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 alias q='_quiet'
 alias qfind='_qfind'
-alias vpn='pass vpn | openconnect -umcginh2 -ivpn0 -s /bin/true --passwd-on-stdin  --protocol=nc remote.covidien.com/linux'
+alias vpn='pass mdt/vpn | openconnect -umcginh2 -ivpn0 -s /bin/true --passwd-on-stdin  --protocol=nc remote.covidien.com/linux'
 alias copy='_copy'
 
 

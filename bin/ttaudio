@@ -1,10 +1,13 @@
 #!/bin/bash
 
+bluetooth on
 ttMAC="E8:AB:FA:23:DA:8F"
-bluetoothCmd="disconnect $ttMAC\nuntrust $ttMAC\ntrust $ttMAC\n" \
-	    "pair $ttMAC\nconnect"
+bluetoothCmd="disconnect $ttMAC\nuntrust $ttMAC\ntrust $ttMAC\npair $ttMAC\nconnect $ttMAC"
 echo -e "$bluetoothCmd" | bluetoothctl
-sleep 10
+sleep 6
+echo -e "\nquit" | bluetoothctl
+
+clear
 
 ttsink=$(awk '/bluez/ {print $2}' <<< "$(pactl list sinks short)")
 pactl set-default-sink "$ttsink"
