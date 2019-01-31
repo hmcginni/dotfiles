@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Delete Temporary Files
+
+notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
+$notify_repl "Deleting temp files ..."
+
+rootDir=${HOME}
+find $rootDir -type f -name "*~" -exec rm -v {} \;

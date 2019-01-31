@@ -484,9 +484,6 @@ Repeated invocations toggle between the two most recently open buffers."
 (defvaralias 'cperl-indent-level 'tab-width)
 
 
-
-
-
 ;; Color themes ================================================================
 ;;
 
@@ -513,11 +510,20 @@ Repeated invocations toggle between the two most recently open buffers."
      (hl-line ((t (:background "#333333"))))
      (region ((t (:background "#6DC5F1"))))
      (ido-subdir ((t (:foreground "#F1266F")))))))
-
 (provide 'color-theme-almost-monokai)
+
 ;; (require 'color-theme)
 ;; (color-theme-almost-monokai)
-(load-theme 'atom-one-light t)
+
+(defun color-theme-atom-one-light ()
+  (interactive)
+  (load-theme 'atom-one-light t))
+(provide 'color-theme-atom-one-light)
+
+
+;; Customize ===================================================================
+;;
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

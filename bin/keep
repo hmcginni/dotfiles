@@ -2,7 +2,7 @@
 
 file=$1
 subdir=$2
-dest="$HOME/repos/dotfiles/$subdir"
+dest="$HOME/repos/hrmutils/$subdir"
 destfile="${dest}/${file}"
 
 if [ -z $subdir ]; then

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ttMAC="E8:AB:FA:23:DA:8F"
+bluetoothCmd="disconnect $ttMAC\nuntrust $ttMAC\ntrust $ttMAC\n" \
+	    "pair $ttMAC\nconnect"
+echo -e "$bluetoothCmd" | bluetoothctl
+sleep 10
+
+ttsink=$(awk '/bluez/ {print $2}' <<< "$(pactl list sinks short)")
+pactl set-default-sink "$ttsink"
+pulseaudio-equalizer enable &>/dev/null

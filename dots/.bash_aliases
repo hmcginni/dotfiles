@@ -20,6 +20,8 @@ export PATH=$PATH:$GOPATH/bin
 export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] in [\[\033[1;34m\]\w\[\033[1;37m\]]\[\033[1;31m\]\$(_parse_git_branch)\n\[\033[1;37m\] $ \[\033[00m\]"
 export pierct5="FC:3F:DB:84:C7:1C"
 export hrmpc="BC:5F:F4:5A:77:41"
+GPG_TTY=$(tty)
+export GPG_TTY
 
 
 # Aliases ======================================================================
@@ -39,6 +41,10 @@ alias t='_tmux_go'
 alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
 
+# emacs
+alias emacs='q \emacs -f color-theme-atom-one-light'
+alias e='\emacs -nw -f color-theme-almost-monokai'
+
 # MATLAB
 alias ml='nohup custom-matlab-launcher &>/dev/null &'
 
@@ -50,7 +56,7 @@ alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 alias q='_quiet'
 alias qfind='_qfind'
-alias mvpn='sudo openconnect -umcginh2 --protocol=nc remote.covidien.com/linux'
+alias vpn='pass vpn | openconnect -umcginh2 -ivpn0 -s /bin/true --passwd-on-stdin  --protocol=nc remote.covidien.com/linux'
 alias copy='_copy'
 
 

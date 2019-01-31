@@ -141,7 +141,7 @@ export VECTORCAST_DIR=/usr/local/vcast
 export LM_LICENSE_FILE=27000@bos6-dev-srv
 export EDITOR=emacs
 export XDG_CONFIG_HOME="${HOME}/.config/"
-export EIN_BUILD_DIR="${HOME}/build/ein-develop/"
+export EIN_BUILD_DIR="${HOME}/build/ein-develop-20190118/"
 # export MATLAB_JAVA="/usr/lib/jvm/java-7-openjdk-amd64/jre"
 
 
