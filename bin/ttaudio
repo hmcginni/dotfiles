@@ -1,5 +1,11 @@
 #!/bin/bash
-
+#
+# Connect to (and enable) TaoTronics BH-040 Wireless Headphones
+#
+#
+#   Custom Dependencies:  pulseaudio pulseaudio-equalizer bluetoothctl
+#
+################################################################################
 
 # Turn on bluetooth and set up variables ======================================
 #
