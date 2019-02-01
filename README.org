@@ -8,5 +8,5 @@ Command-line utilities are developed in ~bash~ and ~python~. MATLAB functions ha
 
 + [X] add installation script
 + [ ] convert MATLAB files into a package or toolbox
-+ [ ] include current `dwm` and `st` configs
++ [ ] include current ~dwm~ and ~st~ configs
 
