@@ -29,7 +29,7 @@ echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
 
 pactlCmd="pactl list sinks short"
 while [[ -z $(awk '/bluez/ {print $2}' <<< "$($pactlCmd)") ]]; do
-    sleep 1
+    sleep 0.5
     if (( "$SECONDS" >= "$timeout" )); then
 	1>&2
 	printf "%s Error: Exceeded timeout (%d)" "${0##/*/}" "$timeout"
