@@ -27,7 +27,7 @@ export GPG_TTY
 # Aliases ======================================================================
 
 
-# update software
+# general
 alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade && sudo apt autoremove -y && sudo snap refresh'
 
 # suckless tools
@@ -99,4 +99,3 @@ _tmux_go() {
     
     tmux $operation $1 || tmux rename-session $1
 }
-    

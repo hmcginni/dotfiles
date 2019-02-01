@@ -421,7 +421,7 @@ Repeated invocations toggle between the two most recently open buffers."
          "* TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
         ("d" "diary" entry
          (file+olp+datetree org-default-diary-file)
-         "* %?\n%U\n\nCaptured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)))
+         "* %?\n%U\n\nCaptured from: %a*\n" :kill-buffer t)))
 
 (add-to-list 'org-structure-template-alist
              '("H" "#+STARTUP: overview\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/hrm.css\"/>\n#+LATEX_CLASS: beamer\n#+LATEX_CLASS_OPTIONS: [presentation]\n#+BEAMER_THEME: metropolis\n#+OPTIONS: toc:nil title:nil num:nil \n:nil ::t -:t\n#+TITLE:\n#+AUTHOR: Hassan McGinnis\n#+DATE: %u\n\n* "))

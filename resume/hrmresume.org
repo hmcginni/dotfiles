@@ -82,8 +82,8 @@
     /Aug 2017 - present/
     
 +  Developed a comprehensive strategy for verification and full MC/DC test coverage of Simulink-based state machines and control algorithms governing robotic arm motion.
-+  Lead a team of engineers through verification of 150 functional and non-functional software requirements implemented in Simulink, C++, and MATLAB code.
-+  Collaborated with a third-party software vendor to unit test custom software that allows Simulink code generation that targets the QNX Neutrino real-time operating system.
++  Lead a team of engineers through verification of over 400 functional and non-functional software requirements implemented in Simulink, C++, and MATLAB code.
++  Collaborated with a third-party software vendor to unit test custom software that enables Simulink code generation and compilation for the QNX Neutrino real-time operating system.
    
 **** MathWorks | Development of Python System Object for Simulink Raspberry Pi Support Package
     :PROPERTIES: 
@@ -118,11 +118,11 @@
     :CUSTOM_ID: purdue-university
     :END:      
     
-    MS Mechanical Engineering *•* 3.81/4.00 *•* Dec 2011
+    MS Mechanical Engineering *|* 3.81/4.00 *|* Dec 2011
     
 *** University of Kentucky
     :PROPERTIES: 
     :CUSTOM_ID: university-of-kentucky
     :END:      
     
-    ​BS Mechanical Engineering *•* 3.46/4.00 *•* May 2009
+    ​BS Mechanical Engineering *|* 3.46/4.00 *|* May 2009

@@ -1,33 +1,42 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400|IBM+Plex+Sans:400,500|IBM+Plex+Sans+Condensed:400,500');
 
 
 /* TEXT ****************************/
 
+:root { /* Define Variables Here */
+    --sans-display-font: 'IBM Plex Sans Condensed';
+    --sans-text-font:    'IBM Plex Sans';
+    --left-column-width:  1.8in;
+}
 
 h1, h2 {
-    font-family:    'Raleway';
+    font-family:     var(--sans-display-font);
+    font-weight:     500;
     font-size:       45px;
-    line-height:     42px;
+    line-height:     40px;
 }
 
 h3 {
-    font-family:    'Raleway';
-    font-size:       20px;
+    font-family:     var(--sans-display-font);
+    font-weight:     500;
+    font-size:       18px;
 }
 
 h4, h5 {
-    font-family:    'Roboto';
+    font-family:     var(--sans-display-font);
+    font-weight:     500;
     font-size:       16px;
     /* line-height:     10px; */
 }
 
 p, li {
-    font-family:    'Roboto';
+    font-family:     var(--sans-text-font);
+    font-weight:     400;
     font-size:	     14px;
 }
 
 li {
-    margin-bottom:   8px;
+    margin-bottom:   5px;
 }
 
 hr {
@@ -54,7 +63,7 @@ hr {
 }
 
 .row > :first-child {
-    width: 1.3in;
+    width: var(--left-column-width);
     flex: none;
     padding-right: 0.15in;
     text-align: right;
@@ -64,15 +73,11 @@ hr {
 
 .row.title {
     align-items: center;
-    margin-bottom: -40px;
-}
-
-.row.title > :first-child {
-    width: 2in;
+    margin-bottom: -45px;
 }
 
 .row:not([class~="title"]) {
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 
 .col {
