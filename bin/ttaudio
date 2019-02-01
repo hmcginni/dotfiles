@@ -7,7 +7,8 @@
 #
 ################################################################################
 
-# Turn on bluetooth and set up variables ======================================
+
+# Turn on bluetooth and set up variables #######################################
 #
 
 bluetooth on &>/dev/null
@@ -21,7 +22,7 @@ connectCmd="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
 bluetoothCmd="${agentCmd}${disconnectCmd}${connectCmd}"
 
 
-# Send command and wait for successful connection ==============================
+# Send command and wait for successful connection ##############################
 #
 
 echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
@@ -37,7 +38,7 @@ while [[ -z $(awk '/bluez/ {print $2}' <<< "$($pactlCmd)") ]]; do
 done
 
 
-# Set headphones as default output device & enable EQ =========================
+# Set headphones as default output device & enable EQ ##########################
 #
 
 printf "Connected to $ttMAC\n"
