@@ -2,24 +2,21 @@
 
 Not dotfiles. Executable ~bash~ or ~python~ scripts.
 
-** Summary
+** Most commonly-used files
 
 + ~desk~: Display desktop resolutions and offsets
-+ ~gcw~: Get the window ID (hex) of the currently selected window
-+ ~geom~: Get the window geometry (x,y,w,h) of the window with specified WID
 + ~gitsave~: Move local file to git repo and create symlink in its place
 + ~initrepo~: Create symlinks to files in ~bin/~, ~lib/~ and ~matlab/~
 + ~list~: Show listing of executable file
-+ ~move~: Change the geometry (x,y,w,h) of the window with specified WID
 + ~mute~: Mute all output devices
-+ ~pnw~: Print out the ID of a window whose title contains the specified string
-+ ~sc~: Create shortcuts to avoid hitting "cd <TAB>" so much
++ ~sc~: Create filesystem shortcuts
 + ~stick~: Select a window to make "sticky" (visible on all workspaces)
 + ~tile~: Tile 1, 2, or 3 windows on the specified desktop
++ ~ttaudio~: Connect to (already paired) TaoTronics headphones and enable PulseAudio Equalizer
 + ~vis~: List window IDs that are currently visible on the specified desktop
 + ~wincomm~: Select a window to determine what its parent process is
 
 ** Todo [0/1]
 
-+ [ ] Make ~initrepo~ smarter - paths shouldn't be hardcoded
++ [ ] Turn this into a ~.deb~ package
 
