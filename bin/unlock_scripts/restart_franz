@@ -8,8 +8,8 @@ $notify_repl "Restarting Franz..."
 if [ ! -z $(which franz) ]; then
     killall franz;
     sleep 1;
-    franz &
-    sleep 1;
+    nice franz &
+    sleep 0.5;
     xdotool windowminimize $(pnw franz)
 fi
 

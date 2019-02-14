@@ -12,7 +12,8 @@
 #-------------------------------------------------------------------------------
 # Utility Functions
 
-source ~/lib/bash/tiling_functions
+source ~/lib/bash/tiling
+source ~/lib/bash/utils
 
 function usage()
 {
@@ -21,8 +22,9 @@ function usage()
 
 function err()
 {
-    printf "\n\tError on line: ${BASH_LINENO[0]}\n"
     usage
+    errStr=$(printf "\n%s\n\tError on line: ${BASH_LINENO[0]}\n" "$1")
+    utils.errorf "$errStr"
 }
 
 
@@ -30,7 +32,7 @@ function err()
 # Defaults
 
 
-desktop=$(getCursorDesktop)
+desktop=$(tiling.getCursorDesktop)
 
 
 #-------------------------------------------------------------------------------
@@ -48,9 +50,7 @@ while getopts ":hd:" opt; do
 	    desktop=$OPTARG
 	    ;;
 	* )
-	    echo -e "\tUnrecognized option"
-	    err
-	    exit 1
+	    err	"\tUnrecognized option"
 	    ;;
     esac
 done

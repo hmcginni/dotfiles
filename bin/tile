@@ -7,7 +7,7 @@
 #   tile -h50  :: tile the cursor's monitor with default v-sep and h-sep at 50%
 #   tile -2    :: tile monitor 2 with default separator values
 #
-#   Custom Dependencies:  desk, vis, tiling_functions
+#   Custom Dependencies:  desk, vis, tiling
 #   Package Dependencies:
 #
 ################################################################################
@@ -16,13 +16,18 @@
 # Utility Functions
 
 
-source ~/lib/bash/tiling_functions
+source ~/lib/bash/tiling
+source ~/lib/bash/utils
 
 function usage()
 {
-    printf "\nOn line: ${BASH_LINENO[0]}\n"
-    printf "Usage: \n  tile [-h][-v vertsep][-d desktop][-b borderWidth] "
-    printf "<win1> <win2> ... <winN>\n"
+
+    a=$(printf "On line: ${BASH_LINENO[0]}")
+    b=$(printf "\n\nUsage: \n  tile [-h][-v vertsep][-d desktop][-b border]")
+    c=$(printf " <win1> <win2> ... <winN>")
+    
+    utils.errorf "%s%s%s" "$a" "$b" "$c"
+    
 }
 
 
@@ -30,7 +35,7 @@ function usage()
 # Set Default Values
 
 
-desktop=$(getCursorDesktop)
+desktop=$(tiling.getCursorDesktop)
 borderWidth=12
 vertSepPos=60
 horizSepPos=48
@@ -48,15 +53,13 @@ while getopts ":123v:h:d:b:" opt; do
         v )
             vertSepPos=$OPTARG
             if (( (20 > vertSepPos) || (80 < vertSepPos) )); then
-                echo "Unsupported width"
-                exit 1
+                utils.errorf "\n\tUnsupported width (position ∈ [20, 80])\n"
             fi
             ;;
         h )
             horizSepPos=$OPTARG
             if (( (30 > horizSepPos) || (70 < horizSepPos) )); then
-                echo "Unsupported height"
-                exit 1
+                utils.errorf "\n\tUnsupported height (position ∈ [30, 70])\n"
             fi
             ;;
         d )
@@ -64,10 +67,12 @@ while getopts ":123v:h:d:b:" opt; do
             ;;
         b )
             borderWidth=$OPTARG
-            ;;
+	    if (( (8 > borderWidth) || (60 < borderWidth) )); then
+		utils.errorf "\n\tUnsupported border width (border ∈ [8, 60])\n"
+	    fi
+	    ;;
         \?)
             usage
-            exit 1
             ;;
     esac
 done
@@ -86,27 +91,29 @@ fi
 
 if (( autoTile )); then
     WIDList=$(vis -d$desktop)
-    numWindows=$(wc -w <<< $WIDList)
+    numWindows=$(wc -w <<< "$WIDList")
 
     for wID in $WIDList; do
-        sizeOfwID="$(getWindowSize $wID)"
+        sizeOfwID="$(tiling.getWindowSize $wID)"
         wSize+=($sizeOfwID)
         wMap["$sizeOfwID"]=$wID
     done
 
     sortedwSize=$(sort -nr <<< "$(sed -r 's# #\n#g' <<< ${wSize[@]})" )
 
-    #    for wID in $sortedwSize; do
     WID1=${wMap[$(awk '{print $1}' <<< ${sortedwSize[@]})]}
     WID2=${wMap[$(awk '{print $2}' <<< ${sortedwSize[@]})]}
     WID3=${wMap[$(awk '{print $3}' <<< ${sortedwSize[@]})]}
-    #    done
 
 else
     WID1=$(pnw $1)
     WID2=$(pnw $2)
     WID3=$(pnw $3)
 fi
+
+for wIdx in $(seq 3 $numWindows); do
+    xdotool windowminimize ${WIDList[$wIDx]}
+done
 
 
 #-------------------------------------------------------------------------------
@@ -142,8 +149,7 @@ case $desktop in
         read -r xRes yRes <<< $(desk -d3 -r)
         ;;
     *)
-        echo "Invalid display selection."
-        exit 1
+        utils.errorf "\n\tInvalid monitor selection (%d).\n" "$desktop"
         ;;
 esac
 
@@ -178,7 +184,7 @@ case $numWindows in
         move $x1 $y1 $w1 $h1 $WID1
         move $x2 $y2 $w2 $h2 $WID2
         ;;
-    3)
+    *)
         x1=$(( xDispOffset+xLeft+borderWidth ))
         y1=$(( yDispOffset+yTop+borderWidth ))
         w1=$(( xVertSep-borderWidth ))
@@ -197,10 +203,7 @@ case $numWindows in
         move $x1 $y1 $w1 $h1 $WID1
         move $x2 $y2 $w2 $h2 $WID2
         move $x3 $y3 $w3 $h3 $WID3
-        ;;
-    *)
-        echo "Invalid number of windows specified"
-        usage
-        exit 1
+
+        utils.errorf "\n\tInvalid number of windows specified (%d)\n" "$numWindows"
         ;;
 esac
