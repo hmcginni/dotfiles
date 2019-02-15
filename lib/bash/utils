@@ -1,0 +1,50 @@
+#!/bin/bash
+
+#===============================================================================
+#
+# utils.errorf
+#
+#   Helper function to display error message and exit the program
+#
+#   Arguments:
+#       1) Message to display (if only one input) <OR>
+#          Title of notify-osd window (if two inputs)
+#       2) Message to display (if two inputs)
+#
+#   Dependencies:
+#       notify-osd
+#
+
+utils.errorf() {
+    printf "$@" >&2
+    exit 1
+}
+
+#===============================================================================
+#
+# utils.notify
+#
+#   Helper function to call notify-send
+#
+#   Arguments:
+#       1) Message to display (if only one input) <OR>
+#          Title of notify-osd window (if two inputs)
+#       2) Message to display (if two inputs)
+#
+#   Dependencies:
+#       notify-osd
+#
+
+utils.notify() {
+    if [[ $# == 2 ]]; then
+	echo "$2"
+	notify-send "$@"
+    elif [[ $# == 1 ]]; then
+	echo "$@"
+	notify-send "$@"
+    else
+	utils::errorf "Improper usage of function utils::notify"
+    fi
+}
+
+

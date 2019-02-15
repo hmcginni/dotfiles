@@ -5,25 +5,30 @@
 #
 #   Custom Dependencies:  pulseaudio pulseaudio-equalizer bluetoothctl
 #
-################################################################################
 
-
-# Turn on bluetooth and set up variables #######################################
+# Utility functions ------------------------------------------------------------
 #
 
-bluetooth on &>/dev/null
 
-timeout=10
+source ~/lib/bash/utils
+
+
+# Local variables --------------------------------------------------------------
+#
+
+
+timeout=15
 ttMAC="E8:AB:FA:23:DA:8F"
-
 agentCmd="power on\nagent on\n"
 disconnectCmd="disconnect $ttMAC\nuntrust $ttMAC\n"
 connectCmd="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
 bluetoothCmd="${agentCmd}${disconnectCmd}${connectCmd}"
 
 
-# Send command and wait for successful connection ##############################
+# Send command and wait for successful connection ------------------------------
 #
+
+bluetooth on &>/dev/null
 
 echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
 
@@ -31,17 +36,20 @@ pactlCmd="pactl list sinks short"
 while [[ -z $(awk '/bluez/ {print $2}' <<< "$($pactlCmd)") ]]; do
     sleep 0.5
     if (( "$SECONDS" >= "$timeout" )); then
-	1>&2
-	printf "%s Error: Exceeded timeout (%d)" "${0##/*/}" "$timeout"
-	exit 1
+	errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
+	# printf "%s" "$err"
+	# notify-send "$err"
+	utils.errorf "Error connecting to headphones" "$errStr"
     fi    
 done
 
 
-# Set headphones as default output device & enable EQ ##########################
+# Set headphones as default output device & enable EQ --------------------------
 #
 
 printf "Connected to $ttMAC\n"
 ttsink=$(awk '/bluez/ {print $2}' <<< "$(pactl list sinks short)")
 pactl set-default-sink "$ttsink"
 pulseaudio-equalizer enable &>/dev/null
+
+utils.notify "Connected to Bluetooth Device" "Connected to TaoTronics TT-BH040"

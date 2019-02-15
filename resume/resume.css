@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400|IBM+Plex+Sans:400,500|IBM+Plex+Sans+Condensed:400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400|IBM+Plex+Sans:400,500|IBM+Plex+Sans+Condensed:400,500|Zilla Slab|Slabo+27px');
 
 
 /* TEXT ****************************/
 
 :root { /* Define Variables Here */
-    --sans-display-font: 'IBM Plex Sans Condensed';
+    --sans-display-font: 'Slabo 27px';
+    /* --sans-display-font: 'Zilla Slab'; */
     --sans-text-font:    'IBM Plex Sans';
-    --left-column-width:  1.8in;
+    --left-column-width:  1.75in;
 }
 
 h1, h2 {

@@ -128,27 +128,19 @@ export PATH=/opt/Xilinx/SDK/2016.1/bin:$PATH
 
 tput smkx
 
-export DISPLAY=:0.0
-export DWMDIR="/usr/local/src/dwm-6.1"
-export STDIR="${HOME}/repos/st"
-export DMENUDIR="/usr/local/src/dmenu-4.7"
-export GITDOTS="/home/$USER/.cfg/dotfiles"
-export FT2_SUBPIXEL_HINTING=0  # Classic mode
-export LIC="/opt/matlab/2017a/etc/license.dat"
-export LMUTIL="/opt/matlab/2017a/etc/glnxa64/lmutil"
-export GLMEETING=926431090
-export VECTORCAST_DIR=/usr/local/vcast
+# export DISPLAY=:0.0
 export LM_LICENSE_FILE=27000@bos6-dev-srv
 export EDITOR=emacs
 export XDG_CONFIG_HOME="${HOME}/.config/"
-export EIN_BUILD_DIR="${HOME}/build/ein-develop-20190118/"
+export pierct5="FC:3F:DB:84:C7:1C"
+
+EIN_BUILD_DIR=$(< ${HOME}/Documents/MATLAB/bv.txt )
+export EIN_BUILD_DIR
 # export MATLAB_JAVA="/usr/lib/jvm/java-7-openjdk-amd64/jre"
 
 
 # M*IC Stuff
 
-alias sshbp='ssh root@${BPQNXIP}'
-alias sshdd='ssh root@${DDQNXIP}'
 alias qnxenv='source /opt/qnx/6.6.0/qnx660-env.sh'
 alias licenses='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -a -c /opt/matlab/2017a/licenses/network.lic'
 alias lic='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f ${1} -c /opt/matlab/2017a/licenses/network.lic'
@@ -156,6 +148,3 @@ alias lictest='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f Simulink_Test -c /
 alias licsf='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f Stateflow -c /opt/matlab/2017a/licenses/network.lic'
 alias licdv='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f Simulink_Design_Verifier -c /opt/matlab/2017a/licenses/network.lic'
 alias licvnv='/opt/matlab/2017a/etc/glnxa64/lmutil lmstat -f SL_Verification_Validation -c /opt/matlab/2017a/licenses/network.lic'
-alias lics='licdv && licvnv && lictest && licsf'
-alias licrm='_licrm'
-alias licfree='_licfree'

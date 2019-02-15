@@ -1,8 +1,1 @@
-#!/bin/bash
-
-notify-send "Mute"
-sinks=($(grep "Sink #" <<< "$(pactl list)" | sed "s|Sink #||"))
-
-for thisSink in "${sinks[@]}"; do
-    pactl set-sink-volume $thisSink 0%
-done
+/home/hrm/bin/mute

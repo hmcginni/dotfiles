@@ -59,8 +59,8 @@ function notify_send(title, msg)
 	if ~notifySendMissing
 		execStr = sprintf('notify-send "%s" "%s"', title, msg);
 		system(execStr);
-	else
-		fprintf('%s at %s\n', title, msg);
 	end
+	
+	fprintf('\n\t*** %s at %s ***\n\n', title, msg);
 	
 end

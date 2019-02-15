@@ -1,14 +1,13 @@
 #!/bin/bash
 
 filePath="$(which $1)"
-fileLength=($(wc -l $filePath))
+fileLength=$(wc -l $filePath)
 LINES=$(echo $(tput lines))
 
-if (( fileLength[0] < LINES - 5 )); then
+if (( fileLength < LINES - 6 )); then
     nl -ba $filePath
-    exit 0
 else
-    less $filePath
+    less -N $filePath
 fi
 
  

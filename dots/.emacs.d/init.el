@@ -69,7 +69,7 @@
   (require 'use-package))
 
 
-;; PACKAGE INIT/INSTALL ========================================================
+;; Package Init/Install ========================================================
 ;;
 
 
@@ -83,14 +83,14 @@
   (setq recentf-max-menu-items 35))
 
   
-;; Automatically update packages
-;;
-(use-package auto-package-update
-  :ensure t
-  :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
-  (auto-package-update-maybe))
+;; ;; Automatically update packages
+;; ;;
+;; (use-package auto-package-update
+;;   :ensure t
+;;   :config
+;;   (setq auto-package-update-delete-old-versions t)
+;;   (setq auto-package-update-hide-results t)
+;;   (auto-package-update-maybe))
 
 
 ;; Persistent Scratch
@@ -166,6 +166,13 @@
 ;; Org-mode JIRA export
 ;;
 (use-package ox-jira
+  :ensure t
+  :defer t)
+
+
+;; Viper mode
+;;
+(use-package viper
   :ensure t
   :defer t)
 
@@ -418,7 +425,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq org-capture-templates
       '(("t" "todo" entry
          (file+headline org-todos-file "Unfiled")
-         "* TODO %u%? [/]\n\n*Captured from: %a*\n" :clock-in t :clock-resume t :kill-buffer t)
+         "* TODO %u%? [/]\n\n*Captured from: %a*\n" :kill-buffer t)
         ("d" "diary" entry
          (file+olp+datetree org-default-diary-file)
          "* %?\n%U\n\nCaptured from: %a*\n" :kill-buffer t)))
@@ -520,6 +527,18 @@ Repeated invocations toggle between the two most recently open buffers."
   (load-theme 'atom-one-light t))
 (provide 'color-theme-atom-one-light)
 (color-theme-atom-one-light)
+
+;; Startup Modes ===============================================================
+;;
+
+
+(defun command-line ()
+  (interactive)
+  (setq viper-mode t)
+  (viper-mode)
+  (color-theme-almost-monokai))
+(provide 'command-line)
+
 
 ;; Customize ===================================================================
 ;;

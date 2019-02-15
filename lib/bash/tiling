@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #===============================================================================
-# getCursorDesktop
+# tiling.getCursorDesktop
 #
 #   Return the desktop (monitor) where the cursor currently is
 #
@@ -12,7 +12,7 @@
 #       xdotool, desk
 #===============================================================================
 
-function getCursorDesktop()
+function tiling.getCursorDesktop()
 {
     if [[ $(desk -n) > 1 ]]; then
 	cursorPos=($(awk -F'[: ]' '{print $2,$4}' \
@@ -45,7 +45,20 @@ function getCursorDesktop()
 }
 
 
-function getWindowSize()
+#===============================================================================
+# tiling.getWindowSize
+#
+#   Return the size of the specified window
+#
+#   Arguments:
+#       1) window ID
+#
+#   Dependencies:
+#       xdotool
+#===============================================================================
+
+
+function tiling.getWindowSize()
 {
     local eqn=$(awk -F"[ x]" '/Geometry/ {print $4"*"$5}' <<< \
 		    "$(xdotool getwindowgeometry ${1})")
