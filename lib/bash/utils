@@ -48,3 +48,7 @@ utils.notify() {
 }
 
 
+utils.nerrorf() {
+    utils.notify "$@"
+    utils.errorf "$@"    
+}

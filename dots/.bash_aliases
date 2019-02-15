@@ -53,8 +53,8 @@ alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 alias q='_quiet'
 alias qfind='_qfind'
-alias vpn='pass mdt/vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
-
+alias vpn='pass medtronic/vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
+alias socksvpn='pass medtronic/vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
 
 # Functions ====================================================================
 
