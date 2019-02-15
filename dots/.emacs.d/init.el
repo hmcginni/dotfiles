@@ -519,7 +519,7 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (load-theme 'atom-one-light t))
 (provide 'color-theme-atom-one-light)
-
+(color-theme-atom-one-light)
 
 ;; Customize ===================================================================
 ;;

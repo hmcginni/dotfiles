@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "SF Mono:pixelsize=14:weight=Semibold";
+static char *font = "SF Mono:pixelsize=14:weight=Regular";
 /* static char *font = "Roboto Mono:pixelsize=14:weight=medium"; */
 /* static char *font = "IBM Plex Mono:pixelsize=14:weight=medium"; */
 static int borderpx = 15;

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo apt update
+sudo apt install -y libx11-dev libfreetype6-dev libxext-dev pkg-config libxft-dev
