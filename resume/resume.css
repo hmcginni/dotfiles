@@ -4,10 +4,10 @@
 /* TEXT ****************************/
 
 :root { /* Define Variables Here */
-    --sans-display-font: 'Slabo 27px';
+    --sans-display-font: 'IBM Plex Sans Condensed';
     /* --sans-display-font: 'Zilla Slab'; */
-    --sans-text-font:    'IBM Plex Sans';
-    --left-column-width:  1.75in;
+    --sans-text-font:    'IBM Plex Sans Condensed';
+    --left-column-width:  1.85in;
 }
 
 h1, h2 {
