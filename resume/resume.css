@@ -6,7 +6,7 @@
 :root { /* Define Variables Here */
     --sans-display-font: 'IBM Plex Sans Condensed';
     /* --sans-display-font: 'Zilla Slab'; */
-    --sans-text-font:    'IBM Plex Sans Condensed';
+    --sans-text-font:    'IBM Plex Sans';
     --left-column-width:  1.85in;
 }
 
