@@ -1,10 +1,11 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="resume.css"/>
 #+OPTIONS: toc:nil num:nil \n:nil ::t -:t ::t html-postamble:nil
-#+TITLE: 
+#+TITLE: test
 
 # #+HTML_CONTAINER: div
 * Hassan McGinnis
   :PROPERTIES: 
+  :VISIBILITY: children
   :HTML_CONTAINER_CLASS: row title
   :CUSTOM_ID: hassan-mcginnis
   :END:      
@@ -16,7 +17,9 @@
   [[mailto:hassan.mcginnis@gmail.com][hassan.mcginnis@gmail.com]] *|* [[https://hrmcginnis.github.io][hrmcginnis.github.io]]
   
 * 
-
+  :PROPERTIES:
+  :VISIBILITY: children
+  :END:
   --------------
 
 ** Summary
