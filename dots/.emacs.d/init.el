@@ -12,6 +12,10 @@
  '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
+ '(initial-major-mode (quote org-mode))
+ '(initial-scratch-message "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
+
+")
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing nil)
  '(org-clock-into-drawer 2)
@@ -414,6 +418,7 @@ Repeated invocations toggle between the two most recently open buffers."
     (org-open-at-point)
     (delete-window)))
 
+
 (defun generate-new-filename (path)
   (let ((name (read-string
                "File name: ")))
@@ -422,6 +427,10 @@ Repeated invocations toggle between the two most recently open buffers."
              (format-time-string "%Y%m%d")
              name)
      path)))
+
+
+(defun org-scratch ())
+
 
 (setq org-capture-templates
       '(("t" "todo" entry
@@ -525,7 +534,8 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun color-theme-atom-one-light ()
   (interactive)
-  (load-theme 'atom-one-light t))
+  (load-theme 'atom-one-light t)
+  (setq-default line-spacing 2))
 (provide 'color-theme-atom-one-light)
 
 
