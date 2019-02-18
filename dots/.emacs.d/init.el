@@ -9,7 +9,7 @@
  '(cursor-type (quote box))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)) t)
+ '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
@@ -35,7 +35,8 @@
  '(speedbar-verbosity-level 0)
  '(sr-speedbar-default-width 30)
  '(sr-speedbar-right-side nil)
- '(text-scale-mode-step 1.1))
+ '(text-scale-mode-step 1.1)
+ '(vc-follow-symlinks nil))
 
 
 ;; Package Init ================================================================
@@ -526,7 +527,7 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (load-theme 'atom-one-light t))
 (provide 'color-theme-atom-one-light)
-(color-theme-atom-one-light)
+
 
 ;; Startup Modes ===============================================================
 ;;

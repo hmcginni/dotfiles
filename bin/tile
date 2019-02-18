@@ -81,7 +81,7 @@ shift $(($OPTIND - 1))
 numWindows=$#
 
 if (( numWindows == 0 )); then
-    autoTile=1
+    autoTile=true
 fi
 
 
@@ -89,7 +89,7 @@ fi
 # Get Window IDs
 
 
-if (( autoTile )); then
+if [[ $autoTile ]]; then
     WIDList=$(vis -d$desktop)
     numWindows=$(wc -w <<< "$WIDList")
 
@@ -180,26 +180,6 @@ case $numWindows in
         move $x1 $y1 $w1 $h1 $WID1
         move $x2 $y2 $w2 $h2 $WID2
         ;;
-    3)
-        x1=$(( xDispOffset+xLeft+borderWidth ))
-        y1=$(( yDispOffset+yTop+borderWidth ))
-        w1=$(( xVertSep-borderWidth ))
-        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
-
-        x2=$(( x1+w1+borderWidth ))
-        y2=$(( y1 ))
-        w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
-        h2=$(( yHorizSep-yTitle[1]-2*borderWidth ))
-
-        x3=$(( x2 ))
-        y3=$(( y2+h2+yTitle[1]+borderWidth ))
-        w3=$(( w2 ))
-        h3=$(( yRes-yHorizSep-yTitle[2]-2*borderWidth ))
-
-        move $x1 $y1 $w1 $h1 $WID1
-        move $x2 $y2 $w2 $h2 $WID2
-        move $x3 $y3 $w3 $h3 $WID3
-	;;
     *)
         x1=$(( xDispOffset+xLeft+borderWidth ))
         y1=$(( yDispOffset+yTop+borderWidth ))
@@ -219,17 +199,17 @@ case $numWindows in
         move $x1 $y1 $w1 $h1 $WID1
         move $x2 $y2 $w2 $h2 $WID2
         move $x3 $y3 $w3 $h3 $WID3
-
-	#--- Minimize other windows ---#
-
-	printf "==================\n"
-	largest=($WID1 $WID2 $WID3)
-	for window in $(vis -d$desktop); do
-	    if [[ ! ${largest[@]} =~ $window ]]; then
-		xdotool windowminimize $window
-	    fi
-	done
-		
-        utils.nerrorf "\n\tInvalid number of windows specified (%d)\n" "$numWindows"
-        ;;
+	;;
 esac
+
+if [[ $numWindows > 3 ]]; then
+    printf "==================\n"
+    largest=($WID1 $WID2 $WID3)
+    for window in $(vis -d$desktop); do
+	if [[ ! ${largest[@]} =~ $window ]]; then
+	    xdotool windowminimize $window
+	fi
+    done
+    
+    utils.nerrorf "\n\tToo many windows on display %d (%d)\n" "$desktop" "$numWindows"
+fi

@@ -49,6 +49,7 @@ utils.notify() {
 
 
 utils.nerrorf() {
-    utils.notify "$@"
+    notifyStr=$(printf "$@")
+    utils.notify "Error" "$notifyStr"
     utils.errorf "$@"    
 }
