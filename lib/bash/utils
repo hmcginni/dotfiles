@@ -1,46 +1,47 @@
 #!/bin/bash
 
-#===============================================================================
-#
+                      #==================================#
+                      #  utils - bash utility functions  #
+                      #==================================#
+
+
+#------------------------------------------------------------------------------#
 # utils.errorf
 #
-#   Helper function to display error message and exit the program
+#   Helper function to display error message and exit the program. Provide
+#   inputs similar to those for ~printf~.
 #
-#   Arguments:
-#       1) Message to display (if only one input) <OR>
-#          Title of notify-osd window (if two inputs)
-#       2) Message to display (if two inputs)
+#   Usage:
 #
-#   Dependencies:
-#       notify-osd
+#        utils.errorf "formatStr" "formatArg1" "formatArg2" [...] "formatArgN"
 #
+#------------------------------------------------------------------------------#
+
 
 utils.errorf() {
     printf "$@" >&2
     exit 1
 }
 
-#===============================================================================
-#
+
+#------------------------------------------------------------------------------#
 # utils.notify
 #
 #   Helper function to call notify-send
 #
-#   Arguments:
-#       1) Message to display (if only one input) <OR>
-#          Title of notify-osd window (if two inputs)
-#       2) Message to display (if two inputs)
+#   Usage:
+#
+#        utils.notify "titleStr" "messageStr"
+#   -OR- utils.notify "messageStr"
 #
 #   Dependencies:
 #       notify-osd
 #
+#------------------------------------------------------------------------------#
+
 
 utils.notify() {
-    if [[ $# == 2 ]]; then
-	echo "$2"
-	notify-send "$@"
-    elif [[ $# == 1 ]]; then
-	echo "$@"
+    if [[ $# == 1 || $# == 2 ]]; then
 	notify-send "$@"
     else
 	utils::errorf "Improper usage of function utils::notify"
@@ -48,8 +49,26 @@ utils.notify() {
 }
 
 
+#------------------------------------------------------------------------------#
+# utils.nerrorf
+#
+#   Helper function to call notify-send and then error out of the application
+#
+#   Usage:
+#
+#        utils.nerrorf "formatStr" "formatArg1" "formatArg2" [...] "formatArgN"
+#
+#   Dependencies:
+#       notify-osd
+#
+#------------------------------------------------------------------------------#
+
+
 utils.nerrorf() {
     notifyStr=$(printf "$@")
     utils.notify "Error" "$notifyStr"
     utils.errorf "$@"    
 }
+
+
+#------------------------------------------------------------------------------#

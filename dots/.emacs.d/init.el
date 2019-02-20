@@ -10,25 +10,31 @@
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(debug-on-error nil)
  '(display-time-mode t)
+ '(global-linum-mode t)
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
 ")
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(line-spacing nil)
+ '(line-spacing 2)
+ '(linum-format "%4d│")
+ '(menu-bar-mode nil)
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
+ '(scroll-bar-mode nil)
+ '(server-mode nil)
  '(show-paren-mode t)
  '(speedbar-frame-parameters
    (quote
     ((minibuffer)
-     (width . 16)
+     (width . 15)
      (border-width . 0)
      (menu-bar-lines . 0)
      (tool-bar-lines . 0)
@@ -40,6 +46,7 @@
  '(sr-speedbar-default-width 30)
  '(sr-speedbar-right-side nil)
  '(text-scale-mode-step 1.1)
+ '(tool-bar-mode nil)
  '(vc-follow-symlinks nil))
 
 
@@ -88,22 +95,24 @@
   (setq recentf-max-menu-items 35))
 
   
-;; ;; Automatically update packages
-;; ;;
-;; (use-package auto-package-update
-;;   :ensure t
-;;   :config
-;;   (setq auto-package-update-delete-old-versions t)
-;;   (setq auto-package-update-hide-results t)
-;;   (auto-package-update-maybe))
-
-
-;; Persistent Scratch
+;; Automatically update packages
 ;;
-(use-package persistent-scratch
+(use-package auto-package-update
   :ensure t
   :config
-  (persistent-scratch-setup-default))
+  (setq auto-package-update-delete-old-versions t
+        auto-package-update-hide-results t
+        auto-package-update-interval 30
+        auto-package-update-prompt-before-update)
+  (auto-package-update-maybe))
+
+
+;; ;; Persistent Scratch
+;; ;;
+;; (use-package persistent-scratch
+;;   :ensure t
+;;   :config
+;;   (persistent-scratch-setup-default))
 
 
 ;; Speedbar
@@ -130,11 +139,15 @@
          (c-mode . company-mode)
          (emacs-lisp-mode . company-mode))
   :config
+  ;;
+  ;; Company Irony
   (use-package company-irony
     :ensure t
     :config
     (eval-after-load 'company
       '(add-to-list 'company-backends 'company-irony)))
+  ;;
+  ;; Company C Headers
   (use-package company-c-headers
     :ensure t
     :config
@@ -149,7 +162,13 @@
   :hook ((c-mode . irony-mode)
          (c++-mode . irony-mode)
          (objc-mode . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options)))
+         (irony-mode . irony-cdb-autosetup-compile-options))
+  :config
+  ;;
+  ;; Flycheck Irony mode
+  (use-package flycheck-irony
+    :ensure t
+    :defer t))
 
 
 ;; Smooth scrolling mode
@@ -215,10 +234,10 @@
 ;;
 
 
-;; Server mode
+;; Window Size
 ;;
-(server-mode 0)
-
+(add-to-list 'default-frame-alist '(height . 73))
+(add-to-list 'default-frame-alist '(width . 86))
 
 ;; Global keyboard shortcuts
 ;;
@@ -249,17 +268,11 @@
 	   "GNU Emacs • %b • "
 	   (getenv "USER")))
 
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(require 'linum)
-(global-linum-mode 1)
-(global-visual-line-mode t)
 
-(set-face-foreground 'linum "#c0c0c0")
-(setq linum-format "%4d\u2502")
-(setq-default line-spacing 2)
-(setq debug-on-error t)
+;; (require 'linum)
+
+
+
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 
@@ -532,12 +545,6 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; (require 'color-theme)
 ;; (color-theme-almost-monokai)
 
-(defun color-theme-atom-one-light ()
-  (interactive)
-  (load-theme 'atom-one-light t)
-  (setq-default line-spacing 2))
-(provide 'color-theme-atom-one-light)
-
 
 ;; Startup Modes ===============================================================
 ;;
@@ -551,6 +558,13 @@ Repeated invocations toggle between the two most recently open buffers."
 (provide 'command-line)
 
 
+(defun gui ()
+  (interactive)
+  (load-theme 'atom-one-light t))
+  ;; (setq-default line-spacing 2))
+(provide 'gui)
+
+
 ;; Customize ===================================================================
 ;;
 
@@ -560,6 +574,7 @@ Repeated invocations toggle between the two most recently open buffers."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(linum ((t (:inherit (shadow default) :foreground "#c0c0c0"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
  '(speedbar-button-face ((t (:foreground "green4" :height 70 :family "IBM Plex Sans"))))
  '(speedbar-directory-face ((t (:foreground "dim gray" :height 90 :family "IBM Plex Sans"))))

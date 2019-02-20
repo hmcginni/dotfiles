@@ -39,11 +39,14 @@ alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
 
 # emacs
-alias emacs='q \emacs -f color-theme-atom-one-light'
+alias emacs='q \emacs -f gui'
 alias e='\emacs -nw -f command-line'
 
 # MATLAB
 alias ml='_ml'
+
+# Screen Unlock Daemon (slockd)
+alias s='_slockd_handler'
 
 # others
 alias copy='_copy'
@@ -86,6 +89,17 @@ _quiet() {
 _qfind() {
     find "${@}" 2>&1 | grep -v "Permission denied"
 }
+
+_slockd_handler() {
+    systemctl --user "$1" slockd.service
+}
+complete -F _systemctl s
+complete -F _systemctl _slockd_handler
+
+# _slockd_handler_completion() {
+#     local cur=${COMP_WORDS[$COMP_CWORD]}
+#     COMPREPLY=( $(compgen -W 
+# }
 
 _tmux_go() {
     if [[ -z "$1" ]]; then

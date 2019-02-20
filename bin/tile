@@ -2,13 +2,15 @@
 #
 # Tile up to three windows on a display
 #
+# Usage:
+#
 #   tile       :: tile the cursor's monitor with default separator values
-#   tile -v50  :: tile the cursor's monitor with default h-sep and v-sep at 50%
-#   tile -h50  :: tile the cursor's monitor with default v-sep and h-sep at 50%
+#   tile -v50  :: tile the cursor's monitor with h-sep=default & v-sep=50%
+#   tile -h50  :: tile the cursor's monitor with v-sep=default & h-sep=50%
 #   tile -2    :: tile monitor 2 with default separator values
 #
 #   Custom Dependencies:  desk, vis, tiling
-#   Package Dependencies:
+#   Package Dependencies: xdotool, wmctrl
 #
 ################################################################################
 
@@ -25,9 +27,9 @@ function usage()
     a=$(printf "On line: ${BASH_LINENO[0]}")
     b=$(printf "\n\nUsage: \n  tile [-h][-v vertsep][-d desktop][-b border]")
     c=$(printf " <win1> <win2> ... <winN>")
-    
+
     utils.errorf "%s%s%s" "$a" "$b" "$c"
-    
+
 }
 
 
@@ -36,7 +38,7 @@ function usage()
 
 
 desktop=$(tiling.getCursorDesktop)
-borderWidth=12
+borderWidth=20
 vertSepPos=60
 horizSepPos=48
 
@@ -53,13 +55,13 @@ while getopts ":123v:h:d:b:" opt; do
         v )
             vertSepPos=$OPTARG
             if (( (20 > vertSepPos) || (80 < vertSepPos) )); then
-                utils.errorf "\n\tUnsupported width (position ∈ [20, 80])\n"
+                utils.errorf "\n\tUnsupported width (v ∈ [20,80])\n"
             fi
             ;;
         h )
             horizSepPos=$OPTARG
             if (( (30 > horizSepPos) || (70 < horizSepPos) )); then
-                utils.errorf "\n\tUnsupported height (position ∈ [30, 70])\n"
+                utils.errorf "\n\tUnsupported height (h ∈ [30,70])\n"
             fi
             ;;
         d )
@@ -68,7 +70,7 @@ while getopts ":123v:h:d:b:" opt; do
         b )
             borderWidth=$OPTARG
 	    if (( (8 > borderWidth) || (60 < borderWidth) )); then
-		utils.errorf "\n\tUnsupported border width (border ∈ [8, 60])\n"
+		utils.errorf "\n\tUnsupported border width (border ∈ [8,60])\n"
 	    fi
 	    ;;
         \?)
@@ -93,10 +95,10 @@ if [[ $autoTile ]]; then
     WIDList=$(vis -d$desktop)
     numWindows=$(wc -w <<< "$WIDList")
 
-    for wID in $WIDList; do
-        sizeOfwID="$(tiling.getWindowSize $wID)"
-        wSize+=($sizeOfwID)
-        wMap[$sizeOfwID]=$wID
+    for WID in $WIDList; do
+        sizeOfWID="$(tiling.getWindowSize $WID)"
+        wSize+=($sizeOfWID)
+        wMap[$sizeOfWID]=$WID
     done
 
     sortedwSize=$(sort -nr <<< "$(sed -r 's# #\n#g' <<< ${wSize[@]})" )
@@ -104,7 +106,6 @@ if [[ $autoTile ]]; then
     WID1=${wMap[$(awk '{print $1}' <<< ${sortedwSize[@]})]}
     WID2=${wMap[$(awk '{print $2}' <<< ${sortedwSize[@]})]}
     WID3=${wMap[$(awk '{print $3}' <<< ${sortedwSize[@]})]}
-
 else
     WID1=$(pnw $1)
     WID2=$(pnw $2)
@@ -116,8 +117,8 @@ fi
 # Get title bar width
 
 
-for wID in $WID1 $WID2 $WID3; do
-    yTitle+=($(xprop -id $wID | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
+for WID in $WID1 $WID2 $WID3; do
+    yTitle+=($(xprop -id $WID | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
 done
 
 
@@ -210,6 +211,6 @@ if [[ $numWindows > 3 ]]; then
 	    xdotool windowminimize $window
 	fi
     done
-    
+
     utils.nerrorf "\n\tToo many windows on display %d (%d)\n" "$desktop" "$numWindows"
 fi

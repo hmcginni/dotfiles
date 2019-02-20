@@ -9,13 +9,11 @@
 # Utility functions ------------------------------------------------------------
 #
 
-
 source ~/lib/bash/utils
 
 
 # Local variables --------------------------------------------------------------
 #
-
 
 timeout=15
 ttMAC="E8:AB:FA:23:DA:8F"
@@ -35,11 +33,9 @@ echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
 pactlCmd="pactl list sinks short"
 while [[ -z $(awk '/bluez/ {print $2}' <<< "$($pactlCmd)") ]]; do
     sleep 0.5
-    if (( "$SECONDS" >= "$timeout" )); then
+    if (( SECONDS >= timeout )); then
 	errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
-	# printf "%s" "$err"
-	# notify-send "$err"
-	utils.errorf "Error connecting to headphones" "$errStr"
+	utils.nerrorf "Error connecting to headphones" "$errStr"
     fi    
 done
 
