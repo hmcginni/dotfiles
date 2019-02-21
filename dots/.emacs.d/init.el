@@ -81,7 +81,8 @@
   (require 'use-package))
 
 
-;; Package Init/Install ========================================================
+;; ========================================================================== ;;
+;; Package Init/Install 
 ;;
 
 
@@ -102,7 +103,7 @@
   :config
   (setq auto-package-update-delete-old-versions t
         auto-package-update-hide-results t
-        auto-package-update-interval 30
+        auto-package-update-interval 7
         auto-package-update-prompt-before-update)
   (auto-package-update-maybe))
 
@@ -233,7 +234,7 @@
 ;; EMACS configurations ========================================================
 ;;
 
-
+;; (set-window-margins nil 0 (max (- (window-width) 80) 0))
 ;; Window Size
 ;;
 (add-to-list 'default-frame-alist '(height . 73))

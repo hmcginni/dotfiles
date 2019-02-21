@@ -1,21 +1,15 @@
 #!/bin/bash
 
-                      #==================================#
-                      #  utils - bash utility functions  #
-                      #==================================#
+#==================================#
+#  utils - bash utility functions  #
+#==================================#
 
 
-#------------------------------------------------------------------------------#
-# utils.errorf
+#-------------------------------------------------------------------------------
+#  utils.errorf
 #
-#   Helper function to display error message and exit the program. Provide
-#   inputs similar to those for ~printf~.
-#
-#   Usage:
-#
-#        utils.errorf "formatStr" "formatArg1" "formatArg2" [...] "formatArgN"
-#
-#------------------------------------------------------------------------------#
+#  Usage:  utils.errorf "formatStr" "formatArg1" "formatArg2" [...] "formatArgN"
+#-------------------------------------------------------------------------------
 
 
 utils.errorf() {
@@ -24,20 +18,12 @@ utils.errorf() {
 }
 
 
-#------------------------------------------------------------------------------#
-# utils.notify
+#-------------------------------------------------------------------------------
+#  utils.notify
 #
-#   Helper function to call notify-send
-#
-#   Usage:
-#
-#        utils.notify "titleStr" "messageStr"
-#   -OR- utils.notify "messageStr"
-#
-#   Dependencies:
-#       notify-osd
-#
-#------------------------------------------------------------------------------#
+#  Usage:  utils.notify "titleStr" "messageStr"
+#     -OR- utils.notify "messageStr"
+#-------------------------------------------------------------------------------
 
 
 utils.notify() {
@@ -49,19 +35,11 @@ utils.notify() {
 }
 
 
-#------------------------------------------------------------------------------#
-# utils.nerrorf
+#-------------------------------------------------------------------------------
+#  utils.nerrorf
 #
-#   Helper function to call notify-send and then error out of the application
-#
-#   Usage:
-#
-#        utils.nerrorf "formatStr" "formatArg1" "formatArg2" [...] "formatArgN"
-#
-#   Dependencies:
-#       notify-osd
-#
-#------------------------------------------------------------------------------#
+#  Usage:  utils.nerrorf "formatStr" "formatArg1" "formatArg2" [...] "formatArgN"
+#-------------------------------------------------------------------------------
 
 
 utils.nerrorf() {
@@ -71,4 +49,3 @@ utils.nerrorf() {
 }
 
 
-#------------------------------------------------------------------------------#

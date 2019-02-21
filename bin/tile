@@ -1,18 +1,18 @@
 #!/bin/bash
+
+#==============================================================================#
+#  tile - tile up to three windows on a display 
 #
-# Tile up to three windows on a display
+#  Usage:
 #
-# Usage:
+#    tile       :: tile the cursor's monitor with default separator values
+#    tile -v50  :: tile the cursor's monitor with h-sep=default & v-sep=50%
+#    tile -h50  :: tile the cursor's monitor with v-sep=default & h-sep=50%
+#    tile -2    :: tile monitor 2 with default separator values
 #
-#   tile       :: tile the cursor's monitor with default separator values
-#   tile -v50  :: tile the cursor's monitor with h-sep=default & v-sep=50%
-#   tile -h50  :: tile the cursor's monitor with v-sep=default & h-sep=50%
-#   tile -2    :: tile monitor 2 with default separator values
+#    Custom Dependencies:  desk, vis, tiling
+#    Package Dependencies: xdotool, wmctrl
 #
-#   Custom Dependencies:  desk, vis, tiling
-#   Package Dependencies: xdotool, wmctrl
-#
-################################################################################
 
 #-------------------------------------------------------------------------------
 # Utility Functions
