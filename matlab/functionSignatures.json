@@ -12,5 +12,12 @@
     [
       {"name":"build_dir","kind":"required","type":"choices=strsplit(strtrim(ls(fullfile(getenv('HOME'),'build'))))"}
     ]
+  },
+  "br":
+  {
+    "inputs":
+    [
+      {"name":"repo","kind":"required","type":"choices=strsplit(strtrim(ls(fullfile(getenv('HOME'),'src'))))"}
+    ]
   }
 }

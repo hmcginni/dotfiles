@@ -12,9 +12,6 @@ tput smkx
 # Exports ======================================================================
 
 
-export DWMDIR="/usr/local/src/dwm-6.1"
-export STDIR="${HOME}/repos/st"
-export DMENUDIR="/usr/local/src/dmenu-4.7"
 export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] ∈ \[\033[1;34m\]\w\[\033[1;37m\]\[\033[1;31m\]\$(_parse_git_branch)\n\[\033[1;37m\] $ \[\033[00m\]"
 export hrmpc="BC:5F:F4:5A:77:41"
 GPG_TTY=$(tty)
@@ -23,20 +20,13 @@ export GPG_TTY
 
 # Aliases ======================================================================
 
-
-# general
-alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade && sudo apt autoremove -y && sudo snap refresh'
-
-# suckless tools
-alias bdwm='cd $DWMDIR && sudo make -B clean install && cd -'
-alias bst='cd $STDIR && sudo make install && cd -'
-alias bdmenu='cd $DMENUDIR && sudo make -B clean install && cd -'
-alias bs='buildmenu && buildst && buildwm'
-
 # tmux
 alias t='_tmux_go'
 alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
+
+# git
+alias g='_git_push'
 
 # emacs
 alias emacs='q \emacs -f gui'
@@ -49,15 +39,15 @@ alias ml='_ml'
 alias s='_slockd_handler'
 
 # others
-alias copy='_copy'
+alias update='pass hrm | sudo -kS apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'alias copy='_copy'
 alias ediff='emacs diff'
 alias err='_err'
 alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 alias q='_quiet'
 alias qfind='_qfind'
-alias vpn='pass medtronic/vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
-alias socksvpn='pass medtronic/vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
+alias socksvpn='pass vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
+alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
 # Functions ====================================================================
 
@@ -68,6 +58,12 @@ _copy(){
 
 _err() {
     "$@" 2>&1 1>/dev/null
+}
+
+_git_push() {
+    commitMsg="$@"
+    git commit -a -m "$commitMsg"
+    git push
 }
 
 _ml() {

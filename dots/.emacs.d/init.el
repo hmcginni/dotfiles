@@ -12,13 +12,17 @@
  '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(debug-on-error nil)
  '(display-time-mode nil)
+ '(global-hl-line-mode t)
  '(global-linum-mode t)
  '(global-visual-line-mode t)
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote org-mode))
- '(initial-scratch-message "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
+ '(initial-scratch-message
+   (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
-")
+* "
+           (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
+           ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 2)
  '(linum-format "%4d│")
@@ -81,6 +85,7 @@
 
 (eval-when-compile
   (require 'use-package))
+(require 'bind-key)
 
 
 ;; ========================================================================== ;;
@@ -95,9 +100,9 @@
   :bind ("C-x C-r" . recentf-open-files)
   :config
   (recentf-mode 1)
-  (setq recentf-max-menu-items 35))
+  (setq recentf-max-menu-items 20))
 
-  
+
 ;; Automatically update packages
 ;;
 (use-package auto-package-update
@@ -110,12 +115,12 @@
   (auto-package-update-maybe))
 
 
-;; ;; Persistent Scratch
-;; ;;
-;; (use-package persistent-scratch
-;;   :ensure t
-;;   :config
-;;   (persistent-scratch-setup-default))
+;; Persistent Scratch
+;;
+(use-package persistent-scratch
+  :ensure t
+  :config
+  (persistent-scratch-setup-default))
 
 
 ;; Speedbar
@@ -142,14 +147,12 @@
          (c-mode . company-mode)
          (emacs-lisp-mode . company-mode))
   :config
-  ;;
   ;; Company Irony
   (use-package company-irony
     :ensure t
     :config
     (eval-after-load 'company
       '(add-to-list 'company-backends 'company-irony)))
-  ;;
   ;; Company C Headers
   (use-package company-c-headers
     :ensure t
@@ -167,7 +170,6 @@
          (objc-mode . irony-mode)
          (irony-mode . irony-cdb-autosetup-compile-options))
   :config
-  ;;
   ;; Flycheck Irony mode
   (use-package flycheck-irony
     :ensure t
@@ -187,14 +189,22 @@
 ;; Org mode
 ;;
 (use-package org
-  :ensure t)
+  :ensure t
+  :bind (("C-c c" . org-capture)
+         ("C-c a" . org-agenda))
+  :init
+  (setq org-todos-file "~/org/todos.org")
+  (setq org-default-diary-file "~/org/diary.org")
+  (setq org-log-done 'time)
+  (setq debug-on-message
+        "Template is not a valid Org entry or tree"))
 
 
-;; Org-mode JIRA export
+;; Org mode JIRA export
 ;;
 (use-package ox-jira
-  :ensure t
-  :defer t)
+  :after (org)
+  :ensure t)
 
 
 ;; Viper mode
@@ -236,6 +246,7 @@
 ;; EMACS configurations ========================================================
 ;;
 
+(setq-default major-mode 'org-mode)
 ;; (set-window-margins nil 0 (max (- (window-width) 80) 0))
 ;; Window Size
 ;;
@@ -341,11 +352,6 @@
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 
 
-;; Highlight current line
-;;
-(global-hl-line-mode 1)
-
-
 ;; Copy current buffer to clipboard
 ;;
 (defun my-put-file-name-on-clipboard ()
@@ -403,16 +409,7 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; Org-mode ====================================================================
 ;;
 
-(setq-default major-mode 'org-mode)
 
-(setq org-todos-file "~/org/todos.org")
-(setq org-default-diary-file "~/org/diary.org")
-(setq org-log-done 'time)
-(setq debug-on-message
-      "Template is not a valid Org entry or tree")
-(global-set-key [C-iso-lefttab] 'pcomplete)
-(define-key global-map "\C-cc" 'org-capture)
-(define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map (kbd "C-c d")
   (lambda ()
     (interactive)
@@ -445,9 +442,6 @@ Repeated invocations toggle between the two most recently open buffers."
      path)))
 
 
-(defun org-scratch ())
-
-
 (setq org-capture-templates
       '(("t" "todo" entry
          (file+headline org-todos-file "Unfiled")
@@ -456,8 +450,6 @@ Repeated invocations toggle between the two most recently open buffers."
          (file+olp+datetree org-default-diary-file)
          "* %?\n%U\n\nCaptured from: %a*\n" :kill-buffer t)))
 
-(add-to-list 'org-structure-template-alist
-             '("H" "#+STARTUP: overview\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/hrm.css\"/>\n#+LATEX_CLASS: beamer\n#+LATEX_CLASS_OPTIONS: [presentation]\n#+BEAMER_THEME: metropolis\n#+OPTIONS: toc:nil title:nil num:nil \n:nil ::t -:t\n#+TITLE:\n#+AUTHOR: Hassan McGinnis\n#+DATE: %u\n\n* "))
 
 (setq org-agenda-files
       (list org-todos-file
@@ -548,12 +540,12 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (set-face-attribute
    'mode-line nil
-   :font "Roboto:pixelsize=12:weight=medium" )
+   :font "IBM Plex Sans:pixelsize=12:weight=medium" )
   (set-face-attribute
    'mode-line-inactive nil
-   :font "Roboto:pixelsize=12:weight=medium" ))
+   :font "IBM Plex Sans:pixelsize=12:weight=medium" ))
 (provide 'post-theme-customizations)
-     
+
 
 ;; Startup Modes ===============================================================
 ;;
