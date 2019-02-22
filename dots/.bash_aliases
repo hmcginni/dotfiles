@@ -15,7 +15,7 @@ tput smkx
 export DWMDIR="/usr/local/src/dwm-6.1"
 export STDIR="${HOME}/repos/st"
 export DMENUDIR="/usr/local/src/dmenu-4.7"
-export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] in [\[\033[1;34m\]\w\[\033[1;37m\]]\[\033[1;31m\]\$(_parse_git_branch)\n\[\033[1;37m\] $ \[\033[00m\]"
+export PS1="\n\[\033[1;37m\]\[\033[1;34m\]\u\[\033[1;37m\] @ \[\033[0;32m\]\h\[\033[1;37m\] ∈ \[\033[1;34m\]\w\[\033[1;37m\]\[\033[1;31m\]\$(_parse_git_branch)\n\[\033[1;37m\] $ \[\033[00m\]"
 export hrmpc="BC:5F:F4:5A:77:41"
 GPG_TTY=$(tty)
 export GPG_TTY

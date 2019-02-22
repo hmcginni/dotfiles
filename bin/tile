@@ -38,7 +38,7 @@ function usage()
 
 
 desktop=$(tiling.getCursorDesktop)
-borderWidth=20
+borderWidth=25
 vertSepPos=60
 horizSepPos=48
 

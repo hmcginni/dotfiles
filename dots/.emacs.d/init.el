@@ -11,8 +11,9 @@
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(debug-on-error nil)
- '(display-time-mode t)
+ '(display-time-mode nil)
  '(global-linum-mode t)
+ '(global-visual-line-mode t)
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
@@ -40,6 +41,7 @@
      (tool-bar-lines . 0)
      (unsplittable . t)
      (left-fringe . 0))))
+ '(speedbar-hide-button-brackets-flag t)
  '(speedbar-show-unknown-files t)
  '(speedbar-use-images nil)
  '(speedbar-verbosity-level 0)
@@ -526,7 +528,6 @@ Repeated invocations toggle between the two most recently open buffers."
       (foreground-color . "#F8F8F2")
       (cursor-color . "#e0e0e0"))
      (default ((t (nil))))
-     ;; (mode-line ((t (:font "IBM Plex Sans:pixelsize=13:slant=italic:weight=medium" :background "#505050" :foreground "#F8F8F8" :box (:line-width 6 :color "#191919") ))))
      (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
      (font-lock-comment-face ((t (:italic t :foreground "#75715D"))))
      (font-lock-constant-face ((t (:foreground "#A6E22A"))))
@@ -543,9 +544,16 @@ Repeated invocations toggle between the two most recently open buffers."
      (ido-subdir ((t (:foreground "#F1266F")))))))
 (provide 'color-theme-almost-monokai)
 
-;; (require 'color-theme)
-;; (color-theme-almost-monokai)
-
+(defun post-theme-customizations ()
+  (interactive)
+  (set-face-attribute
+   'mode-line nil
+   :font "Roboto:pixelsize=12:weight=medium" )
+  (set-face-attribute
+   'mode-line-inactive nil
+   :font "Roboto:pixelsize=12:weight=medium" ))
+(provide 'post-theme-customizations)
+     
 
 ;; Startup Modes ===============================================================
 ;;
@@ -561,8 +569,8 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun gui ()
   (interactive)
-  (load-theme 'atom-one-light t))
-  ;; (setq-default line-spacing 2))
+  (load-theme 'atom-one-light t)
+  (post-theme-customizations))
 (provide 'gui)
 
 
