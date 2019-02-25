@@ -33,8 +33,8 @@ alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
 
 # git
-alias gpush='_git_push'
-alias g='git commit -a -m \"[m] $(date "+%Y%m%d %I:%M%p") update\"'
+alias gp='_git_push'
+alias gg="git commit -a -m \"[m] $(date '+%Y%m%d %I:%M%p') update\" && git push"
 alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
