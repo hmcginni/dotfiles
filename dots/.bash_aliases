@@ -34,7 +34,7 @@ alias tk='tmux kill-session -t'
 
 # git
 alias gp='_git_push'
-alias gg="git commit -a -m \"[m] $(date '+%Y%m%d %I:%M%p') update\" && git push"
+alias gg='_git_push now'
 alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
@@ -73,10 +73,20 @@ _err() {
 # ---------------------------- #
 
 _git_push() {
-    commitMsg=$(printf "%s" "$@")
+    if [[ $PWD =~ "hrmutils" ]]; then
+	if [[ $1 == "now" ]]; then
+	    commitMsg="[m] $(date '+%Y%m%d %I:%M%p') update"
+	else
+	    commitMsg="$@"
+	fi
+	
     echo $commitMsg
     git commit -a -m "$commitMsg"
     git push
+    
+    else
+	echo "git push not possible here."
+    fi
 }
 
 # ---------------------------- #
