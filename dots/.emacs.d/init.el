@@ -93,6 +93,12 @@
 ;;
 
 
+;; Diminish
+;;
+(use-package diminish
+  :ensure t)
+
+
 ;; Recent file list
 ;;
 (use-package recentf
@@ -115,12 +121,12 @@
   (auto-package-update-maybe))
 
 
-;; Persistent Scratch
-;;
-(use-package persistent-scratch
-  :ensure t
-  :config
-  (persistent-scratch-setup-default))
+;; ;; Persistent Scratch
+;; ;;
+;; (use-package persistent-scratch
+;;   :ensure t
+;;   :config
+;;   (persistent-scratch-setup-default))
 
 
 ;; Speedbar
@@ -137,10 +143,27 @@
   :bind ("C-x t" . transpose-frame))
 
 
+;; Flyspell mode
+;;
+(use-package flyspell
+  :ensure t
+  :bind (("<f7>" . flyspell-mode)
+         ("C-M-<f8>" . flyspell-buffer)
+         ("M-<f7>" . flyspell-check-previous-highlighted-word))
+  :config
+  (defun flyspell-check-next-highlighted-word ()
+    "Custom function to spell check next highlighted word"
+    (interactive)
+    (flyspell-goto-next-error)
+    (ispell-word))
+  (global-set-key (kbd "C-<f7>") 'flyspell-check-next-highlighted-word))
+
+
 ;; Company mode
 ;;
 (use-package company
   :ensure t
+  :diminish company-mode
   :bind ("C-<tab>" . company-complete)
   :hook ((after-init . global-company-mode)
          (c++-mode . company-mode)
@@ -168,12 +191,13 @@
   :hook ((c-mode . irony-mode)
          (c++-mode . irony-mode)
          (objc-mode . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options))
-  :config
-  ;; Flycheck Irony mode
-  (use-package flycheck-irony
-    :ensure t
-    :defer t))
+         (irony-mode . irony-cdb-autosetup-compile-options)))
+
+
+;; Flycheck Irony mode
+(use-package flycheck-irony
+  :ensure t
+  :requires irony)
 
 
 ;; Smooth scrolling mode
@@ -196,19 +220,30 @@
   (setq org-todos-file "~/org/todos.org")
   (setq org-default-diary-file "~/org/diary.org")
   (setq org-log-done 'time)
-  (setq debug-on-message
-        "Template is not a valid Org entry or tree"))
+  (setq org-capture-templates
+        '(("t" "todo" entry
+           (file+headline org-todos-file "Unfiled")
+           "* TODO %u%? [/]\n\n*Captured from: %a*\n" :kill-buffer t)
+          ("d" "diary" entry
+           (file+olp+datetree org-default-diary-file)
+           "* %?\n%U\n\nCaptured from: %a*\n" :kill-buffer t)))
+  (setq org-agenda-files '("~/org"))
+  (setq org-refile-targets
+        '( (org-default-diary-file :level . 4)
+           (org-todos-file :maxlevel . 2)))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION"))))
 
 
 ;; Org mode JIRA export
 ;;
 (use-package ox-jira
-  :after (org)
-  :ensure t)
+  :ensure t
+  :requires org)
 
 
 ;; Viper mode
-;;
+
 (use-package viper
   :ensure t
   :defer t)
@@ -246,27 +281,25 @@
 ;; EMACS configurations ========================================================
 ;;
 
-(setq-default major-mode 'org-mode)
-;; (set-window-margins nil 0 (max (- (window-width) 80) 0))
+
 ;; Window Size
 ;;
-(add-to-list 'default-frame-alist '(height . 73))
-(add-to-list 'default-frame-alist '(width . 86))
+(add-to-list 'default-frame-alist '(height . 40))
+(add-to-list 'default-frame-alist '(width . 83))
 
 ;; Global keyboard shortcuts
 ;;
 (global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
 (global-set-key (kbd "M-q") 'visual-line-mode)
-
 
 ;; Font
 ;;
 (set-default-font "SF Mono:pixelsize=12:weight=medium")
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
 ;; (set-default-font "Roboto Mono:pixelsize=13:weight=regular")
-;; (set-default-font "IBM Plex Mono:pixelsize=12:weight=medium")
 
 ;; Resize Emacs
 ;;
@@ -278,13 +311,8 @@
 ;; Set Emacs Title
 ;;
 (setq frame-title-format
-      (list
-	   "GNU Emacs • %b • "
-	   (getenv "USER")))
-
-
-;; (require 'linum)
-
+      (list "GNU Emacs • %b • "
+	    (getenv "USER")))
 
 
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
@@ -442,25 +470,6 @@ Repeated invocations toggle between the two most recently open buffers."
      path)))
 
 
-(setq org-capture-templates
-      '(("t" "todo" entry
-         (file+headline org-todos-file "Unfiled")
-         "* TODO %u%? [/]\n\n*Captured from: %a*\n" :kill-buffer t)
-        ("d" "diary" entry
-         (file+olp+datetree org-default-diary-file)
-         "* %?\n%U\n\nCaptured from: %a*\n" :kill-buffer t)))
-
-
-(setq org-agenda-files
-      (list org-todos-file
-            org-default-diary-file))
-
-(setq org-refile-targets
-      '( (org-default-diary-file :level . 4)
-		 (org-todos-file :maxlevel . 2)))
-
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
 
 ;; Refile shortcuts
 (defun refile-to (headline)
@@ -482,20 +491,6 @@ Repeated invocations toggle between the two most recently open buffers."
     (ediff file1 file2)))
 
 (add-to-list 'command-switch-alist '("diff" . command-line-diff))
-
-;; Spell-check (flyspell)
-;;
-
-(global-set-key (kbd "<f7>") 'flyspell-mode)
-(global-set-key (kbd "C-M-<f8>") 'flyspell-buffer)
-(global-set-key (kbd "M-<f7>") 'flyspell-check-previous-highlighted-word)
-
-(defun flyspell-check-next-highlighted-word ()
-  "Custom function to spell check next highlighted word"
-  (interactive)
-  (flyspell-goto-next-error)
-  (ispell-word))
-(global-set-key (kbd "C-<f7>") 'flyspell-check-next-highlighted-word)
 
 
 ;; Company-mode and Irony-mode ==================================================
@@ -540,10 +535,10 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (set-face-attribute
    'mode-line nil
-   :font "IBM Plex Sans:pixelsize=12:weight=medium" )
+   :font "Roboto:pixelsize=12:weight=medium" )
   (set-face-attribute
    'mode-line-inactive nil
-   :font "IBM Plex Sans:pixelsize=12:weight=medium" ))
+   :font "Roboto:pixelsize=12:weight=medium:slant=italic" ))
 (provide 'post-theme-customizations)
 
 

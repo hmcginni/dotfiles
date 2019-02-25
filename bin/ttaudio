@@ -26,19 +26,22 @@ bluetoothCmd="${agentCmd}${disconnectCmd}${connectCmd}"
 # Send command and wait for successful connection ------------------------------
 #
 
-bluetooth on &>/dev/null
-
-echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
-
 pactlCmd="pactl list sinks short"
-while [[ -z $(awk '/bluez/ {print $2}' <<< "$($pactlCmd)") ]]; do
-    sleep 0.5
-    if (( SECONDS >= timeout )); then
-	errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
-	utils.nerrorf "Error connecting to headphones" "$errStr"
-    fi    
-done
-
+if [[ -z $(grep $(sed -r "s|:|_|g" <<< "$ttMAC") <<< "$($pactlCmd)") ]]; then
+    bluetooth on &>/dev/null 
+    echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
+    
+    while [[ -z $(awk '/bluez/ {print $2}' <<< "$($pactlCmd)") ]]; do
+	sleep 0.5
+	if (( SECONDS >= timeout )); then
+	    errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
+	    utils.nerrorf "Error connecting to headphones" "$errStr"
+	fi    
+    done
+    utils.notify "Connected to Bluetooth Device" "Connected to TT-BH040"
+else
+    utils.notify "Connected to Bluetooth Device" "Already connected to TT-BH040"
+fi
 
 # Set headphones as default output device & enable EQ --------------------------
 #
@@ -48,4 +51,4 @@ ttsink=$(awk '/bluez/ {print $2}' <<< "$(pactl list sinks short)")
 pactl set-default-sink "$ttsink"
 pulseaudio-equalizer enable &>/dev/null
 
-utils.notify "Connected to Bluetooth Device" "Connected to TaoTronics TT-BH040"
+
