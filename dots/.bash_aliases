@@ -34,7 +34,7 @@ alias tk='tmux kill-session -t'
 
 # git
 alias gpush='_git_push'
-alias g='git commit -a -m "[m] $(date +%Y%m%d) update"'
+alias g='git commit -a -m \"[m] $(date "+%Y%m%d %I:%M%p") update\"'
 alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
@@ -49,7 +49,7 @@ alias ml='_ml'
 alias s='_slockd_handler'
 
 # others
-alias update='pass hrm | sudo -kS apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
+alias update='pass hrm | sudo -S apt autoclean && pass hrm | sudo -S apt update && pass hrm | sudo -S apt upgrade -y && pass hrm | sudo -S apt autoremove && pass hrm | sudo -S snap refresh'
 alias copy='_copy'
 alias ediff='emacs diff'
 alias err='_err'

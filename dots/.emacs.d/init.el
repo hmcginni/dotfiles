@@ -21,8 +21,8 @@
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
 * "
-           (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
-           ": "))
+	   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
+	   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 2)
  '(linum-format "%4d│")
@@ -33,6 +33,7 @@
  '(org-export-with-sub-superscripts (quote {}))
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
+ '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(server-mode nil)
  '(show-paren-mode t)
@@ -105,7 +106,6 @@
   :ensure t
   :bind ("C-x C-r" . recentf-open-files)
   :config
-  (recentf-mode 1)
   (setq recentf-max-menu-items 20))
 
 
@@ -121,13 +121,13 @@
   (auto-package-update-maybe))
 
 
-;; ;; Persistent Scratch
-;; ;;
-;; (use-package persistent-scratch
-;;   :ensure t
-;;   :config
-;;   (persistent-scratch-setup-default))
-
+;; Helm
+;;
+(use-package helm
+  :ensure t
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)))
+  
 
 ;; Speedbar
 ;;
@@ -265,17 +265,12 @@
   :hook (matlab-mode . (lambda ()
                          (auto-complete-mode 1)
                          (matlab-cedet-setup)
-                         (matlab-toggle-show-mlint-warnings))))
-
-;;   :config
-;;   (autoload 'matlab-mode "matlab" "MATLAB Editing Mode" t)
-;;   (add-to-list
-;;    'auto-mode-alist
-;;    '("\\.m$" . matlab-mode))
-;;   (setq matlab-indent-function t)
-;;   (setq matlab-shell-command "matlab")
-;;   (setq matlab-shell-command-switches
-;; 	(list "-nosplash" "-nodesktop")))
+                         (matlab-toggle-show-mlint-warnings)))
+  :config
+  (setq matlab-indent-function t)
+  (setq matlab-shell-command "matlab")
+  (setq matlab-shell-command-switches
+        (list "-nosplash" "-nodesktop")))
 
 
 ;; EMACS configurations ========================================================
