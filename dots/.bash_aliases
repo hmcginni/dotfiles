@@ -13,13 +13,13 @@ tput smkx
 # Variables --------------------------------------------------------------------
 
 
-blue="\[\033[1;34m\]"
-gray="\[\033[1;37m\]"
-green="\[\033[0;32m\]"
-red="\[\033[1;31m\]"
-black="\[\033[00m\]"
+blue="\[\e[1;34m\]"
+gray="\[\e[1;90m\]"
+green="\[\e[0;32m\]"
+red="\[\e[1;31m\]"
+reset="\[\e[00m\]"
 
-export PS1="\n${blue}\u${gray} @ ${green}\h${gray} ∈ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${black}"
+export PS1="\n${blue}\u${gray} @ ${green}\h${gray} ∈ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
 export hrmpc="BC:5F:F4:5A:77:41"
 GPG_TTY=$(tty)
 export GPG_TTY
@@ -31,6 +31,8 @@ export GPG_TTY
 alias t='_tmux_go'
 alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
+alias tr='_tmux_run'
+alias tt='_tmux_run "source ~/.bashrc"'
 
 # git
 alias gp='_git_push'
@@ -39,17 +41,19 @@ alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
 # emacs
-alias emacs='q \emacs -f gui'
-alias e='\emacs -nw -f command-line'
+alias emacs='\emacs -f light'
+alias e='\emacs -nw -f cmd'
 
 # MATLAB
-alias ml='_ml'
+alias ml='_ml gui'
+alias mlc='_ml cmd'
+alias matlab='_ml'
 
 # Screen Unlock Daemon (slockd)
 alias s='_slockd_handler'
 
 # others
-alias update='pass hrm | sudo -S apt autoclean && pass hrm | sudo -S apt update && pass hrm | sudo -S apt upgrade -y && pass hrm | sudo -S apt autoremove && pass hrm | sudo -S snap refresh'
+alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
 alias copy='_copy'
 alias ediff='emacs diff'
 alias err='_err'
@@ -93,7 +97,20 @@ _git_push() {
 
 _ml() {
     export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk-amd64/jre
-    nohup matlab -desktop &>/dev/null &
+
+    if [[ $1 == "gui" ]]; then
+	shift
+	notify-send "Starting MATLAB..." \
+		    "nohup matlab -desktop $@ &>/dev/null &"
+	nohup \matlab -desktop "$@" &>/dev/null &
+    elif [[ $1 == "cmd" ]]; then
+	shift
+	notify-send "Starting MATLAB..." "matlab -nodesktop $@"
+	\matlab -nodesktop "$@"
+    else
+	notify-send "Starting MATLAB..." "matlab $@"
+	\matlab "$@"
+    fi
 }
 
 # ---------------------------- #
@@ -147,3 +164,7 @@ _tmux_go() {
 }
 
 # ---------------------------- #
+
+_tmux_run() {
+    tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$@" Enter clear Enter
+}
