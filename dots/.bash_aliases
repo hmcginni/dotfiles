@@ -59,6 +59,7 @@ alias ediff='emacs diff'
 alias err='_err'
 alias q='_quiet'
 alias qfind='_qfind'
+alias pfind='ps -p $1 -o comm='
 alias socksvpn='pass vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
 alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
