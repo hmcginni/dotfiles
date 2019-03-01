@@ -60,7 +60,7 @@
   (setq auto-package-update-delete-old-versions t
         auto-package-update-hide-results t
         auto-package-update-interval 7
-        auto-package-update-prompt-before-update t)
+        auto-package-update-prompt-before-update nil)
   (auto-package-update-maybe))
 
 ;; ------------------------------------------------------------
@@ -70,7 +70,7 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x C-r" . helm-mini)))
+         ("C-c C-r" . helm-mini)))
 
 ;; ------------------------------------------------------------
 

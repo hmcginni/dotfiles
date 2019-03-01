@@ -35,8 +35,8 @@ alias tr='_tmux_run'
 alias tt='_tmux_run "source ~/.bashrc"'
 
 # git
-alias gp='_git_push'
-alias gg='_git_push now'
+alias gp='_git_push_wrapper'
+alias gg='_git_push_wrapper now'
 alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
@@ -76,7 +76,7 @@ _err() {
 
 # ---------------------------- #
 
-_git_push() {
+_git_push_wrapper() {
     if [[ $PWD =~ "hrmutils" ]]; then
 	if [[ $1 == "now" ]]; then
 	    commitMsg="[m] $(date '+%Y%m%d %I:%M%p') update"
