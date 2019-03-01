@@ -132,24 +132,8 @@ if [[ $(desk -n) == 1 ]]; then #Single Monitor
     desktop=1
 fi
 
-case $desktop in
-    1)
-        read -r xDispOffset yDispOffset <<< $(desk -d1 -o)
-        read -r xRes yRes <<< $(desk -d1 -r)
-        ;;
-    2)
-        read -r xDispOffset yDispOffset <<< $(desk -d2 -o)
-        read -r xRes yRes <<< $(desk -d2 -r)
-        ;;
-    3)
-        read -r xDispOffset yDispOffset <<< $(desk -d3 -o)
-        read -r xRes yRes <<< $(desk -d3 -r)
-        ;;
-    *)
-        utils.errorf "\n\tInvalid monitor selection (%d).\n" "$desktop"
-        ;;
-esac
-
+read -r xDispOffset yDispOffset <<< $(desk -d$desktop -o)
+read -r xRes yRes <<< $(desk -d$desktop -r)
 
 #-------------------------------------------------------------------------------
 # Set boundaries and move windows

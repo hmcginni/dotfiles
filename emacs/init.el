@@ -1,5 +1,12 @@
 ;; Custom
 ;;
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -9,7 +16,7 @@
  '(cursor-type (quote (bar . 2)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(global-hl-line-mode t)
@@ -41,6 +48,9 @@
      ("\\.pdf\\'" . "evince %s"))))
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
+ '(package-selected-packages
+   (quote
+    (ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-mode nil)
  '(scroll-bar-mode nil)
  '(server-mode nil)
