@@ -125,8 +125,19 @@ done
 #-------------------------------------------------------------------------------
 # Determine Monitor Count and Resolution
 
+# Get xLeft and yTop
+if [[ $XDG_CURRENT_DESKTOP == "Unity" ]]; then
+    read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
+elif [[ $XDG_CURRENT_DESKTOP == "XFCE" ]]; then
+    if [[ -n $(pgrep dockx) ]]; then
+	read -r xLeft yTop <<< $(wmctrl -lG | awk '{print $5,$4}')
+    else
+	utils.errorf "Not yet implemented."
+    fi
+else
+    utils.errorf "Not yet implemented."
+fi
 
-read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
 
 if [[ $(desk -n) == 1 ]]; then #Single Monitor
     desktop=1

@@ -89,8 +89,7 @@ fi
 #-------------------------------------------------------------------------------
 # Parse xrandr
 
-# deskInfo=$(xrandr --current | grep "\<connected" | sed -r 's#([^\(]*)(.*)#\1#g' \
-# 	       | awk '{print $NF}' | sed 's#[a-wyzA-WYZ]##g')
+
 deskInfo=$(xrandr --current | grep "\<primary" | awk '{print $4}')
 numDesks=$(wc -w <<< $deskInfo)
 res=$(sed -r 's#\+\w+##g' <<< $deskInfo)
