@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "SF Mono:pixelsize=14:weight=Regular";
-/* static char *font = "Roboto Mono:pixelsize=14:weight=medium"; */
+static char *font = "SF Mono:pixelsize=12:weight=regular";
+/* static char *font = "Roboto Mono:pixelsize=13:weight=medium"; */
 /* static char *font = "IBM Plex Mono:pixelsize=14:weight=medium"; */
 static int borderpx = 15;
 
@@ -26,7 +26,7 @@ char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 char *vtiden = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
-static float cwscale = 0.85;
+static float cwscale = 0.9;
 static float chscale = 1.0;
 
 
@@ -88,30 +88,30 @@ unsigned int tabspaces = 4;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#1b1b1b",
-	"#cc0000",
-	"#4e9a06",
-	"#c4a000",
-	"#3465a4",
-	"#75507b",
-	"#06989a",
-	"#eeeeee",
+	/* "#1b1b1b", */ "#000000",
+	/* "#cc0000", */ "#e45649",
+	/* "#4e9a06", */ "#50a14f",
+	/* "#c4a000", */ "#986801",
+	/* "#3465a4", */ "#4078F2",
+	/* "#75507b", */ "#a626a4",
+	/* "#06989a", */ "#0184bc",
+	/* "#eeeeee", */ "#a0a1a7",
 
 	/* 8 bright colors */
-	"#555753",
-	"#ef2929",
-	"#8ae234",
-	"#fce94f",
-	"#429fcf",
-	"#ad7fa8",
-	"#34e2e2",
-	"#f5f5f5",
+	/* "#555753", */ "#5C6370",
+	/* "#ef2929", */ "#E45649",
+	/* "#8ae234", */ "#91E93C",
+	/* "#fce94f", */ "#FCE94F",
+	/* "#429fcf", */ "#3F8DE1",
+	/* "#ad7fa8", */ "#AD7FA8",
+	/* "#34e2e2", */ "#34E2E2",
+	/* "#f5f5f5", */ "#6F6F6F",
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
+	/* "#cccccc", */ "#383a42",
+	/* "#555555", */ "#f9f9f9",
 };
 
 
@@ -119,8 +119,8 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
-unsigned int defaultbg = 0;
+unsigned int defaultfg = 256;
+unsigned int defaultbg = 257;
 static unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
 
@@ -131,7 +131,7 @@ static unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 2;
+static unsigned int cursorshape = 6;
 
 /*
  * Default columns and rows numbers
