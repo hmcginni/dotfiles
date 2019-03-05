@@ -82,43 +82,33 @@ done
 shift $(($OPTIND - 1))
 numWindows=$#
 
-if (( numWindows == 0 )); then
-    autoTile=true
-fi
-
 
 #-------------------------------------------------------------------------------
 # Get Window IDs
 
 
-if [[ $autoTile ]]; then
-    WIDList=$(vis -d$desktop)
-    numWindows=$(wc -w <<< "$WIDList")
+WIDList=$(vis -d$desktop)
+numWindows=$(wc -w <<< "$WIDList")
 
-    for WID in $WIDList; do
-        sizeOfWID="$(tiling.getWindowSize $WID)"
-        wSize+=($sizeOfWID)
-        wMap[$sizeOfWID]=$WID
-    done
+for WID in $WIDList; do
+    sizeOfWID="$(tiling.getWindowSize $WID)"
+    wSize+=($sizeOfWID)
+    wMap[$sizeOfWID]=$WID
+done
 
-    sortedwSize=$(sort -nr <<< "$(sed -r 's# #\n#g' <<< ${wSize[@]})" )
+sortedwSize=($(sort -nr <<< "$(sed -r 's| |\n|g' <<< ${wSize[@]})" ))
 
-    WID1=${wMap[$(awk '{print $1}' <<< ${sortedwSize[@]})]}
-    WID2=${wMap[$(awk '{print $2}' <<< ${sortedwSize[@]})]}
-    WID3=${wMap[$(awk '{print $3}' <<< ${sortedwSize[@]})]}
-else
-    WID1=$(pnw $1)
-    WID2=$(pnw $2)
-    WID3=$(pnw $3)
-fi
+for idx in {0..2}; do
+    WIDs+=(${wMap[${sortedwSize[$idx]}]})
+done
 
 
 #-------------------------------------------------------------------------------
 # Get title bar width
 
 
-for WID in $WID1 $WID2 $WID3; do
-    yTitle+=($(xprop -id $WID | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
+for W in ${WIDs[@]}; do
+    yTitle+=($(xprop -id $W | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
 done
 
 
@@ -160,7 +150,7 @@ case $numWindows in
         w1=$(( xRes-xLeft-(2*borderWidth) ))
         h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
 
-        move $x1 $y1 $w1 $h1 $WID1
+        move $x1 $y1 $w1 $h1 ${WIDs[0]}
         ;;
     2)
         x1=$(( xDispOffset+xLeft+borderWidth ))
@@ -173,8 +163,8 @@ case $numWindows in
         w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
         h2=$(( yRes-yTop-yTitle[1]-(2*borderWidth) ))
 
-        move $x1 $y1 $w1 $h1 $WID1
-        move $x2 $y2 $w2 $h2 $WID2
+        move $x1 $y1 $w1 $h1 ${WIDs[0]}
+        move $x2 $y2 $w2 $h2 ${WIDs[1]}
         ;;
     *)
         x1=$(( xDispOffset+xLeft+borderWidth ))
@@ -192,15 +182,15 @@ case $numWindows in
         w3=$(( w2 ))
         h3=$(( yRes-yHorizSep-yTitle[2]-2*borderWidth ))
 
-        move $x1 $y1 $w1 $h1 $WID1
-        move $x2 $y2 $w2 $h2 $WID2
-        move $x3 $y3 $w3 $h3 $WID3
+        move $x1 $y1 $w1 $h1 ${WIDs[0]}
+        move $x2 $y2 $w2 $h2 ${WIDs[1]}
+        move $x3 $y3 $w3 $h3 ${WIDs[2]}
 	;;
 esac
 
 if [[ $numWindows > 3 ]]; then
     printf "==================\n"
-    largest=($WID1 $WID2 $WID3)
+    largest=$WIDs
     for window in $(vis -d$desktop); do
 	if [[ ! ${largest[@]} =~ $window ]]; then
 	    xdotool windowminimize $window
