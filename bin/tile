@@ -120,7 +120,7 @@ done
 if [[ $XDG_CURRENT_DESKTOP == "Unity" ]]; then
     read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
 elif [[ $XDG_CURRENT_DESKTOP == "XFCE" ]]; then
-    read -r xLeft yTop <<< $(wmctrl -lG | awk '/xfce4-panel/ {getline; print $5,$4}'
+    read -r xLeft yTop <<< $(wmctrl -lG | awk '/xfce4-panel/ {getline; print $5,$4}')
 else
     utils.nerrorf "Not yet implemented."
 fi
