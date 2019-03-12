@@ -1,39 +1,42 @@
 #!/bin/bash
 
-srcDir=${PWD%/*}
+repoPath=${PWD%/*}
 
-binDir[target]=$HOME/bin
-binDir[source]=$srcDir/bin
-libDir[target]=$HOME/lib
-libDir[source]=$srcDir/lib
-matDir[target]=$HOME/Documents/MATLAB
-matDir[source]=$srcDir/matlab
-dotDir[target]=$HOME
+tgtDir[1]="$HOME/bin"
+tgtDir[2]="$HOME/lib"
+tgtDir[3]="$HOME/Documents/MATLAB"
+tgtDir[4]="$HOME"
+srcDir[1]=$repoPath/bash/bin
+srcDir[2]=$repoPath/bash/lib
+srcDir[3]=$repoPath/matlab
+srcDir[4]=$repoPath/dots
 
 # Make directories
-mkdir -p $binDir $libDir $matDir
+mkdir -p ${tgtDir[@]}
 
-# Create symlinks to repository files
-for filePath in $srcDir/bin/*; do
-    fileName=${filePath##/*/}
-    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $binDir/$fileName
+for idx in 2; do
+    for repoFilePath in ${srcDir[$idx]}/*; do
+	repoFileName=${repoFilePath##/*/}
+	# echo "ln -sv -T $repoFilePath ${tgtDir[$idx]}/$repoFileName"
+	[[ $repoFileName != "README.org" ]] && ln -bsv -T $repoFilePath ${tgtDir[$idx]}/$repoFileName
+    done
 done
 
-for filePath in $srcDir/lib/*; do
-    fileName=${filePath##/*/}
-    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $libDir/$fileName
-done
+# for filePath in $repoPath/lib/*; do
+#     fileName=${filePath##/*/}
+#     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $libDir/$fileName
+# done
 
-for filePath in $srcDir/dots/.[^.]*; do
-    fileName=${filePath##/*/}
-    [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $dotDir/$fileName
-done
+# for filePath in $repoPath/dots/.[^.]*; do
+#     fileName=${filePath##/*/}
+#     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $dotDir/$fileName
+# done
 
-rm -r $dotDir/.emacs.d
-mkdir $dotDir/.emacs.d
-ln -bsv -T $srcDir/dots/.emacs.d/init.el $dotDir/.emacs.d/init.el
+# rm -r $dotDir/.emacs.d
+# mkdir $dotDir/.emacs.d
+# ln -bsv -T $repoPath/emacs/* $dotDir/.emacs.d/init.el
 
-# for filePath in $srcDir/matlab/*; do
+# for filePath in $repoPath/matlab/*; do
 #     fileName=${filePath##/*/}
 #     [[ $fileName != "README.org" ]] && ln -bsv -T $filePath $matDir/$fileName
 # done
