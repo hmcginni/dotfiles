@@ -51,7 +51,7 @@
  '(package-selected-packages
    (quote
     (ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
- '(recentf-mode nil)
+ '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(server-mode nil)
  '(show-paren-mode t)
