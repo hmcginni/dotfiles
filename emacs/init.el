@@ -119,6 +119,7 @@
 (global-set-key (kbd "C-x M-s") 'file-name-on-clipboard)
 (global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'switch-to-previous-buffer)
+(global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 
 ;; Font
 ;;
