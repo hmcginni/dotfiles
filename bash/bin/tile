@@ -120,18 +120,22 @@ done
 if [[ $XDG_CURRENT_DESKTOP == "Unity" ]]; then
     read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
 elif [[ $XDG_CURRENT_DESKTOP == "XFCE" ]]; then
-    read -r xLeft yTop <<< $(wmctrl -lG | awk '/xfce4-panel/ {getline; print $5,$4}')
+    xLeft=$(wmctrl -lG | egrep -v "0 +0" | awk '/xfce4-panel/ {print $5}')
+    yTop=$(wmctrl -lG | egrep "0 +0" | awk '/xfce4-panel/ {print $6}')
 else
     utils.nerrorf "Not yet implemented."
 fi
 
+read -r xDispOffset yDispOffset <<< $(desk -d$desktop -o)
+read -r xRes yRes <<< $(desk -d$desktop -r)
+
+xLeft=${xLeft:-0}
+yTop=${yTop:-0}
 
 if [[ $(desk -n) == 1 ]]; then #Single Monitor
     desktop=1
 fi
 
-read -r xDispOffset yDispOffset <<< $(desk -d$desktop -o)
-read -r xRes yRes <<< $(desk -d$desktop -r)
 
 #-------------------------------------------------------------------------------
 # Set boundaries and move windows
