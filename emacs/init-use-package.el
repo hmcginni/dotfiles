@@ -215,8 +215,24 @@
 ;;
 (use-package flycheck
   :ensure t
-  :hook ((c++-mode . global-flycheck-mode)
-         (flycheck-mode . flycheck-irony-setup)))
+  :init (global-flycheck-mode)
+  :hook (flycheck-mode . flycheck-irony-setup))
+
+;; ------------------------------------------------------------
+
+;; Systemd Unit mode
+;;
+(use-package systemd
+  :ensure t)
+
+;; ------------------------------------------------------------
+
+;; JSON mode
+;;
+(use-package js
+  :mode "\\.json$"
+  :interpreter "js"
+  :ensure t)
 
 ;; ------------------------------------------------------------
 
@@ -235,4 +251,7 @@
         matlab-shell-command-switches
         (list "-nosplash" "-nodesktop")))
 
-; ------------------------------------------------------------------------------
+;; ------------------------------------------------------------
+
+(provide 'init-use-package)
+;;; init-use-package ends here

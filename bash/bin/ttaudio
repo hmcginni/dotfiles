@@ -9,11 +9,8 @@
 # Utility functions ------------------------------------------------------------
 #
 
+xbluetooth on
 source ~/lib/bash/utils
-
-
-# Local variables --------------------------------------------------------------
-#
 
 timeout=15
 ttMAC="E8:AB:FA:23:DA:8F"

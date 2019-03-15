@@ -19,7 +19,7 @@
 
 function usage()
 {
-    printf "\n\tOn line: ${BASH_LINENO[0]}\n"
+    printf "\n\tOn line: %s\n" "${BASH_LINENO[0]}"
     printf "\tUsage: \n\t  desk [-n(umdesks)][-r(es)][-o(ff)][-a(ll)][-d desktop]\n"
 }
 
@@ -60,7 +60,7 @@ while getopts ":hnroad:" opt; do
 	    ;;
     esac
 done
-shift $(($OPTIND - 1))
+shift $(( OPTIND - 1 ))
 
 if [ -z $outputRequested ]; then
     echo -e "\tdesk -n, -r or -o must be specified"
@@ -103,19 +103,19 @@ offset=$(sed -r 's#\w+x\w+\+##g' <<< "$deskInfo")
 # Outputs
 
 
-if [ ! -z $desktop ]; then
+if [[ -n $desktop ]]; then
     if [[ $desktop > $numDesks ]]; then
 	echo "Invalid Desktop number requested."
 	exit 1
     fi
 
-    res=$(cut -d" " -f$desktop <<< $res)
-    offset=$(cut -d" " -f$desktop <<< $offset)
+    res=$(cut -d" " -f"$desktop" <<< $res)
+    offset=$(cut -d" " -f"$desktop" <<< $offset)
 fi
 
 res=$(sed 's#x# #g' <<< $res)
 offset=$(sed 's#+# #g' <<< $offset)
 
-$prDesks  && printf "$numDesks\n"
-$prRes    && printf "$res\n"
-$prOffset && printf "$offset\n"
+$prDesks  && echo "$numDesks"
+$prRes    && echo "$res"
+$prOffset && echo "$offset"

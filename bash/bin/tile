@@ -24,7 +24,7 @@ source ~/lib/bash/utils
 function usage()
 {
 
-    a=$(printf "On line: ${BASH_LINENO[0]}")
+    a=$(printf "On line: %s" "${BASH_LINENO[0]}")
     b=$(printf "\n\nUsage: \n  tile [-h][-v vertsep][-d desktop][-b border]")
     c=$(printf " <win1> <win2> ... <winN>")
 
@@ -79,7 +79,7 @@ while getopts ":123v:h:d:b:" opt; do
     esac
 done
 
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 numWindows=$#
 
 
@@ -87,7 +87,7 @@ numWindows=$#
 # Get Window IDs
 
 
-WIDList=$(vis -d$desktop)
+WIDList=$(vis -d"$desktop")
 numWindows=$(wc -w <<< "$WIDList")
 
 for WID in $WIDList; do
@@ -107,8 +107,8 @@ done
 # Get title bar width
 
 
-for W in ${WIDs[@]}; do
-    yTitle+=($(xprop -id $W | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
+for W in "${WIDs[@]}"; do
+    yTitle+=($(xprop -id "$W" | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
 done
 
 
@@ -126,8 +126,8 @@ else
     utils.nerrorf "Not yet implemented."
 fi
 
-read -r xDispOffset yDispOffset <<< $(desk -d$desktop -o)
-read -r xRes yRes <<< $(desk -d$desktop -r)
+read -r xDispOffset yDispOffset <<< $(desk -d"$desktop" -o)
+read -r xRes yRes <<< $(desk -d"$desktop" -r)
 
 xLeft=${xLeft:-0}
 yTop=${yTop:-0}
@@ -151,7 +151,7 @@ case $numWindows in
         w1=$(( xRes-xLeft-(2*borderWidth) ))
         h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
 
-        move $x1 $y1 $w1 $h1 ${WIDs[0]}
+        move $x1 $y1 $w1 $h1 "${WIDs[0]}"
         ;;
     2)
         x1=$(( xDispOffset+xLeft+borderWidth ))
@@ -164,8 +164,8 @@ case $numWindows in
         w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
         h2=$(( yRes-yTop-yTitle[1]-(2*borderWidth) ))
 
-        move $x1 $y1 $w1 $h1 ${WIDs[0]}
-        move $x2 $y2 $w2 $h2 ${WIDs[1]}
+        move $x1 $y1 $w1 $h1 "${WIDs[0]}"
+        move $x2 $y2 $w2 $h2 "${WIDs[1]}"
         ;;
     *)
         x1=$(( xDispOffset+xLeft+borderWidth ))
@@ -183,18 +183,18 @@ case $numWindows in
         w3=$(( w2 ))
         h3=$(( yRes-yHorizSep-yTitle[2]-2*borderWidth ))
 
-        move $x1 $y1 $w1 $h1 ${WIDs[0]}
-        move $x2 $y2 $w2 $h2 ${WIDs[1]}
-        move $x3 $y3 $w3 $h3 ${WIDs[2]}
+        move $x1 $y1 $w1 $h1 "${WIDs[0]}"
+        move $x2 $y2 $w2 $h2 "${WIDs[1]}"
+        move $x3 $y3 $w3 $h3 "${WIDs[2]}"
 	;;
 esac
 
-if [[ $numWindows > 3 ]]; then
+if [[ $numWindows -gt 3 ]]; then
     printf "==================\n"
-    largest=$WIDs
+    largest="${WIDs[*]}"
     for window in $(vis -d$desktop); do
 	if [[ ! ${largest[@]} =~ $window ]]; then
-	    xdotool windowminimize $window
+	    xdotool windowminimize "$window"
 	fi
     done
 

@@ -31,7 +31,6 @@ export GPG_TTY
 alias t='_tmux_go'
 alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
-alias tr='_tmux_run'
 alias tt='_tmux_run "source ~/.bashrc"'
 
 # git
@@ -101,12 +100,12 @@ _ml() {
     if [[ $1 == "gui" ]]; then
 	shift
 	notify-send "Starting MATLAB..." \
-		    "nohup matlab -desktop $@ &>/dev/null &"
-	nohup \matlab -desktop "$@" &>/dev/null &
+		    "nohup matlab -desktop -nosplash $@ &>/dev/null &"
+	nohup \matlab -desktop -nosplash "$@" &>/dev/null &
     elif [[ $1 == "cmd" ]]; then
 	shift
-	notify-send "Starting MATLAB..." "matlab -nodesktop $@"
-	\matlab -nodesktop "$@"
+	notify-send "Starting MATLAB..." "matlab -nosplash -nodesktop $@"
+	\matlab -nosplash -nodesktop "$@"
     else
 	notify-send "Starting MATLAB..." "matlab $@"
 	\matlab "$@"
@@ -167,4 +166,7 @@ _tmux_go() {
 
 _tmux_run() {
     tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$@" Enter clear Enter
+    if [[ -z "$TMUX" ]]; then
+	source ~/.bashrc
+    fi
 }
