@@ -3,10 +3,12 @@
 repoPath=${PWD%/*}
 
 destPath=("$HOME/bin")
+destPath+=("$HOME/bin")
 destPath+=("$HOME/lib/bash")
 destPath+=("$HOME/Documents/MATLAB")
 destPath+=("$HOME")
 srcPath=("$repoPath/bash/bin")
+srcPath+=("$repoPath/python")
 srcPath+=("$repoPath/bash/lib")
 srcPath+=("$repoPath/matlab")
 srcPath+=("$repoPath/dots")
@@ -21,7 +23,7 @@ arrIdx=$(seq 0 $(( ${#destPath[@]} - 1 )))
 for idx in $arrIdx; do
     for file in "${srcPath[$idx]}"/*; do
     	if [[ ! $file =~ (README|.bashrc) ]]; then
-	    ln -bsv -t "${destPath[$idx]}" "$file"
+	    ln -sv -t "${destPath[$idx]}" "$file"
 	    # printf "ln -bsv -t \"%s\" \"%s\"\n" "${destPath[$idx]}" "$file"
     	fi
     done
