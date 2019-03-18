@@ -2,8 +2,8 @@
 
 file=$1
 subdir=$2
-dest="$HOME/repos/hrmutils/$subdir"
-destfile="${dest}/${file}"
+destpath="$HOME/repos/hrmutils/$subdir"
+destfile="${destpath}/${file}"
 
 if [ -z $subdir ]; then
     printf "Please specify a subdirectory of the repository.\n"
@@ -17,6 +17,6 @@ else
     src=$(readlink -f $file)
 fi
 
-mkdir -p $dest
-mv -v $src -t $dest
+mkdir -p $destpath
+mv -v $src -t $destpath
 ln -bsv -T $destfile $src

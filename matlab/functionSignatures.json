@@ -39,9 +39,16 @@
 	    {
 		"name":"varargin",
 		"kind":"required",
-		"type":"choices={'MATLAB','SIMULINK','Stateflow','RTW_Embedded_Coder','MATLAB_Coder',...
-'Real-Time_Workshop','SL_Verification_Validation','Simulink_Design_Verifier'}"
+		"type":"choices={'MATLAB','SIMULINK','Stateflow','RTW_Embedded_Coder','MATLAB_Coder','Real-Time_Workshop','SL_Verification_Validation','Simulink_Design_Verifier'}"
 	    }
+	]
+    },
+    "mfind":
+    {
+	"inputs":
+	[
+	    {"name":"dir",      "kind":"required", "type":["filepath"]},
+	    {"name":"name_opt",	"kind":"required", "type":"choices={'-name','-wholename'}"}
 	]
     }
 }

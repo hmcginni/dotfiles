@@ -23,8 +23,6 @@ function usage()
 function err()
 {
     usage
-    # errStr=$(printf "\n%s\n\tError on line: ${BASH_LINENO[0]}\n" "$1")
-    # utils.errorf "$errStr"
     utils.errorf "\n\t%s\n\tError on line: ${BASH_LINENO[0]}\n" "$1"
 }
 
