@@ -13,7 +13,7 @@
 
 
 utils.errorf() {
-    printf "$@" >&2
+    printf "%s" "$@" >&2
     exit 1
 }
 
@@ -43,9 +43,17 @@ utils.notify() {
 
 
 utils.nerrorf() {
-    notifyStr=$(printf "$@")
+    notifyStr=$(printf "%s" "$@")
     utils.notify "Error" "$notifyStr"
     utils.errorf "$@"    
 }
 
 
+#-------------------------------------------------------------------------------
+#  utils.chomp
+#-------------------------------------------------------------------------------
+
+
+utils.chomp() {
+    head -c -1 "$1"
+}

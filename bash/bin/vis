@@ -61,9 +61,9 @@ shift $(( OPTIND - 1 ))
 #-------------------------------------------------------------------------------
 # Find all visible windows
 
-
-if [[ -n $(pgrep compiz) ]]; then
-    allWIDs=$(wmctrl -lp | egrep -v "($(pgrep compiz | tail -n1)| Desktop$)" | awk '{print $1}')
+pcompiz=$(pgrep compiz)
+if [[ -n $pcompiz ]]; then
+    allWIDs=$(wmctrl -lp | egrep -v "$pcompiz|Desktop$" | awk '{print $1}')
 else
     allWIDs=$(wmctrl -lp | egrep -v " -1 " | awk '{print $1}')
 fi

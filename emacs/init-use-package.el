@@ -70,7 +70,7 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-c C-r" . helm-mini)))
+         ("C-x C-r" . helm-mini)))
 
 ;; ------------------------------------------------------------
 
@@ -78,7 +78,7 @@
 ;;
 (use-package sr-speedbar
   :ensure t
-  :bind ("<f9>" . sr-speedbar-toggle))
+  :bind ("<f8>" . sr-speedbar-toggle))
 
 ;; ------------------------------------------------------------
 
@@ -94,16 +94,17 @@
 ;;
 (use-package flyspell
   :ensure t
-  :bind (("<f7>" . flyspell-mode)
-         ("C-M-<f8>" . flyspell-buffer)
-         ("M-<f7>" . flyspell-check-previous-highlighted-word))
+  :bind (("C-<f9>" . flyspell-check-next-highlighted-word)
+         ("M-<f9>" . flyspell-check-previous-highlighted-word))
+  :hook ((c++-mode . flyspell-prog)
+         (text-mode . flyspell-mode)
+         (org-mode . flyspell-mode))
   :config
   (defun flyspell-check-next-highlighted-word ()
     "Custom function to spell check next highlighted word"
     (interactive)
     (flyspell-goto-next-error)
-    (ispell-word))
-  (global-set-key (kbd "C-<f7>") 'flyspell-check-next-highlighted-word))
+    (ispell-word)))
 
 ;; ------------------------------------------------------------
 
@@ -172,10 +173,11 @@
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
   :init
+  (flyspell-mode-off)
   (setq org-todos-file "~/org/todos.org"
-	org-default-diary-file "~/org/diary.org"
-	org-log-done 'time
-	org-agenda-files '("~/org"))
+        org-default-diary-file "~/org/diary.org"
+        org-log-done 'time
+        org-agenda-files '("~/org"))
   (setq org-capture-templates
         '(("t" "todo" entry
            (file+headline org-todos-file "Unfiled")
@@ -216,7 +218,9 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
-  :hook (flycheck-mode . flycheck-irony-setup))
+  :hook (flycheck-mode . flycheck-irony-setup)
+  :bind (("C-<f9>" . flycheck-next-error)
+         ("M-<f9>" . flycheck-previous-error)))
 
 ;; ------------------------------------------------------------
 

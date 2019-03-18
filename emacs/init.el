@@ -124,7 +124,7 @@
 
 ;; Font
 ;;
-(set-default-font "SF Mono:pixelsize=12:weight=medium")
+(set-frame-font "SF Mono:pixelsize=12:weight=medium")
 ;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
 ;; (set-default-font "Roboto Mono:pixelsize=13:weight=regular")
 
