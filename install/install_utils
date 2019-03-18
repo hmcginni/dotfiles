@@ -12,16 +12,20 @@ srcPath+=("$repoPath/matlab")
 srcPath+=("$repoPath/dots")
 
 # Make directories
+
 mkdir -p "${destPath[@]}"
 
 # Copy files
-for idx in seq 0 $(( ${#destPath[@]} - 1 )); do
+shopt -s dotglob
+arrIdx=$(seq 0 $(( ${#destPath[@]} - 1 )))
+for idx in $arrIdx; do
     for file in "${srcPath[$idx]}"/*; do
-    	if [[ $file != "README.org" ]]; then
+    	if [[ ! $file =~ (README|.bashrc) ]]; then
 	    ln -bsv -t "${destPath[$idx]}" "$file"
+	    # printf "ln -bsv -t \"%s\" \"%s\"\n" "${destPath[$idx]}" "$file"
     	fi
     done
 done
-
+shopt -u dotglob
 
 
