@@ -2,19 +2,20 @@
 
 repoPath=${PWD%/*}
 
-destPath[0]="$HOME/bin"
-destPath[1]="$HOME/lib/bash"
-destPath[2]="$HOME/Documents/MATLAB"
-destPath[3]="$HOME"
-srcPath[0]="$repoPath/bash/bin"
-srcPath[1]="$repoPath/bash/lib"
-srcPath[2]="$repoPath/matlab"
-srcPath[3]="$repoPath/dots"
+destPath=("$HOME/bin")
+destPath+=("$HOME/lib/bash")
+destPath+=("$HOME/Documents/MATLAB")
+destPath+=("$HOME")
+srcPath=("$repoPath/bash/bin")
+srcPath+=("$repoPath/bash/lib")
+srcPath+=("$repoPath/matlab")
+srcPath+=("$repoPath/dots")
 
 # Make directories
-mkdir -p ${destPath[@]}
+mkdir -p "${destPath[@]}"
 
-for idx in 0 1 2 3; do
+# Copy files
+for idx in seq 0 $(( ${#destPath[@]} - 1 )); do
     for file in "${srcPath[$idx]}"/*; do
     	if [[ $file != "README.org" ]]; then
 	    ln -bsv -t "${destPath[$idx]}" "$file"

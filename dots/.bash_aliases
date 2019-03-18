@@ -19,10 +19,22 @@ green="\[\e[0;32m\]"
 red="\[\e[1;31m\]"
 reset="\[\e[00m\]"
 
-export PS1="\n${blue}\u${gray} @ ${green}\h${gray} ∈ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
+case "$TERM" in
+    "dumb")
+	PS1="> "
+	;;
+    xterm*|rxvt*|eterm*|screen*|st*)
+	PS1="\n${blue}\u${gray} @ ${green}\h${gray} ∈ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
+	;;
+    *)
+	PS1="> "
+	;;
+esac
+
 export hrmpc="BC:5F:F4:5A:77:41"
 GPG_TTY=$(tty)
 export GPG_TTY
+export PS1
 
 
 # Aliases ----------------------------------------------------------------------
@@ -47,17 +59,15 @@ alias ml='_ml gui'
 alias mlc='_ml cmd'
 alias matlab='_ml'
 
-# Screen Unlock Daemon (slockd)
-alias s='_slockd_handler'
+# Systemd
+alias s='_systemd_handler'
 
 # others
 alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
 alias copy='_copy'
 alias ediff='emacs diff'
-alias err='_err'
 alias q='_quiet'
 alias qfind='_qfind'
-alias pfind='ps -p $1 -o comm='
 alias socksvpn='pass vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
 alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
@@ -69,21 +79,15 @@ _copy(){
 
 # ---------------------------- #
 
-_err() {
-    "$@" 2>&1 1>/dev/null
-}
-
-# ---------------------------- #
-
 _git_push_wrapper() {
-    if [[ $PWD =~ "hrmutils" ]]; then
+    if [[ $PWD =~ hrmutils ]]; then
 	if [[ $1 == "now" ]]; then
 	    commitMsg="[m] $(date '+%Y%m%d %I:%M%p') update"
 	else
-	    commitMsg="$@"
+	    commitMsg="$*"
 	fi
 	
-    echo $commitMsg
+    echo "$commitMsg"
     git commit -a -m "$commitMsg"
     git push
     
@@ -100,23 +104,23 @@ _ml() {
     if [[ $1 == "gui" ]]; then
 	shift
 	notify-send "Starting MATLAB..." \
-		    "nohup matlab -desktop -nosplash $@ &>/dev/null &"
-	nohup \matlab -desktop -nosplash "$@" &>/dev/null &
+		    "nohup matlab -desktop -nosplash $* &>/dev/null &"
+	nohup \matlab -desktop -nosplash "$*" &>/dev/null &
     elif [[ $1 == "cmd" ]]; then
 	shift
-	notify-send "Starting MATLAB..." "matlab -nosplash -nodesktop $@"
-	\matlab -nosplash -nodesktop "$@"
+	notify-send "Starting MATLAB..." "matlab -nosplash -nodesktop $*"
+	\matlab -nosplash -nodesktop "$*"
     else
-	notify-send "Starting MATLAB..." "matlab $@"
-	\matlab "$@"
+	notify-send "Starting MATLAB..." "matlab $*"
+	\matlab "$*"
     fi
 }
 
 # ---------------------------- #
 
 _parse_git_branch() {
-    branch=$(git branch 2>/dev/null | grep \* | cut -d"*" -f2)
-    if [[ ! -z $branch ]]; then
+    branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
+    if [[ -n $branch ]]; then
 	printf "\n ⌥ ⎇ : %s" "$branch"
     fi
 }
@@ -124,48 +128,49 @@ _parse_git_branch() {
 # ---------------------------- #
 
 _quiet() {
-    ("$@") &>/dev/null &
+    ("$*") &>/dev/null &
 }
 
 # ---------------------------- #
 
 _qfind() {
-    find "${@}" 2>&1 | grep -v "Permission denied"
+    find "$*" 2>&1 | grep -v "Permission denied"
 }
 
 # ---------------------------- #
 
-_slockd_handler() {
-    systemctl --user "$1" slockd.service
+_systemd_handler() {
+    sudo systemctl "$*"
 }
-
-complete -F _systemctl s
-complete -F _systemctl _slockd_handler
 
 # ---------------------------- #
 
 _tmux_go() {
-    if [[ -z "$1" ]]; then
-	operation="list-sessions"	
-    elif [[ ! -z $(grep "$1:" <<< "$(tmux ls)") ]]; then #session exists
-	if [[ ! -z "$TMUX" ]]; then #session exists and currently in tmux
+    if [[ $# == 0 ]]; then
+	operation="list-sessions"
+	tmux_args="$operation"
+    else
+	if ! grep -q "$1:" <<< "$(tmux ls)" ; then #session exists
+	    if [[ -n "$TMUX" ]]; then #session exists and currently in tmux
 	    operation="switch -t"
-	else #session exists and not currently in tmux
+	    else #session exists and not currently in tmux
 	    operation="attach -t"
+	    fi
+	elif [[ -n "$TMUX" ]]; then #session does not exist and currently in tmux
+	    operation="switch -t"
+	else #session does not exist and not currently in tmux
+	    operation="new -s"
 	fi
-    elif [[ ! -z "$TMUX" ]]; then #session does not exist and currently in tmux
-	operation="switch -t"
-    else #session does not exist and not currently in tmux
-	operation="new -s"
+	tmux_args="$operation"" ""$1"
     fi
     
-    tmux $operation $1 || tmux rename-session $1
+    tmux $tmux_args || tmux rename-session "$1"
 }
 
 # ---------------------------- #
 
 _tmux_run() {
-    tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$@" Enter clear Enter
+    tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
     if [[ -z "$TMUX" ]]; then
 	source ~/.bashrc
     fi
