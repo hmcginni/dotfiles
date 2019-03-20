@@ -18,16 +18,16 @@ srcPath+=("$repoPath/dots")
 mkdir -p "${destPath[@]}"
 
 # Copy files
-shopt -s dotglob
 arrIdx=$(seq 0 $(( ${#destPath[@]} - 1 )))
 for idx in $arrIdx; do
+    shopt -s dotglob
     for file in "${srcPath[$idx]}"/*; do
     	if [[ ! $file =~ (README|.bashrc) ]]; then
 	    ln -sv -t "${destPath[$idx]}" "$file"
 	    # printf "ln -bsv -t \"%s\" \"%s\"\n" "${destPath[$idx]}" "$file"
     	fi
     done
+    shopt -u dotglob
 done
-shopt -u dotglob
 
 

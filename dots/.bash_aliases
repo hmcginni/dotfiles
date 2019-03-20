@@ -4,7 +4,7 @@
 #        Custom stuff for ~/.bashrc including (but not limited to) aliases
 #
 
-# Enable delete functionality in st terminal -----------------------------------
+# Enable delete functionality in st --------------------------------------------
 
 
 tput smkx
@@ -20,9 +20,6 @@ red="\[\e[1;31m\]"
 reset="\[\e[00m\]"
 
 case "$TERM" in
-    "dumb")
-	PS1="> "
-	;;
     xterm*|rxvt*|eterm*|screen*|st*)
 	PS1="\n${blue}\u${gray} @ ${green}\h${gray} ∈ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
 	;;
@@ -55,7 +52,7 @@ alias gitclean='git checkout -- . && git clean -fd'
 alias e='emacs -nw -f cmd'
 
 # MATLAB
-alias ml='_ml gui'
+alias ml='_ml gui -r ''check Simulink Simulink_Test Stateflow'''
 alias mlc='_ml cmd'
 alias matlab='_ml'
 
@@ -105,7 +102,7 @@ _ml() {
 	shift
 	notify-send "Starting MATLAB..." \
 		    "nohup matlab -desktop -nosplash $* &>/dev/null &"
-	nohup \matlab -desktop -nosplash "$*" &>/dev/null &
+	nohup \matlab -desktop -nosplash $* &>/dev/null &
     elif [[ $1 == "cmd" ]]; then
 	shift
 	notify-send "Starting MATLAB..." "matlab -nosplash -nodesktop $*"
@@ -150,11 +147,11 @@ _tmux_go() {
 	operation="list-sessions"
 	tmux_args="$operation"
     else
-	if ! grep -q "$1:" <<< "$(tmux ls)" ; then #session exists
+	if grep -q "$1:" <<< "$(tmux ls)" ; then #session exists
 	    if [[ -n "$TMUX" ]]; then #session exists and currently in tmux
-	    operation="switch -t"
+		operation="switch -t"
 	    else #session exists and not currently in tmux
-	    operation="attach -t"
+		operation="attach -t"
 	    fi
 	elif [[ -n "$TMUX" ]]; then #session does not exist and currently in tmux
 	    operation="switch -t"

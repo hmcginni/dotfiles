@@ -1,7 +1,7 @@
 function check(varargin)
 	%
 	% CHECK - Check for specified licenses in a background task. Attempts to
-	%         check out the desired license every 15 seconds.
+	%         check out the desired license every 5 seconds.
 	%
 	%
 	%   USAGE:
@@ -18,7 +18,7 @@ function check(varargin)
 		tObj = timer(...
 			'ExecutionMode','fixedSpacing',...
 			'Name',timerName,...
-			'Period',15,...
+			'Period',5,...
 			'StartDelay',1);
 		tObj.TimerFcn = {@try_license, char(productCode)};
 		start(tObj);
@@ -61,7 +61,7 @@ function notify_send(title, msg)
 	isNotifySend = ~status;
 	
 	if isNotifySend
-		execStr = sprintf('notify-send "%s" "%s"', title, msg);
+		execStr = sprintf('notify-send "%s" "%s" &', title, msg);
 		system(execStr);
 	end
 	
