@@ -78,7 +78,19 @@
 ;;
 (use-package sr-speedbar
   :ensure t
-  :bind ("<f8>" . sr-speedbar-toggle))
+  :bind ("<f10>" . sr-speedbar-toggle))
+
+;; ------------------------------------------------------------
+
+;; Neotree mode
+;;
+(use-package neotree
+  :ensure t
+  :bind ("<f8>" . neotree-toggle)
+  :hook (neo-after-create . text-scale-decrease)
+  :config
+  (setq neo-smart-open t)
+  (setq neo-theme 'ascii))
 
 ;; ------------------------------------------------------------
 
@@ -172,8 +184,9 @@
   :ensure t
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
+  :hook ((org-mode . turn-on-visual-line-mode)
+         (org-mode . org-indent-mode))
   :init
-  (flyspell-mode-off)
   (setq org-todos-file "~/org/todos.org"
         org-default-diary-file "~/org/diary.org"
         org-log-done 'time

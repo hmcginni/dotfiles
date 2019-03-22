@@ -60,12 +60,13 @@ alias matlab='_ml'
 alias s='_systemd_handler'
 
 # others
-alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
 alias copy='_copy'
 alias ediff='emacs diff'
+alias open='_xdg_open'
 alias q='_quiet'
 alias qfind='_qfind'
 alias socksvpn='pass vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
+alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
 alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
 # Functions --------------------------------------------------------------------
@@ -125,19 +126,19 @@ _parse_git_branch() {
 # ---------------------------- #
 
 _quiet() {
-    ("$*") &>/dev/null &
+    ("$@") &>/dev/null &
 }
 
 # ---------------------------- #
 
 _qfind() {
-    find "$*" 2>&1 | grep -v "Permission denied"
+    find "$@" 2>&1 | grep -v "Permission denied"
 }
 
 # ---------------------------- #
 
 _systemd_handler() {
-    sudo systemctl "$*"
+    sudo systemctl "$@"
 }
 
 # ---------------------------- #
@@ -147,17 +148,12 @@ _tmux_go() {
 	operation="list-sessions"
 	tmux_args="$operation"
     else
-	if grep -q "$1:" <<< "$(tmux ls)" ; then #session exists
-	    if [[ -n "$TMUX" ]]; then #session exists and currently in tmux
-		operation="switch -t"
-	    else #session exists and not currently in tmux
-		operation="attach -t"
-	    fi
-	elif [[ -n "$TMUX" ]]; then #session does not exist and currently in tmux
-	    operation="switch -t"
-	else #session does not exist and not currently in tmux
-	    operation="new -s"
-	fi
+
+	if [[ -n $TMUX ]]; then
+	    operation="switch -t" # If we're in TMUX, switch to specified session
+	else
+	    operation="new -A -s" # If we're not in TMUX, either attach or create
+	fi	
 	tmux_args="$operation"" ""$1"
     fi
     
@@ -171,4 +167,10 @@ _tmux_run() {
     if [[ -z "$TMUX" ]]; then
 	source ~/.bashrc
     fi
+}
+
+# ---------------------------- #
+
+_xdg_open() {
+    nohup xdg-open "$1" &>/dev/null &
 }

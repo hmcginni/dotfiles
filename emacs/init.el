@@ -22,7 +22,6 @@
  '(flycheck-shellcheck-follow-sources nil)
  '(global-hl-line-mode t)
  '(global-linum-mode t)
- '(global-visual-line-mode t)
  '(helm-ff-file-name-history-use-recentf t)
  '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
@@ -131,6 +130,7 @@
 
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
 
 ;; ========================================================================== ;;

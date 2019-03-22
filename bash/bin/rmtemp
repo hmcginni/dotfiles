@@ -7,18 +7,19 @@ $notify_repl "Deleting temp files ..."
 
 rootDir=${HOME}
 find "$rootDir" -type f -name "*[~#]" -exec rm -v {} \;
+# find "$rootDir" -type f -name "*[~#]" -exec ls {} \;
 
 # Move org Files
 
 # notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
 # $notify_repl "Moving Org files ..."
 
-orgDir=${HOME}/org
+# orgDir=${HOME}/org
 # find "$rootDir" -type f -name "${HOME}/*.org" -exec mv -v {} "$orgDir" \;
 
 # Delete org HTML
 
-notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
-$notify_repl "Deleting HTML files in ~/org ..."
+# notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
+# $notify_repl "Deleting HTML files in ~/org ..."
 
-find "$orgDir" -type f -name "*.html" -exec rm -v {} \;
+# find "$orgDir" -type f -name "*.html" -exec rm -v {} \;
