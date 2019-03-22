@@ -13,6 +13,9 @@ srcPath+=("$repoPath/bash/lib")
 srcPath+=("$repoPath/matlab")
 srcPath+=("$repoPath/dots")
 
+except="README .bashrc"
+except=$(tr -s "[:blank:]" "|" <<< $except)
+
 # Make directories
 
 mkdir -p "${destPath[@]}"
@@ -22,9 +25,12 @@ arrIdx=$(seq 0 $(( ${#destPath[@]} - 1 )))
 for idx in $arrIdx; do
     shopt -s dotglob
     for file in "${srcPath[$idx]}"/*; do
-    	if [[ ! $file =~ (README|.bashrc) ]]; then
-	    ln -sv -t "${destPath[$idx]}" "$file"
-	    # printf "ln -bsv -t \"%s\" \"%s\"\n" "${destPath[$idx]}" "$file"
+    	if [[ ! $file =~ ($except) ]]; then
+	    dest="${destPath[$idx]}"
+	    if [[ ! -e $dest/${file##*/} ]]; then
+		ln -sv -t "$dest" "$file"
+		# printf "\"%s\" -> \"%s\"\n" "$file" "$dest/${file##*/}"
+	    fi
     	fi
     done
     shopt -u dotglob
