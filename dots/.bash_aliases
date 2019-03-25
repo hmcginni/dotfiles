@@ -52,7 +52,7 @@ alias gitclean='git checkout -- . && git clean -fd'
 alias e='emacs -nw -f cmd'
 
 # MATLAB
-alias ml='_ml gui -r ''check Simulink Simulink_Test Stateflow'''
+alias ml='_ml gui'
 alias mlc='_ml cmd'
 alias matlab='_ml'
 
@@ -132,7 +132,7 @@ _quiet() {
 # ---------------------------- #
 
 _qfind() {
-    find "$@" 2>&1 | grep -v "Permission denied"
+    find "$@" 2>/dev/null
 }
 
 # ---------------------------- #

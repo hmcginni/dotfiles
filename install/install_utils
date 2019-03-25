@@ -1,39 +1,44 @@
 #!/bin/bash
 
-repoPath=${PWD%/*}
+installer=$(realpath "$0")
+installerPath=$(dirname "$installer")
+repoPath=${installerPath%/*}
 
 destPath=("$HOME/bin")
 destPath+=("$HOME/bin")
 destPath+=("$HOME/lib/bash")
 destPath+=("$HOME/Documents/MATLAB")
 destPath+=("$HOME")
+destPath+=("$HOME/.emacs.d")
 srcPath=("$repoPath/bash/bin")
 srcPath+=("$repoPath/python")
 srcPath+=("$repoPath/bash/lib")
 srcPath+=("$repoPath/matlab")
 srcPath+=("$repoPath/dots")
+srcPath+=("$repoPath/emacs")
 
-except="README .bashrc"
-except=$(tr -s "[:blank:]" "|" <<< $except)
+except="README.* .bashrc .*[#~]+"
+exceptRegex=$(tr -s "[:blank:]" "|" <<< $except)
 
 # Make directories
 
 mkdir -p "${destPath[@]}"
 
 # Copy files
+shopt -s dotglob
 arrIdx=$(seq 0 $(( ${#destPath[@]} - 1 )))
+
 for idx in $arrIdx; do
-    shopt -s dotglob
-    for file in "${srcPath[$idx]}"/*; do
-    	if [[ ! $file =~ ($except) ]]; then
-	    dest="${destPath[$idx]}"
-	    if [[ ! -e $dest/${file##*/} ]]; then
-		ln -sv -t "$dest" "$file"
-		# printf "\"%s\" -> \"%s\"\n" "$file" "$dest/${file##*/}"
+    for fullfile in "${srcPath[$idx]}"/*; do
+    	if [[ ! $fullfile =~ ($exceptRegex) ]]; then
+	    destDir="${destPath[$idx]}"
+	    if [[ ! -e $destDir/${fullfile##*/} ]]; then
+		ln -sv -t "$destDir" "$fullfile"
+		# printf "\"%s\" -> \"%s\"\n" "$fullfile" "$destDir/${fullfile##*/}"
 	    fi
     	fi
     done
-    shopt -u dotglob
 done
 
+shopt -u dotglob
 

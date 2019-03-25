@@ -1,13 +1,12 @@
-;; ========================================================================== ;;
-;; Package Init/Install 
-;;
+;;; init-use-package.el --- Emacs Init File - use-package declarations
 
+;;; Commentary:
+;;    Emacs Initialization with use-package
 
-;; Package Init ------------------------------------------------------------- ;;
+;;; Code:
 
-;; Emacs Packages
-;;
 (require 'package)
+
 (setq package-archives
       '(("melpa" . "https://melpa.org/packages/")
         ("gnu" . "https://elpa.gnu.org/packages/")

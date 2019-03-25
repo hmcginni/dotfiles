@@ -1,6 +1,9 @@
-;; ========================================================================== ;;
-;; Package Init/Install 
-;;
+;;; init-lisp-functions.el --- Emacs Init File - custom lisp functions
+
+;;; Commentary:
+;;    Custom Elisp Functions
+
+;;; Code:
 
 ;; Resize Emacs
 (defun narrow-window ()
@@ -171,8 +174,7 @@
 (defun cmd ()
   (interactive)
   (setq viper-mode t)
-  (viper-mode)
-  (color-theme-almost-monokai))
+  (load-theme 'almost-monokai))
 (provide 'cmd)
 
 ;; ------------------------------------------------------------

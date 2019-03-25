@@ -12,6 +12,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(adaptive-wrap-extra-indent 2)
  '(column-number-mode t)
  '(cursor-type (quote (bar . 2)))
  '(custom-safe-themes t)
@@ -80,7 +81,7 @@
 ;;
 
 
-(load "~/.emacs.d/init-use-package.el")
+(load "~/.emacs.d/my-use-package.el")
 
 
 ;; ========================================================================== ;;
@@ -138,7 +139,7 @@
 ;;
 
 
-(load "~/.emacs.d/init-lisp-functions.el")
+(load "~/.emacs.d/my-lisp-functions.el")
 
 
 ;; Org-mode ====================================================================
