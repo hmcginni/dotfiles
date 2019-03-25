@@ -1,9 +1,14 @@
 #!/bin/bash
 
+
+# Get path to repo
 installer=$(realpath "$0")
 installerPath=$(dirname "$installer")
 repoPath=${installerPath%/*}
 
+
+# Can't use associative arrays here because of some bizarre behavior when similar
+# strings are used as "keys"
 destPath=("$HOME/bin")
 destPath+=("$HOME/bin")
 destPath+=("$HOME/lib/bash")
@@ -17,18 +22,30 @@ srcPath+=("$repoPath/matlab")
 srcPath+=("$repoPath/dots")
 srcPath+=("$repoPath/emacs")
 
+
+# Don't install files with following regex (space delimited)
+#   1. README files
+#   2. .bashrc
+#   3. temp files (ends with # or ~)
 except="README.* .bashrc .*[#~]+"
 exceptRegex=$(tr -s "[:blank:]" "|" <<< $except)
 
-# Make directories
 
+# Make destination directories
 mkdir -p "${destPath[@]}"
 
-# Copy files
-shopt -s dotglob
-arrIdx=$(seq 0 $(( ${#destPath[@]} - 1 )))
 
-for idx in $arrIdx; do
+# Enable dotfile globbing
+shopt -s dotglob
+
+
+# Create array index iteration variable
+idxSeq=$(seq 0 $(( ${#destPath[@]} - 1 )))
+
+
+# For each file in $srcPath, create a symlink in the respective $destPath
+# if one does not already exist
+for idx in $idxSeq; do
     for fullfile in "${srcPath[$idx]}"/*; do
     	if [[ ! $fullfile =~ ($exceptRegex) ]]; then
 	    destDir="${destPath[$idx]}"
@@ -40,5 +57,7 @@ for idx in $arrIdx; do
     done
 done
 
+
+# Disable dotfile globbing
 shopt -u dotglob
 

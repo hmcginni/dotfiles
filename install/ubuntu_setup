@@ -2,18 +2,20 @@
 
 ## PATHS
 
-repository_path="$HOME/Documents/repos"
+path_to_repos="$HOME/Documents/repos"
 
 ## INSTALL PACKAGES
 
 function git_installer() {
 
-    suto apt install -y git
+    printf "Installing Git\n\n"
+    sudo apt install -y git
 
 }
 
 function apt_package_installer() {
 
+    printf "Installing APT Packages\n\n"
     sudo apt update && sudo apt upgrade -y
 
     sudo add-apt-repository -y ppa:noobslab/themes
@@ -32,7 +34,8 @@ function apt_package_installer() {
 }
 
 function snap_package_installer() {
-    
+
+    printf "Installing Snap Packages\n\n"
     sudo snap install atom --classic
     sudo snap install slack --classic
     sudo snap install skype --classic
@@ -44,35 +47,24 @@ function snap_package_installer() {
 
 function path_setup() {
 
-    local repository_tools_path="$HOME/bin"
-    local repository_library_path="$HOME/lib/bash"
+    printf "Creating local directories\n\n"
     local emacs_package_path="$HOME/.emacs.d/elpa"
     
-    paths=("$repository_path")
-    paths+=("$repository_tools_path")
-    paths+=("$repository_library_path")
+    paths=("$path_to_repos")
     paths+=("$emacs_package_path")
     
     mkdir -p "${paths[*]}"
-    cd "$repository_path"
 
 }
 
 ## INSTALL REPOSITORY FILES
 
 function repository_setup() {
-    
-    while [[ -z $(which git) ]]; do
-	if [[ $SECONDS -gt 600 ]]; then
-	    printf "Git is unavailable (10 minute timeout occurred)"
-	    exit 1
-	fi
-	sleep 10
-    done
+
+    printf "Setting up hrmutils repository\n\n"
 
     git clone https://github.com/hrmcginnis/hrmutils.git
-    cd "$repository_path"/install
-    ./install_utils
+    bash "$path_to_repos"/hrmutils/install/install_utils
 
 }
 
@@ -80,10 +72,10 @@ function repository_setup() {
 
 function main() {
 
-    git_installer &
-    path_setup &
-    apt_package_installer &
+    git_installer && apt_package_installer &
     snap_package_installer &
+    path_setup &
+    wait %1
     repository_setup &
     
 }
