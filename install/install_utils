@@ -7,20 +7,16 @@ installerPath=$(dirname "$installer")
 repoPath=${installerPath%/*}
 
 
-# Can't use associative arrays here because of some bizarre behavior when similar
-# strings are used as "keys"
-destPath=("$HOME/bin")
-destPath+=("$HOME/bin")
-destPath+=("$HOME/lib/bash")
-destPath+=("$HOME/Documents/MATLAB")
-destPath+=("$HOME")
-destPath+=("$HOME/.emacs.d")
-srcPath=("$repoPath/bash/bin")
-srcPath+=("$repoPath/python")
-srcPath+=("$repoPath/bash/lib")
-srcPath+=("$repoPath/matlab")
-srcPath+=("$repoPath/dots")
-srcPath+=("$repoPath/emacs")
+# Set up mapping between source path and destination path
+# array[$srcPath]=$destPath
+declare -A srcToDestMap
+
+srcToDestMap["$repoPath/bash/bin"]="$HOME"/bin
+srcToDestMap["$repoPath/python"]="$HOME"/bin
+srcToDestMap["$repoPath/bash/lib"]="$HOME"/lib/bash
+srcToDestMap["$repoPath/matlab"]="$HOME"/Documents/MATLAB
+srcToDestMap["$repoPath/dots"]="$HOME"
+srcToDestMap["$repoPath/emacs"]="$HOME"/.emacs.d
 
 
 # Don't install files with following regex (space delimited)
@@ -32,28 +28,24 @@ exceptRegex=$(tr -s "[:blank:]" "|" <<< $except)
 
 
 # Make destination directories
-mkdir -p "${destPath[@]}"
+mkdir -p "${srcToDestMap[@]}"
 
 
 # Enable dotfile globbing
 shopt -s dotglob
 
 
-# Create array index iteration variable
-idxSeq=$(seq 0 $(( ${#destPath[@]} - 1 )))
-
-
 # For each file in $srcPath, create a symlink in the respective $destPath
 # if one does not already exist
-for idx in $idxSeq; do
-    for fullfile in "${srcPath[$idx]}"/*; do
-    	if [[ ! $fullfile =~ ($exceptRegex) ]]; then
-	    destDir="${destPath[$idx]}"
-	    if [[ ! -e $destDir/${fullfile##*/} ]]; then
-		ln -sv -t "$destDir" "$fullfile"
-		# printf "\"%s\" -> \"%s\"\n" "$fullfile" "$destDir/${fullfile##*/}"
+for srcPath in "${!srcToDestMap[@]}"; do
+    for fullfile in "$srcPath"/*; do
+	if [[ ! $fullfile =~ ($exceptRegex) ]]; then
+	    destPath=${srcToDestMap["$srcPath"]}
+	    if [[ ! -e $destPath/${fullfile##*/} ]]; then
+		# ln -sv -t "$destPath" "$fullfile"
+		printf "\"%s\" -> \"%s\"\n" "$destPath/${fullfile##*/}" "$fullfile"
 	    fi
-    	fi
+	fi
     done
 done
 

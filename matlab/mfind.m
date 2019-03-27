@@ -17,8 +17,13 @@ function fileList = mfind(dir, name_opt, regex)
 	
 	[~, fileList] = system(systemCmd);
 	
-	fileList = split( fileList, newline );
-	findError = strlength(fileList) == 0;
-	fileList(findError) = [];
+	if isempty(fileList)
+		fileList = string.empty(0,1);
+		return
+	end
+	
+	fileList(end) = '';
+	fileList = string(split( fileList, newline ));
+
 	
 end

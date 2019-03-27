@@ -23,6 +23,7 @@
  '(flycheck-shellcheck-follow-sources nil)
  '(global-hl-line-mode t)
  '(global-linum-mode t)
+ '(global-visual-line-mode t)
  '(helm-ff-file-name-history-use-recentf t)
  '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
@@ -31,8 +32,8 @@
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
 * "
-	   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
-	   ": "))
+           (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
+           ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 2)
  '(linum-format "%4d│")
@@ -132,6 +133,7 @@
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'visual-line-mode-hook 'adaptive-wrap-prefix-mode)
 
 
 ;; ========================================================================== ;;

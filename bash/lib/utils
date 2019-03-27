@@ -4,6 +4,7 @@
 #  utils - bash utility functions  #
 #==================================#
 
+source "$HOME/lib/bash/tiling"
 
 #-------------------------------------------------------------------------------
 #  utils.errorf
@@ -30,7 +31,7 @@ utils.notify() {
     if [[ $# == 1 || $# == 2 ]]; then
 	notify-send "$@"
     else
-	utils::errorf "Improper usage of function utils::notify"
+	utils.errorf "Improper usage of function utils.notify"
     fi
 }
 
@@ -43,7 +44,9 @@ utils.notify() {
 
 
 utils.nerrorf() {
-    notifyStr=$(printf "%s" "$@")
+    fmtStr=$1
+    shift
+    notifyStr=$(printf "$fmtStr" "$@")
     utils.notify "Error" "$notifyStr"
     utils.errorf "$@"    
 }

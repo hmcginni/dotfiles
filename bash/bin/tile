@@ -190,7 +190,6 @@ case $numWindows in
 esac
 
 if [[ $numWindows -gt 3 ]]; then
-    printf "==================\n"
     largest="${WIDs[*]}"
     for window in $(vis -d$desktop); do
 	if [[ ! ${largest[@]} =~ $window ]]; then
@@ -198,5 +197,5 @@ if [[ $numWindows -gt 3 ]]; then
 	fi
     done
 
-    utils.nerrorf "\n\tToo many windows on display %d (%d)\n" "$desktop" "$numWindows"
+    utils.nerrorf "Too many windows on display %d (%d)" "$desktop" "$numWindows"
 fi
