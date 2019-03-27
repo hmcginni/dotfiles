@@ -32,12 +32,15 @@
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
 * "
-           (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
-           ": "))
+	   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
+	   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 2)
  '(linum-format "%4d│")
  '(menu-bar-mode nil)
+ '(mlint-programs
+   (quote
+    ("/opt/matlab/2017a/bin/glnxa64/mlint" "glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -148,14 +151,18 @@
 ;;
 
 
-(define-key global-map (kbd "C-c d")
-  (lambda () (interactive) (org-capture nil "d")))
+(define-key global-map (kbd "C-c s")
+  (lambda () (interactive) (org-capture nil "s")))
+(define-key global-map (kbd "C-c g")
+  (lambda () (interactive) (org-capture nil "g")))
 (define-key global-map (kbd "C-c t")
   (lambda () (interactive) (org-capture nil "t")))
+(define-key global-map (kbd "C-c C-s")
+  (lambda () (interactive) (find-file org-slvnv-file)))
+(define-key global-map (kbd "C-c C-g")
+  (lambda () (interactive) (find-file org-gl-file)))
 (define-key global-map (kbd "C-c C-t")
   (lambda () (interactive) (find-file org-todos-file)))
-(define-key global-map (kbd "C-c C-d")
-  (lambda () (interactive) (find-file org-default-diary-file)))
 (define-key global-map (kbd "C-c C-o")
   (lambda () (org-open-at-point) (delete-window)))
 
