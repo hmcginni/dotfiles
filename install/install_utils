@@ -1,14 +1,21 @@
 #!/bin/bash
 
 
+# Don't install files matching the following regexes (space delimited)
+#   1. README files
+#   2. .bashrc
+#   3. temp files (ends with # or ~)
+except="README.* .bashrc .*[#~]+"
+
+
 # Get path to repo
 installer=$(realpath "$0")
 installerPath=$(dirname "$installer")
 repoPath=${installerPath%/*}
 
 
-# Set up mapping between source path and destination path
-# array[$srcPath]=$destPath
+# Set up map between source path and destination path
+# associative_array[$srcPath]=$destPath
 declare -A srcToDestMap
 
 srcToDestMap["$repoPath/bash/bin"]="$HOME"/bin
@@ -19,20 +26,16 @@ srcToDestMap["$repoPath/dots"]="$HOME"
 srcToDestMap["$repoPath/emacs"]="$HOME"/.emacs.d
 
 
-# Don't install files with following regex (space delimited)
-#   1. README files
-#   2. .bashrc
-#   3. temp files (ends with # or ~)
-except="README.* .bashrc .*[#~]+"
-exceptRegex=$(tr -s "[:blank:]" "|" <<< $except)
-
-
 # Make destination directories
 mkdir -p "${srcToDestMap[@]}"
 
 
 # Enable dotfile globbing
 shopt -s dotglob
+
+
+# Create Regex string based on file exception rules
+exceptRegex=$(tr -s "[:blank:]" "|" <<< $except)
 
 
 # For each file in $srcPath, create a symlink in the respective $destPath
