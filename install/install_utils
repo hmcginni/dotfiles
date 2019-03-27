@@ -40,13 +40,13 @@ exceptRegex=$(tr -s "[:blank:]" "|" <<< $except)
 
 # For each file in $srcPath, create a symlink in the respective $destPath
 # if one does not already exist
-for srcPath in "${!srcToDestMap[@]}"; do
-    for fullfile in "$srcPath"/*; do
-	if [[ ! $fullfile =~ ($exceptRegex) ]]; then
-	    destPath=${srcToDestMap["$srcPath"]}
-	    if [[ ! -e $destPath/${fullfile##*/} ]]; then
-		# ln -sv -t "$destPath" "$fullfile"
-		printf "\"%s\" -> \"%s\"\n" "$destPath/${fullfile##*/}" "$fullfile"
+for src in "${!srcToDestMap[@]}"; do
+    for file in "$src"/*; do
+	if [[ ! $file =~ ($exceptRegex) ]]; then
+	    dest=${srcToDestMap["$src"]}
+	    if [[ ! -e $dest/${file##*/} ]]; then
+		# ln -sv -t "$dest" "$file"
+		printf "\"%s\" -> \"%s\"\n" "$dest/${file##*/}" "$file"
 	    fi
 	fi
     done
