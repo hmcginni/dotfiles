@@ -110,9 +110,9 @@ function main() {
     apt_package_installer &
     font_installer &
     path_setup &
+    snap_package_installer &
     wait
     repository_setup &
-    snap_package_installer &
     
 }
 
