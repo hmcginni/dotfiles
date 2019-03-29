@@ -261,18 +261,17 @@
 
 ;; MATLAB mode
 ;;
-(use-package matlab-mode
-  :mode "\\.m$"
-  :interpreter "MATLAB"
-  :hook (matlab-mode . (lambda ()
-                         (auto-complete-mode 1)
-                         (matlab-cedet-setup)
-                         (matlab-toggle-show-mlint-warnings)))
+(use-package matlab
+  :mode ("\\.m$" . matlab-mode)
+  :hook ((matlab-mode . (lambda () (matlab-cedet-setup)))
+         (matlab-mode . (lambda () (mlint-minor-mode 1))))
   :config
   (setq matlab-indent-function t
+        matlab-show-mlint-warnings t
         matlab-shell-command "matlab"
         matlab-shell-command-switches
-        (list "-nosplash" "-nodesktop")))
+        (list "-nosplash" "-nodesktop"))
+  (autoload 'mlint-minor-mode "mlint" nil t))
 
 ;; ------------------------------------------------------------
 

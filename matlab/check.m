@@ -58,10 +58,20 @@ function notify_send(title, msg)
 	%
 	
 	[status,~] = system('which notify-send');
-	isNotifySend = ~status;
-	
-	if isNotifySend
-		execStr = sprintf('notify-send "%s" "%s" &', title, msg);
+	existNotifySend = ~status;
+	matlab_png_path = fullfile(matlabroot,...
+        'toolbox/nnet/nnresource/icons/matlab.png');    
+    
+    if exist(matlab_png_path, 'file')
+        png_flags = sprintf('-i %s', matlab_png_path);
+    else
+        png_flags = '';
+    end
+    
+    opts = ['-t 4000 ', png_flags];
+    
+	if existNotifySend
+		execStr = sprintf('notify-send %s "%s" "%s" &', opts, title, msg);
 		system(execStr);
 	end
 	

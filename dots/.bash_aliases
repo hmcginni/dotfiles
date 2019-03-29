@@ -101,8 +101,7 @@ _ml() {
 
     if [[ $1 == "gui" ]]; then
 	shift
-	notify-send "Starting MATLAB..." \
-		    "nohup matlab -desktop -nosplash $* &>/dev/null &"
+	notify-send "Starting MATLAB..." "nohup matlab -desktop -nosplash $* &>/dev/null &"
 	nohup \matlab -desktop -nosplash $* &>/dev/null &
     elif [[ $1 == "cmd" ]]; then
 	shift

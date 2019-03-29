@@ -25,7 +25,7 @@ function usage()
 {
 
     a=$(printf "On line: %s" "${BASH_LINENO[0]}")
-    b=$(printf "\n\nUsage: \n  tile [-h][-v vertsep][-d desktop][-b border]")
+    b=$(printf "\n\nUsage: \n  tile [-h][-v vertsep][-d desktop][-b gap]")
     c=$(printf " <win1> <win2> ... <winN>")
 
     utils.errorf "%s%s%s" "$a" "$b" "$c"
@@ -38,9 +38,9 @@ function usage()
 
 
 desktop=$(tiling.getCursorDesktop)
-borderWidth=18
-vertSepPos=60
-horizSepPos=48
+gap=25
+vSepPos=60
+hSepPos=48
 
 
 #-------------------------------------------------------------------------------
@@ -53,14 +53,14 @@ while getopts ":123v:h:d:b:" opt; do
             desktop=$opt
             ;;
         v )
-            vertSepPos=$OPTARG
-            if (( (20 > vertSepPos) || (80 < vertSepPos) )); then
+            vSepPos=$OPTARG
+            if (( (20 > vSepPos) || (80 < vSepPos) )); then
                 utils.errorf "\n\tUnsupported width (v ∈ [20,80])\n"
             fi
             ;;
         h )
-            horizSepPos=$OPTARG
-            if (( (30 > horizSepPos) || (70 < horizSepPos) )); then
+            hSepPos=$OPTARG
+            if (( (30 > hSepPos) || (70 < hSepPos) )); then
                 utils.errorf "\n\tUnsupported height (h ∈ [30,70])\n"
             fi
             ;;
@@ -68,9 +68,9 @@ while getopts ":123v:h:d:b:" opt; do
             desktop=$OPTARG
             ;;
         b )
-            borderWidth=$OPTARG
-	    if (( (8 > borderWidth) || (60 < borderWidth) )); then
-		utils.errorf "\n\tUnsupported border width (border ∈ [8,60])\n"
+            gap=$OPTARG
+	    if (( (8 > gap) || (60 < gap) )); then
+		utils.errorf "\n\tUnsupported gap width (gap ∈ [8,60])\n"
 	    fi
 	    ;;
         \?)
@@ -91,7 +91,7 @@ WIDList=$(vis -d"$desktop")
 numWindows=$(wc -w <<< "$WIDList")
 
 for WID in $WIDList; do
-    sizeOfWID="$(tiling.getWindowSize $WID)"
+    sizeOfWID=$(tiling.getWindowSize "$WID")
     wSize+=($sizeOfWID)
     wMap[$sizeOfWID]=$WID
 done
@@ -117,16 +117,16 @@ done
 
 
 # Get xLeft and yTop
-if [[ $XDG_CURRENT_DESKTOP == "Unity" ]]; then
+if [[ $XDG_CURRENT_DESKTOP =~ Unity ]]; then
     read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
-elif [[ $XDG_CURRENT_DESKTOP == "XFCE" ]]; then
+elif [[ $XDG_CURRENT_DESKTOP =~ XFCE ]]; then
     xLeft=$(wmctrl -lG | egrep -v "0 +0" | awk '/xfce4-panel/ {print $5}')
     yTop=$(wmctrl -lG | egrep "0 +0" | awk '/xfce4-panel/ {print $6}')
 else
     utils.nerrorf "Not yet implemented."
 fi
 
-read -r xDispOffset yDispOffset <<< $(desk -d"$desktop" -o)
+read -r xOff yOff <<< $(desk -d"$desktop" -o)
 read -r xRes yRes <<< $(desk -d"$desktop" -r)
 
 xLeft=${xLeft:-0}
@@ -141,61 +141,62 @@ fi
 # Set boundaries and move windows
 
 
-xVertSep=$(( (vertSepPos*(xRes-xLeft)/100) ))
-yHorizSep=$(( (horizSepPos*(yRes-yTop)/100) ))
+vSep=$(( (vSepPos*(xRes-xLeft)/100) ))
+ySep=$(( (hSepPos*(yRes-yTop)/100) ))
 
 case $numWindows in
     1)
-        x1=$(( xDispOffset+xLeft+borderWidth ))
-        y1=$(( yDispOffset+yTop+borderWidth ))
-        w1=$(( xRes-xLeft-(2*borderWidth) ))
-        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
+        x1=$(( xOff + xLeft + gap ))
+        y1=$(( yOff + yTop + gap ))
+        w1=$(( xRes - xLeft - 2*gap ))
+        h1=$(( yRes - yTop - yTitle[0] - 2*gap ))
 
         move $x1 $y1 $w1 $h1 "${WIDs[0]}"
         ;;
     2)
-        x1=$(( xDispOffset+xLeft+borderWidth ))
-        y1=$(( yDispOffset+yTop+borderWidth ))
-        w1=$(( xVertSep-borderWidth ))
-        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
+        x1=$(( xOff + xLeft + gap ))
+        y1=$(( yOff + yTop + gap ))
+        w1=$(( vSep - gap ))
+        h1=$(( yRes - yTop - yTitle[0] - 2*gap ))
 
-        x2=$(( x1+w1+borderWidth ))
+        x2=$(( x1 + w1 + gap ))
         y2=$(( y1 ))
-        w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
-        h2=$(( yRes-yTop-yTitle[1]-(2*borderWidth) ))
+        w2=$(( xRes - xLeft - vSep - 2*gap ))
+        h2=$(( yRes - yTop - yTitle[1] - 2*gap ))
 
         move $x1 $y1 $w1 $h1 "${WIDs[0]}"
         move $x2 $y2 $w2 $h2 "${WIDs[1]}"
         ;;
     *)
-        x1=$(( xDispOffset+xLeft+borderWidth ))
-        y1=$(( yDispOffset+yTop+borderWidth ))
-        w1=$(( xVertSep-borderWidth ))
-        h1=$(( yRes-yTop-yTitle[0]-(2*borderWidth) ))
+        x1=$(( xOff + xLeft + gap ))
+        y1=$(( yOff + yTop + gap ))
+        w1=$(( vSep - gap ))
+        h1=$(( yRes - yTop - yTitle[0] - 2*gap ))
 
-        x2=$(( x1+w1+borderWidth ))
+        x2=$(( x1 + w1 + gap ))
         y2=$(( y1 ))
-        w2=$(( xRes-xLeft-xVertSep-2*borderWidth ))
-        h2=$(( yHorizSep-yTitle[1]-2*borderWidth ))
+        w2=$(( xRes - xLeft - vSep - 2*gap ))
+        h2=$(( ySep - yTitle[1] - 2*gap ))
 
         x3=$(( x2 ))
-        y3=$(( y2+h2+yTitle[1]+borderWidth ))
+        y3=$(( y2 + h2 + yTitle[1] + gap ))
         w3=$(( w2 ))
-        h3=$(( yRes-yHorizSep-yTitle[2]-2*borderWidth ))
+        h3=$(( yRes - ySep - yTitle[2] - 2*gap ))
 
         move $x1 $y1 $w1 $h1 "${WIDs[0]}"
         move $x2 $y2 $w2 $h2 "${WIDs[1]}"
         move $x3 $y3 $w3 $h3 "${WIDs[2]}"
+
+	if [[ $numWindows -gt 3 ]]; then
+	    largest="${WIDs[*]}"
+	    for window in $(vis -d$desktop); do
+		if [[ ! ${largest[@]} =~ $window ]]; then
+		    xdotool windowminimize "$window"
+		fi
+	    done
+
+	    utils.nerrorf "Too many windows on display %d (%d)" "$desktop" "$numWindows"
+	fi
 	;;
 esac
 
-if [[ $numWindows -gt 3 ]]; then
-    largest="${WIDs[*]}"
-    for window in $(vis -d$desktop); do
-	if [[ ! ${largest[@]} =~ $window ]]; then
-	    xdotool windowminimize "$window"
-	fi
-    done
-
-    utils.nerrorf "Too many windows on display %d (%d)" "$desktop" "$numWindows"
-fi

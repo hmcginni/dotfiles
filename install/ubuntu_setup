@@ -23,7 +23,7 @@ function apt_package_installer() {
     sudo add-apt-repository -y ppa:openconnect/daily
     sudo apt update
 
-    sudo apt install -y tmux emacs wmctrl xdotool
+    sudo apt install -y tmux emacs wmctrl xdotool xwininfo locate
     sudo apt install -y emacs-goodies-el pass ipython gmrun dropbox
     sudo apt install -y x11-utils chromium-browser build-essential
     sudo apt install -y arc-theme moka-icon-theme arc-icons openconnect
@@ -61,10 +61,14 @@ function path_setup() {
 
 function repository_setup() {
 
-    printf "Setting up hrmutils repository\n\n"
+    hrmutils_path=$(find / -name hrmutils 2>/dev/null)
 
-    git clone https://github.com/hrmcginnis/hrmutils.git
-    bash "$path_to_repos"/hrmutils/install/install_utils
+    if [[ -z $hrmutils_path ]]; then
+	printf "Setting up hrmutils repository\n\n"
+	
+	git clone https://github.com/hrmcginnis/hrmutils.git "$path_to_repos"
+	bash "$path_to_repos"/hrmutils/install/install_utils
+    fi
 
 }
 
