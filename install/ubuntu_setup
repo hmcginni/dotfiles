@@ -79,7 +79,7 @@ function font_installer() {
     # cd "$HOME" && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
     # "$HOME"/.dropbox-dist/dropboxd &>/dev/null &
 
-    dropbox exclude "books" "camera uploads" "costa_rica_best_country" "interviews" "to_sell" "windows" "work" "general documents" "phone_stuff"
+    dropbox exclude add "books" "camera uploads" "costa_rica_best_country" "interviews" "to_sell" "windows" "work" "general documents" "phone_stuff"
     
     src_fonts_dir="$HOME"/Dropbox/fonts
     dest_fonts_dir="$HOME"/.local/share/fonts
