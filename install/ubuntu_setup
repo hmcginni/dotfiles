@@ -8,15 +8,14 @@ path_to_repos="$HOME/Documents/repos"
 
 function git_dropbox_installer() {
 
-    printf "Installing Git\n\n"
+    notify-send "hrmutils Installer" "Installing Git\n\n"
     sudo apt install -y git nautilus-dropbox
-    dropbox start -i
 
 }
 
 function apt_package_installer() {
 
-    printf "Installing APT Packages\n\n"
+    notify-send "hrmutils Installer" "Installing APT Packages\n\n"
     sudo apt update && sudo apt upgrade -y
 
     sudo add-apt-repository -y ppa:noobslab/themes
@@ -36,7 +35,7 @@ function apt_package_installer() {
 
 function snap_package_installer() {
 
-    printf "Installing Snap Packages\n\n"
+    notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     sudo snap install atom --classic
     sudo snap install slack --classic
     sudo snap install skype --classic
@@ -48,13 +47,10 @@ function snap_package_installer() {
 
 function path_setup() {
 
-    printf "Creating local directories\n\n"
+    notify-send "hrmutils Installer" "Creating local directories\n\n"
     local emacs_package_path="$HOME/.emacs.d/elpa"
     
-    paths=("$path_to_repos")
-    paths+=("$emacs_package_path")
-    
-    mkdir -p "${paths[*]}"
+    mkdir -p "$emacs_package_path" "$path_to_repos"
 
 }
 
@@ -65,7 +61,7 @@ function repository_setup() {
     hrmutils_path=$(find / -name hrmutils 2>/dev/null)
 
     if [[ -z $hrmutils_path ]]; then
-	printf "Setting up hrmutils repository\n\n"
+	notify-send "hrmutils Installer" "Setting up hrmutils repository\n\n"
 	
 	git clone https://github.com/hrmcginnis/hrmutils.git "$path_to_repos"
 	bash "$path_to_repos"/hrmutils/install/install_utils
@@ -79,20 +75,25 @@ function font_installer() {
     # cd "$HOME" && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
     # "$HOME"/.dropbox-dist/dropboxd &>/dev/null &
 
+    #Install Dropbox
     dropbox_dir="$HOME"/Dropbox
     dropbox exclude add "$dropbox_dir"/{"books","camera uploads","costa_rica_best_country","interviews","to_sell","windows","work","general documents","phone_stuff","school","docs","office","reformat","resume"}
     
     src_fonts_dir="$HOME"/Dropbox/fonts
     dest_fonts_dir="$HOME"/.local/share/fonts
     begin_while_time=$(date +%s)
+
+    notify-send "hrmutils Installer" "Waiting on fonts from Dropbox"
+    
     while [[ ! $(dropbox filestatus "$src_fonts_dir") =~ "up to date" ]]; do
 	sleep 5
 	if (( $(date +%s) - begin_while_time > 300 )); then
-	   notify-send "Installer Timeout" "font_installer timed out while updating Dropbox."
+	   notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
 	   exit 1
 	fi
     done
 
+    # Install fonts from Dropbox
     mkdir -p "$dest_fonts_dir"
     for dir in $src_fonts_dir/*; do
 	cp -rv $dir -t "$dest_fonts_dir"
@@ -107,12 +108,12 @@ function font_installer() {
 function main() {
 
     git_dropbox_installer &
-    wait
+    snap_package_installer &
+    wait %1
     apt_package_installer &
     font_installer &
     path_setup &
-    snap_package_installer &
-    wait
+    wait 
     repository_setup &
     
 }
