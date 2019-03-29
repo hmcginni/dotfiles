@@ -23,7 +23,7 @@ function apt_package_installer() {
     sudo add-apt-repository -y ppa:openconnect/daily
     sudo apt update
 
-    sudo apt install -y tmux emacs wmctrl xdotool xwininfo locate
+    sudo apt install -y tmux emacs pass wmctrl xdotool xwininfo locate
     sudo apt install -y emacs-goodies-el pass ipython gmrun dropbox
     sudo apt install -y x11-utils chromium-browser build-essential
     sudo apt install -y arc-theme moka-icon-theme arc-icons openconnect
@@ -72,6 +72,33 @@ function repository_setup() {
 
 }
 
+## INSTALL FONTS FROM DROPBOX
+
+function font_installer() {
+    cd "$HOME" && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+    "$HOME"/.dropbox-dist/dropboxd &>/dev/null &
+    dropbox exclude "books" "camera uploads" "costa_rica_best_country" "interviews" "to_sell" "windows" "work" "general documents" "phone_stuff"
+    
+    src_fonts_dir="$HOME"/Dropbox/fonts
+    dest_fonts_dir="$HOME"/.local/share/fonts
+    begin_while_time=$(date +%s)
+    while [[ ! "$(dropbox filestatus $src_fonts_dir)" =~ "up to date" ]]; do
+	sleep 5
+	if $(( $(date +%s) - begin_while_time > 300 )); then
+	   notify-send "Installer Timeout" "font_installer timed out while updating Dropbox."
+	   exit 1
+	fi
+    done
+
+    mkdir -p "$dest_fonts_dir"
+    for dir in $src_fonts_dir/*; do
+	cp -rv $dir -t "$dest_fonts_dir"
+    done
+
+    fc-cache -fv
+    
+}
+
 ## MAIN
 
 function main() {
@@ -79,6 +106,7 @@ function main() {
     git_installer && apt_package_installer &
     snap_package_installer &
     path_setup &
+    font_installer &
     wait %1
     repository_setup &
     
