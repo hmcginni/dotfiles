@@ -32,6 +32,7 @@ export hrmpc="BC:5F:F4:5A:77:41"
 GPG_TTY=$(tty)
 export GPG_TTY
 export PS1
+export PATH="$HOME/bin:$PATH"
 
 
 # Aliases ----------------------------------------------------------------------
