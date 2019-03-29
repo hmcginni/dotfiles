@@ -9,7 +9,7 @@ path_to_repos="$HOME/Documents/repos"
 function git_dropbox_installer() {
 
     printf "Installing Git\n\n"
-    sudo apt install -y git dropbox
+    sudo apt install -y git nautilus-dropbox
 
 }
 
