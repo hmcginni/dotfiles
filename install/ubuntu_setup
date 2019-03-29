@@ -6,10 +6,10 @@ path_to_repos="$HOME/Documents/repos"
 
 ## INSTALL PACKAGES
 
-function git_installer() {
+function git_dropbox_installer() {
 
     printf "Installing Git\n\n"
-    sudo apt install -y git
+    sudo apt install -y git dropbox
 
 }
 
@@ -23,10 +23,10 @@ function apt_package_installer() {
     # sudo add-apt-repository -y ppa:openconnect/daily
     sudo apt update
 
-    sudo apt install -y tmux emacs python pass wmctrl xdotool xwininfo
-    sudo apt install -y emacs-goodies-el pass ipython gmrun dropbox
-    sudo apt install -y x11-utils chromium-browser build-essential
-    sudo apt install -y arc-theme moka-icon-theme arc-icons openconnect locate
+    sudo apt install -y tmux wmctrl xdotool xwininfo x11-utils 
+    sudo apt install -y emacs python pass emacs-goodies-el ipython gmrun 
+    sudo apt install -y chromium-browser build-essential openconnect 
+    sudo apt install -y arc-theme moka-icon-theme arc-icons locate
 
     sudo apt update && sudo apt upgrade -y
     sudo apt autoremove && sudo apt autoclean
@@ -75,8 +75,9 @@ function repository_setup() {
 ## INSTALL FONTS FROM DROPBOX
 
 function font_installer() {
-    cd "$HOME" && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-    "$HOME"/.dropbox-dist/dropboxd &>/dev/null &
+    # cd "$HOME" && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+    # "$HOME"/.dropbox-dist/dropboxd &>/dev/null &
+    dropbox start
     dropbox exclude "books" "camera uploads" "costa_rica_best_country" "interviews" "to_sell" "windows" "work" "general documents" "phone_stuff"
     
     src_fonts_dir="$HOME"/Dropbox/fonts
@@ -103,12 +104,14 @@ function font_installer() {
 
 function main() {
 
-    git_installer && apt_package_installer &
-    snap_package_installer &
-    path_setup &
+    git_dropbox_installer &
+    wait
+    apt_package_installer &
     font_installer &
-    wait %1
+    path_setup &
+    wait
     repository_setup &
+    snap_package_installer &
     
 }
 
