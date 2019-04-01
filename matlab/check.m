@@ -40,7 +40,7 @@ function try_license(tObj,~,productCode)
 	if status
 		title = sprintf('%s license acquired', productCode);
 		msg = datestr(now);
-		notify_send(title, msg);
+		mnotify(title, msg);
 		stop(tObj);
 		delete(tObj);
 	elseif contains(msg, 'Cannot find a license for')
@@ -52,29 +52,4 @@ function try_license(tObj,~,productCode)
 end
 
 
-function notify_send(title, msg)
-	%
-	% NOTIFY-SEND - Display message to user
-	%
-	
-	[status,~] = system('which notify-send');
-	existNotifySend = ~status;
-	matlab_png_path = fullfile(matlabroot,...
-        'toolbox/nnet/nnresource/icons/matlab.png');    
-    
-    if exist(matlab_png_path, 'file')
-        png_flags = sprintf('-i %s', matlab_png_path);
-    else
-        png_flags = '';
-    end
-    
-    opts = ['-t 4000 ', png_flags];
-    
-	if existNotifySend
-		execStr = sprintf('notify-send %s "%s" "%s" &', opts, title, msg);
-		system(execStr);
-	end
-	
-	fprintf('\n\t*** %s at %s ***\n\n', title, msg);
-	
-end
+

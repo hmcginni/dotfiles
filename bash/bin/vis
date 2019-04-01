@@ -4,8 +4,6 @@
 #
 #   vis -d1  :: print IDs of windows visible on desktop 1
 #
-#   Dependencies: wmctrl, x11-utils, desk
-#
 ################################################################################
 
 
@@ -59,12 +57,15 @@ shift $(( OPTIND - 1 ))
 #-------------------------------------------------------------------------------
 # Find all visible windows
 
-pcompiz=$(pgrep compiz)
-if [[ -n $pcompiz ]]; then
-    allWIDs=$(wmctrl -lp | egrep -v "$pcompiz|Desktop$" | awk '{print $1}')
-else
-    allWIDs=$(wmctrl -lp | egrep -v " -1 " | awk '{print $1}')
-fi
+
+except="compiz nautilus xfce4-notifyd"
+
+for process in $except; do
+    pexcept+=$(pgrep "$process")" "
+done
+
+pexcept_regex=$(tr -s "[:blank:]" "|" <<< $pexcept)
+allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id "$thisWID" | grep "Hidden") == "" ]]; then
