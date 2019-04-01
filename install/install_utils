@@ -23,6 +23,8 @@ srcToDestMap["$repoPath/bash/lib"]="$HOME"/lib/bash
 srcToDestMap["$repoPath/matlab"]="$HOME"/Documents/MATLAB
 srcToDestMap["$repoPath/dots"]="$HOME"
 srcToDestMap["$repoPath/emacs"]="$HOME"/.emacs.d
+srcToDestMap["$repoPath/config/fontconfig"]="$HOME"/.config/fontconfig
+srcToDestMap["$repoPath/config/gtk"]="$HOME"/.config/gtk-3.0
 
 
 # Make destination directories

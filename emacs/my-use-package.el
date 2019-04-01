@@ -81,6 +81,13 @@
 
 ;; ------------------------------------------------------------
 
+;; Adaptive Wrap
+;;
+(use-package adaptive-wrap
+  :ensure t)
+
+;; ------------------------------------------------------------
+
 ;; Neotree mode
 ;;
 (use-package neotree
@@ -275,5 +282,5 @@
 
 ;; ------------------------------------------------------------
 
-(provide 'init-use-package)
-;;; init-use-package ends here
+(provide 'my-use-package)
+;;; my-use-package ends here

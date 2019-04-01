@@ -19,4 +19,4 @@ fi
 
 mkdir -p $destpath
 mv -v $src -t $destpath
-ln -bsv -T $destfile $src
+ln -bsv $destfile $src

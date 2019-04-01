@@ -37,8 +37,6 @@ function snap_package_installer() {
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     sudo snap refresh
-    sudo snap install slack --classic
-    sudo snap install skype --classic
     sudo snap install remmina google-play-music-desktop-player
 
 }
@@ -48,7 +46,7 @@ function snap_package_installer() {
 function path_setup() {
 
     notify-send "hrmutils Installer" "Creating local directories\n\n"
-    local emacs_package_path="$HOME/.emacs.d/elpa"
+    emacs_package_path="$HOME/.emacs.d/elpa"
     
     mkdir -p "$emacs_package_path" "$path_to_repos"
 
