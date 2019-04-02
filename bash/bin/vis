@@ -68,6 +68,7 @@ for process in $except; do
 done
 
 pexcept_regex=$(tr -s "[:blank:]" "|" <<< $pexcept_list)
+pexcept_regex="${pexcept_regex%"${pexcept_regex##*[![:space:]]}"}"
 allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do
