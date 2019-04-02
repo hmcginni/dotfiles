@@ -1,22 +1,21 @@
 #!/bin/bash
 
-file=$1
-subdir=$2
-destpath="$HOME/repos/hrmutils/$subdir"
-destfile="${destpath}/${file}"
+script_path=$(readlink "$0")
+repo_path=${script_path%%/bash*}
 
-if [ -z $subdir ]; then
-    printf "Please specify a subdirectory of the repository.\n"
-    exit 1;
-fi
+link_file_relpath="$1"
+link_file_fullpath=$(realpath "$link_file_relpath")
+link_dir=${link_file_fullpath%/*}
+link_filename=${link_file_fullpath##*/}
 
-if [ -L $file ]; then
-    printf "%s is a symbolic link. Nothing to be done.\n" $file
-    exit 0;
-else
-    src=$(readlink -f $file)
-fi
+shift
 
-mkdir -p $destpath
-mv -v $src -t $destpath
-ln -bsv $destfile $src
+tgt_relpath_parts="$*"
+tgt_relpath=$(tr "[:blank:]" "/" <<< "$tgt_relpath_parts")
+tgt_dir="$repo_path"/"$tgt_relpath"
+tgt_file_fullpath="$tgt_dir"/"$link_filename"
+mkdir -p "$tgt_dir"
+
+mv -v "$link_file_fullpath" "$tgt_file_fullpath"
+ln -sv -t "$link_dir" "$tgt_file_fullpath"
+

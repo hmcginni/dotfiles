@@ -6,13 +6,6 @@ path_to_repos="$HOME/Documents/repos"
 
 ## INSTALL PACKAGES
 
-function git_dropbox_installer() {
-
-    notify-send "hrmutils Installer" "Installing Git\n\n"
-    sudo apt install -y git nautilus-dropbox
-
-}
-
 function apt_package_installer() {
 
     notify-send "hrmutils Installer" "Installing APT Packages\n\n"
@@ -22,14 +15,13 @@ function apt_package_installer() {
     sudo add-apt-repository -y ppa:noobslab/icons
     sudo apt update
 
-    sudo apt install -y tmux wmctrl xdotool x11-utils 
-    sudo apt install -y emacs python pass emacs-goodies-el ipython gmrun locate
-    sudo apt install -y chromium-browser openconnect 
-    sudo apt install -y arc-theme moka-icon-theme arc-icons 
-    sudo apt install -y xfce4-notifyd xfce4-volumed
+    sudo -b apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils 
+    sudo -b apt install -y emacs python pass emacs-goodies-el ipython gmrun locate
+    sudo -b apt install -y chromium-browser openconnect 
+    sudo -b apt install -y arc-theme moka-icon-theme arc-icons 
+    sudo -b apt install -y xfce4-notifyd xfce4-volumed
 
-    sudo apt update && sudo apt upgrade -y
-    sudo apt autoremove && sudo apt autoclean
+    sudo -b apt autoremove && sudo -b apt autoclean
 
 }
 
@@ -74,17 +66,22 @@ function font_installer() {
 
     #Install Dropbox
     dropbox_dir="$HOME"/Dropbox
-    dropbox exclude add "$dropbox_dir"/{"books","camera uploads","costa_rica_best_country","interviews","to_sell","windows","work","general documents","phone_stuff","school","docs","office","reformat","resume","code"}
-    
     src_fonts_dir="$HOME"/Dropbox/fonts
     dest_fonts_dir="$HOME"/.local/share/fonts
     begin_while_time=$(date +%s)
 
     notify-send "hrmutils Installer" "Waiting on fonts from Dropbox"
+
+    while ! which dropbox &>/dev/null; do
+	sleep 5
+    done
+
+    notify-send "hrmutils Installer" "Dropbox successfully installed!"
+    dropbox exclude add "$dropbox_dir"/{"books","camera uploads","costa_rica_best_country","interviews","to_sell","windows","work","general documents","phone_stuff","school","docs","office","reformat","resume","code"}
     
     while [[ ! $(dropbox filestatus "$src_fonts_dir") =~ "up to date" ]]; do
 	sleep 5
-	if (( $(date +%s) - begin_while_time > 600 )); then
+	if (( $(date +%s) - begin_while_time > 1200 )); then
 	   notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
 	   exit 1
 	fi
@@ -104,15 +101,10 @@ function font_installer() {
 
 function main() {
 
-    git_dropbox_installer &
-    git_pid=$?
-    snap_package_installer &
-    wait $git_pid
-    apt_package_installer &
-    apt_pid=$?
+    apt_package_installer
+    snap_package_installer
     font_installer &
     path_setup &
-    wait $apt_pid
     repository_setup &
     
 }
