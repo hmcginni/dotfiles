@@ -17,7 +17,7 @@
  '(cursor-type (quote (bar . 2)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(flycheck-shellcheck-follow-sources nil)
