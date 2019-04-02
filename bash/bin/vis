@@ -61,11 +61,13 @@ shift $(( OPTIND - 1 ))
 except="compiz nautilus xfce4-notifyd"
 
 for process in $except; do
-    pexcept+=$(pgrep "$process")" "
+    pexcept=$(pgrep "$process")
+    if [[ -n $pexcept ]]; then
+	pexcept_list+="$pexcept "
+    fi
 done
 
-pexcept_regex=$(tr -s "[:blank:]" "|" <<< $pexcept)
-pexcept_regex="${pexcept_regex%|}"
+pexcept_regex=$(tr -s "[:blank:]" "|" <<< $pexcept_list)
 allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do

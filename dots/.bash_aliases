@@ -53,9 +53,9 @@ alias gitclean='git checkout -- . && git clean -fd'
 alias e='emacs -nw -f cmd'
 
 # MATLAB
-alias ml='_ml gui'
-alias mlc='_ml cmd'
-alias matlab='_ml'
+alias ml='_ml_wrapper gui'
+alias mlc='_ml_wrapper cmd'
+alias matlab='_ml_wrapper'
 
 # Systemd
 alias s='_systemd_handler'
@@ -66,9 +66,9 @@ alias ediff='emacs diff'
 alias open='_xdg_open'
 alias q='_quiet'
 alias qfind='_qfind'
-alias socksvpn='pass vpn | openconnect -umcginh2 --passwd-on-stdin --protocol=nc --script-tun --script "ocproxy -D 11080" remote.covidien.com/linux'
 alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
-alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
+alias vpn='_vpn'
+# alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
 # Functions --------------------------------------------------------------------
 
@@ -97,7 +97,7 @@ _git_push_wrapper() {
 
 # ---------------------------- #
 
-_ml() {
+_ml_wrapper() {
     export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk-amd64/jre
 
     if [[ $1 == "gui" ]]; then
@@ -173,4 +173,15 @@ _tmux_run() {
 
 _xdg_open() {
     nohup xdg-open "$1" &>/dev/null &
+}
+
+# ---------------------------- #
+
+_vpn() {
+    option="$1"
+    if [[ -z $option ]]; then
+	option="status"
+    fi
+    
+    sudo systemctl "$option" mdtvpn.service
 }
