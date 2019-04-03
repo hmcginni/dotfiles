@@ -100,6 +100,14 @@
 
 ;; ------------------------------------------------------------
 
+;; Org-bullets mode
+(use-package org-bullets
+  :ensure t
+  :requires org
+  :diminish)
+
+;; ------------------------------------------------------------
+
 ;; Transpose frame
 ;;
 (use-package transpose-frame

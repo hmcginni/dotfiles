@@ -2,12 +2,10 @@
 #
 # Delete Temporary Files
 
-notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
-
-$notify_repl "Deleting temp files ..."
-rootDir=${HOME}
-find "$rootDir" -type f -name "*[~#]" -exec rm -v {} \; 2>/dev/null
-find "$rootDir" -xtype l -exec rm -v {} \; 2>/dev/null
+rootDir="$HOME"
+notify-send "Deleting temp files ..."
+find "$rootDir" -type f -name "*[~#]" -delete 2>/dev/null
+find "$rootDir" -xtype l -delete
 
 
 

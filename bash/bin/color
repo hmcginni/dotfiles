@@ -1,0 +1,12 @@
+#!/bin/bash
+
+color_value=$(grabc)
+
+if [[ -z $color_value ]]; then
+    msg="Failed to grab color!"
+else
+    xclip -i <<< "$color_value"
+    msg="$color_value"
+fi
+
+notify-send "Color Picker" "$msg"
