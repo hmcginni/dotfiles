@@ -23,7 +23,7 @@ function fileList = mfind(dir, name_opt, regex)
 	end
 	
 	fileList(end) = '';
-	fileList = string(split( fileList, newline ));
+	fileList = string( split(fileList,newline) );
 
 	
 end
