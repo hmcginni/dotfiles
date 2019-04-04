@@ -60,6 +60,7 @@ shift $(( OPTIND - 1 ))
 
 declare -a pexcept_array
 
+# (1) Get all PIDs for specified applications and add them to an array
 for proc in compiz xfce4-notifyd; do
     pexcept=$(pgrep "$proc")
     nproc=$(wc -w <<< "$pexcept")
@@ -71,17 +72,17 @@ for proc in compiz xfce4-notifyd; do
 	pexcept_array+=("$pexcept")
     fi
 done
-
 pexcept_array+=($(pgrep nautilus)".*Desktop")
 
+# (2) Convert array to "|" delimited string 
 old_IFS=$IFS
 IFS='|'
 pexcept_regex=$(tr -s "|" "|" <<< "${pexcept_array[*]}")
 IFS=${old_IFS}
 
-# pexcept_regex=$(tr -s "[:blank:]" "|" <<< "${pexcept_array[@]}")
+# (3) Use (2) as regex specification for egrep (in other words, find all lines
+#     that don't include any of the PIDs for the specified applications)
 allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
-
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id "$thisWID" | grep "Hidden") == "" ]]; then
 	visWIDs+=("$thisWID")
