@@ -60,13 +60,14 @@ shift $(( OPTIND - 1 ))
 
 declare -a pexcept_array
 
-for proc in compiz xfce4-notifyd; do
+pexcept="compiz xfce4-notifyd"
+for proc in $pexcept; do
     pexcept_array+=("$(pgrep "$proc")")
 done
 
 pexcept_array+=("-1")
-pexcept=$(tr -s "[:blank:]" "|" <<< "${pexcept_array[@]}")
-allWIDs=$(wmctrl -lp | egrep -v "($pexcept)" | awk '{print $1}')
+pexcept_regex=$(tr -s "[:blank:]" "|" <<< "${pexcept_array[@]}")
+allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id "$thisWID" | grep "Hidden") == "" ]]; then
