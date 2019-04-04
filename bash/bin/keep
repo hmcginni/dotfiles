@@ -1,7 +1,12 @@
 #!/bin/bash
 
-script_path=$(readlink "$0")
-repo_path=${script_path%%/bash*}
+if (( $# < 2 )); then
+    printf "Not enough inputs specified (%s)\n" "$#"
+    exit 1
+fi
+
+script_dir=$(readlink "$0")
+repo_dir=${script_dir%%/bash*}
 
 link_file_relpath="$1"
 link_file_fullpath=$(realpath "$link_file_relpath")
@@ -12,7 +17,7 @@ shift
 
 tgt_relpath_parts="$*"
 tgt_relpath=$(tr "[:blank:]" "/" <<< "$tgt_relpath_parts")
-tgt_dir="$repo_path"/"$tgt_relpath"
+tgt_dir="$repo_dir"/"$tgt_relpath"
 tgt_file_fullpath="$tgt_dir"/"$link_filename"
 mkdir -p "$tgt_dir"
 

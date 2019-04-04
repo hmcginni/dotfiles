@@ -39,7 +39,7 @@ desktop=$(tiling.getCursorDesktop)
 while getopts ":hd:" opt; do
     case ${opt} in
 	h )
-	    echo -e "\tHelp for desk"
+	    echo -e "\tHelp for vis"
 	    usage
 	    exit
 	    ;;
@@ -58,18 +58,15 @@ shift $(( OPTIND - 1 ))
 # Find all visible windows
 
 
-except="compiz nautilus xfce4-notifyd"
+declare -a pexcept_array
 
-for process in $except; do
-    pexcept=$(pgrep "$process")
-    if [[ -n $pexcept ]]; then
-	pexcept_list+="$pexcept "
-    fi
+for proc in compiz xfce4-notifyd; do
+    pexcept_array+=("$(pgrep "$proc")")
 done
 
-pexcept_regex=$(tr -s "[:blank:]" "|" <<< $pexcept_list)
-pexcept_regex="${pexcept_regex%|}"
-allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
+pexcept_array+=("-1")
+pexcept=$(tr -s "[:blank:]" "|" <<< "${pexcept_array[@]}")
+allWIDs=$(wmctrl -lp | egrep -v "($pexcept)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id "$thisWID" | grep "Hidden") == "" ]]; then
