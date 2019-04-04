@@ -60,13 +60,26 @@ shift $(( OPTIND - 1 ))
 
 declare -a pexcept_array
 
-pexcept="compiz xfce4-notifyd"
-for proc in $pexcept; do
-    pexcept_array+=("$(pgrep "$proc")")
+for proc in compiz xfce4-notifyd; do
+    pexcept=$(pgrep "$proc")
+    nproc=$(wc -w <<< "$pexcept")
+    if (( nproc > 1 )); then
+	for idx in $(seq 1 "$nproc"); do
+	    pexcept_array+=($(cut -d$'\n' -f"$idx" <<< "$pexcept"))
+	done
+    else
+	pexcept_array+=("$pexcept")
+    fi
 done
 
-pexcept_array+=("-1")
-pexcept_regex=$(tr -s "[:blank:]" "|" <<< "${pexcept_array[@]}")
+pexcept_array+=($(pgrep nautilus)".*Desktop")
+
+old_IFS=$IFS
+IFS='|'
+pexcept_regex=$(tr -s "|" "|" <<< "${pexcept_array[*]}")
+IFS=${old_IFS}
+
+# pexcept_regex=$(tr -s "[:blank:]" "|" <<< "${pexcept_array[@]}")
 allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
 
 for thisWID in $allWIDs; do
