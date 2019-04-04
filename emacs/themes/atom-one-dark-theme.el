@@ -18,7 +18,7 @@
 (defvar atom-one-dark-colors-alist
   '(("atom-one-dark-accent"   . "#528BFF")
     ("atom-one-dark-fg"       . "#ABB2BF")
-    ("atom-one-dark-bg"       . "#282C34")
+    ("atom-one-dark-bg"       . "#2F343F")
     ("atom-one-dark-bg-1"     . "#121417")
     ("atom-one-dark-bg-hl"    . "#2F343D")
     ("atom-one-dark-mono-1"   . "#ABB2BF")
