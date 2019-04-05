@@ -118,7 +118,8 @@ done
 
 # Get xLeft and yTop
 if [[ $XDG_CURRENT_DESKTOP =~ Unity ]]; then
-    read -r xLeft yTop <<< $(wmctrl -lG | grep -m1 "unity-launcher" | awk '{print $5, $4}')
+    xLeft=$(wmctrl -lG | awk '/unity-launcher/ {print $5; exit}')
+    yTop=$(wmctrl -lG | awk '/unity-panel/ {print $6; exit}')
 elif [[ $XDG_CURRENT_DESKTOP =~ XFCE ]]; then
     xLeft=$(wmctrl -lG | egrep -v "0 +0" | awk '/xfce4-panel/ {print $5}')
     yTop=$(wmctrl -lG | egrep "0 +0" | awk '/xfce4-panel/ {print $6}')
