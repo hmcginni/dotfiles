@@ -3,23 +3,7 @@
 # Delete Temporary Files
 
 rootDir="$HOME"
-notify-send "Deleting temp files ..."
+notify-send "rmtemp" "Deleting temp files ..."
 find "$rootDir" -type f -name "*[~#]" -delete 2>/dev/null
-find "$rootDir" -xtype l -delete
+find "$rootDir" -xtype l -delete 2>/dev/null
 
-
-
-# Move org Files
-
-# notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
-# $notify_repl "Moving Org files ..."
-
-# orgDir=${HOME}/org
-# find "$rootDir" -type f -name "${HOME}/*.org" -exec mv -v {} "$orgDir" \;
-
-# Delete org HTML
-
-# notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
-# $notify_repl "Deleting HTML files in ~/org ..."
-
-# find "$orgDir" -type f -name "*.html" -exec rm -v {} \;

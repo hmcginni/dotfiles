@@ -9,24 +9,28 @@ if [[ $# != 1 && $# != 2 ]]; then
     exit 1
 fi
 
-windowName=$1
-topLine=$(expr $(wmctrl -l | grep -m1 -n "Desktop" | cut -d":" -f1) + 1 )
-wmList=$(wmctrl -lp | tail -n +$topLine)
+# windowName=$1
+# topLine=$(expr $(wmctrl -l | grep -m1 -n "Desktop" | cut -d":" -f1) + 1 )
+# wmList=$(wmctrl -lp | tail -n +$topLine)
 
-PID=$(ps hc -p $(echo "$wmList" | awk '{print $3}') | grep -i "$windowName" | awk '{print $1}') 
+# PID=$(ps hc -p $(echo "$wmList" | awk '{print $3}') | grep -i "$windowName" | awk '{print $1}') 
 
-if [[ ! $PID == "" ]]; then
-    WID=$( echo "$wmList" | grep "$PID" | awk '{print $1}')
-fi
-if [[ $(wc -w <<< $WID) > $(wc -w <<< $PID) || $PID == "" ]]; then
-    WID=$( echo "$wmList" | grep -i "$windowName" | awk '{print $1}')
-fi 
+# if [[ ! $PID == "" ]]; then
+#     WID=$( echo "$wmList" | grep "$PID" | awk '{print $1}')
+# fi
+# if [[ $(wc -w <<< $WID) > $(wc -w <<< $PID) || $PID == "" ]]; then
+#     WID=$( echo "$wmList" | grep -i "$windowName" | awk '{print $1}')
+# fi 
 
-numMatches=$(wc -w <<< $WID)
+# numMatches=$(wc -w <<< $WID)
 
-if [[ $numMatches != 1 ]]; then
-    echo "${numMatches} matches found with that name."
-    exit 1
-fi
+# if [[ $numMatches != 1 ]]; then
+#     exit 1
+# fi
 
-echo $WID
+# echo $WID
+
+name=$1
+pid_name=$(pgrep -o "$name")
+wid_name=$(wmctrl -lp | awk -v pid="$pid_name" '$0 ~ pid {print $1}')
+echo "$wid_name"

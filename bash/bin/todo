@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#
+# TODO - save todo item in a popup window and add to todos.org
+#
+
+z_title="Todo Item"
+z_text="Enter todo item text:"
+todos_file="$HOME"/org/todos.org
+
+todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
+org_date=$(date "+[%Y-%m-%d %a]")
+org_preamble="** TODO $org_date"
+todo_item=$(printf "%s %s\n" "$org_preamble" "$todo_text")
+
+if [[ -z $todo_item ]]; then
+    exit 1
+fi
+
+echo "$todo_item" >> "$todos_file"
