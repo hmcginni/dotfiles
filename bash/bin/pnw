@@ -1,13 +1,21 @@
 #!/bin/bash
 #
-# Print window ID for process <name> or window with title <name>
+# Print window ID for process <name>
 
 if [[ $# != 1 && $# != 2 ]]; then
-    echo -e "\n\tpnw -\tprints window ID for a specified process"
-    echo -e "\t\t or window title"
-    echo -e "\tUsage:\tpnw <windowName>"
+    echo -e "\n\tPNW -\tprint window ID for a specified process"
+    echo -e "\tUsage:\tpnw <process_name>"
     exit 1
 fi
+
+
+name=$1
+pid_name=$(pgrep -o "$name")
+wid_name=$(wmctrl -lp | awk -v pid="$pid_name" '$0 ~ pid {print $1}')
+echo "$wid_name"
+
+
+# OLD - probably going to delete -----------------------------------------------
 
 # windowName=$1
 # topLine=$(expr $(wmctrl -l | grep -m1 -n "Desktop" | cut -d":" -f1) + 1 )
@@ -29,8 +37,3 @@ fi
 # fi
 
 # echo $WID
-
-name=$1
-pid_name=$(pgrep -o "$name")
-wid_name=$(wmctrl -lp | awk -v pid="$pid_name" '$0 ~ pid {print $1}')
-echo "$wid_name"

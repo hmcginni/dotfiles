@@ -1,15 +1,1 @@
-#!/bin/bash
-#
-# Restart Franz
-
-notify_repl="notify-send --hint=string:x-canonical-private-synchronous:x"
-$notify_repl "Restarting Franz..."
-
-if [ ! -z $(which franz) ]; then
-    killall franz;
-    sleep 1;
-    nice franz &
-    sleep 0.5;
-    xdotool windowminimize $(pnw franz)
-fi
-
+/home/hrm/repos/hrmutils/bash/bin/restart_franz

@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Restart Franz
+
+notify-send "restart_franz" "Restarting Franz..."
+
+if which franz &>/dev/null; then
+    pkill franz;
+    sleep 1;
+    franz &
+    sleep 0.5;
+    xdotool windowminimize "$(pnw franz)"
+fi
+
