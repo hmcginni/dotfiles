@@ -9,7 +9,7 @@ z_text="Enter todo item text:"
 todos_file="$HOME"/org/todos.org
 
 if [[ ! -e $todos_file ]]; then
-    mkdir -p "$HOME"/org
+    mkdir -p "${todos_file%/*}"
     touch "$todos_file"
 fi
 
@@ -18,7 +18,7 @@ org_date=$(date "+[%Y-%m-%d %a]")
 org_preamble="** TODO $org_date"
 todo_item=$(printf "%s %s\n" "$org_preamble" "$todo_text")
 
-if [[ -z $todo_item ]]; then
+if [[ -z $todo_text ]]; then
     exit 1
 fi
 
