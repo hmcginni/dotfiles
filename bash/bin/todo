@@ -18,3 +18,4 @@ if [[ -z $todo_item ]]; then
 fi
 
 echo "$todo_item" >> "$todos_file"
+notify-send "Saved item to $todos_file" "$todo_text"
