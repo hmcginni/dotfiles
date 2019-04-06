@@ -6,7 +6,7 @@
 
 z_title="Todo Item"
 z_text="Enter todo item text:"
-todos_file="$HOME"/org/todos.org
+todos_file="$HOME"/Dropbox/org/todos.org
 
 if [[ ! -e $todos_file ]]; then
     mkdir -p "${todos_file%/*}"
@@ -15,7 +15,7 @@ fi
 
 todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
 org_date=$(date "+[%Y-%m-%d %a]")
-org_preamble="** TODO $org_date"
+org_preamble="** TODO :HOME: $org_date"
 todo_item=$(printf "%s %s\n" "$org_preamble" "$todo_text")
 
 if [[ -z $todo_text ]]; then
