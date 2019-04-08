@@ -3,12 +3,16 @@
 # Restart Franz
 
 notify-send "restart_franz" "Restarting Franz..."
+franz_install=$(which franz)
 
-if which franz &>/dev/null; then
-    pkill franz;
-    sleep 1;
-    franz &
-    sleep 0.5;
+if [[ -n $franz_install ]]; then
+    pkill franz
+    franz &>/dev/null &
+    while [[ -z $(pnw franz) ]]; do
+	sleep 0.5
+    done
     xdotool windowminimize "$(pnw franz)"
+else
+    notify-send "restart_franz" "Franz is not installed!"
 fi
 

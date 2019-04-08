@@ -12,9 +12,9 @@ iface="com.canonical.Unity.Session"
 dbus-monitor --session "type='$type',interface='$iface'" |
     ( while read event; do
 	  if echo "$event" | grep "Unlocked" &>/dev/null; then
-	      find "$UNLOCK_DIR"/* -type f -exec {} &>/dev/null \;
+	      find "$UNLOCK_DIR"/ -xtype f -exec {} &>/dev/null \;
 	  elif echo "$event" | grep "Locked" &>/dev/null; then
-	      find "$LOCK_DIR"/* -type f -exec {} &>/dev/null \;
+	      find "$LOCK_DIR"/ -xtype f -exec {} &>/dev/null \;
 	  fi
       done )
 

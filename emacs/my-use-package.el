@@ -201,8 +201,7 @@
          ("C-c s" . (lambda () (interactive) (org-capture nil "s")))
          ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
          ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
-  :hook ((org-mode . turn-on-visual-line-mode)
-         (org-mode . org-indent-mode))
+  :hook ((org-mode . turn-on-visual-line-mode))
   :init
   (setq org-todos-file "~/org/todos.org"
         org-slvnv-file "~/org/slvnv.org"
