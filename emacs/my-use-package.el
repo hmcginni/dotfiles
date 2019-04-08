@@ -207,7 +207,7 @@
         org-slvnv-file "~/org/slvnv.org"
         org-gl-file "~/org/gl.org"
         org-log-done 'time
-        org-agenda-files '("~/org"))
+        org-agenda-files '("~/org" "~/Dropbox/org"))
   (setq org-capture-templates
         '(("s" "SL V&V Meeting" entry
            (file+olp+datetree org-slvnv-file)
