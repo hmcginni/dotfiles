@@ -4,19 +4,67 @@
 # TODO - save todo item in a popup window and add to todos.org
 #
 
-z_title="Todo Item"
-z_text="Enter todo item text:"
-todos_file="$HOME"/Dropbox/org/todos.org
+# Default Values
+
+default_todos_file="$HOME"/Dropbox/org/todos.org
+default_todo_tags=":home:"
+
+# -----
+
+todos_file="$default_todos_file"
+todo_tags="$default_todo_tags"
+
+# Parse Inputs
+
+while getopts ":o:t:" opt; do
+    case ${opt} in
+	o )
+	    todos_file=$OPTARG
+	    ;;
+	t )
+	    tag_list+=($OPTARG)
+	    ;;
+	* )
+	    err	"Unrecognized option"
+	    ;;
+    esac
+done
+shift $(( OPTIND - 1 ))
+
+# Create file if it doesn't exist
 
 if [[ ! -e $todos_file ]]; then
-    mkdir -p "${todos_file%/*}"
-    touch "$todos_file"
+    msg=$(printf "Todos file \"%s\" not found. " "$todos_file")
+    msg+=$(printf "Using \"%s\".\n" "$default_todos_file")
+    notify-send "todo" "$msg"
+    todos_file="$default_todos_file"
+
+    if [[ ! -e $todos_file ]]; then
+	msg=$(printf "Creating file \"%s\"" "$todos_file")
+	notify-send "todo" "$msg"
+	mkdir -p "${todos_file%/*}"
+	echo "* Unfiled" >> "$todos_file"
+    fi
 fi
 
+# Format tags
+
+if [[ -n $tag_list ]]; then
+    old_IFS=$IFS
+    IFS=":"
+    todo_tags=":${tag_list[*]}:"
+    IFS=$old_IFS
+fi
+
+# Get Todo item and write to file
+
+z_title="Todo Item"
+z_text="Enter todo item text:"
 todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
-org_date=$(date "+[%Y-%m-%d %a]")
-org_preamble="* TODO :HOME: $org_date"
-todo_item=$(printf "%s %s\n" "$org_preamble" "$todo_text")
+todo_date=$(date "+[%Y-%m-%d %a %H:%M]")
+todo_headline=$(printf "* TODO %s %s" "$todo_text" "$todo_tags")
+todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$todo_date")
+todo_item=$(printf "%s\n%s" "$todo_headline" "$todo_props")
 
 if [[ -z $todo_text ]]; then
     exit 1

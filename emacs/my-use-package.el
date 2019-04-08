@@ -222,7 +222,7 @@
         '((org-default-diary-file :level . 4)
           (org-todos-file :maxlevel . 2)))
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d)" "NO ACTION")))
+        '((sequence "TODO" "IN PROGRESS(p!)" "|" "DONE(d!)" "CANCELED")))
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
