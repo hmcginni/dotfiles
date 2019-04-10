@@ -4,17 +4,18 @@
 # TODO - save todo item in a popup window and add to todos.org
 #
 
-# Default Values
+
+# Default Values =====================================================
+#
 
 default_todos_file="$HOME"/Dropbox/org/todos.org
-default_todo_tags=":home:"
-
-# -----
+default_todo_tags="home"
 
 todos_file="$default_todos_file"
-todo_tags="$default_todo_tags"
 
-# Parse Inputs
+
+# Parse Inputs =======================================================
+#
 
 while getopts ":o:t:" opt; do
     case ${opt} in
@@ -31,44 +32,118 @@ while getopts ":o:t:" opt; do
 done
 shift $(( OPTIND - 1 ))
 
+
+# Functions ==========================================================
+#
+
 # Create file if it doesn't exist
 
-if [[ ! -e $todos_file ]]; then
-    msg=$(printf "Todos file \"%s\" not found. " "$todos_file")
-    msg+=$(printf "Using \"%s\".\n" "$default_todos_file")
-    notify-send "todo" "$msg"
-    todos_file="$default_todos_file"
+_setup_todo_file () {
 
+    local msg=""
+    
     if [[ ! -e $todos_file ]]; then
-	msg=$(printf "Creating file \"%s\"" "$todos_file")
+	msg=$(printf "Todos file \"%s\" not found. " "$todos_file")
+	msg+=$(printf "Using \"%s\".\n" "$default_todos_file")
 	notify-send "todo" "$msg"
-	mkdir -p "${todos_file%/*}"
-	echo "* Unfiled" >> "$todos_file"
+	todos_file="$default_todos_file"
+
+	if [[ ! -e $todos_file ]]; then
+	    msg=$(printf "Creating file \"%s\"" "$todos_file")
+	    notify-send "todo" "$msg"
+	    mkdir -p "${todos_file%/*}"
+	    echo "* Unfiled" >> "$todos_file"
+	fi
     fi
-fi
+    
+}
+
+
+# Get todo item text
+
+_get_todo () {
+
+    z_title="Todo Item"
+    z_text="Enter todo item text:"
+    todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
+
+    if [[ -z $todo_text ]]; then
+	exit 1
+    fi
+
+}
+
+
+# Get tag list
+
+_get_tags () {
+
+    local tags=""
+
+    if [[ -n ${tag_list[@]} ]]; then
+	default_tag_text=${tag_list[*]}
+    else
+	default_tag_text=$default_todo_tags
+    fi
+    
+    z_title="Todo Item Tags"
+    z_text="Enter tags (space delimited)"
+    tags=$(zenity --entry --title="$z_title" --text="$z_text" --entry-text="$default_tag_text" 2>/dev/null)
+
+    unset tag_list
+    
+    for tag in $tags; do
+	tag_list+=($tag)
+    done
+    
+}
+
 
 # Format tags
 
-if [[ -n $tag_list ]]; then
-    old_IFS=$IFS
-    IFS=":"
-    todo_tags=":${tag_list[*]}:"
-    IFS=$old_IFS
-fi
+_setup_tag_list () {
 
-# Get Todo item and write to file
+    local old_IFS=""
+    
+    if [[ -n ${tag_list[@]} ]]; then
+	old_IFS=$IFS
+	IFS=":"
+	todo_tags=":${tag_list[*]}:"
+	IFS=$old_IFS
+    fi
+    
+}
 
-z_title="Todo Item"
-z_text="Enter todo item text:"
-todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
-todo_date=$(date "+[%Y-%m-%d %a %H:%M]")
-todo_headline=$(printf "* TODO %s %s" "$todo_text" "$todo_tags")
-todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$todo_date")
-todo_item=$(printf "%s\n%s" "$todo_headline" "$todo_props")
 
-if [[ -z $todo_text ]]; then
-    exit 1
-fi
+# Format todo item
 
-echo "$todo_item" >> "$todos_file"
-notify-send "Saved item to $todos_file" "$todo_text"
+_format_todo () {
+
+    todo_date=$(date "+[%Y-%m-%d %a %H:%M]")
+    todo_headline=$(printf "* TODO [#A] %s %s" "$todo_text" "$todo_tags")
+    todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$todo_date")
+    todo_item=$(printf "%s\n%s" "$todo_headline" "$todo_props")
+    
+}
+
+
+# Main 
+
+_main () {
+    
+    _setup_todo_file
+    _get_todo
+    _get_tags
+    _setup_tag_list
+    _format_todo
+
+    echo "$todo_item" >> "$todos_file"
+    notify-send "Saved item to $todos_file" "$todo_text"
+
+}
+
+
+# Main ===============================================================
+#
+
+_main

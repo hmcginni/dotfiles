@@ -38,7 +38,7 @@ function usage()
 
 
 desktop=$(tiling.getCursorDesktop)
-gap=25
+gap=20
 vSepPos=60
 hSepPos=48
 
@@ -132,7 +132,6 @@ read -r xRes yRes <<< $(desk -d"$desktop" -r)
 
 xLeft=${xLeft:-0}
 yTop=${yTop:-0}
-gap=yTitle
 
 if [[ $(desk -n) == 1 ]]; then #Single Monitor
     desktop=1

@@ -1,10 +1,11 @@
 function mnotify(title, msg)
     %
-    % MNOTIFY - Display message to user
+    % MNOTIFY - Use `notify-send` to display message to user
     %
     
     if nargin == 1
-        msg = '';
+        msg = title;
+        title = 'MATLAB';
     end
     
     [status,~] = system('which notify-send');
@@ -17,7 +18,9 @@ function mnotify(title, msg)
         png_flags = '';
     end
     
-    opts = ['-t 4000 ', png_flags];
+    numWords = numel(regexp(msg,'\w*[ .]'));
+    timeout = num2str(200*numWords + 4000);
+    opts = ['-t ', timeout, ' ', png_flags];
     
     if existNotifySend
         execStr = sprintf('notify-send %s "%s" "%s" &', opts, title, msg);
