@@ -9,8 +9,15 @@ path_to_repos="$HOME/Documents/repos"
 apt_package_installer() {
 
     notify-send "hrmutils Installer" "Installing APT Packages\n\n"
-    sudo apt update && sudo apt upgrade -y
 
+    if pgrep apt &>/dev/null; then
+	sudo pkill apt
+	sudo rm -fv /var/lib/apt/lists/lock
+	sudo rm -fv /var/cache/apt/archives/lock
+	sudo rm -fv /var/lib/dpkg/lock{,-frontend}
+    fi
+    
+    sudo apt update && sudo apt upgrade -y
     sudo add-apt-repository -y ppa:noobslab/themes
     sudo add-apt-repository -y ppa:noobslab/icons
     sudo apt update
