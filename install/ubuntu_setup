@@ -68,6 +68,10 @@ font_installer() {
 
     notify-send "hrmutils Installer" "Waiting on fonts from Dropbox"
 
+    while ! which dropbox; do
+	sleep 5
+    done
+    
     # Note: $(dropbox running) returns 1 if dropbox is running.
     #       while loops are active when the condition statement returns 0 (TRUE)
     while dropbox running; do
