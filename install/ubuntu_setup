@@ -23,7 +23,7 @@ apt_package_installer() {
     sudo apt update
     sudo apt upgrade -y
     
-    sudo -b apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed
+    sudo -b apt install -y git python-gpgme nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     
@@ -83,7 +83,7 @@ font_installer() {
     
     while [[ ! $(dropbox filestatus "$src_fonts_dir") =~ "up to date" ]]; do
 	sleep 5
-	if (( $(date +%s) - begin_while_time > 1200 )); then
+	if (( $(date +%s) - begin_while_time > 3600 )); then
 	   notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
 	   exit 1
 	fi
@@ -106,27 +106,33 @@ dconf_settings() {
     interface_schema="org.gnome.desktop.interface"
     wm_schema="org.gnome.desktop.wm.preferences"
     date_schema="com.canonical.indicator.datetime"
-    launcher_path="/org/compiz/profiles/unity/plugins/unityshell"
+    xsettings_schema="org.gnome.settings-daemon.plugins.xsettings"
+    unity_schema="org.compiz.unityshell"
+    launcher_path="/org/compiz/profiles/unity/plugins/unityshell/"
 
     sans="FreeSans 10"
     mono="SF Mono 9"
     titlebar="FreeSans Semi-Bold 10"
-    theme="Arc-Darker-Solid"
+    theme="Arc-Darker"
+    icons="Arc-Icons"
     time_fmt="%A • %d %b %Y • %l:%M %p"
     launcher_size=20
-    launcher_color="#2f343fff"
+    # launcher_color="#2f343fff"
 
-    gsettings set "$interface_schema" {document-,}font-name "$sans"
     gsettings set "$interface_schema" gtk-theme "$theme"
+    gsettings set "$interface_schema" icon-theme "$icons"
+    gsettings set "$interface_schema" document-font-name "$sans"
+    gsettings set "$interface_schema" font-name "$sans"
     gsettings set "$interface_schema" monospace-font-name "$mono"
     gsettings set "$wm_schema" titlebar-font "$titlebar"
     gsettings set "$date_schema" time-format "custom"
     gsettings set "$date_schema" custom-time-format "$time_fmt"
+    gsettings set "$xsettings_schema" hinting none
+    gsettings set "$unity_schema":"$launcher_path" icon-size "$launcher_size"
 
-    dconf write "$launcher_path"/icon-size "$launcher_size"
-    dconf write "$launcher_path"/background-color "'$launcher_color'"
-    dconf write "$launcher_path"/launcher-minimize-window true
-    dconf write "$launcher_path"/show-hud "'Disabled'"
+    # dconf write "$launcher_path"/background-color "'$launcher_color'"
+    # dconf write "$launcher_path"/launcher-minimize-window true
+    # dconf write "$launcher_path"/show-hud "'Disabled'"
     
 }
 
@@ -135,8 +141,8 @@ dconf_settings() {
 main() {
 
     apt_package_installer
-    path_setup &
-    repository_setup &
+    path_setup
+    repository_setup
     font_installer
     
     sudo apt install -y ubuntu-unity-desktop

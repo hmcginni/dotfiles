@@ -9,7 +9,6 @@ try
     jDesk = com.mathworks.mde.desk.MLDesktop.getInstance;
     jPanel = jDesk.getMainFrame.getQuickAccessBar.getComponent.getParent.getParent;
     nComponents = jPanel.getComponentCount;
-    removeMask = false(1,nComponents);
     
     ctr = 0;
     
@@ -25,8 +24,7 @@ try
         
     end
     
-    jPanel.remove(removeMask);
-    clear jDesk jPanel nComponents removeMask ctr
+    clear 
     
 catch e
 end
