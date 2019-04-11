@@ -55,7 +55,7 @@ alias e='emacs -nw -f cmd'
 # MATLAB
 alias ml='_ml_wrapper gui'
 alias mlc='_ml_wrapper cmd'
-alias matlab='_ml_wrapper'
+# alias matlab='_ml_wrapper'
 
 # Systemd
 alias s='_systemd_handler'

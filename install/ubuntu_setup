@@ -17,21 +17,19 @@ apt_package_installer() {
 	sudo rm -fv /var/lib/dpkg/lock{,-frontend}
     fi
     
-    sudo apt update && sudo apt upgrade -y
     sudo add-apt-repository -y ppa:noobslab/themes
     sudo add-apt-repository -y ppa:noobslab/icons
-    sudo apt update
 
+    sudo apt update
+    sudo apt upgrade -y
+    
     sudo -b apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed
 
-}
-
-snap_package_installer() {
-
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
+    
     sudo snap refresh
-    sudo snap install remmina google-play-music-desktop-player
-
+    sudo -b snap install remmina google-play-music-desktop-player
+    
 }
  
 ## CLONE REPOSITORY
@@ -62,10 +60,7 @@ repository_setup() {
 ## INSTALL FONTS FROM DROPBOX
 
 font_installer() {
-    # cd "$HOME" && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-    # "$HOME"/.dropbox-dist/dropboxd &>/dev/null &
 
-    #Install Dropbox
     dropbox_dir="$HOME"/Dropbox
     src_fonts_dir="$HOME"/Dropbox/fonts
     dest_fonts_dir="$HOME"/.local/share/fonts
@@ -73,7 +68,9 @@ font_installer() {
 
     notify-send "hrmutils Installer" "Waiting on fonts from Dropbox"
 
-    while ! which dropbox &>/dev/null; do
+    # Note: $(dropbox running) returns 1 if dropbox is running.
+    #       while loops are active when the condition statement returns 0 (TRUE)
+    while dropbox running; do
 	sleep 5
     done
 
@@ -134,10 +131,13 @@ dconf_settings() {
 main() {
 
     apt_package_installer
-    snap_package_installer
     path_setup &
     repository_setup &
-    font_installer &
+    font_installer
+    
+    sudo apt install -y ubuntu-unity-desktop
+
+    dconf_settings
     wait
     
 }
