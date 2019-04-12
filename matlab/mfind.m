@@ -11,7 +11,13 @@ function fileList = mfind(dir, name_opt, regex)
 		error('Second input to MFIND must be "-name" or "-wholename".');
 	end
 	
-	%% Call FIND builtin and parse results
+	%% Verify FIND is on the system PATH
+        
+        if ~system('which find >/dev/null')
+            error('FIND utility not found.');
+        end
+
+        %% Call FIND builtin and parse results
 	
 	systemCmd = sprintf('find %s %s "%s" 2>/dev/null', dir, name_opt, regex);
 	

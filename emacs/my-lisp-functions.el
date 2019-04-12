@@ -5,8 +5,8 @@
 
 ;;; Code:
 
-;; Resize Emacs
 (defun narrow-window ()
+  "Resize Emacs."
   (interactive)
   (set-frame-width (selected-frame) 86))
 
@@ -41,7 +41,7 @@
 ;; ------------------------------------------------------------
 
 (defun narrow-to-eof ()
-  "Narrow from (point) to end-of-file"
+  "Narrow from (point) to end-of-file."
   (interactive)
   (save-excursion
     (narrow-to-region (- (point)
@@ -50,8 +50,8 @@
 
 ;; ------------------------------------------------------------
 
-;; Comment or uncomment a region/line
 (defun comment-or-uncomment-region-or-line ()
+  "Comment or uncomment a region/line."
   (interactive)
   (let (beg end)
 	(if (region-active-p)
@@ -63,8 +63,8 @@
 
 ;; ------------------------------------------------------------
 
-;; Copy current buffer to clipboard
 (defun file-name-on-clipboard ()
+  "Copy current buffer to clipboard."
   (interactive)
   (let ((filename
          (if (equal major-mode 'dired-mode)
@@ -80,30 +80,30 @@
 
 ;; ------------------------------------------------------------
 
-;; Switch to previous buffer
 (defun switch-to-previous-buffer ()
+  "Switch to previous buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 ;; ------------------------------------------------------------
 
-;; Reload emacs
 (defun reload-emacs-init-file ()
+  "Reload Emacs."
   (interactive)
   (load-file "~/.emacs.d/init.el") )
 
 ;; ------------------------------------------------------------
 
-;; Print date in 'ddMMMyyyy' form
 (defun date-command-on-buffer ()
+  "Print date in 'ddMMMyyyy' form."
   (interactive)
   (shell-command "printf '%s' $(date +%Y%m%d)" t)
   (forward-word))
 
 ;; ------------------------------------------------------------
 
-;; Create a new date-stamped filename
 (defun generate-new-filename (path)
+  "Create a new date-stamped filename in PATH."
   (interactive)
   (let ((name (read-string
                "File name: ")))
@@ -115,16 +115,16 @@
 
 ;; ------------------------------------------------------------
 
-;; Start diff from Command Line
-(defun command-line-diff (switch)
+(defun command-line-diff ()
+  "Start diff from Command Line."
   (let ((file1 (pop command-line-args-left))
 		(file2 (pop command-line-args-left)))
     (ediff file1 file2)))
 
 ;; ------------------------------------------------------------
 
-;; Refile shortcuts
 (defun refile-to (headline)
+  "Refile HEADLINE."
   (interactive)
   (let ((pos (save-excursion
                org-todos-file
@@ -133,33 +133,8 @@
 
 ;; ------------------------------------------------------------
 
-(defun color-theme-almost-monokai ()
-  (interactive)
-  (color-theme-install
-   '(color-theme-almost-monokai
-     ((background-color . "#191919")
-      (foreground-color . "#F8F8F2")
-      (cursor-color . "#e0e0e0"))
-     (default ((t (nil))))
-     (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
-     (font-lock-comment-face ((t (:italic t :foreground "#75715D"))))
-     (font-lock-constant-face ((t (:foreground "#A6E22A"))))
-     (font-lock-doc-string-face ((t (:foreground "#65B042"))))
-     (font-lock-string-face ((t (:foreground "#c9b980")))) ;dfd874
-     (font-lock-function-name-face ((t (:foreground "#F1266F" :italic t))))
-     (font-lock-keyword-face ((t (:foreground "#66D9EF"))))
-     (font-lock-type-face ((t (:foreground "#89BDFF"))))
-     (font-lock-variable-name-face ((t (:foreground "#A6E22A"))))
-     (font-lock-warning-face ((t (:bold t :foreground "#FD5FF1"))))
-     (highlight-80+ ((t (:background "#D62E00"))))
-     (hl-line ((t (:background "#333333"))))
-     (region ((t (:background "#6DC5F1"))))
-     (ido-subdir ((t (:foreground "#F1266F")))))))
-(provide 'color-theme-almost-monokai)
-
-;; ------------------------------------------------------------
-
 (defun post-theme-customizations ()
+  "Fix font weirdness."
   (interactive)
   (set-face-attribute
    'mode-line nil
@@ -171,18 +146,38 @@
 
 ;; ------------------------------------------------------------
 
-(defun cmd ()
-  (interactive)
-  (setq viper-mode t)
-  (load-theme 'almost-monokai))
-(provide 'cmd)
+(defun set-theme (use-light-theme)
+  "Customize Emacs theme depending on UI.
+Use a light color theme if USE-LIGHT-THEME and dark otherwise."
+  (if (display-graphic-p)
+      (if use-light-theme
+          (light-theme)
+        (dark-theme))
+    (setq viper-mode t)
+    (require 'viper)
+    (load-theme 'almost-monokai-cmd)))
+(provide 'set-theme)
 
-;; ------------------------------------------------------------
-
-(defun light ()
+(defun light-theme ()
+  "Apply a light theme."
   (interactive)
   (load-theme 'atom-one-light t)
   (post-theme-customizations))
-(provide 'gui)
+(provide 'light-theme)
+
+(defun dark-theme ()
+  "Apply a dark theme."
+  (interactive)
+  (load-theme 'atom-one-dark t)
+  (post-theme-customizations))
+(provide 'dark-theme)
 
 ;; ------------------------------------------------------------
+
+
+
+;; ------------------------------------------------------------
+
+(provide 'my-lisp-functions)
+
+;;; my-lisp-functions.el ends here

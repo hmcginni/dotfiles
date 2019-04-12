@@ -125,12 +125,16 @@
 (global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
+(global-set-key (kbd "<s-kp-8>") 'light-theme)
+(global-set-key (kbd "<s-kp-2>") 'dark-theme)
+(global-set-key (kbd "<f8>") 'helm-mini)
 
 ;; Font
 ;;
 (set-frame-font "SF Mono:pixelsize=12:weight=medium")
-;; (set-default-font "Fantasque Sans Mono:pixelsize=15")
-;; (set-default-font "Roboto Mono:pixelsize=13:weight=regular")
+;; (set-frame-font "Fantasque Sans Mono:pixelsize=14")
+;; (set-frame-font "Inconsolata:pixelsize=14")
+;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
 
 
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
@@ -151,12 +155,6 @@
 ;;
 
 
-(define-key global-map (kbd "C-c s")
-  (lambda () (interactive) (org-capture nil "s")))
-(define-key global-map (kbd "C-c g")
-  (lambda () (interactive) (org-capture nil "g")))
-(define-key global-map (kbd "C-c t")
-  (lambda () (interactive) (org-capture nil "t")))
 (define-key global-map (kbd "C-c C-s")
   (lambda () (interactive) (find-file org-slvnv-file)))
 (define-key global-map (kbd "C-c C-g")
@@ -181,7 +179,7 @@
 ;;
 
 
-(load-theme 'atom-one-dark t)
+(set-theme nil)
 
 
 ;; Customize ===================================================================

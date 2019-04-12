@@ -73,33 +73,21 @@ def main():
 
     ## PARSE INPUTS  ------------------------------------------------------- ##
 
-
-    argc = len(sys.argv) - 1
-    cmd, alias, directory = "ls", None, os.getcwd()
-
-    if argc == 1:
-        cmd, = sys.argv[1:]
-    elif argc == 2:
-        cmd, alias = sys.argv[1:]
-    else:
-        cmd, alias, directory = sys.argv[1:]
-
-
-    # else:
-    #     raise ValueError("Bad argcount (got %d, expected 0 or 2)" % argc)
-
+    argc = len(sys.argv)
+    default_args = ["ls", None, os.getcwd()]
+    cmd, alias, directory = sys.argv[1:argc] + default_args[argc-1:]
 
     ## LOAD SHORTCUTS ------------------------------------------------------ ##
-
 
     sc_file = os.environ["HOME"] + "/sc.txt"
     shortcuts = load_shortcuts(sc_file)
 
-
     ## ACTIONS  ------------------------------------------------------------ ##
 
-
     if cmd in ["save", "add"]:
+        if alias is None:
+            print "Please set an alias (None specified)"
+            sys.exit(1)
         a_mask = [alias in entry for entry in shortcuts]
         if any(a_mask):
             a_idx = a_mask.index(True)
@@ -113,13 +101,12 @@ def main():
         try:
             a_idx = a_mask.index(True)
             del shortcuts[a_idx]
+            save_shortcuts(sc_file, shortcuts)
         except ValueError:
             print "Alias \"%s\" does not exist" % alias
-        save_shortcuts(sc_file, shortcuts)
+            sys.exit(1)
 
     elif cmd in ["ls", "list", "show"]:
-        # disp_offset = max([len(st[0]) for st in shortcuts])
-        #TODO: use disp_offset
         for shortcut in shortcuts:
             shortcut[1] = shortcut[1].replace(os.environ["HOME"], "~")
             print "%-15s %s" % tuple(shortcut)

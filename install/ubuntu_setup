@@ -23,15 +23,15 @@ apt_package_installer() {
     sudo apt update
     sudo apt upgrade -y
     
-    sudo -b apt install -y git python-gpgme nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor
+    sudo apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     
     sudo snap refresh
-    sudo -b snap install remmina google-play-music-desktop-player
-    
+    sudo snap install remmina google-play-music-desktop-player
+
 }
- 
+
 ## CLONE REPOSITORY
 
 path_setup() {
@@ -84,8 +84,8 @@ font_installer() {
     while [[ ! $(dropbox filestatus "$src_fonts_dir") =~ "up to date" ]]; do
 	sleep 5
 	if (( $(date +%s) - begin_while_time > 3600 )); then
-	   notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
-	   exit 1
+	    notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
+	    exit 1
 	fi
     done
 
@@ -145,10 +145,8 @@ main() {
     repository_setup
     font_installer
     
-    sudo apt install -y ubuntu-unity-desktop
-
-    dconf_settings
-    wait
+    # sudo apt install -y ubuntu-unity-desktop
+    # dconf_settings
     
 }
 

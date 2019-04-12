@@ -92,7 +92,7 @@
 ;;
 (use-package neotree
   :ensure t
-  :bind ("<f8>" . neotree-toggle)
+  ;; :bind ("<f8>" . neotree-toggle)
   :hook (neo-after-create . text-scale-decrease)
   :config
   (setq neo-smart-open t)
