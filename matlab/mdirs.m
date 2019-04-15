@@ -7,7 +7,12 @@ function mdirs
 
 dir_stack = getenv('DIR_STACK');
 dir_split = strsplit(dir_stack, ':');
-dir_list = string([dir_split,pwd]);
+
+if isempty(dir_stack)
+    dir_list = pwd;
+else
+    dir_list = string(dir_split);
+end
 
 %% Display Directory Stack
 

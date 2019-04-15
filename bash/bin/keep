@@ -21,6 +21,6 @@ tgt_dir="$repo_dir"/"$tgt_relpath"
 tgt_file_fullpath="$tgt_dir"/"$link_filename"
 mkdir -p "$tgt_dir"
 
-mv -v "$link_file_fullpath" "$tgt_file_fullpath"
+mv "$link_file_fullpath" "$tgt_file_fullpath"
 ln -sv -t "$link_dir" "$tgt_file_fullpath"
 
