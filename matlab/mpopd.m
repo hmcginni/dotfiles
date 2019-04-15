@@ -1,6 +1,6 @@
 function mpopd
     %
-    % MPOPD - MATLAB implementation of bash `popd` builtin
+    % MPOPD - Pop the directory stack and go to the popped directory
     %
     
     %% Pop last element of DIR_STACK

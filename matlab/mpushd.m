@@ -1,6 +1,6 @@
 function mpushd(new_dir)
     %
-    % MPUSHD - MATLAB implementation of bash builtin `pushd`
+    % MPUSHD - Go to `new_dir` and add `pwd` to the directory stack
     %
     
     %% Input Validation
