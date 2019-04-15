@@ -99,12 +99,16 @@ function out = sc(cmd, alias, dir)
 		otherwise
 			% cd to specified shortcut, or generate error -------------------%%
 			
+            if strcmp(cmd, '-')
+                mpopd;
+            end
+            
 			isCmd = cellfun( @(x)strcmpi(x,cmd), shortcuts.Shortcuts );
 			
 			if any( isCmd )
 				sc('save','-',pwd);
 				newDir = shortcuts{ isCmd, 2};
-				cd(char(newDir));
+				mpushd(char(newDir));
 			else
 				error('Unrecognized command "%s".',cmd)
 			end

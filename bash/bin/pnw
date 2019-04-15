@@ -10,9 +10,17 @@ fi
 
 
 name=$1
-pid_name=$(pgrep -o "$name")
-wid_name=$(wmctrl -lp | awk -v pid="$pid_name" '$0 ~ pid {print $1}')
-echo "$wid_name"
+
+# Note: we can't use pgrep because it has no "case insensitive" flag
+pid_list=$(ps -e | grep -i "$name" | awk '{print $1}')
+
+for pid in $pid_list; do
+    wid_name=$(wmctrl -lp | awk -v pid="$pid" '$0 ~ pid {print $1}')
+    if [[ -n $wid_name ]]; then
+	echo "$wid_name"
+    fi
+done
+
 
 
 # OLD - probably going to delete -----------------------------------------------
