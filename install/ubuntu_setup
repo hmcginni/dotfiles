@@ -1,9 +1,5 @@
 #!/bin/bash
 
-## PATHS
-
-path_to_repos="$HOME/Documents/repos"
-
 ## INSTALL PACKAGES
 
 apt_package_installer() {
@@ -32,27 +28,20 @@ apt_package_installer() {
 
 }
 
-## CLONE REPOSITORY
-
-path_setup() {
-
-    notify-send "hrmutils Installer" "Creating local directories\n\n"
-    emacs_package_path="$HOME/.emacs.d/elpa"
-    
-    mkdir -p "$emacs_package_path" "$path_to_repos"
-
-}
-
 ## INSTALL REPOSITORY FILES
 
-repository_setup() {
+repository_installer() {
 
-    hrmutils_path=$(find / -name hrmutils 2>/dev/null)
+    local repo_dir="$HOME/Documents/repos"
+    local elpa_path="$HOME/.emacs.d/elpa"  
 
-    if [[ -z $hrmutils_path ]]; then
+    notify-send "hrmutils Installer" "Creating local directories\n\n"
+    mkdir -p "$elpa_path" "$repo_dir"
+
+    if [[ ! -e $repo_dir/hrmutils ]]; then
 	notify-send "hrmutils Installer" "Setting up hrmutils repository\n\n"
-	git clone https://github.com/hrmcginnis/hrmutils.git "$path_to_repos"/hrmutils
-	bash "$path_to_repos"/hrmutils/install/install_utils
+	git clone https://github.com/hrmcginnis/hrmutils.git "$repo_dir"/hrmutils
+	bash "$repo_dir"/hrmutils/install/install_utils
     fi
 
 }
@@ -140,14 +129,13 @@ dconf_settings() {
 
 main() {
 
-    apt_package_installer
-    path_setup
-    repository_setup
-    font_installer
+    # apt_package_installer
+    # repository_installer
+    # font_installer
     
     # sudo apt install -y ubuntu-unity-desktop
     # dconf_settings
-    
+    echo "Goes nowhere; does nothing."
 }
 
 main
