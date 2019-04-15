@@ -1,4 +1,4 @@
-;;; almost-monokai-theme.el --- Theme 
+;;; almost-monokai-cmd-theme.el --- Theme 
 
 ;; Copyright (C) 2016 , hassan mcginnis
 
@@ -27,15 +27,15 @@
 
 ;;; Code:
 
- (deftheme almost-monokai)
+ (deftheme almost-monokai-cmd)
  (let ((class '((class color) (min-colors 89)))
        (fg1 "#f8f8f2")
        (fg2 "#e4e4df")
        (fg3 "#d0d0cb")
        (fg4 "#bcbcb8")
-       (bg1 "#191919")
-       (bg2 "#2b2b2b")
-       (bg3 "#3e3e3e")
+       (bg1 "#3d3d3d")
+       (bg2 "#3f3f3f")
+       (bg3 "#474747")
        (bg4 "#505050")
        (builtin "#00c333")
        (keyword "#66d9ef")
@@ -48,7 +48,7 @@
        (warning "#ff0000")
        (warning2 "#ff8800"))
    (custom-theme-set-faces
-   'almost-monokai
+   'almost-monokai-cmd
         `(default ((,class (:foreground ,fg1))))
         `(font-lock-builtin-face ((,class (:foreground ,builtin))))
         `(font-lock-comment-face ((,class (:foreground ,comment))))
@@ -244,10 +244,10 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'almost-monokai)
+(provide-theme 'almost-monokai-cmd)
 
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
 
-;;; almost-monokai-theme.el ends here
+;;; almost-monokai-cmd-theme.el ends here

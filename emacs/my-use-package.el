@@ -201,7 +201,8 @@
          ("C-c s" . (lambda () (interactive) (org-capture nil "s")))
          ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
          ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
-  :hook ((org-mode . turn-on-visual-line-mode))
+  :hook ((org-mode . turn-on-visual-line-mode)
+	 (org-mode . org-bullets-mode))
   :init
   (setq org-todos-file "~/org/todos.org"
         org-slvnv-file "~/org/slvnv.org"
@@ -222,7 +223,7 @@
         '((org-default-diary-file :level . 4)
           (org-todos-file :maxlevel . 2)))
   (setq org-todo-keywords
-        '((sequence "TODO" "IN PROGRESS(p!)" "|" "DONE(d!)" "CANCELED")))
+        '((sequence "TODO" "IN PROGRESS(p!)" "TBD" "|" "DONE(d!)" "CANCELED")))
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
