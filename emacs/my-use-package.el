@@ -140,7 +140,7 @@
   :ensure t
   :diminish company-mode
   :bind ("C-<tab>" . company-complete)
-  :hook ((after-init . global-company-mode)
+  :hook (;(after-init . global-company-mode)
          (c++-mode . company-mode)
          (c-mode . company-mode)
          (emacs-lisp-mode . company-mode))
@@ -202,7 +202,7 @@
          ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
          ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
   :hook ((org-mode . turn-on-visual-line-mode)
-	 (org-mode . org-bullets-mode))
+         (org-mode . org-bullets-mode))
   :init
   (setq org-todos-file "~/org/todos.org"
         org-slvnv-file "~/org/slvnv.org"
@@ -223,7 +223,8 @@
         '((org-default-diary-file :level . 4)
           (org-todos-file :maxlevel . 2)))
   (setq org-todo-keywords
-        '((sequence "TODO" "IN PROGRESS(p!)" "TBD" "|" "DONE(d!)" "CANCELED")))
+        '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
+	  (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex

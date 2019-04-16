@@ -17,7 +17,8 @@
 
 (defvar atom-one-dark-colors-alist
   '(("atom-one-dark-accent"   . "#528BFF")
-    ("atom-one-dark-fg"       . "#ABB2BF")
+    ;; ("atom-one-dark-fg"       . "#ABB2BF")
+    ("atom-one-dark-fg"       . "#F0F0F0")
     ("atom-one-dark-bg"       . "#2F343F")
     ("atom-one-dark-bg-1"     . "#121417")
     ("atom-one-dark-bg-hl"    . "#2F343D")
@@ -49,7 +50,6 @@
 (atom-one-dark-with-color-variables
   (custom-theme-set-faces
    'atom-one-dark
-
    `(default ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-bg))))
    `(success ((t (:foreground ,atom-one-dark-green))))
    `(warning ((t (:foreground ,atom-one-dark-orange-2))))

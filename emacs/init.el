@@ -14,16 +14,16 @@
  ;; If there is more than one, they won't work right.
  '(adaptive-wrap-extra-indent 2)
  '(column-number-mode t)
- '(cursor-type (quote (bar . 2)))
+ '(cursor-type (quote (bar . 1)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)))
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(flycheck-shellcheck-follow-sources nil)
+ '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)
  '(global-linum-mode t)
- ;; '(global-visual-line-mode t)
  '(helm-ff-file-name-history-use-recentf t)
  '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
@@ -36,7 +36,7 @@
 	   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 2)
- '(linum-format "%4d│")
+ '(linum-format "%4d  ")
  '(menu-bar-mode nil)
  '(mlint-programs
    (quote
@@ -137,11 +137,16 @@
 ;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
 
 
+;; =============================================================================
+;; Hooks
+;;
+
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
+;; (add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'visual-line-mode-hook 'adaptive-wrap-prefix-mode)
-
 
 ;; ========================================================================== ;;
 ;; Custom Lisp Functions
@@ -191,7 +196,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(linum ((t (:inherit (shadow default) :foreground "#c0c0c0"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#a0a0a0"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
  '(speedbar-button-face ((t (:foreground "green4" :height 70 :family "Roboto"))))
  '(speedbar-directory-face ((t (:foreground "dim gray" :height 90 :family "Roboto"))))
