@@ -228,15 +228,12 @@
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
+    :requires org)
+  ;; Org mode JIRA export
+  (use-package ox-jira
+    :ensure t
     :requires org))
 
-;; ------------------------------------------------------------
-
-;; Org mode JIRA export
-;;
-(use-package ox-jira
-  :ensure t
-  :requires org)
 
 ;; ------------------------------------------------------------
 
