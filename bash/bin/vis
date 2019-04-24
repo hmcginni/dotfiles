@@ -24,17 +24,13 @@ function err()
     utils.errorf "\n\t%s\n\tError on line: ${BASH_LINENO[0]}\n" "$1"
 }
 
-
 #-------------------------------------------------------------------------------
 # Defaults
 
-
 desktop=$(tiling.getCursorDesktop)
-
 
 #-------------------------------------------------------------------------------
 # Parse Inputs
-
 
 while getopts ":hd:" opt; do
     case ${opt} in
@@ -53,14 +49,12 @@ while getopts ":hd:" opt; do
 done
 shift $(( OPTIND - 1 ))
 
-
 #-------------------------------------------------------------------------------
 # Find all visible windows
 
-
 declare -a pexcept_array
 
-# (1) Get all PIDs for specified applications and add them to an array
+# (1) Get all PIDs for exempt applications and add them to an array
 for proc in compiz xfce4-notifyd; do
     pexcept=$(pgrep "$proc")
     nproc=$(wc -w <<< "$pexcept")
@@ -93,7 +87,6 @@ done
 #-------------------------------------------------------------------------------
 # Find visible windows on specified desktop
 
-
 res=($(desk -r -d"$desktop"))
 off=($(desk -o -d"$desktop"))
 
@@ -112,7 +105,6 @@ for thisWID in "${visWIDs[@]}"; do
 done
 
 echo "${deskVisWIDs[@]}"
-
 
 #-------------------------------------------------------------------------------
 # END

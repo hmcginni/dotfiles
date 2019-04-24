@@ -6,7 +6,7 @@
 ;;; Code:
 
 (defun narrow-window ()
-  "Resize Emacs."
+"Resize Emacs."
   (interactive)
   (set-frame-width (selected-frame) 86))
 
@@ -14,7 +14,7 @@
 
 ;; Try to fix Emacs colors in tmux
 (defun terminal-init-screen ()
-  "Terminal initialization function for screen."
+"Terminal initialization function for screen."
   ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
@@ -22,7 +22,7 @@
 ;; ------------------------------------------------------------
 
 (defun move-line-up ()
-  "Move up the current line."
+"Move up the current line."
   (interactive)
   (transpose-lines 1)
   (forward-line -2)
@@ -31,7 +31,7 @@
 ;; ------------------------------------------------------------
 
 (defun move-line-down ()
-  "Move down the current line."
+"Move down the current line."
   (interactive)
   (forward-line 1)
   (transpose-lines 1)
@@ -41,7 +41,7 @@
 ;; ------------------------------------------------------------
 
 (defun narrow-to-eof ()
-  "Narrow from (point) to end-of-file."
+"Narrow from (point) to end-of-file."
   (interactive)
   (save-excursion
     (narrow-to-region (- (point)
@@ -51,7 +51,7 @@
 ;; ------------------------------------------------------------
 
 (defun comment-or-uncomment-region-or-line ()
-  "Comment or uncomment a region/line."
+"Comment or uncomment a region/line."
   (interactive)
   (let (beg end)
 	(if (region-active-p)
@@ -64,7 +64,7 @@
 ;; ------------------------------------------------------------
 
 (defun file-name-on-clipboard ()
-  "Copy current buffer to clipboard."
+"Copy current buffer to clipboard."
   (interactive)
   (let ((filename
          (if (equal major-mode 'dired-mode)
@@ -81,21 +81,21 @@
 ;; ------------------------------------------------------------
 
 (defun switch-to-previous-buffer ()
-  "Switch to previous buffer."
+"Switch to previous buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 ;; ------------------------------------------------------------
 
 (defun reload-emacs-init-file ()
-  "Reload Emacs."
+"Reload Emacs."
   (interactive)
   (load-file "~/.emacs.d/init.el") )
 
 ;; ------------------------------------------------------------
 
 (defun date-command-on-buffer ()
-  "Print date in 'ddMMMyyyy' form."
+"Print date in 'ddMMMyyyy' form."
   (interactive)
   (shell-command "printf '%s' $(date +%Y%m%d)" t)
   (forward-word))
@@ -103,7 +103,7 @@
 ;; ------------------------------------------------------------
 
 (defun generate-new-filename (path)
-  "Create a new date-stamped filename in PATH."
+"Create a new date-stamped filename in PATH."
   (interactive)
   (let ((name (read-string
                "File name: ")))
@@ -116,7 +116,7 @@
 ;; ------------------------------------------------------------
 
 (defun command-line-diff ()
-  "Start diff from Command Line."
+"Start diff from Command Line."
   (let ((file1 (pop command-line-args-left))
 		(file2 (pop command-line-args-left)))
     (ediff file1 file2)))
@@ -124,7 +124,7 @@
 ;; ------------------------------------------------------------
 
 (defun refile-to (headline)
-  "Refile HEADLINE."
+"Refile HEADLINE."
   (interactive)
   (let ((pos (save-excursion
                org-todos-file
@@ -134,7 +134,7 @@
 ;; ------------------------------------------------------------
 
 (defun post-theme-customizations ()
-  "Fix font weirdness."
+"Fix font weirdness."
   (interactive)
   (set-face-attribute
    'mode-line nil
@@ -146,30 +146,32 @@
 
 ;; ------------------------------------------------------------
 
-(defun set-theme (use-light-theme)
+(defun set-light-theme (use-light-theme)
   "Customize Emacs theme depending on UI.
 Use a light color theme if USE-LIGHT-THEME and dark otherwise."
-  (if (display-graphic-p)
-      (if use-light-theme
-          (light-theme)
-        (dark-theme))
-    (setq viper-mode t)
-    (require 'viper)
-    (load-theme 'almost-monokai-cmd)))
-(provide 'set-theme)
+  (if use-light-theme
+      (light-theme)
+    (dark-theme)))
+  (provide 'set-light-theme)
 
 (defun light-theme ()
-  "Apply a light theme."
+"Apply a light GUI theme."
   (interactive)
-  (load-theme 'atom-one-light t)
-  (post-theme-customizations))
+  (if (display-graphic-p)
+      (progn (load-theme 'atom-one-light t)
+	     (post-theme-customizations))
+    (progn (load-theme 'cmd-atom-one-light t)
+	   (post-theme-customizations))))
 (provide 'light-theme)
 
 (defun dark-theme ()
-  "Apply a dark theme."
+"Apply a dark GUI theme."
   (interactive)
-  (load-theme 'atom-one-dark t)
-  (post-theme-customizations))
+  (if (display-graphic-p)
+      (progn (load-theme 'atom-one-dark t)
+	     (post-theme-customizations))
+    (progn (load-theme 'cmd-atom-one-dark t)
+	   (post-theme-customizations))))
 (provide 'dark-theme)
 
 ;; ------------------------------------------------------------

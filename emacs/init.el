@@ -116,8 +116,8 @@
 (global-set-key (kbd "M-q") 'visual-line-mode)
 (global-set-key (kbd "s-<up>") 'move-line-up)
 (global-set-key (kbd "s-<down>") 'move-line-down) 
-(global-set-key (kbd "M-p") (kbd "C-u 2 M-v")) ; ----- scroll page behind cursor
-(global-set-key (kbd "M-n") (kbd "C-u 2 C-v"))
+(global-set-key (kbd "M-p") (kbd "C-u 3 M-v")) ; ----- scroll page behind cursor
+(global-set-key (kbd "M-n") (kbd "C-u 3 C-v"))
 (global-set-key (kbd "C-c C-8") 'narrow-window)
 (global-set-key (kbd "C-x n f") 'narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
@@ -127,7 +127,6 @@
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "<s-kp-8>") 'light-theme)
 (global-set-key (kbd "<s-kp-2>") 'dark-theme)
-(global-set-key (kbd "<f8>") 'helm-mini)
 
 ;; Font
 ;;
@@ -184,7 +183,7 @@
 ;;
 
 
-(set-theme nil)
+(set-light-theme t)
 
 
 ;; Customize ===================================================================

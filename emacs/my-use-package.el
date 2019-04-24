@@ -69,7 +69,8 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x C-r" . helm-mini)))
+         ("C-x C-r" . helm-mini)
+         ("<f8>" . helm-mini)))
 
 ;; ------------------------------------------------------------
 
@@ -201,8 +202,7 @@
          ("C-c s" . (lambda () (interactive) (org-capture nil "s")))
          ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
          ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
-  :hook ((org-mode . turn-on-visual-line-mode)
-         (org-mode . org-bullets-mode))
+  :hook ((org-mode . turn-on-visual-line-mode))
   :init
   (setq org-todos-file "~/org/todos.org"
         org-slvnv-file "~/org/slvnv.org"
@@ -212,19 +212,27 @@
   (setq org-capture-templates
         '(("s" "SL V&V Meeting" entry
            (file+olp+datetree org-slvnv-file)
-           "* %?\n%u [/]\n" :kill-buffer t)
+           "* %?\n%u \n" :kill-buffer t)
           ("g" "GL Meeting" entry
            (file+olp+datetree org-gl-file)
-           "* %?\n%u [/]\n" :kill-buffer t)
+           "* %?\n%u \n" :kill-buffer t)
           ("t" "todo" entry
            (file+headline org-todos-file "Unfiled")
-           "* TODO %u%? [/]\n\n*Captured from: %a*\n" :kill-buffer t)))
+           "* TODO %u%? [/]\n" :kill-buffer t)))
   (setq org-refile-targets
         '((org-default-diary-file :level . 4)
           (org-todos-file :maxlevel . 2)))
   (setq org-todo-keywords
         '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
 	  (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
+  (setq org-agenda-custom-commands
+	'(("w" "Weekly review"
+	   agenda ""
+	   ((org-agenda-span 'week)
+	    (org-agenda-start-on-weekday 0)
+	    (org-agenda-start-with-log-mode t)
+	    (org-agenda-skip-function
+	     '(org-agenda-skip-entry-if 'nottodo 'done))))))
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
