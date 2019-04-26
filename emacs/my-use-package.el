@@ -199,40 +199,41 @@
   :ensure t
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda)
-         ("C-c s" . (lambda () (interactive) (org-capture nil "s")))
+         ("C-c m" . (lambda () (interactive) (org-capture nil "m")))
          ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
          ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
   :hook ((org-mode . turn-on-visual-line-mode))
   :init
   (setq org-todos-file "~/org/todos.org"
-        org-slvnv-file "~/org/slvnv.org"
+        org-mitg-file "~/org/mitg.org"
         org-gl-file "~/org/gl.org"
         org-log-done 'time
         org-agenda-files '("~/org" "~/Dropbox/org"))
   (setq org-capture-templates
-        '(("s" "SL V&V Meeting" entry
-           (file+olp+datetree org-slvnv-file)
-           "* %?\n%u \n" :kill-buffer t)
-          ("g" "GL Meeting" entry
-           (file+olp+datetree org-gl-file)
-           "* %?\n%u \n" :kill-buffer t)
-          ("t" "todo" entry
-           (file+headline org-todos-file "Unfiled")
+        '(("m" "Meeting" entry (file+olp+datetree org-slvnv-file)
+           "* %?\n \n" :kill-buffer t)
+          ("g" "GL Meeting" entry (file+olp+datetree org-gl-file)
+           "* %?\n \n" :kill-buffer t)
+          ("t" "todo" entry (file+headline org-todos-file)
            "* TODO %u%? [/]\n" :kill-buffer t)))
-  (setq org-refile-targets
-        '((org-default-diary-file :level . 4)
-          (org-todos-file :maxlevel . 2)))
   (setq org-todo-keywords
         '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
-	  (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
+          (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
   (setq org-agenda-custom-commands
-	'(("w" "Weekly review"
-	   agenda ""
-	   ((org-agenda-span 'week)
-	    (org-agenda-start-on-weekday 0)
-	    (org-agenda-start-with-log-mode t)
-	    (org-agenda-skip-function
-	     '(org-agenda-skip-entry-if 'nottodo 'done))))))
+        '(("w" "Weekly review" agenda ""
+           ((org-agenda-span 'week)
+            (org-agenda-start-on-weekday 0)
+            (org-agenda-start-with-log-mode t)
+            (org-agenda-skip-function
+             '(org-agenda-skip-entry-if 'nottodo 'done)))
+           ("~/last-week-todos.html"))))
+  ;; (setq org-agenda-custom-commands
+  ;;       '(("r" "Last Week's TODOs" agenda
+  ;;          ((org-agenda-span 'week)
+  ;;           (org-agenda-start-on-weekday 0)
+  ;;           (org-agenda-start-with-log-mode t))
+  ;;          ("~/last-week-todos.html"))))
+	    
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
@@ -241,15 +242,6 @@
   (use-package ox-jira
     :ensure t
     :requires org))
-
-
-;; ------------------------------------------------------------
-
-;; Viper mode
-;;
-(use-package viper
-  :ensure t
-  :defer t)
 
 ;; ------------------------------------------------------------
 
@@ -285,7 +277,7 @@
 (use-package matlab
   :mode ("\\.m$" . matlab-mode)
   :hook ((matlab-mode . (lambda () (matlab-cedet-setup)))
-         (matlab-mode . (lambda () (mlint-minor-mode 1))))
+         (matlab-mode . (lambda () (mlint-minor-mode t))))
   :config
   (setq matlab-indent-function t
         matlab-show-mlint-warnings t

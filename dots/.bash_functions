@@ -15,7 +15,7 @@ _copy(){
 
 
 # ---------------------------- #
-# GIT_PUSH_WRAPPER - utility function to help automate git pushes
+# GIT_PUSH_WRAPPER - simplify git pushes
 
 
 _git_push_wrapper() {
@@ -37,7 +37,7 @@ _git_push_wrapper() {
 
 
 # ---------------------------- #
-# ML_WRAPPER - utility function to help launch MATLAB with better graphics
+# ML_WRAPPER - launch MATLAB with preferred Java version
 
 
 _ml_wrapper() {
@@ -89,7 +89,7 @@ _qfind() {
 
 
 # ---------------------------- #
-# TMUX_GO - wrapper function to help automate tmux actions
+# TMUX_GO - simplify tmux actions
 
 
 _tmux_go() {
@@ -123,7 +123,7 @@ _tmux_run() {
 
 
 # ---------------------------- #
-# XDG_OPEN - wrapper function to quietly open file with the default application
+# XDG_OPEN - quietly open file with the default application
 
 
 _xdg_open() {

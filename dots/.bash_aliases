@@ -58,15 +58,11 @@ alias gitupdate='git pull; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
 # emacs
-alias e='emacs -nw -f cmd'
+alias e='emacs -nw'
 
 # MATLAB
 alias ml='_ml_wrapper gui'
 alias mlc='_ml_wrapper cmd'
-# alias matlab='_ml_wrapper'
-
-# Systemd
-alias s='_systemd_handler'
 
 # others
 alias copy='_copy'
