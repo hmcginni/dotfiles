@@ -17,7 +17,7 @@ function out = sc(cmd, alias, dir)
 	%        <none> [alias]               -> go to dir specified by alias
 	
 	
-	%% PARSE INPUTS  --------------------------------------------------------%%
+	%% PARSE INPUTS  ----------------------------------------------------%%
 	
 	
 	switch nargin
@@ -28,7 +28,7 @@ function out = sc(cmd, alias, dir)
 	end
 	
 	
-	%% LOAD SHORTCUTS  ------------------------------------------------------%%
+	%% LOAD SHORTCUTS  --------------------------------------------------%%
 	
 	
 	shortcutCache = fullfile(userpath,'shortcuts.txt');
@@ -44,12 +44,12 @@ function out = sc(cmd, alias, dir)
 	end
 	
 	
-	%% MAIN  ----------------------------------------------------------------%%
+	%% MAIN  ------------------------------------------------------------%%
 	
 	
 	switch cmd
 		case {'add','save'}
-			% 'save' new alias by adding it to shortcut map -----------------%%
+			% 'save' new alias by adding it to shortcut map -------------%%
 			
 			alias = lower(alias);
 			
@@ -65,14 +65,14 @@ function out = sc(cmd, alias, dir)
 			writetable(shortcuts, shortcutCache);
 			
 		case {'rm','rem','remove','d','del','delete'}
-			% 'remove' specified alias --------------------------------------%%
+			% 'remove' specified alias ----------------------------------%%
 			
 			idxMask = cellfun( @(x)strcmp(x,alias), shortcuts.Shortcuts );
 			shortcuts(idxMask,:) = [];
 			writetable(shortcuts, shortcutCache);
 			
 		case {'ls','list','show'}
-			% 'list' all saved aliases --------------------------------------%%
+			% 'list' all saved aliases ----------------------------------%%
 			
 			newDirs = strrep(shortcuts.Directories, userpath, '<userpath>');
 			newDirs = strrep(newDirs, getenv('HOME'), '~');
@@ -80,24 +80,24 @@ function out = sc(cmd, alias, dir)
 				'VariableNames',{'Shortcuts','Directories'} ) );
 			
 		case {'clip','copy'}
-			% 'copy' specified alias path to clipboard ----------------------%%
+			% 'copy' specified alias path to clipboard ------------------%%
 			
 			idxMask = cellfun( @(x)strcmpi(x,alias), shortcuts.Shortcuts );
 			thisDir = char( shortcuts{idxMask,2} );
 			clipboard( 'copy', thisDir );
 			
 		case {'getaliases'}
-			% 'getaliases' output aliases only ------------------------------%%
+			% 'getaliases' output aliases only --------------------------%%
 			
 			out = shortcuts.Shortcuts;
 			
 		case {'gettable'}
-			% 'gettable' output table only ----------------------------------%%
+			% 'gettable' output table only ------------------------------%%
 			
 			out = shortcuts;
 			
 		otherwise
-			% cd to specified shortcut, or generate error -------------------%%
+			% cd to specified shortcut, or generate error ---------------%%
 			
             if strcmp(cmd, '-')
                 mpopd;
@@ -116,4 +116,4 @@ function out = sc(cmd, alias, dir)
 	end
 
 
-	%% END ------------------------------------------------------------------%%
+	%% END --------------------------------------------------------------%%
