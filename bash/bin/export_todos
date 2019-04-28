@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# EXPORT_TODOS - export completed TODO list items to text file
+#
+
+todo_review_file=$HOME/last-week-todos.txt
+elisp_export_todos &>/dev/null
+
+if [[ -e $todo_review_file ]]; then
+    notify-send "Emacs" "Exported agenda view to $todo_review_file"
+else
+    notify-send "Emacs" "Unable to export agenda view"
+fi
+
+# egrep DONE $todo_review_file | sed 's|.*DONE||;s|:.*:||'
+

@@ -1,0 +1,22 @@
+#!/usr/bin/emacs --script
+;;
+;; ELISP_EXPORT_TODOS - Export last week's completed todos to file
+;;
+
+(setq org-agenda-files '("~/org"))
+(setq org-agenda-custom-commands
+      '(("cd" agenda "+work"
+	 ((org-agenda-span 'week)
+	  (org-agenda-start-on-weekday 0)
+	  (org-agenda-start-with-log-mode t)
+	  (org-agenda-skip-function
+	   '(org-agenda-skip-entry-if 'nottodo 'done)))
+	 ("~/status-done.txt"))
+	("cp" tags-todo "+work"
+	 ((org-agenda-span 'week)
+	  (org-agenda-start-on-weekday 0)
+	  (org-agenda-start-with-log-mode t))
+	 ("~/status-in-progress.txt"))))
+
+(org-store-agenda-views)
+
