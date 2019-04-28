@@ -226,14 +226,13 @@
             (org-agenda-start-with-log-mode t)
             (org-agenda-skip-function
              '(org-agenda-skip-entry-if 'nottodo 'done)))
-           ("~/last-week-todos.html"))))
+           ("~/last-week-todos.txt"))))
   ;; (setq org-agenda-custom-commands
   ;;       '(("r" "Last Week's TODOs" agenda
   ;;          ((org-agenda-span 'week)
   ;;           (org-agenda-start-on-weekday 0)
   ;;           (org-agenda-start-with-log-mode t))
-  ;;          ("~/last-week-todos.html"))))
-	    
+  ;;          ("~/last-week-todos.txt"))))
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
