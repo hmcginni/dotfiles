@@ -35,12 +35,12 @@
 	   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
 	   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(line-spacing 2)
+ '(line-spacing 1)
  '(linum-format "%4d  ")
  '(menu-bar-mode nil)
  '(mlint-programs
    (quote
-    ("/opt/matlab/2017a/bin/glnxa64/mlint" "glnxa64/mlint")))
+    ("/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)

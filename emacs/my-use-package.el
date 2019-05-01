@@ -224,7 +224,7 @@
            ((org-agenda-span 7)
             (org-agenda-start-with-log-mode t)
             (org-agenda-skip-function
-             '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:work:")))
+             '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:mdt:")))
            ("~/status/done.txt"))))
   :config
   ;; Org mode LaTeX export
