@@ -3,14 +3,47 @@
 # EXPORT_TODOS - export completed TODO list items to text file
 #
 
-todo_review_file=$HOME/last-week-todos.txt
-elisp_export_todos &>/dev/null
+_get_friday_date() {
+    
+    local today which_friday friday
+    today=$(date "+%u")
+    which_friday="this"
+        
+    if (( today < 2 ))
+    then
+	which_friday="last"
+    fi
+    
+    friday=$(date -d "$which_friday Friday" "+%Y%m%d")
+    echo "$friday"
 
-if [[ -e $todo_review_file ]]; then
-    notify-send "Emacs" "Exported agenda view to $todo_review_file"
-else
-    notify-send "Emacs" "Unable to export agenda view"
-fi
+}
 
-# egrep DONE $todo_review_file | sed 's|.*DONE||;s|:.*:||'
+_notify_export_success() {
+
+    raw_task_file=$1
+    if [[ -e $raw_task_file ]]
+    then
+	notify-send "Emacs" "Exported agenda view to $raw_task_file"
+    else
+	notify-send "Emacs" "Unable to export agenda view"
+    fi
+    
+}
+
+_main() {
+    
+    local friday
+    friday=$(_get_friday_date)
+    raw_task_file=$HOME/status/done.txt
+    task_file=$HOME/status/"$friday"-done.txt
+
+    elisp_export_todos &>/dev/null
+    _notify_export_success "$raw_task_file"
+    
+    egrep DONE "$raw_task_file" | sed 's|.*DONE||;s|:.*:||' > "$task_file"
+    
+}
+
+_main
 

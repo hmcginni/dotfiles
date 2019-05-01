@@ -17,7 +17,7 @@
  '(cursor-type (quote (bar . 1)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(custom-theme-load-path (quote (custom-theme-directory t)))
+ '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(flycheck-shellcheck-follow-sources nil)
@@ -55,7 +55,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(server-mode nil)
@@ -130,7 +130,8 @@
 
 ;; Font
 ;;
-(set-frame-font "SF Mono:pixelsize=12:weight=medium")
+(set-frame-font "Input:pixelsize=12")
+;; (set-frame-font "SF Mono:pixelsize=12:weight=medium")
 ;; (set-frame-font "Fantasque Sans Mono:pixelsize=14")
 ;; (set-frame-font "Inconsolata:pixelsize=14")
 ;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
@@ -202,4 +203,3 @@
  '(speedbar-file-face ((t (:foreground "cyan4" :height 90 :family "Roboto"))))
  '(speedbar-highlight-face ((t (:background "light gray" :height 90 :family "IBM Plex Sans"))))
  '(speedbar-selected-face ((t (:foreground "red" :height 90 :family "IBM Plex Sans")))))
-(put 'narrow-to-region 'disabled nil)

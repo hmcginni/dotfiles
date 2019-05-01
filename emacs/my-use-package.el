@@ -146,8 +146,8 @@
          (c-mode . company-mode)
          (emacs-lisp-mode . company-mode))
   :config
-  (defvaralias 'c-basic-offset 'tab-width)
-  (defvaralias 'cperl-indent-level 'tab-width)
+  ;; (defvaralias 'c-basic-offset 'tab-width)
+  ;; (defvaralias 'cperl-indent-level 'tab-width)
   ;; Company Irony
   (use-package company-irony
     :ensure t
@@ -210,7 +210,7 @@
         org-log-done 'time
         org-agenda-files '("~/org" "~/Dropbox/org"))
   (setq org-capture-templates
-        '(("m" "Meeting" entry (file+olp+datetree org-slvnv-file)
+        '(("m" "Meeting" entry (file+olp+datetree org-mitg-file)
            "* %?\n \n" :kill-buffer t)
           ("g" "GL Meeting" entry (file+olp+datetree org-gl-file)
            "* %?\n \n" :kill-buffer t)
@@ -220,19 +220,12 @@
         '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
           (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
   (setq org-agenda-custom-commands
-        '(("w" "Weekly review" agenda ""
-           ((org-agenda-span 'week)
-            (org-agenda-start-on-weekday 0)
+        '(("w" agenda ""
+           ((org-agenda-span 7)
             (org-agenda-start-with-log-mode t)
             (org-agenda-skip-function
-             '(org-agenda-skip-entry-if 'nottodo 'done)))
-           ("~/last-week-todos.txt"))))
-  ;; (setq org-agenda-custom-commands
-  ;;       '(("r" "Last Week's TODOs" agenda
-  ;;          ((org-agenda-span 'week)
-  ;;           (org-agenda-start-on-weekday 0)
-  ;;           (org-agenda-start-with-log-mode t))
-  ;;          ("~/last-week-todos.txt"))))
+             '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:work:")))
+           ("~/status/done.txt"))))
   :config
   ;; Org mode LaTeX export
   (use-package ox-latex
