@@ -130,7 +130,7 @@
 
 ;; Font
 ;;
-(set-frame-font "Input:pixelsize=12")
+;; (set-frame-font "Input:pixelsize=12")
 ;; (set-frame-font "SF Mono:pixelsize=12:weight=medium")
 ;; (set-frame-font "Fantasque Sans Mono:pixelsize=14")
 ;; (set-frame-font "Inconsolata:pixelsize=14")
