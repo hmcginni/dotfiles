@@ -169,7 +169,7 @@
 
    ;; web-mode
    `(web-mode-symbol-face ((t (:foreground ,cmd-atom-one-dark-orange-1))))
-
+   ))
 
 ;;;###autoload
 (and load-file-name
