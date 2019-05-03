@@ -15,7 +15,6 @@
 ;; Try to fix Emacs colors in tmux
 (defun terminal-init-screen ()
   "Terminal initialization function for screen."
-  ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
@@ -128,16 +127,6 @@
   (let ((file1 (pop command-line-args-left))
         (file2 (pop command-line-args-left)))
     (ediff file1 file2)))
-
-;; ------------------------------------------------------------
-
-(defun refile-to (headline)
-  "Refile HEADLINE."
-  (interactive)
-  (let ((pos (save-excursion
-               org-todos-file
-               (org-find-exact-headline-in-buffer headline))))
-    (org-refile nil nil (list headline org-todos-file nil pos))))
 
 ;; ------------------------------------------------------------
 
