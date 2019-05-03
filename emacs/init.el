@@ -84,27 +84,32 @@
 ;; Package Init/Install 
 ;;
 
-
 (load "~/.emacs.d/my-use-package.el")
+
+
+;; ========================================================================== ;;
+;; Custom Lisp Functions
+;;
+
+(load "~/.emacs.d/my-lisp-functions.el")
 
 
 ;; ========================================================================== ;;
 ;; EMACS configurations 
 ;;
 
-
 ;; Set variables
 ;;
-(setq ediff-window-setup-function 'ediff-setup-windows-plain
-      frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
-      tab-width 4
+(setq tab-width 4
+      indent-tabs-mode nil
       c-default-style "linux"
-      indent-tabs-mode nil)
+      ediff-window-setup-function 'ediff-setup-windows-plain
+      frame-title-format (list "GNU Emacs • %b • " (getenv "USER")))
 
 ;; Add to list
 ;;
-(add-to-list 'default-frame-alist '(height . 40)) ; -------- default window size
-(add-to-list 'default-frame-alist '(width . 83))
+;; (add-to-list 'default-frame-alist '(height . 40)) ; --- default window size
+;; (add-to-list 'default-frame-alist '(width . 83))
 (add-to-list 'command-switch-alist '("diff" . command-line-diff)) ; --- diff cmd
 
 ;; Global keyboard shortcuts
@@ -121,20 +126,17 @@
 (global-set-key (kbd "C-c C-8") 'narrow-window)
 (global-set-key (kbd "C-x n f") 'narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'date-command-on-buffer)
-(global-set-key (kbd "C-x M-s") 'file-name-on-clipboard)
 (global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
-(global-set-key (kbd "<s-kp-8>") 'light-theme)
-(global-set-key (kbd "<s-kp-2>") 'dark-theme)
+(global-set-key (kbd "<f9>") 'toggle-theme)
 
 ;; Font
 ;;
 ;; (set-frame-font "Input:pixelsize=12")
 ;; (set-frame-font "SF Mono:pixelsize=12:weight=medium")
-;; (set-frame-font "Fantasque Sans Mono:pixelsize=14")
-;; (set-frame-font "Inconsolata:pixelsize=14")
 ;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
+;; (set-frame-font "Inconsolata:pixelsize=14")
 
 
 ;; =============================================================================
@@ -143,53 +145,21 @@
 
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
-;; (add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'visual-line-mode-hook 'adaptive-wrap-prefix-mode)
-
-;; ========================================================================== ;;
-;; Custom Lisp Functions
-;;
-
-
-(load "~/.emacs.d/my-lisp-functions.el")
-
-
-;; Org-mode ====================================================================
-;;
-
-
-(define-key global-map (kbd "C-c C-s")
-  (lambda () (interactive) (find-file org-slvnv-file)))
-(define-key global-map (kbd "C-c C-g")
-  (lambda () (interactive) (find-file org-gl-file)))
-(define-key global-map (kbd "C-c C-t")
-  (lambda () (interactive) (find-file org-todos-file)))
-(define-key global-map (kbd "C-c C-o")
-  (lambda () (org-open-at-point) (delete-window)))
-
-(global-set-key (kbd "C-c C-1")
-                (lambda () (interactive) (refile-to "Today")))
-(global-set-key (kbd "C-c C-2")
-                (lambda () (interactive) (refile-to "This Week")))
-(global-set-key (kbd "C-c C-3")
-                (lambda () (interactive) (refile-to "Next Week")))
-(global-set-key (kbd "C-c C-4")
-                (lambda () (interactive) (refile-to "Low Priority")))
 
 
 ;; =============================================================================
 ;; Start
 ;;
 
-
-(is-light)
+(set-theme t)
 
 
 ;; Customize ===================================================================
 ;;
-
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

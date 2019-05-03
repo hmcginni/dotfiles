@@ -129,47 +129,47 @@
   '(dired-flagged ((t (:inherit (diff-hl-delete)))))
   '(dired-symlink ((t (:foreground "#FD5FF1"))))
 
-  ;; ;; helm
-  ;; `(helm-header ((t (:foreground ,atom-one-light-mono-2
-  ;;                                :background ,atom-one-light-bg
-  ;;                                :underline nil
-  ;;                                :box (:line-width 6 :color ,atom-one-light-bg)))))
-  ;; `(helm-source-header ((t (:foreground ,atom-one-light-orange-2
-  ;;                                       :background ,atom-one-light-bg
-  ;;                                       :underline nil
-  ;;                                       :weight bold
-  ;;                                       :box (:line-width 6 :color ,atom-one-light-bg)))))
-  ;; `(helm-selection ((t (:background ,atom-one-light-gray))))
-  ;; `(helm-selection-line ((t (:background ,atom-one-light-gray))))
-  ;; `(helm-visible-mark ((t (:foreground ,atom-one-light-bg :foreground ,atom-one-light-orange-2))))
-  ;; `(helm-candidate-number ((t (:foreground ,atom-one-light-green :background ,atom-one-light-bg-1))))
-  ;; `(helm-separator ((t (:background ,atom-one-light-bg :foreground ,atom-one-light-red-1))))
-  ;; `(helm-M-x-key ((t (:foreground ,atom-one-light-orange-1))))
-  ;; `(helm-bookmark-addressbook ((t (:foreground ,atom-one-light-orange-1))))
-  ;; `(helm-bookmark-directory ((t (:foreground nil :background nil :inherit helm-ff-directory))))
-  ;; `(helm-bookmark-file ((t (:foreground nil :background nil :inherit helm-ff-file))))
-  ;; `(helm-bookmark-gnus ((t (:foreground ,atom-one-light-purple))))
-  ;; `(helm-bookmark-info ((t (:foreground ,atom-one-light-green))))
-  ;; `(helm-bookmark-man ((t (:foreground ,atom-one-light-orange-2))))
-  ;; `(helm-bookmark-w3m ((t (:foreground ,atom-one-light-purple))))
-  ;; `(helm-match ((t (:foreground ,atom-one-light-orange-2))))
-  ;; `(helm-ff-directory ((t (:foreground ,atom-one-light-cyan :background ,atom-one-light-bg :weight bold))))
-  ;; `(helm-ff-file ((t (:foreground ,atom-one-light-fg :background ,atom-one-light-bg :weight normal))))
-  ;; `(helm-ff-executable ((t (:foreground ,atom-one-light-green :background ,atom-one-light-bg :weight normal))))
-  ;; `(helm-ff-invalid-symlink ((t (:foreground ,atom-one-light-red-1 :background ,atom-one-light-bg :weight bold))))
-  ;; `(helm-ff-symlink ((t (:foreground ,atom-one-light-orange-2 :background ,atom-one-light-bg :weight bold))))
-  ;; `(helm-ff-prefix ((t (:foreground ,atom-one-light-bg :background ,atom-one-light-orange-2 :weight normal))))
-  ;; `(helm-buffer-not-saved ((t (:foreground ,atom-one-light-red-1))))
-  ;; `(helm-buffer-process ((t (:foreground ,atom-one-light-mono-2))))
-  ;; `(helm-buffer-saved-out ((t (:foreground ,atom-one-light-fg))))
-  ;; `(helm-buffer-size ((t (:foreground ,atom-one-light-mono-2))))
-  ;; `(helm-buffer-directory ((t (:foreground ,atom-one-light-purple))))
-  ;; `(helm-grep-cmd-line ((t (:foreground ,atom-one-light-cyan))))
-  ;; `(helm-grep-file ((t (:foreground ,atom-one-light-fg))))
-  ;; `(helm-grep-finish ((t (:foreground ,atom-one-light-green))))
-  ;; `(helm-grep-lineno ((t (:foreground ,atom-one-light-mono-2))))
-  ;; `(helm-grep-finish ((t (:foreground ,atom-one-light-red-1))))
-  ;; `(helm-grep-match ((t (:foreground nil :background nil :inherit helm-match))))
+  ;; helm
+  `(helm-header ((t (:foreground ,atom-one-light-mono-2
+                                 :background ,atom-one-light-bg
+                                 :underline nil
+                                 :box (:line-width 6 :color ,atom-one-light-bg)))))
+  `(helm-source-header ((t (:foreground ,atom-one-light-orange-2
+                                        :background ,atom-one-light-bg
+                                        :underline nil
+                                        :weight bold
+                                        :box (:line-width 6 :color ,atom-one-light-bg)))))
+  `(helm-selection ((t (:background ,atom-one-light-gray))))
+  `(helm-selection-line ((t (:background ,atom-one-light-gray))))
+  `(helm-visible-mark ((t (:foreground ,atom-one-light-bg :foreground ,atom-one-light-orange-2))))
+  `(helm-candidate-number ((t (:foreground ,atom-one-light-green :background ,atom-one-light-bg-1))))
+  `(helm-separator ((t (:background ,atom-one-light-bg :foreground ,atom-one-light-red-1))))
+  `(helm-M-x-key ((t (:foreground ,atom-one-light-orange-1))))
+  `(helm-bookmark-addressbook ((t (:foreground ,atom-one-light-orange-1))))
+  `(helm-bookmark-directory ((t (:foreground nil :background nil :inherit helm-ff-directory))))
+  `(helm-bookmark-file ((t (:foreground nil :background nil :inherit helm-ff-file))))
+  `(helm-bookmark-gnus ((t (:foreground ,atom-one-light-purple))))
+  `(helm-bookmark-info ((t (:foreground ,atom-one-light-green))))
+  `(helm-bookmark-man ((t (:foreground ,atom-one-light-orange-2))))
+  `(helm-bookmark-w3m ((t (:foreground ,atom-one-light-purple))))
+  `(helm-match ((t (:foreground ,atom-one-light-orange-2))))
+  `(helm-ff-directory ((t (:foreground ,atom-one-light-cyan :background ,atom-one-light-bg :weight bold))))
+  `(helm-ff-file ((t (:foreground ,atom-one-light-fg :background ,atom-one-light-bg :weight normal))))
+  `(helm-ff-executable ((t (:foreground ,atom-one-light-green :background ,atom-one-light-bg :weight normal))))
+  `(helm-ff-invalid-symlink ((t (:foreground ,atom-one-light-red-1 :background ,atom-one-light-bg :weight bold))))
+  `(helm-ff-symlink ((t (:foreground ,atom-one-light-orange-2 :background ,atom-one-light-bg :weight bold))))
+  `(helm-ff-prefix ((t (:foreground ,atom-one-light-bg :background ,atom-one-light-orange-2 :weight normal))))
+  `(helm-buffer-not-saved ((t (:foreground ,atom-one-light-red-1))))
+  `(helm-buffer-process ((t (:foreground ,atom-one-light-mono-2))))
+  `(helm-buffer-saved-out ((t (:foreground ,atom-one-light-fg))))
+  `(helm-buffer-size ((t (:foreground ,atom-one-light-mono-2))))
+  `(helm-buffer-directory ((t (:foreground ,atom-one-light-purple))))
+  `(helm-grep-cmd-line ((t (:foreground ,atom-one-light-cyan))))
+  `(helm-grep-file ((t (:foreground ,atom-one-light-fg))))
+  `(helm-grep-finish ((t (:foreground ,atom-one-light-green))))
+  `(helm-grep-lineno ((t (:foreground ,atom-one-light-mono-2))))
+  `(helm-grep-finish ((t (:foreground ,atom-one-light-red-1))))
+  `(helm-grep-match ((t (:foreground nil :background nil :inherit helm-match))))
 
   ;; git-commit
   `(git-commit-comment-action  ((t (:foreground ,atom-one-light-green :weight bold))))

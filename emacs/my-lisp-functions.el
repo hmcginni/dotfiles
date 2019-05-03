@@ -40,6 +40,14 @@
 
 ;; ------------------------------------------------------------
 
+(defun xor (a b)
+  "XOR of inputs A and B."
+  (and (not (and a b))
+       (or a b)))
+(provide 'xor)
+
+;; ------------------------------------------------------------
+
 (defun narrow-to-eof ()
   "Narrow from (point) to end-of-file."
   (interactive)
@@ -138,37 +146,21 @@
   (interactive)
   (set-face-attribute
    'mode-line nil
-   :font "Roboto:pixelsize=12:weight=medium" )
+   :font "IBM Plex Sans:pixelsize=12:weight=medium" )
   (set-face-attribute
    'mode-line-inactive nil
-   :font "Roboto:pixelsize=12:weight=medium:slant=italic" ))
+   :font "IBM Plex Sans:pixelsize=12:weight=medium:slant=italic" ))
 (provide 'post-theme-customizations)
 
 ;; ------------------------------------------------------------
+;; ------------------------------------------------------------
 
-(defun is-light ()
-  "Determine if the background is light or dark."
-  (interactive)
-  (if (not (display-graphic-p))
-      (let ((bg (shell-command
-                 "xtermcontrol --get-bg | sed 's|.*:\(..\)../\(..\)../\(..\)|#\1\2\3|'" t)))
-        (if (string= bg "#2f343f")
-            (set-light-theme t)
-          (set-light-theme nil)))
-    (set-light-theme t)))
-(provide 'is-light)
-
-(defun set-light-theme (use-light-theme)
-  "Customize Emacs theme depending on UI.
-Use a light color theme if USE-LIGHT-THEME and dark otherwise."
-  (if use-light-theme
-      (light-theme)
-    (dark-theme)))
-(provide 'set-light-theme)
+(defvar is-light-theme t)
 
 (defun light-theme ()
   "Apply a light GUI theme."
   (interactive)
+  (setq is-light-theme t)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-light t)
              (post-theme-customizations))
@@ -176,9 +168,12 @@ Use a light color theme if USE-LIGHT-THEME and dark otherwise."
            (post-theme-customizations))))
 (provide 'light-theme)
 
+;; ------------------------------------------------------------
+
 (defun dark-theme ()
   "Apply a dark GUI theme."
   (interactive)
+  (setq is-light-theme nil)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-dark t)
              (post-theme-customizations))
@@ -188,8 +183,24 @@ Use a light color theme if USE-LIGHT-THEME and dark otherwise."
 
 ;; ------------------------------------------------------------
 
+(defun set-theme (light)
+  "Customize Emacs theme depending on UI.
+Use a light color theme if LIGHT and dark otherwise."
+  (if light
+      (light-theme)
+    (dark-theme)))
+(provide 'set-theme)
 
+;; ------------------------------------------------------------
 
+(defun toggle-theme ()
+  "Switch between light and dark themes."
+  (interactive)
+  (setq is-light-theme (xor is-light-theme t))
+  (set-theme is-light-theme))
+(provide 'toggle-theme)
+
+;; ------------------------------------------------------------
 ;; ------------------------------------------------------------
 
 (provide 'my-lisp-functions)
