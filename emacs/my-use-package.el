@@ -69,8 +69,19 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x C-r" . helm-mini)
-         ("<f8>" . helm-mini)))
+         ("C-x M-r" . helm-all-the-things)
+         ("C-x C-r" . helm-for-files))
+  :init (require 'helm-config)
+  :config
+  (setq helm-lisp-fuzzy-completion t)
+  (defun helm-all-the-things ()
+    (interactive)
+    (helm :sources '(helm-source-locate
+                     helm-source-buffers-list
+                     helm-source-recentf)
+	  :fuzzy-match t
+          :buffer "*helm all the things*")))
+
 
 ;; ------------------------------------------------------------
 
@@ -244,7 +255,10 @@
   :init (global-flycheck-mode)
   :hook (flycheck-mode . flycheck-irony-setup)
   :bind (("C-<f9>" . flycheck-next-error)
-         ("M-<f9>" . flycheck-previous-error)))
+         ("M-<f9>" . flycheck-previous-error))
+  :config
+  (eval-after-load 'flycheck
+    '(require 'flycheck-matlab-mlint)))
 
 ;; ------------------------------------------------------------
 
@@ -270,6 +284,9 @@
   :mode ("\\.m$" . matlab-mode)
   :hook ((matlab-mode . (lambda () (matlab-cedet-setup)))
          (matlab-mode . (lambda () (mlint-minor-mode t))))
+  :init
+  (add-to-list 'load-path "~/.emacs.d/elpa/manual_install/")
+  (load "flycheck-matlab-mlint")
   :config
   (setq matlab-indent-function t
         matlab-show-mlint-warnings t
@@ -277,6 +294,14 @@
         matlab-shell-command-switches
         (list "-nosplash" "-nodesktop"))
   (autoload 'mlint-minor-mode "mlint" nil t))
+
+;; ------------------------------------------------------------
+
+;; Sudo edit mode
+;;
+(use-package sudo-edit
+  :ensure t
+  :bind ("C-c C-r" . sudo-edit))
 
 ;; ------------------------------------------------------------
 

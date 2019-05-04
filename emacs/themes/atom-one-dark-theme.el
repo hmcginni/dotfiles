@@ -30,7 +30,7 @@
     ("atom-one-dark-purple"   . "#C678DD")
     ("atom-one-dark-green"    . "#98C379")
     ("atom-one-dark-red-1"    . "#E06C75")
-    ("atom-one-dark-red-2"    . "#BE5046")
+    ("atom-one-dark-red-2"    . "#EF2929") ;BE5046
     ("atom-one-dark-orange-1" . "#D19A66")
     ("atom-one-dark-orange-2" . "#E5C07B")
     ("atom-one-dark-gray"     . "#3E4451")

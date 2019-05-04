@@ -131,16 +131,6 @@
 
 ;; ------------------------------------------------------------
 
-(defun refile-to (headline)
-  "Refile HEADLINE."
-  (interactive)
-  (let ((pos (save-excursion
-               org-todos-file
-               (org-find-exact-headline-in-buffer headline))))
-    (org-refile nil nil (list headline org-todos-file nil pos))))
-
-;; ------------------------------------------------------------
-
 (defun post-theme-customizations ()
   "Fix font weirdness."
   (interactive)
@@ -155,12 +145,12 @@
 ;; ------------------------------------------------------------
 ;; ------------------------------------------------------------
 
-(defvar is-light-theme t)
+(defvar global-is-light-theme t)
 
 (defun light-theme ()
   "Apply a light GUI theme."
   (interactive)
-  (setq is-light-theme t)
+  (setq global-is-light-theme t)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-light t)
              (post-theme-customizations))
@@ -173,7 +163,7 @@
 (defun dark-theme ()
   "Apply a dark GUI theme."
   (interactive)
-  (setq is-light-theme nil)
+  (setq global-is-light-theme nil)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-dark t)
              (post-theme-customizations))
@@ -196,8 +186,8 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun toggle-theme ()
   "Switch between light and dark themes."
   (interactive)
-  (setq is-light-theme (xor is-light-theme t))
-  (set-theme is-light-theme))
+  (setq global-is-light-theme (xor global-is-light-theme t))
+  (set-theme global-is-light-theme))
 (provide 'toggle-theme)
 
 ;; ------------------------------------------------------------

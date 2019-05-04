@@ -37,6 +37,7 @@ case "$TERM" in
 esac
 
 export hrmpc="BC:5F:F4:5A:77:41"
+export sofl1="28:f1:0e:52:44:88"
 GPG_TTY=$(tty)
 export GPG_TTY
 export PS1
@@ -70,7 +71,7 @@ alias ediff='emacs diff'
 alias open='_xdg_open'
 alias q='_quiet'
 alias qfind='_qfind'
-alias update='sudo apt autoclean && sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo snap refresh'
+alias update='sudo apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo snap refresh; sudo updatedb; echo "locate database updated."'
 alias vpn='_vpn'
 # alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 

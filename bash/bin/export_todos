@@ -33,7 +33,7 @@ _notify_export_success() {
 
 _main() {
     
-    local friday
+    local friday raw_task_file task_file
     friday=$(_get_friday_date)
     raw_task_file=$HOME/status/done.txt
     task_file=$HOME/status/"$friday"-done.txt
@@ -41,7 +41,8 @@ _main() {
     elisp_export_todos &>/dev/null
     _notify_export_success "$raw_task_file"
     
-    egrep DONE "$raw_task_file" | sed 's|.*DONE||;s|:.*:||' > "$task_file"
+    egrep DONE "$raw_task_file" | \
+	sed -E 's|.*DONE ||;s|^\[..\] ||;s|:[^ ]*:$||' > "$task_file"
     
 }
 

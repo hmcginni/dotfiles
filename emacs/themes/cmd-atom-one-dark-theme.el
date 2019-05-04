@@ -30,7 +30,7 @@
     ("cmd-atom-one-dark-purple"   . "#C678DD")
     ("cmd-atom-one-dark-green"    . "#98C379")
     ("cmd-atom-one-dark-red-1"    . "#E06C75")
-    ("cmd-atom-one-dark-red-2"    . "#BE5046")
+    ("cmd-atom-one-dark-red-2"    . "#EF2929") ;BE5046
     ("cmd-atom-one-dark-orange-1" . "#D19A66")
     ("cmd-atom-one-dark-orange-2" . "#E5C07B")
     ("cmd-atom-one-dark-gray"     . "#3E4451")

@@ -20,12 +20,11 @@
  '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(debug-on-error nil)
  '(display-time-mode nil)
+ '(flycheck-matlab-mlint-executable nil)
  '(flycheck-shellcheck-follow-sources nil)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)
  '(global-linum-mode t)
- '(helm-ff-file-name-history-use-recentf t)
- '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message
@@ -38,9 +37,7 @@
  '(line-spacing 1)
  '(linum-format "%4d  ")
  '(menu-bar-mode nil)
- '(mlint-programs
-   (quote
-    ("/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -56,6 +53,8 @@
  '(package-selected-packages
    (quote
     (systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+ '(recentf-auto-cleanup (quote never))
+ '(recentf-max-menu-items 20)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(server-mode nil)
@@ -130,6 +129,7 @@
 (global-set-key (kbd "C-b") 'switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "<f9>") 'toggle-theme)
+(global-set-key (kbd "s-k") 'kill-this-buffer)
 
 ;; Font
 ;;

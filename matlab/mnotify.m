@@ -3,27 +3,37 @@ function mnotify(title, msg)
     % MNOTIFY - Use `notify-send` to display message to user
     %
     
+    %% Parse inputs
+    %
+    
     if nargin == 1
         msg = title;
         title = 'MATLAB';
     end
+
+    %% Set `notify-send` args
+    %
     
     [status,~] = system('which notify-send');
     existNotifySend = ~status;
-    matlab_icon_path = get_matlab_icon_path();
+    icon = find_matlab_icon();
     
-    if ~isempty(matlab_icon_path)
-        png_flags = sprintf('-i %s', matlab_icon_path);
+    if exist(icon, 'file')
+        pngArgs = sprintf('-i %s', icon);
     else
-        png_flags = '';
+        pngArgs = '';
     end
     
     numWords = numel(regexp(msg,'\w*[ .]'));
     timeout = num2str(200*numWords + 4000);
-    opts = ['-t ', timeout, ' ', png_flags];
+    args = sprintf('-t %s %s', timeout, pngArgs);
+    
+    
+    %% Display Notification
+    %
     
     if existNotifySend
-        execStr = sprintf('notify-send %s "%s" "%s" &', opts, title, msg);
+        execStr = sprintf('notify-send %s "%s" "%s" &', args, title, msg);
         system(execStr);
     else
         fprintf('\n\t*** %s %s ***\n\n', title, msg);
@@ -33,16 +43,32 @@ end
 
 
 
-function icon = get_matlab_icon_path()
+function icon = find_matlab_icon()
+    %
+    % FIND_MATLAB_ICON - Find a MATLAB icon for notifications
+    %
     
-    icon = fullfile(matlabroot,'toolbox/nnet/nnresource/icons/matlab.png');
-    if ~exist(icon, 'file')
-        icons = mfind('~','-name','*[Mm][Aa][Tt][Ll][Aa][Bb]*.png');
+    if ispref('mnotify','icon') && exist( getpref('mnotify','icon'), 'file')
+        
+        icon = getpref('mnotify','icon');
+        return
+        
+    else
+   
+        addpref('mnotify','icon','');
+        
+        homeIcons = mfind('~','-name','*[Mm][Aa][Tt][Ll][Aa][Bb]*.png');
+        usrIcons = mfind('/usr/','-name','*[Mm][Aa][Tt][Ll][Aa][Bb]*.png');
+        icons = vertcat(homeIcons, usrIcons);
+        
         if isempty(icons)
             icon = '';
         else
             icon = icons(1);
         end
+        
+        setpref('mnotify','icon',icon);
+    
     end
     
 end
