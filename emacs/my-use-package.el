@@ -219,7 +219,7 @@
         org-mitg-file "~/org/mitg.org"
         org-gl-file "~/org/gl.org"
         org-log-done 'time
-        org-agenda-files '("~/org" "~/Dropbox/org"))
+        org-agenda-files '("~/org"))
   (setq org-capture-templates
         '(("m" "Meeting" entry (file+olp+datetree org-mitg-file)
            "* %?\n \n" :kill-buffer t)
@@ -255,10 +255,10 @@
   :init (global-flycheck-mode)
   :hook (flycheck-mode . flycheck-irony-setup)
   :bind (("C-<f9>" . flycheck-next-error)
-         ("M-<f9>" . flycheck-previous-error))
-  :config
-  (eval-after-load 'flycheck
-    '(require 'flycheck-matlab-mlint)))
+         ("M-<f9>" . flycheck-previous-error)))
+  ;; :config
+  ;; (eval-after-load 'flycheck
+  ;;   '(require 'flycheck-matlab-mlint)))
 
 ;; ------------------------------------------------------------
 
@@ -285,8 +285,8 @@
   :hook ((matlab-mode . (lambda () (matlab-cedet-setup)))
          (matlab-mode . (lambda () (mlint-minor-mode t))))
   :init
-  (add-to-list 'load-path "~/.emacs.d/elpa/manual_install/")
-  (load "flycheck-matlab-mlint")
+  ;; (add-to-list 'load-path "~/.emacs.d/elpa/manual_install/")
+  ;; (load "flycheck-matlab-mlint")
   :config
   (setq matlab-indent-function t
         matlab-show-mlint-warnings t
