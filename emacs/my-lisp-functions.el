@@ -15,7 +15,6 @@
 ;; Try to fix Emacs colors in tmux
 (defun terminal-init-screen ()
   "Terminal initialization function for screen."
-  ;; Use the xterm color initialization code.
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
