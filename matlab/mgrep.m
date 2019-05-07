@@ -1,29 +1,7 @@
-function matchList = mgrep(flags, regex, file)
+function matchList = mgrep(varargin)
     %
     % MGREP - MATLAB wrapper to `bash` GREP utility
     %
-    
-    %% Parse Input
-    %
-    % Allow for two inputs, e.g.
-    %   $ grep -rn <pattern>
-    %   $ grep <pattern> <file>
-    
-    if nargin == 2
-        
-        if ~isempty(regexp(flags,'^-.*r.*','ONCE'))
-            file = '';
-        else
-            file = regex;
-            regex = flags;
-            flags = '';
-        end
-        
-    end
-    
-    if ~exist( file, 'file' ) && ~isempty(file)
-        error(['File "', file, '" could not be found.']);
-    end
     
     %% Verify GREP is on the system PATH
     
@@ -32,12 +10,13 @@ function matchList = mgrep(flags, regex, file)
     end
     
     %% Call FIND builtin and parse results
+    grepArgs = repmat('%s ', 1, nargin);
+    systemCmdFmt = sprintf('grep -E %s 2>/dev/null', grepArgs);
+    systemCmd = sprintf(systemCmdFmt, varargin{:});
     
-    systemCmd = sprintf('grep -E %s "%s" %s 2>/dev/null', flags, regex, file);
+    [status, matchList] = system(systemCmd);
     
-    [~, matchList] = system(systemCmd);
-    
-    if isempty(matchList)
+    if status
         matchList = string.empty(0,1);
         return
     end

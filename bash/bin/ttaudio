@@ -1,11 +1,7 @@
 #!/bin/bash
 #
-# Connect to (and enable) TaoTronics BH-040 Wireless Headphones
+# TTAUDIO - Connect to (and enable) TaoTronics BH-040 Wireless Headphones
 #
-#
-#   Custom Dependencies:  pulseaudio pulseaudio-equalizer bluetoothctl
-#
-
 
 source ~/lib/bash/utils
 bluetooth on &>/dev/null
@@ -18,27 +14,32 @@ connectCmd="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
 bluetoothCmd="${agentCmd}${disconnectCmd}${connectCmd}"
 
 
-# Send command and wait for successful connection ------------------------------
+#
+# Send command and wait for successful connection
 #
 
 sinks="$(pactl list sinks short)"
-if [[ -z $(grep "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks") ]]; then
+if ! grep -q "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks"
+then
     echo -e "$bluetoothCmd" | bluetoothctl &>/dev/null
-    
-    while [[ -z $(awk '/bluez/ {print $2}' <<< "$sinks") ]]; do
-	sleep 0.5
+    while ! grep -q "bluez" <<< "$sinks"
+    do
+	sleep 1
 	sinks="$(pactl list sinks short)"
-	if (( SECONDS >= timeout )); then
+	if (( SECONDS >= timeout ))
+	then
 	    errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
 	    utils.nerrorf "Error connecting to headphones" "$errStr"
-	fi    
+	fi
     done
     utils.notify "Connected to Bluetooth Device" "Connected to TT-BH040"
 else
     utils.notify "Connected to Bluetooth Device" "Already connected to TT-BH040"
 fi
 
-# Set headphones as default output device & enable EQ --------------------------
+
+#
+# Set headphones as default output device & enable EQ
 #
 
 printf "Connected to %s\n" "$ttMAC"

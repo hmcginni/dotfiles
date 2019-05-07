@@ -12,7 +12,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(adaptive-wrap-extra-indent 2)
+ '(adaptive-wrap-extra-indent 3)
  '(column-number-mode t)
  '(cursor-type (quote (bar . 1)))
  '(custom-safe-themes t)
@@ -52,12 +52,11 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
- '(server-mode nil)
  '(show-paren-mode t)
  '(speedbar-frame-parameters
    (quote
@@ -107,8 +106,6 @@
 
 ;; Add to list
 ;;
-;; (add-to-list 'default-frame-alist '(height . 40)) ; --- default window size
-;; (add-to-list 'default-frame-alist '(width . 83))
 (add-to-list 'command-switch-alist '("diff" . command-line-diff)) ; --- diff cmd
 
 ;; Global keyboard shortcuts
@@ -128,13 +125,13 @@
 (global-set-key (kbd "C-S-r") 'reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'comment-or-uncomment-region-or-line)
-(global-set-key (kbd "<f9>") 'toggle-theme)
-(global-set-key (kbd "s-k") 'kill-this-buffer)
+(global-set-key (kbd "<f8>") 'toggle-theme)
+(global-set-key (kbd "C-<f4>") 'kill-this-buffer)
 
 ;; Font
 ;;
 ;; (set-frame-font "Input:pixelsize=12")
-;; (set-frame-font "SF Mono:pixelsize=12:weight=medium")
+(set-frame-font "SF Mono:pixelsize=12:weight=medium")
 ;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
 ;; (set-frame-font "Inconsolata:pixelsize=14")
 

@@ -231,7 +231,7 @@
         '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
           (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
   (setq org-agenda-custom-commands
-        '(("w" agenda ""
+        '(("w" "Completed TODOs this week" agenda ""
            ((org-agenda-span 7)
             (org-agenda-start-with-log-mode t)
             (org-agenda-skip-function
