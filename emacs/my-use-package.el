@@ -39,17 +39,6 @@
 (use-package diminish
   :ensure t)
 
-;; ------------------------------------------------------------
-
-;; Recent file list
-;;
-(use-package recentf
-  :ensure t
-  :bind ("C-x C-r" . recentf-open-files)
-  :config
-  (setq recentf-max-menu-items 20))
-
-;; ------------------------------------------------------------
 
 ;; Automatically update packages
 ;;
@@ -62,7 +51,6 @@
         auto-package-update-prompt-before-update nil)
   (auto-package-update-maybe))
 
-;; ------------------------------------------------------------
 
 ;; Helm
 ;;
@@ -83,22 +71,18 @@
           :buffer "*helm all the things*")))
 
 
-;; ------------------------------------------------------------
-
 ;; Speedbar
 ;;
 (use-package sr-speedbar
   :ensure t
   :bind ("<f10>" . sr-speedbar-toggle))
 
-;; ------------------------------------------------------------
 
 ;; Adaptive Wrap
 ;;
 (use-package adaptive-wrap
   :ensure t)
 
-;; ------------------------------------------------------------
 
 ;; Neotree mode
 ;;
@@ -110,15 +94,6 @@
   (setq neo-smart-open t)
   (setq neo-theme 'ascii))
 
-;; ------------------------------------------------------------
-
-;; Org-bullets mode
-(use-package org-bullets
-  :ensure t
-  :requires org
-  :diminish)
-
-;; ------------------------------------------------------------
 
 ;; Transpose frame
 ;;
@@ -126,7 +101,6 @@
   :ensure t
   :bind ("C-x t" . transpose-frame))
 
-;; ------------------------------------------------------------
 
 ;; Flyspell mode
 ;;
@@ -144,7 +118,6 @@
     (flyspell-goto-next-error)
     (ispell-word)))
 
-;; ------------------------------------------------------------
 
 ;; Company mode
 ;;
@@ -155,24 +128,25 @@
   :hook (;(after-init . global-company-mode)
          (c++-mode . company-mode)
          (c-mode . company-mode)
-         (emacs-lisp-mode . company-mode))
-  :config
-  ;; (defvaralias 'c-basic-offset 'tab-width)
-  ;; (defvaralias 'cperl-indent-level 'tab-width)
-  ;; Company Irony
-  (use-package company-irony
-    :ensure t
-    :config
-    (eval-after-load 'company
-      '(add-to-list 'company-backends 'company-irony)))
-  ;; Company C Headers
-  (use-package company-c-headers
-    :ensure t
-    :config
-    (eval-after-load 'company
-      '(add-to-list 'company-backends 'company-c-headers))))
+         (emacs-lisp-mode . company-mode)))
+;; :config
+;; (defvaralias 'c-basic-offset 'tab-width)
+;; (defvaralias 'cperl-indent-level 'tab-width)
 
-;; ------------------------------------------------------------
+;; Company Irony
+(use-package company-irony
+  :ensure t
+  :config
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-irony)))
+;; Company C Headers
+
+(use-package company-c-headers
+  :ensure t
+  :config
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-c-headers)))
+
 
 ;; Irony mode
 ;;
@@ -183,7 +157,6 @@
          (objc-mode . irony-mode)
          (irony-mode . irony-cdb-autosetup-compile-options)))
 
-;; ------------------------------------------------------------
 
 ;; Flycheck Irony mode
 ;;
@@ -191,7 +164,19 @@
   :ensure t
   :requires irony)
 
-;; ------------------------------------------------------------
+
+;; Flycheck mode
+;;
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode)
+  :hook (flycheck-mode . flycheck-irony-setup)
+  :bind (("C-<f9>" . flycheck-next-error)
+         ("M-<f9>" . flycheck-previous-error)))
+  ;; :config
+  ;; (eval-after-load 'flycheck
+  ;;   '(require 'flycheck-matlab-mlint)))
+
 
 ;; Smooth scrolling mode
 ;;
@@ -202,7 +187,6 @@
   (setq smooth-scroll-margin 15)
   (setq scroll-preserve-screen-position 1))
 
-;; ------------------------------------------------------------
 
 ;; Org mode
 ;;
@@ -238,36 +222,25 @@
              '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:mdt:")))
            ("~/status/done.txt"))))
   :config
-  ;; Org mode LaTeX export
-  (use-package ox-latex
-    :requires org)
   ;; Org mode JIRA export
+  ;;
   (use-package ox-jira
     :ensure t
-    :requires org))
+    :requires org)
+  
+  ;; Org-bullets mode
+  ;;
+  (use-package org-bullets
+    :ensure t
+    :requires org
+    :diminish))
 
-;; ------------------------------------------------------------
-
-;; Flycheck mode
-;;
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode)
-  :hook (flycheck-mode . flycheck-irony-setup)
-  :bind (("C-<f9>" . flycheck-next-error)
-         ("M-<f9>" . flycheck-previous-error)))
-  ;; :config
-  ;; (eval-after-load 'flycheck
-  ;;   '(require 'flycheck-matlab-mlint)))
-
-;; ------------------------------------------------------------
 
 ;; Systemd Unit mode
 ;;
 (use-package systemd
   :ensure t)
 
-;; ------------------------------------------------------------
 
 ;; JSON mode
 ;;
@@ -276,7 +249,6 @@
   :interpreter "js"
   :ensure t)
 
-;; ------------------------------------------------------------
 
 ;; MATLAB mode
 ;;
@@ -295,7 +267,6 @@
         (list "-nosplash" "-nodesktop"))
   (autoload 'mlint-minor-mode "mlint" nil t))
 
-;; ------------------------------------------------------------
 
 ;; Sudo edit mode
 ;;
@@ -303,7 +274,21 @@
   :ensure t
   :bind ("C-c C-r" . sudo-edit))
 
-;; ------------------------------------------------------------
+
+;; CMake modes
+;;
+(use-package cmake-font-lock
+  :ensure t
+  :hook (cmake-mode . cmake-font-lock-activate)
+  :config (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
+
+(use-package cmake-mode
+  :ensure t)
+
+(use-package cmake-ide
+  :ensure t
+  :config (cmake-ide-setup))
+
 
 (provide 'my-use-package)
 ;;; my-use-package ends here
