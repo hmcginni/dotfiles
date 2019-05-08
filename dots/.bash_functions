@@ -75,7 +75,7 @@ _parse_git_branch() {
 
 
 _quiet() {
-    ("$@") &>/dev/null &
+    ("$*") &>/dev/null & disown
 }
 
 

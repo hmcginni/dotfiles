@@ -29,7 +29,9 @@ reset="\[\e[00m\]"
 
 case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
-	PS1="\n${blue}\u${gray} @ ${green}\h${gray} ∈ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
+	PS1="\n${blue}\u${gray} @ ${green}\h${gray} →source ~/.bashrc
+clear
+ ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
 	;;
     *)
 	PS1="> "

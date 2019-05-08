@@ -10,6 +10,7 @@ function matchList = mgrep(varargin)
     end
     
     %% Call FIND builtin and parse results
+
     grepArgs = repmat('%s ', 1, nargin);
     systemCmdFmt = sprintf('grep -E %s 2>/dev/null', grepArgs);
     systemCmd = sprintf(systemCmdFmt, varargin{:});
