@@ -28,17 +28,19 @@ complete -F _fzf_branch -o default -o bashdefault "gc"
 # GIT_PUSH_WRAPPER - simplify git pushes
 #
 _git_push_wrapper() {
-    if [[ $PWD =~ hrmutils ]]; then
-	if [[ $1 == "now" ]]; then
+    if [[ $PWD =~ hrmutils ]]
+    then
+	if [[ $1 == "now" ]]
+	then
 	    commitMsg="[m] $(date '+%Y%m%d %I:%M%p') update"
 	else
 	    commitMsg="$*"
 	fi
 	
-    echo "$commitMsg"
-    git commit -a -m "$commitMsg"
-    git push
-    
+	echo "$commitMsg"
+	git commit -a -m "$commitMsg"
+	git push
+	
     else
 	echo "git push not possible here."
     fi
@@ -51,11 +53,13 @@ _git_push_wrapper() {
 _ml_wrapper() {
     export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk-amd64/jre
 
-    if [[ $1 == "gui" ]]; then
+    if [[ $1 == "gui" ]]
+    then
 	shift
 	notify-send "Starting MATLAB..." "nohup matlab -desktop -nosplash $* &>/dev/null &"
 	nohup matlab -desktop -nosplash "$@" &>/dev/null &
-    elif [[ $1 == "cmd" ]]; then
+    elif [[ $1 == "cmd" ]]
+    then
 	shift
 	notify-send "Starting MATLAB..." "matlab -nosplash -nodesktop $*"
 	matlab -nosplash -nodesktop "$*"
@@ -71,7 +75,8 @@ _ml_wrapper() {
 #
 _parse_git_branch() {
     branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
-    if [[ -n $branch ]]; then
+    if [[ -n $branch ]]
+    then
 	printf "\n ⌥ ⎇ : %s" "$branch"
     fi
 }
@@ -97,12 +102,14 @@ _quiet() {
 # TMUX_GO - simplify tmux actions
 #
 _tmux_go() {
-    if [[ $# == 0 ]]; then
+    if [[ $# == 0 ]]
+    then
 	operation="list-sessions"
 	tmux_args="$operation"
     else
 
-	if [[ -n $TMUX ]]; then
+	if [[ -n $TMUX ]]
+	then
 	    operation="switch -t" # If we're in TMUX, switch to specified session
 	else
 	    operation="new -A -s" # If we're not in TMUX, either attach or create
@@ -119,7 +126,8 @@ _tmux_go() {
 #
 _tmux_run() {
     tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
-    if [[ -z "$TMUX" ]]; then
+    if [[ -z "$TMUX" ]]
+    then
 	source ~/.bashrc
     fi
 }
@@ -138,7 +146,8 @@ _xdg_open() {
 #
 _vpn() {
     option="$1"
-    if [[ -z $option ]]; then
+    if [[ -z $option ]]
+    then
 	option="status"
     fi
     
