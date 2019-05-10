@@ -53,6 +53,7 @@ alias tk='tmux kill-session -t'
 alias tt='_tmux_run "source ~/.bashrc"'
 
 # git
+alias gc='git checkout'
 alias gp='_git_push_wrapper'
 alias gg='_git_push_wrapper now'
 alias gitupdate='git pull; git submodule sync; git submodule update --recursive'

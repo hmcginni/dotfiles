@@ -5,7 +5,7 @@
 
 ;;; Code:
 
-(defun narrow-window ()
+(defun hrm/narrow-window ()
   "Resize Emacs."
   (interactive)
   (set-frame-width (selected-frame) 86))
@@ -13,14 +13,14 @@
 ;; ------------------------------------------------------------
 
 ;; Try to fix Emacs colors in tmux
-(defun terminal-init-screen ()
+(defun hrm/terminal-init-screen ()
   "Terminal initialization function for screen."
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
 ;; ------------------------------------------------------------
 
-(defun move-line-up ()
+(defun hrm/move-line-up ()
   "Move up the current line."
   (interactive)
   (transpose-lines 1)
@@ -29,7 +29,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun move-line-down ()
+(defun hrm/move-line-down ()
   "Move down the current line."
   (interactive)
   (forward-line 1)
@@ -39,7 +39,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun xor (a b)
+(defun hrm/xor (a b)
   "XOR of inputs A and B."
   (and (not (and a b))
        (or a b)))
@@ -47,7 +47,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun narrow-to-eof ()
+(defun hrm/narrow-to-eof ()
   "Narrow from (point) to end-of-file."
   (interactive)
   (save-excursion
@@ -57,7 +57,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun comment-or-uncomment-region-or-line ()
+(defun hrm/comment-or-uncomment-region-or-line ()
   "Comment or uncomment a region/line."
   (interactive)
   (let (beg end)
@@ -70,7 +70,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun file-name-on-clipboard ()
+(defun hrm/file-name-on-clipboard ()
   "Copy current buffer to clipboard."
   (interactive)
   (let ((filename
@@ -87,21 +87,21 @@
 
 ;; ------------------------------------------------------------
 
-(defun switch-to-previous-buffer ()
+(defun hrm/switch-to-previous-buffer ()
   "Switch to previous buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 ;; ------------------------------------------------------------
 
-(defun reload-emacs-init-file ()
+(defun hrm/reload-emacs-init-file ()
   "Reload Emacs."
   (interactive)
   (load-file "~/.emacs.d/init.el") )
 
 ;; ------------------------------------------------------------
 
-(defun date-command-on-buffer ()
+(defun hrm/date-command-on-buffer ()
   "Print date in 'ddMMMyyyy' form."
   (interactive)
   (shell-command "printf '%s' $(date +%Y%m%d)" t)
@@ -109,7 +109,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun generate-new-filename (path)
+(defun hrm/generate-new-filename (path)
   "Create a new date-stamped filename in PATH."
   (interactive)
   (let ((name (read-string
@@ -122,7 +122,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun command-line-diff ()
+(defun hrm/command-line-diff ()
   "Start diff from Command Line."
   (let ((file1 (pop command-line-args-left))
         (file2 (pop command-line-args-left)))
@@ -130,7 +130,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun post-theme-customizations ()
+(defun hrm/post-theme-customizations ()
   "Fix font weirdness."
   (interactive)
   (set-face-attribute
@@ -144,49 +144,49 @@
 ;; ------------------------------------------------------------
 ;; ------------------------------------------------------------
 
-(defvar global-is-light-theme t)
+(defvar hrm/global-is-light-theme t)
 
-(defun light-theme ()
+(defun hrm/light-theme ()
   "Apply a light GUI theme."
   (interactive)
-  (setq global-is-light-theme t)
+  (setq hrm/global-is-light-theme t)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-light t)
-             (post-theme-customizations))
+             (hrm/post-theme-customizations))
     (progn (load-theme 'cmd-atom-one-light t)
-           (post-theme-customizations))))
+           (hrm/post-theme-customizations))))
 (provide 'light-theme)
 
 ;; ------------------------------------------------------------
 
-(defun dark-theme ()
+(defun hrm/dark-theme ()
   "Apply a dark GUI theme."
   (interactive)
-  (setq global-is-light-theme nil)
+  (setq hrm/global-is-light-theme nil)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-dark t)
-             (post-theme-customizations))
+             (hrm/post-theme-customizations))
     (progn (load-theme 'cmd-atom-one-dark t)
-           (post-theme-customizations))))
+           (hrm/post-theme-customizations))))
 (provide 'dark-theme)
 
 ;; ------------------------------------------------------------
 
-(defun set-theme (light)
+(defun hrm/set-theme (light)
   "Customize Emacs theme depending on UI.
 Use a light color theme if LIGHT and dark otherwise."
   (if light
-      (light-theme)
-    (dark-theme)))
+      (hrm/light-theme)
+    (hrm/dark-theme)))
 (provide 'set-theme)
 
 ;; ------------------------------------------------------------
 
-(defun toggle-theme ()
+(defun hrm/toggle-theme ()
   "Switch between light and dark themes."
   (interactive)
-  (setq global-is-light-theme (xor global-is-light-theme t))
-  (set-theme global-is-light-theme))
+  (setq hrm/global-is-light-theme (hrm/xor hrm/global-is-light-theme t))
+  (hrm/set-theme hrm/global-is-light-theme))
 (provide 'toggle-theme)
 
 ;; ------------------------------------------------------------

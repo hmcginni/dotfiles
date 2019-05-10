@@ -5,19 +5,28 @@
 #
 
 
-# ---------------------------- #
+#
 # COPY - add line to clipboard
-
-
+#
 _copy(){
     tr -d '\n' <<< "$1" | xclip -selection clipboard
 }
 
 
-# ---------------------------- #
+#
+# FZF_COMPLETE_GIT_CHECKOUT - fuzzy branch completion in Git
+#
+_fzf_branch() {
+    
+    FZF_COMPLETION_TRIGGER=''
+    _fzf_complete "--height=10 --reverse" "$@" < <(git branch -a)
+}
+complete -F _fzf_branch -o default -o bashdefault "gc"
+
+
+#
 # GIT_PUSH_WRAPPER - simplify git pushes
-
-
+#
 _git_push_wrapper() {
     if [[ $PWD =~ hrmutils ]]; then
 	if [[ $1 == "now" ]]; then
@@ -36,10 +45,9 @@ _git_push_wrapper() {
 }
 
 
-# ---------------------------- #
+#
 # ML_WRAPPER - launch MATLAB with preferred Java version
-
-
+#
 _ml_wrapper() {
     export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk-amd64/jre
 
@@ -58,10 +66,9 @@ _ml_wrapper() {
 }
 
 
-# ---------------------------- #
+#
 # PARSE_GIT_BRANCH - add current Git branch to bash prompt
-
-
+#
 _parse_git_branch() {
     branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
     if [[ -n $branch ]]; then
@@ -70,28 +77,25 @@ _parse_git_branch() {
 }
 
 
-# ---------------------------- #
-# QUIET - run command quietly in the background
-
-
-_quiet() {
-    ("$*") &>/dev/null & disown
-}
-
-
-# ---------------------------- #
+#
 # QFIND - find without errors
-
-
+#
 _qfind() {
     find "$@" 2>/dev/null
 }
 
 
-# ---------------------------- #
+#
+# QUIET - run command quietly in the background
+#
+_quiet() {
+    ("$*") &>/dev/null & disown
+}
+
+
+#
 # TMUX_GO - simplify tmux actions
-
-
+#
 _tmux_go() {
     if [[ $# == 0 ]]; then
 	operation="list-sessions"
@@ -110,10 +114,9 @@ _tmux_go() {
 }
 
 
-# ---------------------------- #
+#
 # TMUX_RUN - run command in all tmux panes
-
-
+#
 _tmux_run() {
     tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
     if [[ -z "$TMUX" ]]; then
@@ -122,19 +125,17 @@ _tmux_run() {
 }
 
 
-# ---------------------------- #
+#
 # XDG_OPEN - quietly open file with the default application
-
-
+#
 _xdg_open() {
     nohup xdg-open "$1" &>/dev/null &
 }
 
 
-# ---------------------------- #
+#
 # VPN - wrapper function to control the MDTVPN systemd service
-
-
+#
 _vpn() {
     option="$1"
     if [[ -z $option ]]; then

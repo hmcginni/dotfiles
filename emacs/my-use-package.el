@@ -57,12 +57,12 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x M-r" . helm-all-the-things)
+         ("C-x M-r" . hrm\helm-all-the-things)
          ("C-x C-r" . helm-for-files))
   :init (require 'helm-config)
   :config
   (setq helm-lisp-fuzzy-completion t)
-  (defun helm-all-the-things ()
+  (defun hrm\helm-all-the-things ()
     (interactive)
     (helm :sources '(helm-source-locate
                      helm-source-buffers-list
@@ -107,12 +107,12 @@
 (use-package flyspell
   :ensure t
   :bind (("C-<f9>" . flyspell-check-next-highlighted-word)
-         ("M-<f9>" . flyspell-check-previous-highlighted-word))
+         ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
   :hook ((c++-mode . flyspell-prog)
          (text-mode . flyspell-mode)
          (org-mode . flyspell-mode))
   :config
-  (defun flyspell-check-next-highlighted-word ()
+  (defun hrm\flyspell-check-next-highlighted-word ()
     "Custom function to spell check next highlighted word"
     (interactive)
     (flyspell-goto-next-error)
@@ -194,6 +194,7 @@
   :ensure t
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda)
+	 ("C-c n" . (lambda () (interactive) (org-capture nil "n")))
          ("C-c m" . (lambda () (interactive) (org-capture nil "m")))
          ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
          ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
@@ -202,6 +203,7 @@
   (setq org-todos-file "~/org/todos.org"
         org-mitg-file "~/org/mitg.org"
         org-gl-file "~/org/gl.org"
+	org-notes-file "~/Dropbox/org/notes.org"
         org-log-done 'time
         org-agenda-files '("~/org"))
   (setq org-capture-templates
