@@ -19,7 +19,7 @@ apt_package_installer() {
     sudo apt update
     sudo apt upgrade -y
     
-    sudo apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor
+    sudo apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor debhelper libfreetype6-dev libx11-dev libxext-dev libxft-dev pkg-config
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     

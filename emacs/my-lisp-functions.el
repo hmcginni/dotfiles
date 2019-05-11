@@ -147,13 +147,12 @@
   (interactive)
   (let ((scratch "*scratch*"))
     (if (get-buffer scratch)
-	(switch-to-buffer scratch)
+        (switch-to-buffer scratch)
       (switch-to-buffer scratch)
       (insert initial-scratch-message))))
 (provide 'hrm/switch-to-scratch)
 
 
-;; ------------------------------------------------------------
 ;; ------------------------------------------------------------
 
 (defvar hrm/global-is-light-theme t)
@@ -165,11 +164,9 @@
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-light t)
              (hrm/post-theme-customizations))
-    (progn (load-theme 'cmd-atom-one-light t)
-           (hrm/post-theme-customizations))))
+    (load-theme 'cmd-atom-one-light t)
+    (hrm/post-theme-customizations)))
 (provide 'light-theme)
-
-;; ------------------------------------------------------------
 
 (defun hrm/dark-theme ()
   "Apply a dark GUI theme."
@@ -178,11 +175,9 @@
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-dark t)
              (hrm/post-theme-customizations))
-    (progn (load-theme 'cmd-atom-one-dark t)
-           (hrm/post-theme-customizations))))
+    (load-theme 'cmd-atom-one-dark t)
+    (hrm/post-theme-customizations)))
 (provide 'dark-theme)
-
-;; ------------------------------------------------------------
 
 (defun hrm/set-theme (light)
   "Customize Emacs theme depending on UI.
@@ -192,8 +187,6 @@ Use a light color theme if LIGHT and dark otherwise."
     (hrm/dark-theme)))
 (provide 'set-theme)
 
-;; ------------------------------------------------------------
-
 (defun hrm/toggle-theme ()
   "Switch between light and dark themes."
   (interactive)
@@ -201,7 +194,6 @@ Use a light color theme if LIGHT and dark otherwise."
   (hrm/set-theme hrm/global-is-light-theme))
 (provide 'toggle-theme)
 
-;; ------------------------------------------------------------
 ;; ------------------------------------------------------------
 
 (provide 'my-lisp-functions)

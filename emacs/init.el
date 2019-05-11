@@ -132,7 +132,7 @@
 ;; Font
 ;;
 ;; (set-frame-font "Input:pixelsize=12")
-(set-frame-font "SF Mono:size=15:weight=medium")
+(set-frame-font "SF Mono:size=15:width=extra-condensed:weight=regular")
 ;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
 ;; (set-frame-font "Inconsolata:pixelsize=14")
 
