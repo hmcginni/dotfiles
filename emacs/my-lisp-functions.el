@@ -57,7 +57,7 @@
 
 ;; ------------------------------------------------------------
 
-(defun hrm/comment-or-uncomment-region-or-line ()
+(defun hrm/toggle-comment-region ()
   "Comment or uncomment a region/line."
   (interactive)
   (let (beg end)
@@ -140,6 +140,18 @@
    'mode-line-inactive nil
    :font "IBM Plex Sans:pixelsize=12:weight=medium:slant=italic" ))
 (provide 'post-theme-customizations)
+
+
+(defun hrm/switch-to-scratch ()
+  "Go to the *scratch* buffer."
+  (interactive)
+  (let ((scratch "*scratch*"))
+    (if (get-buffer scratch)
+	(switch-to-buffer scratch)
+      (switch-to-buffer scratch)
+      (insert initial-scratch-message))))
+(provide 'hrm/switch-to-scratch)
+
 
 ;; ------------------------------------------------------------
 ;; ------------------------------------------------------------

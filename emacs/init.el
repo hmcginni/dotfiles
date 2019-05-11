@@ -124,14 +124,15 @@
 (global-set-key (kbd "C-c M-d") 'hrm/date-command-on-buffer)
 (global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
-(global-set-key (kbd "C-x C-g") 'hrm/comment-or-uncomment-region-or-line)
+(global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
-(global-set-key (kbd "C-<f4>") 'hrm/kill-this-buffer)
+(global-set-key (kbd "C-<f4>") 'kill-this-buffer)
+(global-set-key (kbd "C-c C-b") 'hrm/switch-to-scratch)
 
 ;; Font
 ;;
 ;; (set-frame-font "Input:pixelsize=12")
-(set-frame-font "SF Mono:pixelsize=12:weight=medium")
+(set-frame-font "SF Mono:size=15:weight=medium")
 ;; (set-frame-font "Roboto Mono:pixelsize=12:weight=medium")
 ;; (set-frame-font "Inconsolata:pixelsize=14")
 
