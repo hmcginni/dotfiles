@@ -37,7 +37,7 @@
  '(line-spacing 1)
  '(linum-format "%4d  ")
  '(menu-bar-mode nil)
- '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(mlint-programs (quote ("/usr/local/bin/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
