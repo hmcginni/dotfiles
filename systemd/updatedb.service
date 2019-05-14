@@ -1,0 +1,9 @@
+[Unit]
+Description=UpdateDB Service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/updatedb
+
+[Install]
+WantedBy=default.target

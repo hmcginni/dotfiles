@@ -1,0 +1,9 @@
+[Unit]
+Description=UpdateDB Timer
+
+[Timer]
+OnStartupSec=1min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
