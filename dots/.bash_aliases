@@ -68,7 +68,7 @@ alias mlc='_ml_wrapper cmd'
 
 # others
 alias copy='_copy'
-alias ediff='emacs diff'
+alias ediff='_ediff'
 alias open='_xdg_open'
 alias q='_quiet'
 alias qfind='_qfind'

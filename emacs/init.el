@@ -104,9 +104,6 @@
       ediff-window-setup-function 'ediff-setup-windows-plain
       frame-title-format (list "GNU Emacs • %b • " (getenv "USER")))
 
-;; Add to list
-;;
-(add-to-list 'command-switch-alist '("diff" . command-line-diff)) ; --- diff cmd
 
 ;; Global keyboard shortcuts
 ;;
@@ -131,8 +128,8 @@
 
 ;; Font
 ;;
-;; (set-frame-font "SF Mono:size=12:width=extra-condensed:weight=regular")
-(hrm/set-scaled-font "SF Mono")
+(if (display-graphic-p)
+    (hrm/set-scaled-font "SF Mono"))
 
 
 ;; =============================================================================

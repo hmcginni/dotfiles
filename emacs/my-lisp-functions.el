@@ -122,14 +122,6 @@
 
 ;; ------------------------------------------------------------
 
-(defun hrm/command-line-diff ()
-  "Start diff from Command Line."
-  (let ((file1 (pop command-line-args-left))
-        (file2 (pop command-line-args-left)))
-    (ediff file1 file2)))
-
-;; ------------------------------------------------------------
-
 (defun hrm/switch-to-scratch ()
   "Go to the *scratch* buffer."
   (interactive)
@@ -198,15 +190,17 @@ Use a light color theme if LIGHT and dark otherwise."
   (interactive)
   (let* ((attrs (car (display-monitor-attributes-list)))
          (display-size (assoc 'mm-size attrs))
-         (display-x (/ (cadr display-size) 25.4))
+         (display-x (/ (cadr display-size)
+                       25.4))
          (resolution (cdr (assoc 'geometry attrs)))
          (resolution-x (cadr (cdr resolution)))
-         (dpi (/ resolution-x display-x)))
+         (dpi (/ resolution-x
+                 display-x)))
+    (message "DPI: %f" dpi)
     dpi))
 
-(defun hrm/scale-font-wrt-dpi ()
+(defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
-  (interactive)
   (let ((dpi (hrm/get-dpi)))
     (cond ((< dpi 135) 12)
           ((< dpi 145) 13)
@@ -215,8 +209,9 @@ Use a light color theme if LIGHT and dark otherwise."
 
 (defun hrm/set-scaled-font (face)
   "Set the scaled font spec string for the specified FACE."
-  (let* ((size (hrm/scale-font-wrt-dpi) )
-         (font (format "%s:size=%d:width=extra-condensed:weight=regular" face size)))
+  (let* ((size (hrm/scale-font-for-dpi))
+         (font (format
+                "%s:size=%d:width=extra-condensed:weight=medium" face size)))
     (set-frame-font font)))
     
 ;;

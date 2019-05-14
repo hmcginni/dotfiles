@@ -14,12 +14,21 @@ _copy(){
 
 
 #
+# EDIFF - Launch Emacs with ediff-files
+#
+_ediff() {
+    file1=$1
+    file2=$2
+    emacs --eval "(ediff-files \"$file1\" \"$file2\")"
+}
+
+
+#
 # FZF_COMPLETE_GIT_CHECKOUT - fuzzy branch completion in Git
 #
 _fzf_branch() {
-    
-    FZF_COMPLETION_TRIGGER=''
-    _fzf_complete "--height=10 --reverse" "$@" < <(git branch -a)
+    FZF_COMPLETION_TRIGGER='' _fzf_complete \
+			  "--height=10 --reverse" "$@" < <(git branch -a)
 }
 complete -F _fzf_branch -o default -o bashdefault "gc"
 

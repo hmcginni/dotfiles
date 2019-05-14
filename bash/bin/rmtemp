@@ -2,8 +2,11 @@
 #
 # Delete Temporary Files
 
-rootDir="$HOME"
-notify-send "rmtemp" "Deleting temp files ..."
-find "$rootDir" -type f -name "*[~#]" -delete 2>/dev/null
-find "$rootDir" -xtype l -delete 2>/dev/null
+root_dir="$HOME"
+org_dir="$root_dir"/org
 
+notify-send "rmtemp" "Deleting temp files ..."
+
+find "$root_dir" -type f -name "*[~#]" -delete 2>/dev/null
+find "$root_dir" -xtype l -delete 2>/dev/null
+find "$org_dir" -type f -name "*.html" -delete 2>/dev/null
