@@ -43,7 +43,7 @@
   "XOR of inputs A and B."
   (and (not (and a b))
        (or a b)))
-(provide 'xor)
+
 
 ;; ------------------------------------------------------------
 
@@ -130,6 +130,22 @@
 
 ;; ------------------------------------------------------------
 
+(defun hrm/switch-to-scratch ()
+  "Go to the *scratch* buffer."
+  (interactive)
+  (let ((scratch "*scratch*"))
+    (if (get-buffer scratch)
+        (switch-to-buffer scratch)
+      (switch-to-buffer scratch)
+      (insert initial-scratch-message))))
+
+
+;;
+;; Theme Functions
+;;
+(defvar hrm/global-is-light-theme t
+  "Global variable tracking whether or not we're using the LIGHT theme.")
+
 (defun hrm/post-theme-customizations ()
   "Fix font weirdness."
   (interactive)
@@ -139,23 +155,6 @@
   (set-face-attribute
    'mode-line-inactive nil
    :font "IBM Plex Sans:pixelsize=12:weight=medium:slant=italic" ))
-(provide 'post-theme-customizations)
-
-
-(defun hrm/switch-to-scratch ()
-  "Go to the *scratch* buffer."
-  (interactive)
-  (let ((scratch "*scratch*"))
-    (if (get-buffer scratch)
-        (switch-to-buffer scratch)
-      (switch-to-buffer scratch)
-      (insert initial-scratch-message))))
-(provide 'hrm/switch-to-scratch)
-
-
-;; ------------------------------------------------------------
-
-(defvar hrm/global-is-light-theme t)
 
 (defun hrm/light-theme ()
   "Apply a light GUI theme."
@@ -166,7 +165,6 @@
              (hrm/post-theme-customizations))
     (load-theme 'cmd-atom-one-light t)
     (hrm/post-theme-customizations)))
-(provide 'light-theme)
 
 (defun hrm/dark-theme ()
   "Apply a dark GUI theme."
@@ -177,7 +175,6 @@
              (hrm/post-theme-customizations))
     (load-theme 'cmd-atom-one-dark t)
     (hrm/post-theme-customizations)))
-(provide 'dark-theme)
 
 (defun hrm/set-theme (light)
   "Customize Emacs theme depending on UI.
@@ -185,17 +182,45 @@ Use a light color theme if LIGHT and dark otherwise."
   (if light
       (hrm/light-theme)
     (hrm/dark-theme)))
-(provide 'set-theme)
 
 (defun hrm/toggle-theme ()
   "Switch between light and dark themes."
   (interactive)
   (setq hrm/global-is-light-theme (hrm/xor hrm/global-is-light-theme t))
   (hrm/set-theme hrm/global-is-light-theme))
-(provide 'toggle-theme)
 
-;; ------------------------------------------------------------
 
-(provide 'my-lisp-functions)
+;;
+;; DPI Scaling
+;;
+(defun hrm/get-dpi ()
+  "Get the DPI of the display."
+  (interactive)
+  (let* ((attrs (car (display-monitor-attributes-list)))
+         (display-size (assoc 'mm-size attrs))
+         (display-x (/ (cadr display-size) 25.4))
+         (resolution (cdr (assoc 'geometry attrs)))
+         (resolution-x (cadr (cdr resolution)))
+         (dpi (/ resolution-x display-x)))
+    dpi))
+
+(defun hrm/scale-font-wrt-dpi ()
+  "Pick a font size based on the DPI."
+  (interactive)
+  (let ((dpi (hrm/get-dpi)))
+    (cond ((< dpi 110) 12)
+          ((< dpi 130) 13)
+          ((< dpi 150) 15)
+          (t 15))))
+
+(defun hrm/set-scaled-font (face)
+  "Set the scaled font spec string for the specified FACE."
+  (let* ((size (hrm/scale-font-wrt-dpi) )
+         (font (format "%s:size=%d:width=extra-condensed:weight=regular" face size)))
+    (set-frame-font font)))
+    
+;;
+;; End
+;;
 
 ;;; my-lisp-functions.el ends here

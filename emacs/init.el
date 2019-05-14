@@ -131,7 +131,8 @@
 
 ;; Font
 ;;
-(set-frame-font "SF Mono:size=13:width=extra-condensed:weight=regular")
+;; (set-frame-font "SF Mono:size=12:width=extra-condensed:weight=regular")
+(hrm/set-scaled-font "SF Mono")
 
 
 ;; =============================================================================
