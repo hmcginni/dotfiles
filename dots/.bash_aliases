@@ -42,6 +42,7 @@ GPG_TTY=$(tty)
 export GPG_TTY
 export PS1
 export PATH="$HOME/bin:$PATH"
+export GIT_EDITOR="emacs -nw"
 
 
 # Aliases ----------------------------------------------------------------------

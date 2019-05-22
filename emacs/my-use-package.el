@@ -67,7 +67,7 @@
     (helm :sources '(helm-source-locate
                      helm-source-buffers-list
                      helm-source-recentf)
-	  :fuzzy-match t
+          :fuzzy-match t
           :buffer "*helm all the things*")))
 
 
@@ -84,22 +84,11 @@
   :ensure t)
 
 
-;; Neotree mode
-;;
-(use-package neotree
-  :ensure t
-  ;; :bind ("<f8>" . neotree-toggle)
-  :hook (neo-after-create . text-scale-decrease)
-  :config
-  (setq neo-smart-open t)
-  (setq neo-theme 'ascii))
-
-
 ;; Transpose frame
 ;;
 (use-package transpose-frame
   :ensure t
-  :bind ("C-x t" . transpose-frame))
+  :bind ("C-x '" . transpose-frame))
 
 
 ;; Flyspell mode
@@ -125,27 +114,45 @@
   :ensure t
   :diminish company-mode
   :bind ("C-<tab>" . company-complete)
-  :hook (;(after-init . global-company-mode)
-         (c++-mode . company-mode)
+  :hook ((c++-mode . company-mode)
          (c-mode . company-mode)
-         (emacs-lisp-mode . company-mode)))
-;; :config
-;; (defvaralias 'c-basic-offset 'tab-width)
-;; (defvaralias 'cperl-indent-level 'tab-width)
+         (emacs-lisp-mode . company-mode)
+         (python-mode . company-mode))
+  :config
+  (defvaralias 'c-basic-offset 'tab-width)
+  (defvaralias 'cperl-indent-level 'tab-width))
 
-;; Company Irony
 (use-package company-irony
   :ensure t
+  :requires (irony company)
+  :diminish
   :config
   (eval-after-load 'company
     '(add-to-list 'company-backends 'company-irony)))
-;; Company C Headers
 
 (use-package company-c-headers
   :ensure t
+  :diminish
   :config
   (eval-after-load 'company
     '(add-to-list 'company-backends 'company-c-headers)))
+
+
+;; Python
+;;
+(use-package anaconda-mode
+  :ensure t
+  :bind ("C-c C-d" . anaconda-mode-show-doc)
+  :hook (python-mode . anaconda-mode)
+  :config
+  (setq python-shell-interpreter "ipython"))
+
+(use-package company-anaconda
+  :ensure t
+  :requires (anaconda-mode company)
+  :diminish
+  :config
+  (add-to-list 'company-backends 'company-anaconda))
 
 
 ;; Irony mode
@@ -162,6 +169,7 @@
 ;;
 (use-package flycheck-irony
   :ensure t
+  :diminish
   :requires irony)
 
 
@@ -173,9 +181,6 @@
   :hook (flycheck-mode . flycheck-irony-setup)
   :bind (("C-<f9>" . flycheck-next-error)
          ("M-<f9>" . flycheck-previous-error)))
-  ;; :config
-  ;; (eval-after-load 'flycheck
-  ;;   '(require 'flycheck-matlab-mlint)))
 
 
 ;; Smooth scrolling mode
@@ -192,18 +197,26 @@
 ;;
 (use-package org
   :ensure t
-  :bind (("C-c c" . org-capture)
-         ("C-c a" . org-agenda)
-	 ("C-c n" . (lambda () (interactive) (org-capture nil "n")))
-         ("C-c m" . (lambda () (interactive) (org-capture nil "m")))
-         ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
-         ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
-  :hook ((org-mode . turn-on-visual-line-mode))
+  :bind
+  (("C-c c" . org-capture)
+   ("C-c a" . org-agenda)
+   ("C-c n" . (lambda () (interactive) (org-capture nil "n")))
+   ("C-c m" . (lambda () (interactive) (org-capture nil "m")))
+   ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
+   ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
+  :hook
+  ((org-mode . turn-on-visual-line-mode)
+   (org-mode . (lambda ()
+                 "Beautify Org Checkbox Symbol"
+                 (push '("[ ]" . "☐") prettify-symbols-alist)
+                 (push '("[X]" . "☑" ) prettify-symbols-alist)
+                 (push '("[-]" . "☒" ) prettify-symbols-alist)
+                 (prettify-symbols-mode))))
   :init
   (setq org-todos-file "~/org/todos.org"
         org-mitg-file "~/org/mitg.org"
         org-gl-file "~/org/gl.org"
-	org-notes-file "~/Dropbox/org/notes.org"
+        org-notes-file "~/Dropbox/org/notes.org"
         org-log-done 'time
         org-agenda-files '("~/org"))
   (setq org-capture-templates
@@ -218,7 +231,8 @@
           (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
   (setq org-agenda-custom-commands
         '(("w" "Completed TODOs this week" agenda ""
-           ((org-agenda-span 7)
+           ((org-agenda-span 14)
+            (org-agenda-start-on-weekday -7)
             (org-agenda-start-with-log-mode t)
             (org-agenda-skip-function
              '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:mdt:")))
@@ -246,10 +260,11 @@
 
 ;; JSON mode
 ;;
-(use-package js
-  :mode "\\.json$"
-  :interpreter "js"
-  :ensure t)
+(use-package json-mode
+  :ensure t
+  :mode ("\\.json$" . json-mode)
+  :config
+  (setq-default js-indent-level 2))
 
 
 ;; MATLAB mode
@@ -258,9 +273,6 @@
   :mode ("\\.m$" . matlab-mode)
   :hook ((matlab-mode . (lambda () (matlab-cedet-setup)))
          (matlab-mode . (lambda () (mlint-minor-mode t))))
-  :init
-  ;; (add-to-list 'load-path "~/.emacs.d/elpa/manual_install/")
-  ;; (load "flycheck-matlab-mlint")
   :config
   (setq matlab-indent-function t
         matlab-show-mlint-warnings t

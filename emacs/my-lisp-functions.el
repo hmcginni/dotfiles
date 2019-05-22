@@ -202,9 +202,9 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
-    (cond ((< dpi 135) 12)
-          ((< dpi 145) 13)
-          ((< dpi 155) 15)
+    (cond ((< dpi 145) 12)
+          ((< dpi 155) 13)
+          ((< dpi 165) 15)
           (t 15))))
 
 (defun hrm/set-scaled-font (face)
@@ -214,6 +214,22 @@ Use a light color theme if LIGHT and dark otherwise."
                 "%s:size=%d:width=extra-condensed:weight=medium" face size)))
     (set-frame-font font)))
     
+;;
+;; Narrowing
+;;
+(defun hrm/narrow-to-defun-indirect ()
+  "Create a new indirect buffer narrowed to the current function."
+  (interactive)
+  (let* ((new-buffer-name (generate-new-buffer-name (buffer-name)))
+	(current-buffer-name (buffer-name)))
+    (narrow-to-defun)
+    (make-indirect-buffer current-buffer-name
+			  new-buffer-name
+			  t)
+    (widen)
+    (switch-to-buffer new-buffer-name)))
+
+
 ;;
 ;; End
 ;;

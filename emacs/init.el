@@ -21,6 +21,7 @@
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(flycheck-matlab-mlint-executable nil)
+ '(flycheck-python-pylint-executable "pylint3")
  '(flycheck-shellcheck-follow-sources nil)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)
@@ -52,7 +53,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (elpy sudo-edit company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -112,10 +113,12 @@
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
 (global-set-key (kbd "M-q") 'visual-line-mode)
-(global-set-key (kbd "s-<up>") 'hrm/move-line-up)
-(global-set-key (kbd "s-<down>") 'hrm/move-line-down) 
+(global-set-key (kbd "C-<f4>") 'kill-this-buffer)
+(global-set-key (kbd "C-j") 'fill-paragraph)
 (global-set-key (kbd "M-p") (kbd "C-u 3 M-v")) ; ----- scroll page behind cursor
 (global-set-key (kbd "M-n") (kbd "C-u 3 C-v"))
+(global-set-key (kbd "s-<up>") 'hrm/move-line-up)
+(global-set-key (kbd "s-<down>") 'hrm/move-line-down) 
 (global-set-key (kbd "C-c C-8") 'hrm/narrow-window)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'hrm/date-command-on-buffer)
@@ -123,8 +126,8 @@
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
-(global-set-key (kbd "C-<f4>") 'kill-this-buffer)
 (global-set-key (kbd "C-c C-b") 'hrm/switch-to-scratch)
+(global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 
 ;; Font
 ;;
@@ -165,5 +168,6 @@
  '(speedbar-directory-face ((t (:foreground "dim gray" :height 90 :family "Roboto"))))
  '(speedbar-file-face ((t (:foreground "cyan4" :height 90 :family "Roboto"))))
  '(speedbar-highlight-face ((t (:background "light gray" :height 90 :family "IBM Plex Sans"))))
- '(speedbar-selected-face ((t (:foreground "red" :height 90 :family "IBM Plex Sans")))))
+ '(speedbar-selected-face ((t (:foreground "red" :height 90 :family "IBM Plex Sans"))))
+ '(speedbar-separator-face ((t (:foreground "white" :overline "gray" :family "IBM Plex Sans")))))
 (put 'narrow-to-region 'disabled nil)
