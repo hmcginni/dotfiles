@@ -271,8 +271,8 @@
 ;;
 (use-package matlab
   :mode ("\\.m$" . matlab-mode)
-  :hook ((matlab-mode . (lambda () (matlab-cedet-setup)))
-         (matlab-mode . (lambda () (mlint-minor-mode t))))
+  :hook ((matlab-mode . matlab-cedet-setup)
+         (matlab-mode . mlint-minor-mode ))
   :config
   (setq matlab-indent-function t
         matlab-show-mlint-warnings t
@@ -294,7 +294,8 @@
 (use-package cmake-font-lock
   :ensure t
   :hook (cmake-mode . cmake-font-lock-activate)
-  :config (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
+  :config
+  (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
 
 (use-package cmake-mode
   :ensure t)
@@ -304,5 +305,7 @@
   :config (cmake-ide-setup))
 
 
+;; END
+;;
 (provide 'my-use-package)
 ;;; my-use-package ends here

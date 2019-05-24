@@ -103,7 +103,8 @@
       indent-tabs-mode nil
       c-default-style "linux"
       ediff-window-setup-function 'ediff-setup-windows-plain
-      frame-title-format (list "GNU Emacs • %b • " (getenv "USER")))
+      frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
+      speedbar-initial-expansion-list-name "buffers")
 
 
 ;; Global keyboard shortcuts
@@ -132,7 +133,7 @@
 ;; Font
 ;;
 (if (display-graphic-p)
-    (hrm/set-scaled-font "SF Mono"))
+    (hrm/set-scaled-font "SF Mono" "medium"))
 
 
 ;; =============================================================================

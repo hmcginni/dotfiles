@@ -190,12 +190,12 @@ Use a light color theme if LIGHT and dark otherwise."
   (interactive)
   (let* ((attrs (car (display-monitor-attributes-list)))
          (display-size (assoc 'mm-size attrs))
-         (display-x (/ (cadr display-size)
-                       25.4))
+         (display-width (/ (cadr display-size)
+			   25.4))
          (resolution (cdr (assoc 'geometry attrs)))
-         (resolution-x (cadr (cdr resolution)))
-         (dpi (/ resolution-x
-                 display-x)))
+         (x-resolution (cadr (cdr resolution)))
+         (dpi (/ x-resolution
+                 display-width)))
     (message "DPI: %f" dpi)
     dpi))
 
@@ -207,27 +207,26 @@ Use a light color theme if LIGHT and dark otherwise."
           ((< dpi 165) 15)
           (t 15))))
 
-(defun hrm/set-scaled-font (face)
-  "Set the scaled font spec string for the specified FACE."
+(defun hrm/set-scaled-font (face weight)
+  "Set the scaled font spec string for the specified FACE and WEIGHT."
   (let* ((size (hrm/scale-font-for-dpi))
          (font (format
-                "%s:size=%d:width=extra-condensed:weight=medium" face size)))
+                "%s:size=%d:width=extra-condensed:weight=%s" face size weight)))
     (set-frame-font font)))
-    
+
 ;;
 ;; Narrowing
 ;;
 (defun hrm/narrow-to-defun-indirect ()
   "Create a new indirect buffer narrowed to the current function."
   (interactive)
-  (let* ((new-buffer-name (generate-new-buffer-name (buffer-name)))
+  (let ((new-buffer-name (generate-new-buffer-name (buffer-name)))
 	(current-buffer-name (buffer-name)))
-    (narrow-to-defun)
     (make-indirect-buffer current-buffer-name
 			  new-buffer-name
 			  t)
-    (widen)
-    (switch-to-buffer new-buffer-name)))
+    (switch-to-buffer new-buffer-name)
+    (narrow-to-defun)))
 
 
 ;;
