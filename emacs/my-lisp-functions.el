@@ -202,7 +202,7 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
-    (cond ((< dpi 145) 12)
+    (cond ((< dpi 140) 12)
           ((< dpi 155) 13)
           ((< dpi 165) 15)
           (t 15))))

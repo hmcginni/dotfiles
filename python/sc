@@ -21,7 +21,7 @@ import sys
 import csv
 
 
-## SAVE_SHORTCUTS  --------------------------------------------------------- ##
+# SAVE_SHORTCUTS  --------------------------------------------------------- ##
 
 
 def save_shortcuts(sc_file, shortcuts):
@@ -40,7 +40,7 @@ def save_shortcuts(sc_file, shortcuts):
         print "Creating new file: \"%s\"." % sc_file
 
 
-## LOAD SHORTCUTS  ----------------------------------------------------- ##
+# LOAD SHORTCUTS  ----------------------------------------------------- ##
 
 
 def load_shortcuts(sc_file):
@@ -61,7 +61,7 @@ def load_shortcuts(sc_file):
     return shortcuts
 
 
-## MAIN  ------------------------------------------------------------------- ##
+# MAIN  ------------------------------------------------------------------- ##
 
 
 def main():
@@ -71,18 +71,18 @@ def main():
         Perform an action on list-of-lists "shortcuts"
     """
 
-    ## PARSE INPUTS  ------------------------------------------------------- ##
+    # PARSE INPUTS  ------------------------------------------------------- ##
 
     argc = len(sys.argv)
     default_args = ["ls", None, os.getcwd()]
     cmd, alias, directory = sys.argv[1:argc] + default_args[argc-1:]
 
-    ## LOAD SHORTCUTS ------------------------------------------------------ ##
+    # LOAD SHORTCUTS ------------------------------------------------------ ##
 
     sc_file = os.environ["HOME"] + "/sc.txt"
     shortcuts = load_shortcuts(sc_file)
 
-    ## ACTIONS  ------------------------------------------------------------ ##
+    # ACTIONS  ------------------------------------------------------------ ##
 
     if cmd in ["save", "add"]:
         if alias is None:
@@ -128,11 +128,11 @@ def main():
                 os.system(go_str)
 
 
-## RUN MAIN()  ------------------------------------------------------------- ##
+# RUN MAIN()  ------------------------------------------------------------- ##
 
 
 if __name__ == "__main__":
     main()
 
 
-## END --------------------------------------------------------------------- ##
+# END --------------------------------------------------------------------- ##

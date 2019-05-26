@@ -57,18 +57,10 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x M-r" . hrm\helm-all-the-things)
          ("C-x C-r" . helm-for-files))
   :init (require 'helm-config)
   :config
-  (setq helm-lisp-fuzzy-completion t)
-  (defun hrm\helm-all-the-things ()
-    (interactive)
-    (helm :sources '(helm-source-locate
-                     helm-source-buffers-list
-                     helm-source-recentf)
-          :fuzzy-match t
-          :buffer "*helm all the things*")))
+  (setq helm-lisp-fuzzy-completion t))
 
 
 ;; Speedbar
@@ -97,7 +89,8 @@
   :ensure t
   :bind (("C-<f9>" . flyspell-check-next-highlighted-word)
          ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
-  :hook ((c++-mode . flyspell-prog)
+  :hook ((python-mode . flyspell-prog-mode)
+         (c++-mode . flyspell-prog-mode)
          (text-mode . flyspell-mode)
          (org-mode . flyspell-mode))
   :config
@@ -137,6 +130,14 @@
   (eval-after-load 'company
     '(add-to-list 'company-backends 'company-c-headers)))
 
+(use-package company-anaconda
+  :ensure t
+  :requires (anaconda-mode company)
+  :diminish
+  :config
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-anaconda)))
+
 
 ;; Python
 ;;
@@ -146,13 +147,6 @@
   :hook (python-mode . anaconda-mode)
   :config
   (setq python-shell-interpreter "ipython"))
-
-(use-package company-anaconda
-  :ensure t
-  :requires (anaconda-mode company)
-  :diminish
-  :config
-  (add-to-list 'company-backends 'company-anaconda))
 
 
 ;; Irony mode
@@ -178,7 +172,8 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
-  :hook (flycheck-mode . flycheck-irony-setup)
+  :hook ((flycheck-mode . flycheck-irony-setup)
+         (python-mode . flycheck-mode))
   :bind (("C-<f9>" . flycheck-next-error)
          ("M-<f9>" . flycheck-previous-error)))
 
@@ -271,8 +266,8 @@
 ;;
 (use-package matlab
   :mode ("\\.m$" . matlab-mode)
-  :hook ((matlab-mode . matlab-cedet-setup)
-         (matlab-mode . mlint-minor-mode ))
+  :hook ((matlab-mode . (matlab-cedet-setup))
+         (matlab-mode . (mlint-minor-mode t)))
   :config
   (setq matlab-indent-function t
         matlab-show-mlint-warnings t

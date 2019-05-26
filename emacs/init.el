@@ -21,6 +21,7 @@
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(flycheck-matlab-mlint-executable nil)
+ '(flycheck-python-flake8-executable "flake8")
  '(flycheck-python-pylint-executable "pylint3")
  '(flycheck-shellcheck-follow-sources nil)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
@@ -53,7 +54,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (elpy sudo-edit company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
