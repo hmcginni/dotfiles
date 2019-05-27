@@ -17,11 +17,10 @@
 
 (defvar atom-one-dark-colors-alist
   '(("atom-one-dark-accent"   . "#528BFF")
-    ;; ("atom-one-dark-fg"       . "#ABB2BF")
-    ("atom-one-dark-fg"       . "#F0F0F0")
-    ("atom-one-dark-bg"       . "#2F343F")
+    ("atom-one-dark-fg"       . "#f0f0f0")
+    ("atom-one-dark-bg"       . "#2f343f")
     ("atom-one-dark-bg-1"     . "#121417")
-    ("atom-one-dark-bg-hl"    . "#2F343D")
+    ("atom-one-dark-bg-hl"    . "#4e5a71")
     ("atom-one-dark-mono-1"   . "#ABB2BF")
     ("atom-one-dark-mono-2"   . "#828997")
     ("atom-one-dark-mono-3"   . "#777F8E")

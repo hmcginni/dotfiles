@@ -107,8 +107,8 @@ done
 # Get title bar width
 
 
-for W in "${WIDs[@]}"; do
-    yTitle+=($(xprop -id "$W" | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
+for w_id in "${WIDs[@]}"; do
+    yTitle+=($(xprop -id "$w_id" | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
 done
 
 

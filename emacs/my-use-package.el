@@ -73,7 +73,8 @@
 ;; Adaptive Wrap
 ;;
 (use-package adaptive-wrap
-  :ensure t)
+  :ensure t
+  :diminish)
 
 
 ;; Transpose frame
@@ -107,13 +108,9 @@
   :ensure t
   :diminish company-mode
   :bind ("C-<tab>" . company-complete)
-  :hook ((c++-mode . company-mode)
-         (c-mode . company-mode)
+  :hook ((irony-mode . company-mode)
          (emacs-lisp-mode . company-mode)
-         (python-mode . company-mode))
-  :config
-  (defvaralias 'c-basic-offset 'tab-width)
-  (defvaralias 'cperl-indent-level 'tab-width))
+         (anaconda-mode . company-mode)))
 
 (use-package company-irony
   :ensure t

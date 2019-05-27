@@ -191,7 +191,7 @@ Use a light color theme if LIGHT and dark otherwise."
   (let* ((attrs (car (display-monitor-attributes-list)))
          (display-size (assoc 'mm-size attrs))
          (display-width (/ (cadr display-size)
-			   25.4))
+                           25.4))
          (resolution (cdr (assoc 'geometry attrs)))
          (x-resolution (cadr (cdr resolution)))
          (dpi (/ x-resolution
@@ -221,10 +221,10 @@ Use a light color theme if LIGHT and dark otherwise."
   "Create a new indirect buffer narrowed to the current function."
   (interactive)
   (let ((new-buffer-name (generate-new-buffer-name (buffer-name)))
-	(current-buffer-name (buffer-name)))
+        (current-buffer-name (buffer-name)))
     (make-indirect-buffer current-buffer-name
-			  new-buffer-name
-			  t)
+                          new-buffer-name
+                          t)
     (switch-to-buffer new-buffer-name)
     (narrow-to-defun)))
 

@@ -100,13 +100,13 @@
 
 ;; Set variables
 ;;
-(setq tab-width 4
-      indent-tabs-mode nil
-      c-default-style "linux"
-      ediff-window-setup-function 'ediff-setup-windows-plain
-      frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
-      speedbar-initial-expansion-list-name "buffers")
-
+(setq-default tab-width 4
+			  indent-tabs-mode nil
+			  c-default-style "linux"
+			  ediff-window-setup-function 'ediff-setup-windows-plain
+			  frame-title-format (list "GNU Emacs • %b • "
+									   (getenv "USER"))
+			  speedbar-initial-expansion-list-name "buffers")
 
 ;; Global keyboard shortcuts
 ;;
