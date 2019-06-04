@@ -2,7 +2,7 @@
 #
 # Restart Franz
 
-notify-send "restart_franz" "Restarting Franz..."
+notify-send "restart_franz" "Restarting Franz"
 franz_install=$(which franz)
 
 if [[ -z $franz_install ]]; then

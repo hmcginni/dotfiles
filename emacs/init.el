@@ -33,13 +33,13 @@
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
 * "
-	   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
-	   ": "))
+           (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
+           ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 1)
  '(linum-format "%4d  ")
  '(menu-bar-mode nil)
- '(mlint-programs (quote ("/usr/local/bin/mlint")))
+ '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -54,7 +54,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -144,8 +144,8 @@
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flycheck-mode)
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-(add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'text-mode-hook 'visual-line-mode)
+(add-hook 'prog-mode-hook 'visual-line-mode)
 (add-hook 'visual-line-mode-hook 'adaptive-wrap-prefix-mode)
 
 

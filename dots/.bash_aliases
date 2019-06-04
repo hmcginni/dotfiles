@@ -73,7 +73,7 @@ alias ediff='_ediff'
 alias open='_xdg_open'
 alias q='_quiet'
 alias qfind='_qfind'
-alias update='sudo apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove'
+alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
 alias vpn='_vpn'
 # alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 

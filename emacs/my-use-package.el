@@ -208,7 +208,6 @@
   (setq org-todos-file "~/org/todos.org"
         org-mitg-file "~/org/mitg.org"
         org-gl-file "~/org/gl.org"
-        org-notes-file "~/Dropbox/org/notes.org"
         org-log-done 'time
         org-agenda-files '("~/org"))
   (setq org-capture-templates
@@ -261,16 +260,16 @@
 
 ;; MATLAB mode
 ;;
-(use-package matlab
+(use-package matlab-mode
+  :ensure t
   :mode ("\\.m$" . matlab-mode)
-  :hook ((matlab-mode . (matlab-cedet-setup))
-         (matlab-mode . (mlint-minor-mode t)))
+  :hook (matlab-mode . mlint-minor-mode)
   :config
-  (setq matlab-indent-function t
-        matlab-show-mlint-warnings t
-        matlab-shell-command "matlab"
-        matlab-shell-command-switches
-        (list "-nosplash" "-nodesktop"))
+  (setq-default matlab-indent-function-body t
+                matlab-show-mlint-warnings t
+                matlab-shell-command "matlab"
+                matlab-shell-command-switches
+                (list "-nosplash" "-nodesktop"))
   (autoload 'mlint-minor-mode "mlint" nil t))
 
 

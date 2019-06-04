@@ -202,8 +202,9 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
-    (cond ((< dpi 140) 12)
-          ((< dpi 155) 13)
+    (cond ((< dpi 135) 12)
+          ((< dpi 145) 13)
+          ((< dpi 155) 14)
           ((< dpi 165) 15)
           (t 15))))
 
@@ -211,8 +212,9 @@ Use a light color theme if LIGHT and dark otherwise."
   "Set the scaled font spec string for the specified FACE and WEIGHT."
   (let* ((size (hrm/scale-font-for-dpi))
          (font (format
-                "%s:size=%d:width=extra-condensed:weight=%s" face size weight)))
+                "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
+
 
 ;;
 ;; Narrowing

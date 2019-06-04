@@ -60,7 +60,7 @@ while getopts ":123v:h:d:b:" opt; do
             ;;
         h )
             hSepPos=$OPTARG
-            if (( (30 > hSepPos) || (70 < hSepPos) )); then
+            if (( (30 > hSepPos) || (85 < hSepPos) )); then
                 utils.errorf "\n\tUnsupported height (h ∈ [30,70])\n"
             fi
             ;;
