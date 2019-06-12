@@ -37,7 +37,7 @@ def save_shortcuts(sc_file, shortcuts):
             csv_writer = csv.writer(sc_cache)
             csv_writer.writerows(shortcuts)
     except IOError:
-        print "Creating new file: \"%s\"." % sc_file
+        print("Creating new file: \"{}\".".format(sc_file))
 
 
 # LOAD SHORTCUTS  ----------------------------------------------------- ##
@@ -55,7 +55,7 @@ def load_shortcuts(sc_file):
             csv_reader = csv.reader(sc_cache, delimiter=",")
             shortcuts = list(csv_reader)
     except IOError:
-        print "Shortcuts file \"%s\" not found" % sc_file
+        print("Shortcuts file \"{}\" not found".format(sc_file))
         shortcuts = [["Shortcuts", "Directories"]]
         save_shortcuts(sc_file, shortcuts)
     return shortcuts
@@ -86,7 +86,7 @@ def main():
 
     if cmd in ["save", "add"]:
         if alias is None:
-            print "Please set an alias (None specified)"
+            print("Please set an alias (None specified)")
             sys.exit(1)
         a_mask = [alias in entry for entry in shortcuts]
         if any(a_mask):
@@ -103,19 +103,19 @@ def main():
             del shortcuts[a_idx]
             save_shortcuts(sc_file, shortcuts)
         except ValueError:
-            print "Alias \"%s\" does not exist" % alias
+            print("Alias \"{}\" does not exist".format(alias))
             sys.exit(1)
 
     elif cmd in ["ls", "list", "show"]:
         for shortcut in shortcuts:
             shortcut[1] = shortcut[1].replace(os.environ["HOME"], "~")
-            print "%-15s %s" % tuple(shortcut)
+            print("{} {}".format(tuple(shortcut)))
 
     else:
         alias = cmd
         a_mask = [alias in entry for entry in shortcuts]
         if not any(a_mask):
-            print "Alias \"%s\" does not exist" % alias
+            print("Alias \"{}\" does not exist".format(alias))
         else:
             a_idx = a_mask.index(True)
             a_path = shortcuts[a_idx][1]

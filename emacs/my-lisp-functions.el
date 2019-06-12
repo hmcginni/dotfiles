@@ -183,7 +183,7 @@ Use a light color theme if LIGHT and dark otherwise."
 
 
 ;;
-;; DPI Scaling
+;; DPI Scaling -----------------------------------------------------------------
 ;;
 (defun hrm/get-dpi ()
   "Get the DPI of the display."

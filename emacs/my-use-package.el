@@ -32,12 +32,23 @@
 (require 'bind-key)
 
 
-;; Package Install ---------------------------------------------------------- ;;
-
-;; Diminish
+;; Diminish and Delight modes
 ;;
 (use-package diminish
   :ensure t)
+(use-package delight
+  :ensure t)
+
+
+;; Packages ---------------------------------------------------------- ;;
+
+
+;; Built-ins
+;;
+(use-package emacs
+  :delight
+  (adaptive-wrap-prefix-mode)
+  (visual-line-mode))
 
 
 ;; Automatically update packages
@@ -63,18 +74,21 @@
   (setq helm-lisp-fuzzy-completion t))
 
 
+;; GNU Global Tags
+(use-package helm-gtags
+  :ensure t
+  :bind (("C-<f1>" . helm-gtags-dwim))
+  :hook ((dired-mode . helm-gtags-mode)
+         (c-mode . helm-gtags-mode)
+         (c++-mode . helm-gtags-mode)
+         (python-mode . helm-gtags-mode)))
+
+
 ;; Speedbar
 ;;
 (use-package sr-speedbar
   :ensure t
   :bind ("<f10>" . sr-speedbar-toggle))
-
-
-;; Adaptive Wrap
-;;
-(use-package adaptive-wrap
-  :ensure t
-  :diminish)
 
 
 ;; Transpose frame
@@ -84,10 +98,12 @@
   :bind ("C-x '" . transpose-frame))
 
 
-;; Flyspell mode
+;;-------------------------------------------
+;; Flyspell and Flycheck modes
 ;;
 (use-package flyspell
   :ensure t
+  :diminish
   :bind (("C-<f9>" . flyspell-check-next-highlighted-word)
          ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
   :hook ((python-mode . flyspell-prog-mode)
@@ -101,8 +117,17 @@
     (flyspell-goto-next-error)
     (ispell-word)))
 
+;; Flycheck mode
+;;
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode)
+  :bind (("C-<f9>" . flycheck-next-error)
+         ("M-<f9>" . flycheck-previous-error)))
 
-;; Company mode
+
+;;-------------------------------------------
+;; Company and Irony modes
 ;;
 (use-package company
   :ensure t
@@ -110,7 +135,8 @@
   :bind ("C-<tab>" . company-complete)
   :hook ((irony-mode . company-mode)
          (emacs-lisp-mode . company-mode)
-         (anaconda-mode . company-mode)))
+         (anaconda-mode . company-mode)
+         (matlab-mode . company-mode)))
 
 (use-package company-irony
   :ensure t
@@ -135,19 +161,6 @@
   (eval-after-load 'company
     '(add-to-list 'company-backends 'company-anaconda)))
 
-
-;; Python
-;;
-(use-package anaconda-mode
-  :ensure t
-  :bind ("C-c C-d" . anaconda-mode-show-doc)
-  :hook (python-mode . anaconda-mode)
-  :config
-  (setq python-shell-interpreter "ipython"))
-
-
-;; Irony mode
-;;
 (use-package irony
   :ensure t
   :hook ((c-mode . irony-mode)
@@ -155,24 +168,25 @@
          (objc-mode . irony-mode)
          (irony-mode . irony-cdb-autosetup-compile-options)))
 
-
-;; Flycheck Irony mode
-;;
 (use-package flycheck-irony
   :ensure t
   :diminish
-  :requires irony)
+  :requires irony
+  :hook ((flycheck-mode . flycheck-irony-setup)))
 
-
-;; Flycheck mode
+  
+;;----------------------------------------------
+;; Python
 ;;
-(use-package flycheck
+(use-package anaconda-mode
   :ensure t
-  :init (global-flycheck-mode)
-  :hook ((flycheck-mode . flycheck-irony-setup)
-         (python-mode . flycheck-mode))
-  :bind (("C-<f9>" . flycheck-next-error)
-         ("M-<f9>" . flycheck-previous-error)))
+  :delight ((anaconda-mode)
+            (anaconda-eldoc-mode))
+  :bind ("C-c C-d" . anaconda-mode-show-doc)
+  :hook ((python-mode . anaconda-mode)
+         (python-mode . anaconda-eldoc-mode))
+  :config
+  (setq python-shell-interpreter "ipython3"))
 
 
 ;; Smooth scrolling mode
@@ -185,6 +199,7 @@
   (setq scroll-preserve-screen-position 1))
 
 
+;;---------------------------------------------
 ;; Org mode
 ;;
 (use-package org
@@ -197,7 +212,7 @@
    ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
    ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
   :hook
-  ((org-mode . turn-on-visual-line-mode)
+  ((org-mode . visual-line-mode)
    (org-mode . (lambda ()
                  "Beautify Org Checkbox Symbol"
                  (push '("[ ]" . "☐") prettify-symbols-alist)
@@ -227,20 +242,20 @@
             (org-agenda-start-with-log-mode t)
             (org-agenda-skip-function
              '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:mdt:")))
-           ("~/status/done.txt"))))
-  :config
-  ;; Org mode JIRA export
-  ;;
-  (use-package ox-jira
-    :ensure t
-    :requires org)
-  
-  ;; Org-bullets mode
-  ;;
-  (use-package org-bullets
-    :ensure t
-    :requires org
-    :diminish))
+           ("~/status/done.txt")))))
+
+;; Org mode JIRA export
+;;
+(use-package ox-jira
+  :ensure t
+  :requires org)
+
+;; Org-bullets mode
+;;
+(use-package org-bullets
+  :ensure t
+  :requires org
+  :diminish)
 
 
 ;; Systemd Unit mode
@@ -263,14 +278,10 @@
 (use-package matlab-mode
   :ensure t
   :mode ("\\.m$" . matlab-mode)
-  :hook (matlab-mode . mlint-minor-mode)
+  :hook ((matlab-mode . mlint-minor-mode)
+         (matlab-mode . visual-line-mode))
   :config
-  (setq-default matlab-indent-function-body t
-                matlab-show-mlint-warnings t
-                matlab-shell-command "matlab"
-                matlab-shell-command-switches
-                (list "-nosplash" "-nodesktop"))
-  (autoload 'mlint-minor-mode "mlint" nil t))
+  (setq-default matlab-indent-function-body t))
 
 
 ;; Sudo edit mode
@@ -280,6 +291,7 @@
   :bind ("C-c C-r" . sudo-edit))
 
 
+;;------------------------------------------
 ;; CMake modes
 ;;
 (use-package cmake-font-lock
@@ -293,6 +305,7 @@
 
 (use-package cmake-ide
   :ensure t
+  :diminish
   :config (cmake-ide-setup))
 
 

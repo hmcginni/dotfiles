@@ -10,7 +10,8 @@ function mnotify(title, msg)
         msg = title;
         title = 'MATLAB';
     end
-
+    
+    
     %% Set `notify-send` args
     %
     

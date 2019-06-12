@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# RESCALE - Enlarge text on built-in display
+
+
+notify-send "rescale" "Scaling text"
+
+# Update desktop environment scale factor
+#
+num_displays=$(desk -n)
+scale_factor=""
+dconf_text_scale_factor_key="/org/gnome/desktop/interface/text-scaling-factor"
+dconf_gui_scale_factor_key="/com/canonical/unity/interface/text-scale-factor"
+
+if [[ $num_displays -eq 1 ]]
+then
+    scale_factor=1.1
+else
+    scale_factor=1.0
+fi
+
+dconf write "$dconf_text_scale_factor_key" "$scale_factor"
+dconf write "$dconf_gui_scale_factor_key" "$scale_factor"
+
+# Update Emacs
+#
+if pgrep emacs >/dev/null
+then
+    emacsclient -e '(hrm/set-scaled-font "Roboto Mono" "medium")'
+fi

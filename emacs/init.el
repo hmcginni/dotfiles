@@ -38,6 +38,9 @@
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 1)
  '(linum-format "%4d  ")
+ '(matlab-functions-have-end t)
+ '(matlab-indent-function-body t)
+ '(matlab-shell-command-switches (quote ("-nojvm")))
  '(menu-bar-mode nil)
  '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(org-clock-into-drawer 2)
@@ -54,7 +57,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -75,13 +78,14 @@
  '(speedbar-verbosity-level 0)
  '(sr-speedbar-default-width 30)
  '(sr-speedbar-right-side nil)
+ '(sr-speedbar-skip-other-window-p t)
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks nil))
 
 
 ;; ========================================================================== ;;
-;; Package Init/Install 
+;; Package Init/Install
 ;;
 
 (load "~/.emacs.d/my-use-package.el")
@@ -95,18 +99,23 @@
 
 
 ;; ========================================================================== ;;
-;; EMACS configurations 
+;; EMACS configurations
 ;;
+
+;; Start server
+;;
+(server-start)
 
 ;; Set variables
 ;;
 (setq-default tab-width 4
-			  indent-tabs-mode nil
-			  c-default-style "linux"
-			  ediff-window-setup-function 'ediff-setup-windows-plain
-			  frame-title-format (list "GNU Emacs • %b • "
-									   (getenv "USER"))
-			  speedbar-initial-expansion-list-name "buffers")
+              indent-tabs-mode nil
+              c-default-style "linux"
+              c-basic-offset 4
+              ediff-window-setup-function 'ediff-setup-windows-plain
+              frame-title-format (list "GNU Emacs • %b • "
+                                       (getenv "USER"))
+              speedbar-initial-expansion-list-name "buffers")
 
 ;; Global keyboard shortcuts
 ;;
@@ -114,13 +123,16 @@
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
-(global-set-key (kbd "M-q") 'visual-line-mode)
+(global-set-key (kbd "M-;") 'visual-line-mode)
 (global-set-key (kbd "C-<f4>") 'kill-this-buffer)
 (global-set-key (kbd "C-j") 'fill-paragraph)
 (global-set-key (kbd "M-p") (kbd "C-u 3 M-v")) ; ----- scroll page behind cursor
 (global-set-key (kbd "M-n") (kbd "C-u 3 C-v"))
+(global-set-key (kbd "C-x |") 'split-window-right)
+(global-set-key (kbd "C-x -") 'split-window-below)
+
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
-(global-set-key (kbd "s-<down>") 'hrm/move-line-down) 
+(global-set-key (kbd "s-<down>") 'hrm/move-line-down)
 (global-set-key (kbd "C-c C-8") 'hrm/narrow-window)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'hrm/date-command-on-buffer)
@@ -135,6 +147,10 @@
 ;;
 (if (display-graphic-p)
     (hrm/set-scaled-font "SF Mono" "medium"))
+
+;; Auto-mode-alist
+;;
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
 ;; =============================================================================

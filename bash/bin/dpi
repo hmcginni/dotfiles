@@ -1,0 +1,91 @@
+#!/bin/bash
+
+#
+# DPI - get/set the actual DPI
+#
+#     dpi [-a] [-d<N>] [args]
+#
+
+
+# Initialize Data
+#
+
+display=1
+
+
+# Parse Inputs
+#
+
+while getopts "ad:" opt; do
+    case ${opt} in
+	a )
+        display="all"
+	    ;;
+	d )
+	    display=$OPTARG
+	    ;;
+	* )
+        exit 1
+	    ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+new_dpi=$1
+
+
+# Validate Inputs
+#
+
+if [[ $display -gt $(desk -n) ]]
+then
+    printf "Can't get DPI of display %d.\n" "$display" >&2
+    exit 1
+fi
+
+if [[ -n $new_dpi && ($new_dpi -lt 90 || $new_dpi -gt 150) ]]
+then
+    printf "Requested DPI must be ∈ [90..150].\n" >&2
+    exit 1
+fi
+
+
+# Functions
+#
+
+_main () {
+    # Main function
+
+    local xrandr_output
+    local x_dist_mm
+    local x_dist_in
+    local dpi
+    local output
+    
+    xrandr_output=$(xrandr --current | grep "\<connected.*mm")
+    x_dist_mm=($(sed -r "s|.* ([[:digit:]]+)mm .*|\1|" <<< "$xrandr_output"))
+    x_dots=($(awk '{print $2}' <<< "$(desk -r)"))
+
+    for idx in $(seq 1 "${#x_dist_mm[@]}")
+    do
+        idx=$(( idx - 1 ))
+        x_dist_in=$(( x_dist_mm[idx] * 10 / 254 ))
+        dpi+=($(( x_dots[idx] / x_dist_in )))
+    done
+
+    if [[ $display == "all" ]]
+    then
+        output="${dpi[*]}"
+    else
+        idx=$(( display - 1 ))
+        output="${dpi[$idx]}"
+    fi
+
+    echo "$output"
+}
+
+
+# Execute Main Function
+#
+
+_main
