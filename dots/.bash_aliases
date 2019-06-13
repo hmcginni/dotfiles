@@ -43,6 +43,8 @@ export GPG_TTY
 export PS1
 export PATH="$HOME/bin:$PATH"
 export GIT_EDITOR="emacs -nw"
+export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
+export GTAGSLABEL="pygments"
 
 
 # Aliases ----------------------------------------------------------------------

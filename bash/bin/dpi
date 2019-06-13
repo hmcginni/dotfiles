@@ -64,7 +64,7 @@ _main () {
     
     xrandr_output=$(xrandr --current | grep "\<connected.*mm")
     x_dist_mm=($(sed -r "s|.* ([[:digit:]]+)mm .*|\1|" <<< "$xrandr_output"))
-    x_dots=($(awk '{print $2}' <<< "$(desk -r)"))
+    x_dots=($(awk '{print $1}' <<< "$(desk -r)"))
 
     for idx in $(seq 1 "${#x_dist_mm[@]}")
     do

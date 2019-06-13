@@ -63,27 +63,6 @@
   (auto-package-update-maybe))
 
 
-;; Helm
-;;
-(use-package helm
-  :ensure t
-  :bind (("M-x" . helm-M-x)
-         ("C-x C-r" . helm-for-files))
-  :init (require 'helm-config)
-  :config
-  (setq helm-lisp-fuzzy-completion t))
-
-
-;; GNU Global Tags
-(use-package helm-gtags
-  :ensure t
-  :bind (("C-<f1>" . helm-gtags-dwim))
-  :hook ((dired-mode . helm-gtags-mode)
-         (c-mode . helm-gtags-mode)
-         (c++-mode . helm-gtags-mode)
-         (python-mode . helm-gtags-mode)))
-
-
 ;; Speedbar
 ;;
 (use-package sr-speedbar
@@ -96,6 +75,34 @@
 (use-package transpose-frame
   :ensure t
   :bind ("C-x '" . transpose-frame))
+
+
+;; Magit
+;;
+(use-package magit
+  :ensure t
+  :diminish
+  :bind (("C-<f2>" . magit)
+         ("C-S-b" . magit-blame)))
+
+;; Helm
+;;
+(use-package helm
+  :ensure t
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-r" . helm-for-files))
+  :init (require 'helm-config)
+  :config
+  (setq helm-lisp-fuzzy-completion t))
+
+;; Helm interface for GNU Global Tags
+(use-package helm-gtags
+  :ensure t
+  :bind (("C-<f1>" . helm-gtags-dwim))
+  :hook ((dired-mode . helm-gtags-mode)
+         (c-mode . helm-gtags-mode)
+         (c++-mode . helm-gtags-mode)
+         (python-mode . helm-gtags-mode)))
 
 
 ;;-------------------------------------------

@@ -10,6 +10,11 @@
   (interactive)
   (set-frame-width (selected-frame) 86))
 
+(defun hrm/wide-window ()
+  "Resize Emacs."
+  (interactive)
+  (set-frame-width (selected-frame) 159))
+
 ;; ------------------------------------------------------------
 
 ;; Try to fix Emacs colors in tmux

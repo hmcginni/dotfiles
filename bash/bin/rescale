@@ -14,7 +14,7 @@ dconf_gui_scale_factor_key="/com/canonical/unity/interface/text-scale-factor"
 
 if [[ $num_displays -eq 1 ]]
 then
-    scale_factor=1.1
+    scale_factor=1.15
 else
     scale_factor=1.0
 fi
