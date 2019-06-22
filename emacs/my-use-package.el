@@ -180,7 +180,7 @@
   :requires irony
   :hook ((flycheck-mode . flycheck-irony-setup)))
 
-  
+
 ;;----------------------------------------------
 ;; Python
 ;;

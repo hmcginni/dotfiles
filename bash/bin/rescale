@@ -14,9 +14,9 @@ dconf_gui_scale_factor_key="/com/canonical/unity/interface/text-scale-factor"
 current_dpi=$(dpi)
 if [[ $current_dpi -gt 120 ]]
 then
-    scale_factor=1.15
+    scale_factor=1.10
 else
-    scale_factor=1.0
+    scale_factor=1.00
 fi
 
 dconf write "$dconf_text_scale_factor_key" "$scale_factor"

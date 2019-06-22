@@ -99,11 +99,29 @@ _parse_git_branch() {
     # PARSE_GIT_BRANCH - add current Git branch to bash prompt
     #
 
-    branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
+	local branch
+	local repo
+	
+	terminal_width=$(tput cols)
+	ellipsis="[...]"
+	max_line_length=$(( terminal_width - ${#ellipsis} ))
+
+	branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
+	
     if [[ -n $branch ]]
     then
-	    printf "\n ⌥ ⎇ : %s" "$branch"
-    fi
+		repo=$(basename $(git rev-parse --show-toplevel))
+		git_line=$(printf " [%s]%s" "$repo" "$branch")
+		
+		if [[ ${#git_line} -gt $terminal_width ]]
+		then
+			disp_line="${git_line:0:$max_line_length}""$ellipsis"
+		else
+			disp_line="$git_line"
+		fi
+	fi
+
+	printf "\n%s" "$disp_line"
 }
 
 
