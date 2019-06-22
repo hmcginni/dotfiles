@@ -22,11 +22,13 @@
  '(display-time-mode nil)
  '(fill-column 80)
  '(flycheck-checker-error-threshold 500)
+ '(flycheck-clang-language-standard "c++11")
  '(flycheck-flake8rc "~/.config/flake8/.flake8")
  '(flycheck-matlab-mlint-executable nil)
  '(flycheck-python-flake8-executable "flake8")
  '(flycheck-python-pylint-executable "pylint3")
- '(flycheck-shellcheck-follow-sources nil)
+ '(flycheck-shellcheck-follow-sources t)
+ '(font-use-system-font t)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)
  '(global-linum-mode t)
@@ -36,8 +38,8 @@
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 
 * "
-           (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
-           ": "))
+		   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
+		   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 1)
  '(linum-format "%4d  ")
@@ -52,15 +54,15 @@
  '(org-export-with-sub-superscripts (quote {}))
  '(org-file-apps
    (quote
-    ((auto-mode . emacs)
-     ("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . default)
-     ("\\.pdf\\'" . "evince %s"))))
+	((auto-mode . emacs)
+	 ("\\.mm\\'" . default)
+	 ("\\.x?html?\\'" . default)
+	 ("\\.pdf\\'" . "evince %s"))))
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+	(fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(python-indent-guess-indent-offset nil)
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
@@ -69,13 +71,13 @@
  '(show-paren-mode t)
  '(speedbar-frame-parameters
    (quote
-    ((minibuffer)
-     (width . 15)
-     (border-width . 0)
-     (menu-bar-lines . 0)
-     (tool-bar-lines . 0)
-     (unsplittable . t)
-     (left-fringe . 0))))
+	((minibuffer)
+	 (width . 15)
+	 (border-width . 0)
+	 (menu-bar-lines . 0)
+	 (tool-bar-lines . 0)
+	 (unsplittable . t)
+	 (left-fringe . 0))))
  '(speedbar-hide-button-brackets-flag t)
  '(speedbar-show-unknown-files t)
  '(speedbar-use-images nil)
