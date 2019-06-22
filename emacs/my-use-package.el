@@ -93,6 +93,7 @@
          ("C-x C-r" . helm-for-files))
   :init (require 'helm-config)
   :config
+  (helm-mode 1)
   (setq helm-lisp-fuzzy-completion t))
 
 ;; Helm interface for GNU Global Tags
@@ -113,8 +114,7 @@
   :diminish
   :bind (("C-<f9>" . flyspell-check-next-highlighted-word)
          ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
-  :hook ((python-mode . flyspell-prog-mode)
-         (c++-mode . flyspell-prog-mode)
+  :hook ((c++-mode . flyspell-prog-mode)
          (text-mode . flyspell-mode)
          (org-mode . flyspell-mode))
   :config
@@ -138,7 +138,6 @@
 ;;
 (use-package company
   :ensure t
-  :diminish company-mode
   :bind ("C-<tab>" . company-complete)
   :hook ((irony-mode . company-mode)
          (emacs-lisp-mode . company-mode)
@@ -162,8 +161,8 @@
 
 (use-package company-anaconda
   :ensure t
-  :requires (anaconda-mode company)
   :diminish
+  :bind ("C-<tab>" . company-anaconda)
   :config
   (eval-after-load 'company
     '(add-to-list 'company-backends 'company-anaconda)))
@@ -220,6 +219,7 @@
    ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
   :hook
   ((org-mode . visual-line-mode)
+   (org-mode . org-bullets-mode)
    (org-mode . (lambda ()
                  "Beautify Org Checkbox Symbol"
                  (push '("[ ]" . "☐") prettify-symbols-alist)

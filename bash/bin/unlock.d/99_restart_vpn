@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Restart VPN
+
+notify_title="Unlock Actions"
+if pass hrm | sudo -S systemctl status mdtvpn | grep -q "active (running)"
+then
+	pass hrm | sudo -S systemctl restart mdtvpn
+	notify-send "$notify_title" "VPN Restarted"
+fi

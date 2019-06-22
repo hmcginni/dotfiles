@@ -5,15 +5,13 @@
 
 ;;; Code:
 
-(defun hrm/narrow-window ()
-  "Resize Emacs."
+(defun hrm/resize (size)
+  "Resize Emacs to specified SIZE."
   (interactive)
-  (set-frame-width (selected-frame) 86))
-
-(defun hrm/wide-window ()
-  "Resize Emacs."
-  (interactive)
-  (set-frame-width (selected-frame) 159))
+  (let ((width (cond ((string= size "narrow") 86)
+					 ((string= size "half") 127)
+					 ((string= size "wide") 159))))
+	(set-frame-width (selected-frame) width)))
 
 ;; ------------------------------------------------------------
 
@@ -216,8 +214,7 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun hrm/set-scaled-font (face weight)
   "Set the scaled font spec string for the specified FACE and WEIGHT."
   (let* ((size (hrm/scale-font-for-dpi))
-         (font (format
-                "%s:size=%d:weight=%s" face size weight)))
+         (font (format "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
 
 

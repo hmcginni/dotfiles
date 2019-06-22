@@ -1,9 +1,11 @@
 #!/bin/bash
 
-notify-send "Muted"
-sinks=($(awk '!/bluez/ladspa/ {print $1}' <<< "$(pactl list sinks short)"))
+sinks=($(awk '!/bluez|ladspa/ {print $1}' <<< "$(pactl list sinks short)"))
 
 for thisSink in "${sinks[@]}"
 do
     pactl set-sink-volume "$thisSink" 0%
 done
+
+pkill notify-send
+notify-send "Muted"

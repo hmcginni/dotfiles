@@ -20,6 +20,9 @@
  '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(debug-on-error nil)
  '(display-time-mode nil)
+ '(fill-column 80)
+ '(flycheck-checker-error-threshold 500)
+ '(flycheck-flake8rc "~/.config/flake8/.flake8")
  '(flycheck-matlab-mlint-executable nil)
  '(flycheck-python-flake8-executable "flake8")
  '(flycheck-python-pylint-executable "pylint3")
@@ -57,7 +60,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-    (magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+    (fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(python-indent-guess-indent-offset nil)
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
@@ -82,7 +85,7 @@
  '(sr-speedbar-skip-other-window-p t)
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
- '(vc-follow-symlinks nil))
+ '(vc-follow-symlinks t))
 
 
 ;; ========================================================================== ;;
@@ -134,8 +137,8 @@
 
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
-(global-set-key (kbd "C-c <C-left>") 'hrm/narrow-window)
-(global-set-key (kbd "C-c <C-right>") 'hrm/wide-window)
+(global-set-key (kbd "C-c C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
+(global-set-key (kbd "C-c C-<right>") (lambda () (interactive) (hrm/resize "wide")))
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'hrm/date-command-on-buffer)
 (global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
@@ -144,15 +147,6 @@
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
 (global-set-key (kbd "C-c C-b") 'hrm/switch-to-scratch)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
-
-;; Font
-;;
-(if (display-graphic-p)
-    (hrm/set-scaled-font "SF Mono" "medium"))
-
-;; Auto-mode-alist
-;;
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
 ;; =============================================================================
@@ -171,7 +165,18 @@
 ;; Start
 ;;
 
+;; Theme
+;;
 (hrm/set-theme nil)
+
+;; Font
+;;
+(if (display-graphic-p)
+    (hrm/set-scaled-font "Roboto Mono" "medium"))
+
+;; Auto-mode-alist
+;;
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
 ;; Customize ===================================================================

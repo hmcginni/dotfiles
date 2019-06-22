@@ -58,9 +58,12 @@ function icon = find_matlab_icon()
    
         addpref('mnotify','icon','');
         
-        homeIcons = mfind('~','-name','*[Mm][Aa][Tt][Ll][Aa][Bb]*.png');
-        usrIcons = mfind('/usr/','-name','*[Mm][Aa][Tt][Ll][Aa][Bb]*.png');
-        icons = vertcat(homeIcons, usrIcons);
+        mlRegex = '[Mm][Aa][Tt][Ll][Aa][Bb]*.png';
+        mlBinDir = fullfile(matlabroot,'bin');
+        mlIcons = mfind(mlBinDir,'-name',mlRegex);
+        homeIcons = mfind('~','-name',mlRegex);
+        usrIcons = mfind('/usr/','-name',mlRegex);
+        icons = vertcat(mlIcons, homeIcons, usrIcons);
         
         if isempty(icons)
             icon = '';
