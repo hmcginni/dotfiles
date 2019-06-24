@@ -35,15 +35,15 @@ _emacsclient() {
 }
 
 
-_fzf_branch() {
+_fzf_complete_gc() {
     #
-    # FZF_COMPLETE_GIT_CHECKOUT - fuzzy branch completion in Git
+    # FZF_COMPLETE_GC - fuzzy branch completion in Git
     #
 
-    FZF_COMPLETION_TRIGGER='' _fzf_complete \
-			              "--height=10 --reverse" "$@" < <(git branch -a)
+	FZF_COMPLETION_TRIGGER='' _fzf_complete \
+							  "--height=10 --reverse" "$@" < <(git branch -a)
 }
-complete -F _fzf_branch -o default -o bashdefault "gc"
+complete -F _fzf_complete_gc -o default -o bashdefault "gc"
 
 
 _git_push_wrapper() {

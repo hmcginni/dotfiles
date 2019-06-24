@@ -27,7 +27,7 @@
  '(flycheck-matlab-mlint-executable nil)
  '(flycheck-python-flake8-executable "flake8")
  '(flycheck-python-pylint-executable "pylint3")
- '(flycheck-shellcheck-follow-sources t)
+ '(flycheck-shellcheck-follow-sources nil)
  '(font-use-system-font t)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)

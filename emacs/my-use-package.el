@@ -162,7 +162,6 @@
 (use-package company-anaconda
   :ensure t
   :diminish
-  :bind ("C-<tab>" . company-anaconda)
   :config
   (eval-after-load 'company
     '(add-to-list 'company-backends 'company-anaconda)))

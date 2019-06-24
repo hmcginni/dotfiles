@@ -112,19 +112,6 @@
 
 ;; ------------------------------------------------------------
 
-(defun hrm/generate-new-filename (path)
-  "Create a new date-stamped filename in PATH."
-  (interactive)
-  (let ((name (read-string
-               "File name: ")))
-    (expand-file-name
-     (format "%s-%s.org"
-             (format-time-string "%Y%m%d")
-             name)
-     path)))
-
-;; ------------------------------------------------------------
-
 (defun hrm/switch-to-scratch ()
   "Go to the *scratch* buffer."
   (interactive)
@@ -205,9 +192,9 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
-    (cond ((< dpi 135) 13)
-          ((< dpi 145) 14)
-          ((< dpi 155) 15)
+    (cond ((< dpi 135) 12)
+          ((< dpi 145) 13)  ;; [-inf,135) must be 12
+          ((< dpi 155) 15)  ;; [145, 155) must be ?16?
           ((< dpi 165) 16)
           (t 15))))
 

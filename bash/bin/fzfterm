@@ -1,0 +1,17 @@
+#!/bin/bash
+
+_get_selection() {
+	find ~ -type f 2>/dev/null | fzf --height=10 --reverse
+}
+
+_main() {
+	if selection=$(_get_selection)
+	then
+		nohup mimeopen "$selection" &
+		notify-send "$selection"
+	fi
+	
+	sleep 0.1
+}
+
+st -e sh -c "$(_main)" disown
