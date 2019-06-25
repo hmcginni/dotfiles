@@ -30,7 +30,7 @@ _emacsclient() {
     # EMACSCLIENT - Open file with emacsclient
     #
 
-    file=$1
+	file="$1"
     emacsclient -a "emacs" "$file" &>/dev/null &
 }
 
@@ -39,9 +39,10 @@ _fzf_complete_gc() {
     #
     # FZF_COMPLETE_GC - fuzzy branch completion in Git
     #
-
-	FZF_COMPLETION_TRIGGER='' _fzf_complete \
-							  "--height=10 --reverse" "$@" < <(git branch -a)
+	
+	export FZF_COMPLETION_TRIGGER=''
+	fzf_args="--height=10 --reverse"
+	_fzf_complete "$fzf_args" "$@" < <(git branch -a)
 }
 complete -F _fzf_complete_gc -o default -o bashdefault "gc"
 
