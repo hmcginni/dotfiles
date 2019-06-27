@@ -7,13 +7,13 @@ UNLOCK_DIR=$HOME/bin/unlock.d/
 type="signal"
 iface="com.canonical.Unity.Session"
 
-find "$UNLOCK_DIR"/ -xtype f -exec {} &>/dev/null \;
+find "$UNLOCK_DIR" -xtype f -exec {} &>/dev/null \;
 dbus-monitor --session "type='$type',interface='$iface'" |
     while read event
     do
 	    if echo "$event" | grep "Unlocked" &>/dev/null
         then
-	        find "$UNLOCK_DIR"/ -xtype f -exec {} &>/dev/null \;
+	        find "$UNLOCK_DIR" -xtype f -exec {} &>/dev/null \;
 	    fi
     done
 

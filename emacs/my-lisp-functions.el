@@ -203,6 +203,11 @@ Use a light color theme if LIGHT and dark otherwise."
   (let* ((size (hrm/scale-font-for-dpi))
          (font (format "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
+;; (defun hrm/set-scaled-font ()
+;;   "Scale the current frame font for high DPI displays."
+;;   (let* ((size (hrm/scale-font-for-dpi))
+;;          (font (format "%s:size=%d:weight=%s" face size weight)))
+;;     (set-frame-font font)))
 
 
 ;;

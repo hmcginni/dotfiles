@@ -264,6 +264,19 @@
   :diminish)
 
 
+;; Neotree Mode
+;;
+(use-package neotree
+  :ensure t
+  :bind (("<f9>" . neotree-toggle)))
+
+
+;; Icons
+;;
+(use-package all-the-icons
+  :ensure t)
+
+
 ;; Systemd Unit mode
 ;;
 (use-package systemd

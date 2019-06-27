@@ -42,12 +42,15 @@
 		   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 1)
- '(linum-format "%4d  ")
+ '(linum-format "%4d ")
  '(matlab-functions-have-end t)
  '(matlab-indent-function-body t)
  '(matlab-shell-command-switches (quote ("-nojvm")))
  '(menu-bar-mode nil)
  '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(neo-autorefresh t)
+ '(neo-theme (quote ascii))
+ '(neo-window-width 18)
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -62,7 +65,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+	(coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
  '(python-indent-guess-indent-offset nil)
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
@@ -174,7 +177,7 @@
 ;; Font
 ;;
 (if (display-graphic-p)
-    (hrm/set-scaled-font "Roboto Mono" "medium"))
+    (hrm/set-scaled-font "Hack" "regular"))
 
 ;; Auto-mode-alist
 ;;
@@ -189,8 +192,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(linum ((t (:inherit (shadow default) :foreground "#a0a0a0"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#707070" :height 0.8 :family "Roboto Mono"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
+ '(neo-banner-face ((t (:foreground "lightblue" :weight bold :height 0.9 :family "IBM Plex Sans"))))
+ '(neo-button-face ((t (:underline nil :height 0.9 :family "IBM Plex Sans"))))
+ '(neo-dir-link-face ((t (:foreground "DeepSkyBlue" :height 0.9 :family "IBM Plex Sans"))))
+ '(neo-expand-btn-face ((t (:foreground "SkyBlue" :height 0.9 :family "IBM Plex Sans"))))
+ '(neo-file-link-face ((t (:foreground "White" :height 0.9 :family "IBM Plex Sans"))))
+ '(neo-header-face ((t (:foreground "White" :height 0.9 :family "IBM Plex Sans"))))
+ '(neo-root-dir-face ((t (:foreground "light gray" :weight bold :height 0.9 :family "IBM Plex Sans"))))
  '(speedbar-button-face ((t (:foreground "green4" :height 70 :family "Roboto"))))
  '(speedbar-directory-face ((t (:foreground "dim gray" :height 90 :family "Roboto"))))
  '(speedbar-file-face ((t (:foreground "cyan4" :height 90 :family "Roboto"))))

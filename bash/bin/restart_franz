@@ -8,16 +8,16 @@ if [[ -z $franz_install ]]
 then
 	notify-send "restart_franz" "Franz is not installed!"
     exit 1
-else
-	killall franz
-    franz &>/dev/null &
-	
-    while [[ -z $(pnw franz) ]]
-	do
-        sleep 0.5		
-    done
-	
-	xdotool windowminimize "$(pnw franz)"
 fi
+
+killall franz
+franz &>/dev/null &
+	
+while [[ -z $(pnw franz) ]]
+do
+    sleep 0.5		
+done
+
+xdotool windowminimize "$(pnw franz)"
 
 notify-send "Unlock Actions" "Restarted Franz"
