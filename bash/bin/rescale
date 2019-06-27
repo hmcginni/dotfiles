@@ -29,7 +29,8 @@ dconf write "$dconf_gui_scale_factor_key" "$scale_factor"
 
 if pgrep emacs >/dev/null
 then
-    emacsclient -e '(hrm/set-scaled-font "Roboto Mono" "medium")'
+	emacsclient -e '(hrm/reload-emacs-init-file)'
+    # emacsclient -e '(hrm/set-scaled-font "Roboto Mono" "medium")'
 fi
 
 notify-send "rescale" "Scaling text"
