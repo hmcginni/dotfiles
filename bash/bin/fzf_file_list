@@ -1,0 +1,17 @@
+#!/bin/bash
+
+title="FZF Launcher"
+
+_get_selection() {
+	find ~ -type f 2>/dev/null | fzf --exact --height=10 --reverse
+}
+
+_main() {
+	if selection=$(_get_selection)
+	then
+		nohup mimeopen "$selection" &>/dev/null &
+		notify-send "$title" "Opening $selection"
+	fi
+}
+
+_main

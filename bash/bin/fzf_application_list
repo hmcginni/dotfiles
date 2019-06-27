@@ -3,13 +3,13 @@
 title="FZF Launcher"
 
 _get_selection() {
-	find ~ -type f 2>/dev/null | fzf --height=10 --reverse
+	compgen -c | grep -E "^.*[[:alnum:]]+.*$" | sort -u | fzf --exact --height=10 --reverse
 }
 
 _main() {
 	if selection=$(_get_selection)
 	then
-		nohup gnome-open "$selection" &
+		nohup "$selection" &>/dev/null &
 		notify-send "$title" "Opening $selection"
 	fi
 }

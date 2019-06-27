@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+_init() {
+	. ~/.fzf.bash
+	fzf_list=$1
+	fzf_list=${fzf_list:="fzf_file_list"}
+}
+
+_main() {
+
+	cmd="sh -c $fzf_list"
+	title="Fuzzy Finder"
+	size=(50 10)
+	off=(100 100)
+	dims=$(printf "%dx%d+%d+%d" "${size[@]}" "${off[@]}")
+	
+	pre_wid_list=$(awk '{print $1}' <<< "$(wmctrl -lp)")
+	gnome-terminal --geometry "$dims" --window-with-profile=Finder -e "$cmd" &
+	post_wid_list=$(awk '{print $1}' <<< "$(wmctrl -lp)")
+
+	while [[ "$pre_wid_list" == "$post_wid_list" ]]
+	do
+		sleep 0.01
+		post_wid_list=$(awk '{print $1}' <<< "$(wmctrl -lp)")
+	done
+	
+	fzf_wid=$(comm -13 <(echo "$pre_wid_list") <(echo "$post_wid_list"))
+	xdotool set_window --name "$title" --class "$title" "$fzf_wid"
+
+}
+
+_init "$@"
+_main

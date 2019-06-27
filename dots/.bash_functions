@@ -40,9 +40,8 @@ _fzf_complete_gc() {
     # FZF_COMPLETE_GC - fuzzy branch completion in Git
     #
 	
-	export FZF_COMPLETION_TRIGGER=''
 	fzf_args="--height=10 --reverse"
-	_fzf_complete "$fzf_args" "$@" < <(git branch -a)
+	FZF_COMPLETION_TRIGGER='' _fzf_complete "$fzf_args" "$@" < <(git branch -a)
 }
 complete -F _fzf_complete_gc -o default -o bashdefault "gc"
 
