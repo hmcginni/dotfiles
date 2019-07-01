@@ -8,8 +8,8 @@
 #
 
 scale_factor=""
-dconf_text_scale_factor_key="/org/gnome/desktop/interface/text-scaling-factor"
-dconf_gui_scale_factor_key="/com/canonical/unity/interface/text-scale-factor"
+dconf_text_scale_key="/org/gnome/desktop/interface/text-scaling-factor"
+dconf_gui_scale_key="/com/canonical/unity/interface/text-scale-factor"
 
 if [[ "$(dpi)" -gt 110 ]]
 then
@@ -19,8 +19,8 @@ else
 fi
 
 # scale_factor=$(bc -l <<< "sqrt(sqrt( $(dpi) / 96 ))")
-dconf write "$dconf_text_scale_factor_key" "$scale_factor"
-# dconf write "$dconf_gui_scale_factor_key" "$scale_factor"
+dconf write "$dconf_gui_scale_key" "$scale_factor"
+dconf write "$dconf_text_scale_key" "$scale_factor"
 
 
 #
