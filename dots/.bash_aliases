@@ -38,11 +38,12 @@ esac
 
 export hrmpc="BC:5F:F4:5A:77:41"
 export sofl1="28:f1:0e:52:44:88"
+export bamboo="ec:b1:d7:94:55:9a"
 GPG_TTY=$(tty)
 export GPG_TTY
 export PS1
 export PATH="$HOME/bin:$PATH"
-export GIT_EDITOR="emacs -nw"
+export GIT_EDITOR="emacsclient -a \"emacs\" "
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 
@@ -72,7 +73,6 @@ alias mlc='_ml_wrapper cmd'
 # others
 alias copy='_copy'
 alias ediff='_ediff'
-alias open='_xdg_open'
 alias q='_quiet'
 alias qfind='_qfind'
 alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'

@@ -176,15 +176,6 @@ _tmux_run() {
 }
 
 
-_xdg_open() {
-    #
-    # XDG_OPEN - quietly open file with the default application
-    #
-
-    nohup xdg-open "$1" &>/dev/null &
-}
-
-
 _vpn() {
     #
     # VPN - wrapper function to control the MDTVPN systemd service

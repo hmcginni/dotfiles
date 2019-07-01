@@ -1,27 +1,41 @@
 #!/bin/bash
 
 
+title="Fuzzy Finder"
+
+
 _init() {
 	. ~/.fzf.bash
 	fzf_list=$1
 	fzf_list=${fzf_list:="fzf_file_list"}
 }
 
+
+_close() {
+	local wid
+
+	if wid=$(xdotool search --class "$title")
+	then
+		xdotool windowkill "$wid"
+	fi
+	
+}
+
+
 _main() {
 
 	cmd="sh -c $fzf_list"
-	title="Fuzzy Finder"
 	size=(50 10)
 	off=(100 100)
 	dims=$(printf "%dx%d+%d+%d" "${size[@]}" "${off[@]}")
-	
+
 	pre_wid_list=$(awk '{print $1}' <<< "$(wmctrl -lp)")
 	gnome-terminal --geometry "$dims" --window-with-profile=Finder -e "$cmd" &
 	post_wid_list=$(awk '{print $1}' <<< "$(wmctrl -lp)")
 
 	while [[ "$pre_wid_list" == "$post_wid_list" ]]
 	do
-		sleep 0.01
+		sleep 0.02
 		post_wid_list=$(awk '{print $1}' <<< "$(wmctrl -lp)")
 	done
 	
@@ -29,6 +43,7 @@ _main() {
 	xdotool set_window --name "$title" --class "$title" "$fzf_wid"
 
 }
+
 
 _init "$@"
 _main
