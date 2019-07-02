@@ -5,19 +5,10 @@ title="Fuzzy Finder"
 
 
 _init() {
+	
 	. ~/.fzf.bash
 	fzf_list=$1
 	fzf_list=${fzf_list:="fzf_file_list"}
-}
-
-
-_close() {
-	local wid
-
-	if wid=$(xdotool search --class "$title")
-	then
-		xdotool windowkill "$wid"
-	fi
 	
 }
 

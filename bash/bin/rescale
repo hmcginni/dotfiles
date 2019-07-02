@@ -7,20 +7,22 @@
 # Update desktop environment scale factor
 #
 
-scale_factor=""
+scale_factor="1"
 dconf_text_scale_key="/org/gnome/desktop/interface/text-scaling-factor"
 dconf_gui_scale_key="/com/canonical/unity/interface/text-scale-factor"
 
-if [[ "$(dpi)" -gt 110 ]]
+if [[ $(dpi) -gt 110 ]]
 then
-    scale_factor=1.150
+    scale_factor=1.15
 else
-    scale_factor=1.000
+    scale_factor=1
 fi
 
 # scale_factor=$(bc -l <<< "sqrt(sqrt( $(dpi) / 96 ))")
 dconf write "$dconf_gui_scale_key" "$scale_factor"
+sleep 0.1
 dconf write "$dconf_text_scale_key" "$scale_factor"
+
 
 
 #
@@ -30,7 +32,7 @@ dconf write "$dconf_text_scale_key" "$scale_factor"
 if pgrep emacs >/dev/null
 then
 	# emacsclient -e '(hrm/reload-emacs-init-file)'
-    emacsclient -e '(hrm/set-scaled-font "Hack" "regular")'
+    emacsclient -e '(hrm/set-scaled-font "Hack" "regular")' >/dev/null
 fi
 
-notify-send "rescale" "Scaling text"
+notify-send "rescale" "Scaling text (${scale_factor}x)"
