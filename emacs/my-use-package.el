@@ -48,7 +48,9 @@
 (use-package emacs
   :delight
   (adaptive-wrap-prefix-mode)
-  (visual-line-mode))
+  (visual-line-mode)
+  (global-prettify-symbols-mode)
+  (eldoc-mode))
 
 
 ;; Automatically update packages
@@ -63,18 +65,11 @@
   (auto-package-update-maybe))
 
 
-;; Speedbar
-;;
-(use-package sr-speedbar
-  :ensure t
-  :bind ("<f10>" . sr-speedbar-toggle))
-
-
 ;; Transpose frame
 ;;
 (use-package transpose-frame
   :ensure t
-  :bind ("C-x '" . transpose-frame))
+  :bind ("C-x t" . transpose-frame))
 
 
 ;; Magit
@@ -99,6 +94,7 @@
 ;; Helm interface for GNU Global Tags
 (use-package helm-gtags
   :ensure t
+  :delight
   :bind (("C-<f1>" . helm-gtags-dwim))
   :hook ((dired-mode . helm-gtags-mode)
          (c-mode . helm-gtags-mode)
@@ -141,7 +137,8 @@
   :bind ("C-<tab>" . company-complete)
   :hook ((irony-mode . company-mode)
          (emacs-lisp-mode . company-mode)
-         (anaconda-mode . company-mode)
+         (shell-script-mode . company-mode)
+		 (anaconda-mode . company-mode)
          (matlab-mode . company-mode)))
 
 (use-package company-irony
@@ -185,8 +182,9 @@
 ;;
 (use-package anaconda-mode
   :ensure t
-  :delight ((anaconda-mode)
-            (anaconda-eldoc-mode))
+  :delight
+  (anaconda-mode)
+  (anaconda-eldoc-mode)
   :bind ("C-c C-d" . anaconda-mode-show-doc)
   :hook ((python-mode . anaconda-mode)
          (python-mode . anaconda-eldoc-mode))
@@ -218,7 +216,9 @@
    ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
   :hook
   ((org-mode . visual-line-mode)
-   (org-mode . org-bullets-mode)
+   (org-mode . (lambda ()
+				 "Require export options"
+				 (require 'ox-jira)))
    (org-mode . (lambda ()
                  "Beautify Org Checkbox Symbol"
                  (push '("[ ]" . "☐") prettify-symbols-alist)
@@ -253,14 +253,12 @@
 ;; Org mode JIRA export
 ;;
 (use-package ox-jira
-  :ensure t
-  :requires org)
+  :ensure t)
 
 ;; Org-bullets mode
 ;;
 (use-package org-bullets
   :ensure t
-  :requires org
   :diminish)
 
 
@@ -268,7 +266,11 @@
 ;;
 (use-package neotree
   :ensure t
-  :bind (("<f9>" . neotree-toggle)))
+  :bind (("<f9>" . neotree-toggle))
+  :hook (neo-after-create . (lambda (_unused)
+							  "Disable line numbers"
+							  (interactive)
+							  (linum-mode -1))))
 
 
 ;; Icons
@@ -297,6 +299,8 @@
 (use-package matlab-mode
   :ensure t
   :mode ("\\.m$" . matlab-mode)
+  :delight
+  (mlint-minor-mode)
   :hook ((matlab-mode . mlint-minor-mode)
          (matlab-mode . visual-line-mode))
   :config

@@ -10,6 +10,7 @@
 #-------------------------------------------------------------------------------
 # Utility Functions
 
+
 source ~/lib/bash/tiling
 source ~/lib/bash/utils
 
@@ -24,13 +25,17 @@ function err()
     utils.errorf "\n\t%s\n\tError on line: ${BASH_LINENO[0]}\n" "$1"
 }
 
+
 #-------------------------------------------------------------------------------
 # Defaults
 
+
 desktop=$(tiling.getCursorDesktop)
+
 
 #-------------------------------------------------------------------------------
 # Parse Inputs
+
 
 while getopts ":hd:" opt; do
     case ${opt} in
@@ -49,8 +54,10 @@ while getopts ":hd:" opt; do
 done
 shift $(( OPTIND - 1 ))
 
+
 #-------------------------------------------------------------------------------
 # Find all visible windows
+
 
 declare -a pexcept_array
 

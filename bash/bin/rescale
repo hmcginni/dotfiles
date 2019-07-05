@@ -31,8 +31,11 @@ dconf write "$dconf_text_scale_key" "$scale_factor"
 
 if pgrep emacs >/dev/null
 then
+	font_string=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
+	font=$(echo "${font_string//\'/}" | rev | cut -d" " -f2- | rev)
+	font="Input Mono Condensed"
 	# emacsclient -e '(hrm/reload-emacs-init-file)'
-    emacsclient -e '(hrm/set-scaled-font "Hack" "regular")' >/dev/null
+    emacsclient -e "(hrm/set-scaled-font \"$font\" \"regular\")" >/dev/null
 fi
 
 notify-send "rescale" "Scaling text (${scale_factor}x)"

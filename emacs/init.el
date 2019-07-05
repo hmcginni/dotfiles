@@ -32,6 +32,7 @@
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)
  '(global-linum-mode t)
+ '(global-prettify-symbols-mode t)
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message
@@ -48,9 +49,13 @@
  '(matlab-shell-command-switches (quote ("-nojvm")))
  '(menu-bar-mode nil)
  '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
- '(neo-autorefresh t)
- '(neo-theme (quote ascii))
- '(neo-window-width 18)
+ '(neo-auto-indent-point t)
+ '(neo-autorefresh nil)
+ '(neo-mode-line-type (quote none))
+ '(neo-show-updir-line nil)
+ '(neo-theme (quote icons))
+ '(neo-window-fixed-size t)
+ '(neo-window-width 22)
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -65,29 +70,14 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame sr-speedbar helm auto-package-update diminish use-package)))
+	(coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame auto-package-update diminish use-package)))
  '(python-indent-guess-indent-offset nil)
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
- '(speedbar-frame-parameters
-   (quote
-	((minibuffer)
-	 (width . 15)
-	 (border-width . 0)
-	 (menu-bar-lines . 0)
-	 (tool-bar-lines . 0)
-	 (unsplittable . t)
-	 (left-fringe . 0))))
- '(speedbar-hide-button-brackets-flag t)
- '(speedbar-show-unknown-files t)
- '(speedbar-use-images nil)
- '(speedbar-verbosity-level 0)
- '(sr-speedbar-default-width 30)
- '(sr-speedbar-right-side nil)
- '(sr-speedbar-skip-other-window-p t)
+ '(tab-width 4)
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))
@@ -122,16 +112,16 @@
               indent-tabs-mode t
               c-default-style "linux"
               ediff-window-setup-function 'ediff-setup-windows-plain
-              frame-title-format (list "GNU Emacs • %b • "
-                                       (getenv "USER"))
-              speedbar-initial-expansion-list-name "buffers")
+              frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
+			  prettify-symbols-alist '(("lambda" . 955)
+									   ("->" . 8594)
+									   ("=>" . 8658)))
 
 ;; Global keyboard shortcuts
 ;;
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "<S-mouse-2>") 'menu-bar-mode)
 (global-set-key (kbd "M-;") 'visual-line-mode)
 (global-set-key (kbd "C-<f4>") 'kill-this-buffer)
 (global-set-key (kbd "C-j") 'fill-paragraph)
@@ -177,7 +167,7 @@
 ;; Font
 ;;
 (if (display-graphic-p)
-    (hrm/set-scaled-font "Hack" "regular"))
+    (hrm/set-scaled-font "Input Mono Condensed" "regular"))
 
 ;; Auto-mode-alist
 ;;
@@ -194,17 +184,12 @@
  ;; If there is more than one, they won't work right.
  '(linum ((t (:inherit (shadow default) :foreground "#707070" :height 0.8 :family "Roboto Mono"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
- '(neo-banner-face ((t (:foreground "lightblue" :weight bold :height 0.9 :family "IBM Plex Sans"))))
- '(neo-button-face ((t (:underline nil :height 0.9 :family "IBM Plex Sans"))))
- '(neo-dir-link-face ((t (:foreground "DeepSkyBlue" :height 0.9 :family "IBM Plex Sans"))))
- '(neo-expand-btn-face ((t (:foreground "SkyBlue" :height 0.9 :family "IBM Plex Sans"))))
- '(neo-file-link-face ((t (:foreground "White" :height 0.9 :family "IBM Plex Sans"))))
- '(neo-header-face ((t (:foreground "White" :height 0.9 :family "IBM Plex Sans"))))
- '(neo-root-dir-face ((t (:foreground "light gray" :weight bold :height 0.9 :family "IBM Plex Sans"))))
- '(speedbar-button-face ((t (:foreground "green4" :height 70 :family "Roboto"))))
- '(speedbar-directory-face ((t (:foreground "dim gray" :height 90 :family "Roboto"))))
- '(speedbar-file-face ((t (:foreground "cyan4" :height 90 :family "Roboto"))))
- '(speedbar-highlight-face ((t (:background "light gray" :height 90 :family "IBM Plex Sans"))))
- '(speedbar-selected-face ((t (:foreground "red" :height 90 :family "IBM Plex Sans"))))
- '(speedbar-separator-face ((t (:foreground "white" :overline "gray" :family "IBM Plex Sans")))))
+ '(neo-banner-face ((t (:weight bold :height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(neo-button-face ((t (:underline nil :height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(neo-dir-link-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(neo-expand-btn-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(neo-file-link-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(neo-header-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(neo-root-dir-face ((t (:weight bold :height 0.9 :family "IBM Plex Sans Condensed")))))
+
 (put 'narrow-to-region 'disabled nil)

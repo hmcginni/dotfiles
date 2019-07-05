@@ -133,10 +133,10 @@
   (interactive)
   (set-face-attribute
    'mode-line nil
-   :font "IBM Plex Sans:pixelsize=12:weight=medium" )
+   :font "IBM Plex Sans Condensed:pixelsize=12:weight=medium" )
   (set-face-attribute
    'mode-line-inactive nil
-   :font "IBM Plex Sans:pixelsize=12:weight=medium:slant=italic" ))
+   :font "IBM Plex Sans Condensed:pixelsize=12:weight=medium:slant=italic" ))
 
 (defun hrm/light-theme ()
   "Apply a light GUI theme."
@@ -192,8 +192,8 @@ Use a light color theme if LIGHT and dark otherwise."
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
-    (cond ((< dpi 135) 12)  ;; dpi=96 => 12
-          ((< dpi 145) 14)  ;; dpi=140 => 14
+    (cond ((< dpi 135) 13)  ;; dpi=96 => 12
+          ((< dpi 145) 15)  ;; dpi=140 => 14
           ((< dpi 155) 15)  ;; [145, 155) must be ?16?
           ((< dpi 165) 16)
           (t 15))))

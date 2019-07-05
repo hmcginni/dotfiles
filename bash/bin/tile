@@ -38,7 +38,7 @@ function usage()
 
 
 desktop=$(tiling.getCursorDesktop)
-gap=20
+gap=18
 vSepPos=60
 hSepPos=48
 
@@ -47,20 +47,23 @@ hSepPos=48
 # Parse Inputs
 
 
-while getopts ":123v:h:d:b:" opt; do
+while getopts ":123v:h:d:b:" opt
+do
     case ${opt} in
         [1-3] )
             desktop=$opt
             ;;
         v )
             vSepPos=$OPTARG
-            if (( (20 > vSepPos) || (80 < vSepPos) )); then
+            if (( (20 > vSepPos) || (80 < vSepPos) ))
+			then
                 utils.errorf "\n\tUnsupported width (v ∈ [20,80])\n"
             fi
             ;;
         h )
             hSepPos=$OPTARG
-            if (( (30 > hSepPos) || (85 < hSepPos) )); then
+            if (( (30 > hSepPos) || (85 < hSepPos) ))
+			then
                 utils.errorf "\n\tUnsupported height (h ∈ [30,70])\n"
             fi
             ;;
@@ -69,10 +72,11 @@ while getopts ":123v:h:d:b:" opt; do
             ;;
         b )
             gap=$OPTARG
-	    if (( (8 > gap) || (60 < gap) )); then
-		utils.errorf "\n\tUnsupported gap width (gap ∈ [8,60])\n"
-	    fi
-	    ;;
+			if (( (8 > gap) || (60 < gap) ))
+			then
+				utils.errorf "\n\tUnsupported gap width (gap ∈ [8,60])\n"
+			fi
+			;;
         \?)
             usage
             ;;
@@ -90,7 +94,8 @@ numWindows=$#
 WIDList=$(vis -d"$desktop")
 numWindows=$(wc -w <<< "$WIDList")
 
-for WID in $WIDList; do
+for WID in $WIDList
+do
     sizeOfWID=$(tiling.getWindowSize "$WID")
     wSize+=($sizeOfWID)
     wMap[$sizeOfWID]=$WID
@@ -98,7 +103,8 @@ done
 
 sortedwSize=($(sort -nr <<< "$(sed -r 's| |\n|g' <<< ${wSize[@]})" ))
 
-for idx in {0..2}; do
+for idx in {0..2}
+do
     WIDs+=(${wMap[${sortedwSize[$idx]}]})
 done
 
@@ -107,7 +113,8 @@ done
 # Get title bar width
 
 
-for w_id in "${WIDs[@]}"; do
+for w_id in "${WIDs[@]}"
+do
     yTitle+=($(xprop -id "$w_id" | awk '/FRAME/ {print substr($5,1,length($5)-1)}'))
 done
 
@@ -117,10 +124,12 @@ done
 
 
 # Get xLeft and yTop
-if [[ $XDG_CURRENT_DESKTOP =~ Unity ]]; then
+if [[ $XDG_CURRENT_DESKTOP =~ Unity ]]
+then
     xLeft=$(wmctrl -lG | awk '/unity-launcher/ {print $5; exit}')
     yTop=$(wmctrl -lG | awk '/unity-panel/ {print $6; exit}')
-elif [[ $XDG_CURRENT_DESKTOP =~ XFCE ]]; then
+elif [[ $XDG_CURRENT_DESKTOP =~ XFCE ]]
+then
     xLeft=$(wmctrl -lG | egrep -v "0 +0" | awk '/xfce4-panel/ {print $5}')
     yTop=$(wmctrl -lG | egrep "0 +0" | awk '/xfce4-panel/ {print $6}')
 else
@@ -188,16 +197,19 @@ case $numWindows in
         move $x2 $y2 $w2 $h2 "${WIDs[1]}"
         move $x3 $y3 $w3 $h3 "${WIDs[2]}"
 
-	if [[ $numWindows -gt 3 ]]; then
-	    largest="${WIDs[*]}"
-	    for window in $(vis -d$desktop); do
-		if [[ ! ${largest[@]} =~ $window ]]; then
-		    xdotool windowminimize "$window"
-		fi
-	    done
+		if [[ $numWindows -gt 3 ]]
+		then
+			largest="${WIDs[*]}"
+			for window in $(vis -d$desktop)
+			do
+				if [[ ! ${largest[@]} =~ $window ]]
+				then
+					xdotool windowminimize "$window"
+				fi
+			done
 
-	    utils.nerrorf "Too many windows on display %d (%d)" "$desktop" "$numWindows"
-	fi
-	;;
+			utils.nerrorf "Too many windows on display %d (%d)" "$desktop" "$numWindows"
+		fi
+		;;
 esac
 

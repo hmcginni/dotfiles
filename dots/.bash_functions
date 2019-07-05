@@ -110,8 +110,8 @@ _parse_git_branch() {
 	
     if [[ -n $branch ]]
     then
-		repo=$(basename $(git rev-parse --show-toplevel))
-		git_line=$(printf " {%s}%s" "$repo" "$branch")
+		repo=$(basename "$(git rev-parse --show-toplevel)")
+		git_line=$(printf " [%s]%s" "$repo" "$branch")
 		
 		if [[ ${#git_line} -gt $terminal_width ]]
 		then
@@ -168,7 +168,8 @@ _tmux_go() {
 
 
 _tmux_run() {
-    tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' | xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
+    tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' \
+		| xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
     if [[ -z "$TMUX" ]]
     then
 	    source ~/.bashrc

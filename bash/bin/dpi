@@ -8,13 +8,11 @@
 
 
 # Initialize Data
-#
 
 display=1
 
 
 # Parse Inputs
-#
 
 while getopts "ad:" opt; do
     case ${opt} in
@@ -35,7 +33,6 @@ new_dpi=$1
 
 
 # Validate Inputs
-#
 
 if [[ $display -gt $(desk -n) ]]
 then
@@ -51,26 +48,25 @@ fi
 
 
 # Functions
-#
 
 _main () {
     # Main function
 
     local xrandr_output
-    local x_dist_mm
-    local x_dist_in
+    local x_mm
+    local x_in
     local dpi
     local output
     
     xrandr_output=$(xrandr --current | grep "\<connected.*mm")
-    x_dist_mm=($(sed -r "s|.* ([[:digit:]]+)mm .*|\1|" <<< "$xrandr_output"))
+    x_mm=($(sed -r "s|.* ([[:digit:]]+)mm .*|\1|" <<< "$xrandr_output"))
     x_dots=($(awk '{print $1}' <<< "$(desk -r)"))
 
-    for idx in $(seq 1 "${#x_dist_mm[@]}")
+    for idx in $(seq 1 "${#x_mm[@]}")
     do
         idx=$(( idx - 1 ))
-        x_dist_in=$(( x_dist_mm[idx] * 10 / 254 ))
-        dpi+=($(( x_dots[idx] / x_dist_in )))
+        x_in=$(( x_mm[idx] * 10 / 254 ))
+        dpi+=($(( x_dots[idx] / x_in )))
     done
 
     if [[ $display == "all" ]]
@@ -86,6 +82,5 @@ _main () {
 
 
 # Execute Main Function
-#
 
 _main

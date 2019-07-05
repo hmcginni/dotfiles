@@ -16,7 +16,7 @@ _init() {
 _main() {
 
 	cmd="sh -c $fzf_list"
-	size=(50 10)
+	size=(60 10)
 	off=(100 100)
 	dims=$(printf "%dx%d+%d+%d" "${size[@]}" "${off[@]}")
 
