@@ -94,6 +94,7 @@ done
 #-------------------------------------------------------------------------------
 # Find visible windows on specified desktop
 
+
 res=($(desk -r -d"$desktop"))
 off=($(desk -o -d"$desktop"))
 
@@ -112,6 +113,7 @@ for thisWID in "${visWIDs[@]}"; do
 done
 
 echo "${deskVisWIDs[@]}"
+
 
 #-------------------------------------------------------------------------------
 # END

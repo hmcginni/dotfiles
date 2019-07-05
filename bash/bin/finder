@@ -7,15 +7,15 @@ title="Fuzzy Finder"
 _init() {
 	
 	. ~/.fzf.bash
-	fzf_list=$1
-	fzf_list=${fzf_list:="fzf_file_list"}
+	fzf_action=$1
+	fzf_action=${fzf_action:="fzf_file_list"}
 	
 }
 
 
 _main() {
 
-	cmd="sh -c $fzf_list"
+	cmd="sh -c $fzf_action"
 	size=(60 10)
 	off=(100 100)
 	dims=$(printf "%dx%d+%d+%d" "${size[@]}" "${off[@]}")
