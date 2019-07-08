@@ -36,6 +36,7 @@ def save_shortcuts(sc_file, shortcuts):
         with open(sc_file, "wb+") as sc_cache:
             csv_writer = csv.writer(sc_cache)
             csv_writer.writerows(shortcuts)
+
     except IOError:
         print("Creating new file: \"{}\".".format(sc_file))
 
@@ -54,10 +55,12 @@ def load_shortcuts(sc_file):
         with open(sc_file, "rb") as sc_cache:
             csv_reader = csv.reader(sc_cache, delimiter=",")
             shortcuts = list(csv_reader)
+
     except IOError:
         print("Shortcuts file \"{}\" not found".format(sc_file))
         shortcuts = [["Shortcuts", "Directories"]]
         save_shortcuts(sc_file, shortcuts)
+
     return shortcuts
 
 
@@ -75,7 +78,7 @@ def main():
 
     argc = len(sys.argv)
     default_args = ["ls", None, os.getcwd()]
-    cmd, alias, directory = sys.argv[1:argc] + default_args[argc-1:]
+    cmd, alias, directory = sys.argv[1:argc] + default_args[argc - 1:]
 
     # LOAD SHORTCUTS ------------------------------------------------------ ##
 
@@ -88,12 +91,15 @@ def main():
         if alias is None:
             print("Please set an alias (None specified)")
             sys.exit(1)
+
         a_mask = [alias in entry for entry in shortcuts]
         if any(a_mask):
             a_idx = a_mask.index(True)
             shortcuts[a_idx][1] = directory
+
         else:
             shortcuts.append([alias, directory])
+
         save_shortcuts(sc_file, shortcuts)
 
     elif cmd in ["rm", "rem", "remove", "d", "del", "delete"]:
@@ -102,6 +108,7 @@ def main():
             a_idx = a_mask.index(True)
             del shortcuts[a_idx]
             save_shortcuts(sc_file, shortcuts)
+
         except ValueError:
             print("Alias \"{}\" does not exist".format(alias))
             sys.exit(1)
@@ -114,17 +121,21 @@ def main():
     else:
         alias = cmd
         a_mask = [alias in entry for entry in shortcuts]
+
         if not any(a_mask):
             print("Alias \"{}\" does not exist".format(alias))
+
         else:
             a_idx = a_mask.index(True)
             a_path = shortcuts[a_idx][1]
+
             if "TMUX" in os.environ:
                 go_str = "tmux send -t . \"pushd " + a_path + "\" ENTER"
                 os.system(go_str)
+
             else:
                 go_str = "tmux new -s " + alias + " \\; send -t " + \
-                        alias + " \"pushd " + a_path + "\" ENTER"
+                         alias + " \"pushd " + a_path + "\" ENTER"
                 os.system(go_str)
 
 

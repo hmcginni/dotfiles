@@ -137,7 +137,7 @@
   :bind ("C-<tab>" . company-complete)
   :hook ((irony-mode . company-mode)
          (emacs-lisp-mode . company-mode)
-         (shell-script-mode . company-mode)
+         (sh-mode . company-mode)
 		 (anaconda-mode . company-mode)
          (matlab-mode . company-mode)))
 
