@@ -7,5 +7,4 @@ do
     pactl set-sink-volume "$thisSink" 0%
 done
 
-pkill notify-send
-notify-send "Muted"
+notify-send "Muted" -t 2500

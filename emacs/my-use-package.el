@@ -64,22 +64,6 @@
         auto-package-update-prompt-before-update nil)
   (auto-package-update-maybe))
 
-
-;; Transpose frame
-;;
-(use-package transpose-frame
-  :ensure t
-  :bind ("C-x t" . transpose-frame))
-
-
-;; Magit
-;;
-(use-package magit
-  :ensure t
-  :diminish
-  :bind (("C-<f2>" . magit)
-         ("C-S-b" . magit-blame)))
-
 ;; Helm
 ;;
 (use-package helm
@@ -260,6 +244,33 @@
 (use-package org-bullets
   :ensure t
   :diminish)
+
+
+;; Transpose frame
+;;
+(use-package transpose-frame
+  :ensure t
+  :bind ("C-x t" . transpose-frame))
+
+
+;; Magit
+;;
+(use-package magit
+  :ensure t
+  :diminish
+  :bind (("C-<f2>" . magit)
+         ("C-S-b" . magit-blame)))
+
+
+;; Highlight symbol mode
+;;
+(use-package highlight-thing
+  :ensure t
+  :diminish
+  :hook ((prog-mode . highlight-thing-mode))
+  :config
+  (setq highlight-thing-delay-seconds 0.75
+		highlight-thing-exclude-thing-under-point t))
 
 
 ;; Neotree Mode

@@ -20,4 +20,4 @@ done
 
 xdotool windowminimize "$(pnw franz)"
 
-notify-send "Unlock Actions" "Restarted Franz"
+notify-send "Unlock Actions" "Restarted Franz" -t 2500

@@ -20,7 +20,7 @@
     ("atom-one-light-fg"       . "#383A42")
     ("atom-one-light-bg"       . "#FAFAFA")
     ("atom-one-light-bg-1"     . "#E5E5E6")  ;; MEBEE?
-    ("atom-one-light-bg-hl"    . "#F0F0F0")  ;; MEBEE?
+    ("atom-one-light-bg-hl"    . "#D0D5DB")  ;; F0F0F0
     ("atom-one-light-modeline" . "#7E7E7E")
     ("atom-one-light-mono-1"   . "#383A42")
     ("atom-one-light-mono-2"   . "#696C77")
