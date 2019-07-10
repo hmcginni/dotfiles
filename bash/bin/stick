@@ -4,7 +4,13 @@
 #
 ################################################################################
 
-wid=$(xdotool selectwindow)
-wid=$(printf 0x%x $wid)
-wmctrl -i -r $wid -b toggle,sticky
+if [[ $# == 1 ]]
+then
+	wid=$1
+else
+	wid=$(xdotool selectwindow)
+	wid=$(printf 0x%x "$wid")
+fi
+		
+wmctrl -i -r "$wid" -b toggle,sticky
 

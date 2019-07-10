@@ -44,7 +44,6 @@
        (or a b)))
 
 
-
 (defun hrm/narrow-to-eof ()
   "Narrow from (point) to end-of-file."
   (interactive)
@@ -103,8 +102,11 @@
 
 (defun hrm/inline-code (lang)
   "Insert inline LANG snippet for Org mode."
-  (insert (format "src_%s[:exports code]{}" lang))
-  (backward-char 1))
+  (interactive)
+  (if (not (string-equal major-mode "org-mode"))
+	  (message "Invalid action: must be in org-mode")
+	(insert (format "src_%s[:exports code]{}" lang))
+	(backward-char 1)))
 
 
 (defun hrm/switch-to-scratch ()
@@ -195,7 +197,7 @@
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
     (cond ((< dpi 135) 12)  ;; dpi=96 => 12
-          ((< dpi 145) 13)  ;; dpi=140 => 14
+          ((< dpi 145) 14)  ;; dpi=140 => 14
           ((< dpi 155) 14)  ;; [145, 155) must be ?16?
           ((< dpi 165) 15)
           (t 16))))

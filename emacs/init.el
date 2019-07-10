@@ -142,9 +142,13 @@
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
 (global-set-key (kbd "C-*") 'hrm/switch-to-scratch)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
-(global-set-key (kbd "C-c C-b") (lambda () (interactive) (hrm/inline-code "bash")))
-(global-set-key (kbd "C-c C-p") (lambda () (interactive) (hrm/inline-code "python")))
-(global-set-key (kbd "C-c C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
+
+(defvar hrm/insert-map)
+(define-prefix-command 'hrm/insert-map)
+(global-set-key (kbd "<C-insert>") hrm/insert-map)
+(define-key hrm/insert-map (kbd "C-b") (lambda () (interactive) (hrm/inline-code "bash")))
+(define-key hrm/insert-map (kbd "C-p") (lambda () (interactive) (hrm/inline-code "python")))
+(define-key hrm/insert-map (kbd "C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
 
 
 ;; =============================================================================

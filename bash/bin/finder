@@ -32,6 +32,7 @@ _main() {
 	
 	fzf_wid=$(comm -13 <(echo "$pre_wid_list") <(echo "$post_wid_list"))
 	xdotool set_window --name "$title" --class "$title" "$fzf_wid"
+	stick "$fzf_wid"
 
 }
 
