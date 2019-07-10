@@ -33,7 +33,7 @@ if pgrep emacs >/dev/null
 then
 	font_string=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
 	font=$(echo "${font_string//\'/}" | rev | cut -d" " -f2- | rev)
-	font="Roboto Mono"
+	# font="Meslo LG S"
 	# emacsclient -e '(hrm/reload-emacs-init-file)'
     emacsclient -e "(hrm/set-scaled-font \"$font\" \"regular\")" >/dev/null
 fi

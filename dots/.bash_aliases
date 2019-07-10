@@ -60,7 +60,7 @@ alias tt='_tmux_run "source ~/.bashrc"'
 alias gc='git checkout'
 alias gp='_git_push_wrapper'
 alias gg='_git_push_wrapper now'
-alias gitupdate='git pull --recurse-submodules; git submodule init; git submodule sync; git submodule update --recursive'
+alias gitupdate='git pull --recurse-submodules=yes; git submodule init; git submodule sync; git submodule update --recursive'
 alias gitclean='git checkout -- . && git clean -fd'
 
 # emacs
