@@ -140,8 +140,11 @@
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
-(global-set-key (kbd "C-c C-b") 'hrm/switch-to-scratch)
+(global-set-key (kbd "C-*") 'hrm/switch-to-scratch)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
+(global-set-key (kbd "C-c C-b") (lambda () (interactive) (hrm/inline-code "bash")))
+(global-set-key (kbd "C-c C-p") (lambda () (interactive) (hrm/inline-code "python")))
+(global-set-key (kbd "C-c C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
 
 
 ;; =============================================================================

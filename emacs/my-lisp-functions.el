@@ -13,7 +13,6 @@
 					 ((string= size "wide") 159))))
 	(set-frame-width (selected-frame) width)))
 
-;; ------------------------------------------------------------
 
 ;; Try to fix Emacs colors in tmux
 (defun hrm/terminal-init-screen ()
@@ -21,7 +20,6 @@
   (tty-run-terminal-initialization (selected-frame) "rxvt")
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
-;; ------------------------------------------------------------
 
 (defun hrm/move-line-up ()
   "Move up the current line."
@@ -30,7 +28,6 @@
   (forward-line -2)
   (indent-according-to-mode))
 
-;; ------------------------------------------------------------
 
 (defun hrm/move-line-down ()
   "Move down the current line."
@@ -40,7 +37,6 @@
   (forward-line -1)
   (indent-according-to-mode))
 
-;; ------------------------------------------------------------
 
 (defun hrm/xor (a b)
   "XOR of inputs A and B."
@@ -48,7 +44,6 @@
        (or a b)))
 
 
-;; ------------------------------------------------------------
 
 (defun hrm/narrow-to-eof ()
   "Narrow from (point) to end-of-file."
@@ -58,7 +53,6 @@
                          (current-column))
                       (point-max))))
 
-;; ------------------------------------------------------------
 
 (defun hrm/toggle-comment-region ()
   "Comment or uncomment a region/line."
@@ -71,7 +65,6 @@
             end (line-end-position)))
     (comment-or-uncomment-region beg end)))
 
-;; ------------------------------------------------------------
 
 (defun hrm/file-name-on-clipboard ()
   "Copy current buffer to clipboard."
@@ -88,21 +81,18 @@
          (point-max)))
       (message filename))))
 
-;; ------------------------------------------------------------
 
 (defun hrm/switch-to-previous-buffer ()
   "Switch to previous buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-;; ------------------------------------------------------------
 
 (defun hrm/reload-emacs-init-file ()
   "Reload Emacs."
   (interactive)
   (load-file "~/.emacs.d/init.el") )
 
-;; ------------------------------------------------------------
 
 (defun hrm/date-command-on-buffer ()
   "Print date in 'ddMMMyyyy' form."
@@ -110,7 +100,12 @@
   (shell-command "printf '%s' $(date +%Y%m%d)" t)
   (forward-word))
 
-;; ------------------------------------------------------------
+
+(defun hrm/inline-code (lang)
+  "Insert inline LANG snippet for Org mode."
+  (insert (format "src_%s[:exports code]{}" lang))
+  (backward-char 1))
+
 
 (defun hrm/switch-to-scratch ()
   "Go to the *scratch* buffer."
@@ -123,10 +118,12 @@
 
 
 ;;
-;; Theme Functions
+;; Theme Functions ------------------------------------------------------------
 ;;
+
 (defvar hrm/global-is-light-theme t
   "Global variable tracking whether or not we're using the LIGHT theme.")
+
 
 (defun hrm/post-theme-customizations ()
   "Fix font weirdness."
@@ -138,6 +135,7 @@
    'mode-line-inactive nil
    :font "IBM Plex Sans Condensed:pixelsize=12:weight=medium:slant=italic" ))
 
+
 (defun hrm/light-theme ()
   "Apply a light GUI theme."
   (interactive)
@@ -147,6 +145,7 @@
              (hrm/post-theme-customizations))
     (load-theme 'cmd-atom-one-light t)
     (hrm/post-theme-customizations)))
+
 
 (defun hrm/dark-theme ()
   "Apply a dark GUI theme."
@@ -158,12 +157,13 @@
     (load-theme 'cmd-atom-one-dark t)
     (hrm/post-theme-customizations)))
 
+
 (defun hrm/set-theme (light)
-  "Customize Emacs theme depending on UI.
-Use a light color theme if LIGHT and dark otherwise."
+  "Customize Emacs theme; use a LIGHT color theme if `t` and dark if `nil`."
   (if light
       (hrm/light-theme)
     (hrm/dark-theme)))
+
 
 (defun hrm/toggle-theme ()
   "Switch between light and dark themes."
@@ -173,8 +173,9 @@ Use a light color theme if LIGHT and dark otherwise."
 
 
 ;;
-;; DPI Scaling -----------------------------------------------------------------
+;; DPI Scaling ----------------------------------------------------------------
 ;;
+
 (defun hrm/get-dpi ()
   "Get the DPI of the display."
   (interactive)
@@ -189,30 +190,28 @@ Use a light color theme if LIGHT and dark otherwise."
     (message "DPI: %f" dpi)
     dpi))
 
+
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
     (cond ((< dpi 135) 12)  ;; dpi=96 => 12
-          ((< dpi 145) 14)  ;; dpi=140 => 14
-          ((< dpi 155) 15)  ;; [145, 155) must be ?16?
-          ((< dpi 165) 16)
+          ((< dpi 145) 13)  ;; dpi=140 => 14
+          ((< dpi 155) 14)  ;; [145, 155) must be ?16?
+          ((< dpi 165) 15)
           (t 16))))
+
 
 (defun hrm/set-scaled-font (face weight)
   "Set the scaled font spec string for the specified FACE and WEIGHT."
   (let* ((size (hrm/scale-font-for-dpi))
          (font (format "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
-;; (defun hrm/set-scaled-font ()
-;;   "Scale the current frame font for high DPI displays."
-;;   (let* ((size (hrm/scale-font-for-dpi))
-;;          (font (format "%s:size=%d:weight=%s" face size weight)))
-;;     (set-frame-font font)))
 
 
 ;;
-;; Narrowing
+;; Narrowing ------------------------------------------------------------------
 ;;
+
 (defun hrm/narrow-to-defun-indirect ()
   "Create a new indirect buffer narrowed to the current function."
   (interactive)
