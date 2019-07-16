@@ -6,11 +6,12 @@ apt_package_installer() {
 
     notify-send "hrmutils Installer" "Installing APT Packages\n\n"
 
-    if pgrep apt &>/dev/null; then
-	sudo pkill apt
-	sudo rm -fv /var/lib/apt/lists/lock
-	sudo rm -fv /var/cache/apt/archives/lock
-	sudo rm -fv /var/lib/dpkg/lock{,-frontend}
+    if pgrep apt &>/dev/null
+	then
+		sudo pkill apt
+		sudo rm -fv /var/lib/apt/lists/lock
+		sudo rm -fv /var/cache/apt/archives/lock
+		sudo rm -fv /var/lib/dpkg/lock{,-frontend}
     fi
     
     sudo add-apt-repository -y ppa:noobslab/themes
@@ -38,10 +39,11 @@ repository_installer() {
     notify-send "hrmutils Installer" "Creating local directories\n\n"
     mkdir -p "$elpa_path" "$repo_dir"
 
-    if [[ ! -e $repo_dir/hrmutils ]]; then
-	notify-send "hrmutils Installer" "Setting up hrmutils repository\n\n"
-	git clone https://github.com/hrmcginnis/hrmutils.git "$repo_dir"/hrmutils
-	bash "$repo_dir"/hrmutils/install/install_utils
+    if [[ ! -e $repo_dir/hrmutils ]]
+	then
+		notify-send "hrmutils Installer" "Setting up hrmutils repository\n\n"
+		git clone https://github.com/hrmcginnis/hrmutils.git "$repo_dir"/hrmutils
+		bash "$repo_dir"/hrmutils/install/install_utils
     fi
 
 }
@@ -57,31 +59,36 @@ font_installer() {
 
     notify-send "hrmutils Installer" "Waiting on fonts from Dropbox"
 
-    while ! which dropbox; do
-	sleep 5
+    while ! which dropbox
+	do
+		sleep 5
     done
     
     # Note: $(dropbox running) returns 1 if dropbox is running.
     #       while loops are active when the condition statement returns 0 (TRUE)
-    while dropbox running; do
-	sleep 5
+    while dropbox running
+	do
+		sleep 5
     done
 
     notify-send "hrmutils Installer" "Dropbox successfully installed!"
     dropbox exclude add "$dropbox_dir"/{"books","camera uploads","costa_rica_best_country","interviews","to_sell","windows","work","general documents","phone_stuff","school","docs","office","reformat","resume","code"}
     
-    while [[ ! $(dropbox filestatus "$src_fonts_dir") =~ "up to date" ]]; do
-	sleep 5
-	if (( $(date +%s) - begin_while_time > 3600 )); then
-	    notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
-	    exit 1
-	fi
+    while [[ ! $(dropbox filestatus "$src_fonts_dir") =~ "up to date" ]]
+	do
+		sleep 5
+		if (( $(date +%s) - begin_while_time > 3600 ))
+		then
+			notify-send "hrmutils Installer" "Timeout: font_installer timed out while updating Dropbox."
+			exit 1
+		fi
     done
 
     # Install fonts from Dropbox
     mkdir -p "$dest_fonts_dir"
-    for dir in $src_fonts_dir/*; do
-	cp -rv $dir -t "$dest_fonts_dir"
+    for dir in $src_fonts_dir/*
+	do
+		cp -rv $dir -t "$dest_fonts_dir"
     done
 
     fc-cache -fv
@@ -99,9 +106,9 @@ dconf_settings() {
     unity_schema="org.compiz.unityshell"
     launcher_path="/org/compiz/profiles/unity/plugins/unityshell/"
 
-    sans="FreeSans 10"
-    mono="SF Mono 9"
-    titlebar="FreeSans Semi-Bold 10"
+    sans="IBM Plex Sans Condensed Text 10"
+    mono="Inconsolata 11"
+    titlebar="IBM Plex Sans Condensed Bold 10"
     theme="Arc-Darker"
     icons="Arc-Icons"
     time_fmt="%A • %d %b %Y • %l:%M %p"

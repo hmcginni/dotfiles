@@ -13,7 +13,7 @@ dconf_gui_scale_key="/com/canonical/unity/interface/text-scale-factor"
 
 if [[ $(dpi) -gt 110 ]]
 then
-    scale_factor=1.15
+    scale_factor=1.10
 else
     scale_factor=1
 fi
@@ -33,7 +33,7 @@ if pgrep emacs >/dev/null
 then
 	font_string=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
 	font=$(echo "${font_string//\'/}" | rev | cut -d" " -f2- | rev)
-	# font="Meslo LG S"
+	font="Inconsolata"
 	# emacsclient -e '(hrm/reload-emacs-init-file)'
     emacsclient -e "(hrm/set-scaled-font \"$font\" \"regular\")" >/dev/null
 fi
