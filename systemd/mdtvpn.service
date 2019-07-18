@@ -6,7 +6,7 @@ After=network.target
 Type=forking
 Environment="DISPLAY=:0"
 Environment="XAUTHORITY=%h/.Xauthority"
-ExecStart=/bin/sh -c 'sudo -i -u hrm pass vpn | openconnect -umcginh2 -b --pid-file /run/mdtvpn.pid --passwd-on-stdin --protocol=nc "remote.covidien.com/linux"'
+ExecStart=/bin/sh -c 'sudo -i -u hrm pass vpn | openconnect -umcginh2 -b --pid-file /run/mdtvpn.pid --passwd-on-stdin --protocol=nc "remote.covidien.com"'
 ExecStop=/bin/sh -c 'pkill -F /run/mdtvpn.pid'
 PIDFile=/run/mdtvpn.pid
 Restart=on-abnormal

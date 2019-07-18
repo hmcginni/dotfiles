@@ -31,7 +31,8 @@ function out = sc(cmd, alias, dir)
 	%% LOAD SHORTCUTS  --------------------------------------------------%%
 	
 	
-	shortcutCache = fullfile(userpath,'shortcuts.txt');
+        home = getenv('HOME');
+	shortcutCache = fullfile(home, 'sc.txt');
 
 	if exist(shortcutCache,'file')
 		shortcuts = readtable(shortcutCache, 'Delimiter', ',');
@@ -56,7 +57,7 @@ function out = sc(cmd, alias, dir)
 			if ~any( cellfun( @(x)strcmpi(x,alias), shortcuts.Shortcuts ) )
 				newShortcut = table( {alias}, {dir}, ...
 					'VariableNames',{'Shortcuts','Directories'});
-				shortcuts   = sortrows([shortcuts; newShortcut],1);
+				shortcuts = sortrows([shortcuts; newShortcut],1);
 			else
 				shortcuts( strcmp(shortcuts.Shortcuts, alias), : ) = ...
 					{alias, dir};

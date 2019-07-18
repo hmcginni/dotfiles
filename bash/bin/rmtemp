@@ -3,12 +3,32 @@
 # Delete Temporary Files
 
 root_dir="$HOME"
-org_dir="$root_dir"/org
+org_dir="$HOME"/org
+src_dir="$HOME"/src
 
 notify-send "rmtemp" "Deleting temp files ..."
 
-find "$root_dir" -type f -name "*[~#]" -delete 2>/dev/null
-find "$root_dir" -type f -name "nohup.out" -delete 2>/dev/null
-find "$root_dir" -xtype l -delete 2>/dev/null
+#
+# In ~:
+#
+#   + Temp files ending in "~" or "#"
+#   + nohup.out files (from running a command in that directory with nohup)
+#   + Broken symbolic links
+#
+find "$root_dir" -type f -name "*[~#]" -print -delete 2>/dev/null
+find "$root_dir" -type f -name "nohup.out" -print -delete 2>/dev/null
+find "$root_dir" -xtype l -print -delete 2>/dev/null
 
-find "$org_dir" -type f -name "*.html" -delete 2>/dev/null
+#
+# In ~/src:
+#
+#   + Folders named "__pycache__" (from running Python applications
+#
+find "$src_dir" -type d -name "__pycache__" -print -delete 2>/dev/null
+
+#
+# In ~/org:
+#
+#   + HTML files
+#
+find "$org_dir" -type f -name "*.html" -print -delete 2>/dev/null

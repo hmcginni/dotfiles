@@ -23,6 +23,6 @@ function matchList = mgrep(varargin)
     end
     
     matchList(end) = '';
-    matchList = strip(string( split(matchList,newline) )); 
+    matchList = strip(string(split(matchList,newline))); 
     
 end

@@ -173,8 +173,8 @@
 
 ;; Font
 ;;
-;; (if (display-graphic-p)
-    ;; (hrm/set-scaled-font "Input Mono Condensed" "regular"))
+(if (display-graphic-p)
+    (hrm/set-scaled-font "Input" "regular"))
 
 ;; Auto-mode-alist
 ;;

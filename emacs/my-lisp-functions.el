@@ -196,10 +196,10 @@
 (defun hrm/scale-font-for-dpi ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/get-dpi)))
-    (cond ((< dpi 135) 14)  ;; dpi=96 => 12
-          ((< dpi 145) 16)  ;; dpi=140 => 14
-          ((< dpi 155) 16)  ;; [145, 155) must be ?14?
-          ((< dpi 165) 17)  ;; ?15?
+    (cond ((< dpi 135) 13)  ;; dpi=96 => 12-13/14
+          ((< dpi 145) 13)  ;; dpi=140 => 14/16
+          ((< dpi 155) 14)  ;; [145, 155) must be ?14/16?
+          ((< dpi 165) 15)  ;; ?15/17?
           (t 18))))         ;; ?16?
 
 
