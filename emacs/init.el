@@ -37,6 +37,7 @@
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
+#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/org.css\" />
 
 * "
 		   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
@@ -66,11 +67,12 @@
 	 ("\\.mm\\'" . default)
 	 ("\\.x?html?\\'" . default)
 	 ("\\.pdf\\'" . "evince %s"))))
+ '(org-html-htmlize-output-type (quote css))
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(highlight-thing coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame auto-package-update diminish use-package)))
+	(htmlize highlight-thing coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame auto-package-update diminish use-package)))
  '(python-indent-guess-indent-offset nil)
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
@@ -140,7 +142,7 @@
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
-(global-set-key (kbd "C-*") 'hrm/switch-to-scratch)
+(global-set-key (kbd "C-\\") 'hrm/switch-to-scratch)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 
 (defvar hrm/insert-map)
