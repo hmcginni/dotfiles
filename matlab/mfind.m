@@ -1,6 +1,6 @@
 function fileList = mfind(dir, name_opt, regex)
     %
-    % MFIND - MATLAB wrapper to `bash` FIND builtin
+    % MFIND - MATLAB wrapper to GNU find
     %
     
     %% Parse Input
