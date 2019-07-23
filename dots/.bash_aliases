@@ -29,11 +29,12 @@ reset="\[\e[00m\]"
 
 case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
-PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} \$(_parse_git_branch) \n${gray} $ ${reset}"
-	;;
+		PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
+		PS1+="\$(_parse_git_branch) \n${gray} $ ${reset}"
+		;;
     *)
-	PS1="> "
-	;;
+		PS1="> "
+		;;
 esac
 
 export hrmpc="BC:5F:F4:5A:77:41"
@@ -49,6 +50,16 @@ export GTAGSLABEL="pygments"
 
 
 # Aliases ----------------------------------------------------------------------
+
+# general
+alias copy='_copy'
+alias ediff='_ediff'
+alias open='xdg-open'
+alias q='_quiet'
+alias qfind='_qfind'
+alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
+alias vpn='_vpn'
+# alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
 # tmux
 alias t='_tmux_go'
@@ -69,13 +80,4 @@ alias e='_emacsclient'
 # MATLAB
 alias ml='_ml_wrapper gui'
 alias mlc='_ml_wrapper cmd'
-
-# others
-alias copy='_copy'
-alias ediff='_ediff'
-alias q='_quiet'
-alias qfind='_qfind'
-alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
-alias vpn='_vpn'
-# alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 

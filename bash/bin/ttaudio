@@ -19,24 +19,25 @@ btCmd="${agentOn}${disconnect}${connect}"
 #
 
 sinks="$(pactl list sinks short)"
-# if ! grep -q "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks"
-# then
-echo -e "$btCmd" | bluetoothctl &>/dev/null
-sleep 1
-while ! grep -q "bluez" <<< "$sinks"
-do
-    sleep 1
-    sinks="$(pactl list sinks short)"
-    if (( SECONDS >= timeout ))
-    then
-        errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
-        utils.nerrorf "Error connecting to headphones" "$errStr"
-    fi
-done
-utils.notify "Connected to Bluetooth Device" "Connected to TT-BH040"
-# else
-#     utils.notify "Connected to Bluetooth Device" "Already connected to TT-BH040"
-# fi
+
+if ! grep -q "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks"
+then
+	echo -e "$btCmd" | bluetoothctl &>/dev/null
+	sleep 1
+	while ! grep -q "bluez" <<< "$sinks"
+	do
+		sleep 1
+		sinks="$(pactl list sinks short)"
+		if (( SECONDS >= timeout ))
+		then
+			errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
+			utils.nerrorf "Error connecting to headphones" "$errStr"
+		fi
+	done
+	utils.notify "Connected to Bluetooth Device" "Connected to TT-BH040"
+else
+	utils.notify "Connected to Bluetooth Device" "Already connected to TT-BH040"
+fi
 
 
 #

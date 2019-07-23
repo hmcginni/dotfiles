@@ -51,7 +51,7 @@ _git_push_wrapper() {
     # GIT_PUSH_WRAPPER - simplify git pushes
     #
 
-    if [[ $PWD =~ hrmutils ]]
+    if [[ $PWD =~ hrmutils || $PWD =~ hrmcginnis ]]
     then
 	    if [[ $1 == "now" ]]
 	    then
@@ -103,19 +103,19 @@ _parse_git_branch() {
 	local repo
 	
 	terminal_width=$(tput cols)
-	ellipsis="[...]"
-	max_line_length=$(( terminal_width - ${#ellipsis} - 1 ))
+	ellipsis=" [...]"
+	max_line_length=$(( terminal_width - ${#ellipsis} - 3 ))
 
 	branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
 	
     if [[ -n $branch ]]
     then
 		repo=$(basename "$(git rev-parse --show-toplevel)")
-		git_line=$(printf " [%s]%s" "$repo" "$branch")
+		git_line=$(printf " {%s}%s" "$repo" "$branch")
 		
 		if [[ ${#git_line} -gt $terminal_width ]]
 		then
-			disp_line="${git_line:0:$max_line_length}""$ellipsis"
+			disp_line="${git_line:0:$max_line_length}$ellipsis"
 		else
 			disp_line="$git_line"
 		fi
