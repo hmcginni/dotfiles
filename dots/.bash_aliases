@@ -81,3 +81,6 @@ alias e='_emacsclient'
 alias ml='_ml_wrapper gui'
 alias mlc='_ml_wrapper cmd'
 
+# Python
+alias py='ipython3 qtconsole &'
+alias pyc='ipython3'
