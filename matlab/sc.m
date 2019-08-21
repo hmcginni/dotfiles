@@ -2,7 +2,7 @@ function out = sc(cmd, alias, dir)
 % SC
 %
 %    Create directory shortcuts
-%    Stored in <userpath>/shortcuts.txt
+%    Stored in ~/sc.txt
 %
 %    Usage:
 %        sc [command] [alias] [dir]
