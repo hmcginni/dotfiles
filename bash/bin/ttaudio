@@ -8,10 +8,10 @@ bluetooth on &>/dev/null
 
 timeout=15
 ttMAC="E8:AB:FA:23:DA:8F"
-agentOn="power on\nagent on\n"
+agent="power on\nagent on\n"
 disconnect="disconnect $ttMAC\nuntrust $ttMAC\n"
 connect="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
-btCmd="${agentOn}${disconnect}${connect}"
+btCmd="${agent}${disconnect}${connect}"
 
 
 #

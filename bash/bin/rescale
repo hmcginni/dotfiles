@@ -37,7 +37,7 @@ then
 	font="Input"
 	# emacsclient -e '(hrm/reload-emacs-init-file)'
 
-    emacsclient -e "(hrm/set-scaled-font \"$font\" \"regular\")" >/dev/null
+    emacsclient -e "(hrm/dpi/set-scaled-font \"$font\" \"regular\")" >/dev/null
 fi
 
 notify-send "rescale" "Scaling text:\t${scale_factor}x\nFont Family:\t$font" -t 2500

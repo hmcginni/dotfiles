@@ -32,7 +32,6 @@
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(global-hl-line-mode t)
  '(global-linum-mode t)
- '(global-prettify-symbols-mode t)
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message
@@ -45,6 +44,8 @@
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 1)
  '(linum-format "%4d ")
+ '(lsp-clients-clangd-executable "clangd-8")
+ '(lsp-pyls-plugins-pylint-enabled nil)
  '(matlab-functions-have-end t)
  '(matlab-indent-function-body t)
  '(matlab-shell-command-switches (quote ("-nojvm")))
@@ -72,8 +73,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(htmlize highlight-thing coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode helm-gtags format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode company-anaconda flycheck-pycheckers json-mode anaconda-mode company-box csv-mode cmake-font-lock cmake-ide cmake-mode systemd org-bullets neotree adaptive-wrap ox-jira smooth-scrolling flycheck-irony company-c-headers company-irony company transpose-frame auto-package-update diminish use-package)))
- '(python-indent-guess-indent-offset nil)
+	(flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -109,10 +109,7 @@
 
 ;; Set variables
 ;;
-(setq-default tab-width 4
-              c-basic-offset 4
-              indent-tabs-mode t
-              c-default-style "linux"
+(setq-default c-default-style "stroustrup"
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
 			  prettify-symbols-alist '(("lambda" . 955)
@@ -162,7 +159,6 @@
 (add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'prog-mode-hook 'visual-line-mode)
-(add-hook 'visual-line-mode-hook 'adaptive-wrap-prefix-mode)
 
 
 ;; =============================================================================
@@ -176,7 +172,7 @@
 ;; Font
 ;;
 (if (display-graphic-p)
-    (hrm/set-scaled-font "Input" "regular"))
+    (hrm/dpi/set-scaled-font "Input" "regular"))
 
 ;; Auto-mode-alist
 ;;

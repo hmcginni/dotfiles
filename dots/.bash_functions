@@ -94,6 +94,23 @@ _ml_wrapper() {
 }
 
 
+_new_dir_today() {
+	#
+	# NEW_DIR_TODAY - create a new timestamped directory
+	#
+
+	local today
+	local name
+	local args
+	
+	args=$*
+	today="$(date +%Y%m%d)"
+	name="${today}-${args// /-}"
+	mkdir -p "$name"
+	echo "Created \"$name\""
+}
+
+
 _parse_git_branch() {
     #
     # PARSE_GIT_BRANCH - add current Git branch to bash prompt
@@ -140,6 +157,23 @@ _quiet() {
     #
 
     ("$*") &>/dev/null & disown
+}
+
+
+_test_dir() {
+	#
+	# TEST_DIR - change to the test folder containing the provided id
+	#
+
+	tid=$1
+	dir=$(find "$SW_TEST_DIR" -name "*$tid" -type d)
+
+	if [[ -n $dir ]]
+	then
+		cd "$dir"
+	else
+		echo "No test folder found containing that ID."
+	fi
 }
 
 

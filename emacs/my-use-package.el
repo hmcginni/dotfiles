@@ -16,9 +16,7 @@
 
 ;; Add paths
 ;;
-(let ((default-directory "~/.emacs.d/elpa"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+(let ((default-directory "~/.emacs.d/elpa")))
 
 
 ;; Enable use-package
@@ -47,10 +45,10 @@
 ;;
 (use-package emacs
   :delight
-  (adaptive-wrap-prefix-mode)
+  (eldoc-mode)
   (visual-line-mode)
-  (global-prettify-symbols-mode)
-  (eldoc-mode))
+  :hook
+  ((emacs-lisp-mode . prettify-symbols-mode)))
 
 
 ;; Automatically update packages
@@ -64,6 +62,7 @@
         auto-package-update-prompt-before-update nil)
   (auto-package-update-maybe))
 
+
 ;; Helm
 ;;
 (use-package helm
@@ -76,14 +75,16 @@
   (setq helm-lisp-fuzzy-completion t))
 
 ;; Helm interface for GNU Global Tags
+;;
 (use-package helm-gtags
   :ensure t
   :delight
   :bind (("C-<f1>" . helm-gtags-dwim))
-  :hook ((dired-mode . helm-gtags-mode)
-         (c-mode . helm-gtags-mode)
-         (c++-mode . helm-gtags-mode)
-         (python-mode . helm-gtags-mode)))
+  :hook
+  ((dired-mode . helm-gtags-mode)
+   (c-mode . helm-gtags-mode)
+   (c++-mode . helm-gtags-mode)
+   (python-mode . helm-gtags-mode)))
 
 
 ;;-------------------------------------------
@@ -92,11 +93,12 @@
 (use-package flyspell
   :ensure t
   :diminish
-  :bind (("C-<f9>" . flyspell-check-next-highlighted-word)
-         ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
-  :hook ((c++-mode . flyspell-prog-mode)
-         (text-mode . flyspell-mode)
-         (org-mode . flyspell-mode))
+  :bind
+  (("C-<f9>" . flyspell-check-next-highlighted-word)
+   ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
+  :hook
+  ((text-mode . flyspell-mode)
+   (org-mode . flyspell-mode))
   :config
   (defun hrm\flyspell-check-next-highlighted-word ()
     "Custom function to spell check next highlighted word"
@@ -119,63 +121,78 @@
 (use-package company
   :ensure t
   :bind ("C-<tab>" . company-complete)
-  :hook ((irony-mode . company-mode)
-         (emacs-lisp-mode . company-mode)
-         (sh-mode . company-mode)
-		 (anaconda-mode . company-mode)
-         (matlab-mode . company-mode)))
+  :hook
+  ((c++-mode . company-mode)
+   (python-mode . company-mode)
+   (sh-mode . company-mode)
+   (css-mode . company-mode)
+   (emacs-lisp-mode . company-mode)
+   (matlab-mode . company-mode)))
 
-(use-package company-irony
+
+;; ;;----------------------------------------------
+;; ;; Python
+;; ;;
+;; (use-package anaconda-mode
+;;   :ensure t
+;;   :delight
+;;   (anaconda-mode)
+;;   :bind ("C-c C-d" . anaconda-mode-show-doc)
+;;   :hook ((python-mode . anaconda-mode)
+;;          (python-mode . anaconda-eldoc-mode))
+;;   :config
+;;   (setq python-shell-interpreter "ipython3"))
+
+
+;;-------------------------------------------------
+;; Language Server Protocol
+;;
+(use-package lsp-mode
   :ensure t
-  :requires (irony company)
-  :diminish
+  :commands lsp
+  :hook
+  ((c++-mode . lsp)
+   (python-mode . lsp)
+   (sh-mode . lsp)
+   (css-mode . lsp)
+   (lsp-mode . lsp-ui-mode))
   :config
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-irony)))
+  (require 'lsp-clients)
+  (setq lsp-enable-snippet nil
+        lsp-prefer-flymake nil
+        lsp-enable-xref t
+        lsp-auto-guess-root t))
 
-(use-package company-c-headers
+
+(use-package lsp-ui
   :ensure t
-  :diminish
+  :requires lsp-mode flycheck
+  :commands lsp-ui-mode
   :config
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-c-headers)))
+  (setq lsp-ui-flycheck-enable t
+        lsp-ui-doc-enable t
+        lsp-ui-doc-delay 1.5))
 
-(use-package company-anaconda
+
+(use-package company-lsp
   :ensure t
-  :diminish
+  :commands company-lsp
   :config
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-anaconda)))
+  (push 'company-lsp company-backends)
+  (setq company-lsp-async t
+        company-lsp-enable-recompletion t))
 
-(use-package irony
-  :ensure t
-  :hook ((c-mode . irony-mode)
-         (c++-mode . irony-mode)
-         (objc-mode . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options)))
 
-(use-package flycheck-irony
+(use-package dap-mode
   :ensure t
-  :diminish
-  :requires irony
-  :hook ((flycheck-mode . flycheck-irony-setup)))
+  :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t)
+  (dap-tooltip-mode t))
 
 
 ;;----------------------------------------------
-;; Python
-;;
-(use-package anaconda-mode
-  :ensure t
-  :delight
-  (anaconda-mode)
-  (anaconda-eldoc-mode)
-  :bind ("C-c C-d" . anaconda-mode-show-doc)
-  :hook ((python-mode . anaconda-mode)
-         (python-mode . anaconda-eldoc-mode))
-  :config
-  (setq python-shell-interpreter "ipython3"))
-
-
 ;; Smooth scrolling mode
 ;;
 (use-package smooth-scrolling
@@ -201,8 +218,9 @@
   :hook
   ((org-mode . visual-line-mode)
    (org-mode . (lambda ()
-				 "Require export options"
-				 (require 'ox-jira)))
+                 "Require export options"
+                 (require 'ox-jira)
+                 (require 'ox-odt)))
    (org-mode . (lambda ()
                  "Beautify Org Checkbox Symbol"
                  (push '("[ ]" . "☐") prettify-symbols-alist)
@@ -234,16 +252,11 @@
              '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:mdt:")))
            ("~/status/done.txt")))))
 
+
 ;; Org mode JIRA export
 ;;
 (use-package ox-jira
   :ensure t)
-
-;; Org-bullets mode
-;;
-(use-package org-bullets
-  :ensure t
-  :diminish)
 
 
 ;; Transpose frame
@@ -262,26 +275,16 @@
          ("C-S-b" . magit-blame)))
 
 
-;; Highlight symbol mode
-;;
-(use-package highlight-thing
-  :ensure t
-  :diminish
-  :hook ((prog-mode . highlight-thing-mode))
-  :config
-  (setq highlight-thing-delay-seconds 0.75
-		highlight-thing-exclude-thing-under-point t))
-
-
 ;; Neotree Mode
 ;;
 (use-package neotree
   :ensure t
-  :bind (("<f9>" . neotree-toggle))
-  :hook (neo-after-create . (lambda (_unused)
-							  "Disable line numbers"
-							  (interactive)
-							  (linum-mode -1))))
+  :bind ("<f10>" . neotree-toggle)
+  :hook
+  (neo-after-create . (lambda ()
+                        "Disable line numbers"
+                        (interactive)
+                        (linum-mode -1))))
 
 
 ;; Icons
@@ -325,6 +328,12 @@
   :bind ("C-c C-r" . sudo-edit))
 
 
+;; Adaptive Wrap
+;;
+(use-package adaptive-wrap
+  :ensure t
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+
 ;;------------------------------------------
 ;; CMake modes
 ;;
@@ -336,11 +345,6 @@
 
 (use-package cmake-mode
   :ensure t)
-
-(use-package cmake-ide
-  :ensure t
-  :diminish
-  :config (cmake-ide-setup))
 
 
 ;; END

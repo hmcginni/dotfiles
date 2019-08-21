@@ -119,6 +119,14 @@
       (insert initial-scratch-message))))
 
 
+(defun hrm/tab-untab ()
+  "Tabify or Untabify based on 'indent-tabs-mode' variable."
+  (interactive)
+  (if (indent-tabs-mode)
+	  (tabify)
+	(untabify)))
+
+
 ;;
 ;; Theme Functions ------------------------------------------------------------
 ;;
@@ -178,7 +186,7 @@
 ;; DPI Scaling ----------------------------------------------------------------
 ;;
 
-(defun hrm/get-dpi ()
+(defun hrm/dpi/get-dpi ()
   "Get the DPI of the display."
   (interactive)
   (let* ((attrs (car (display-monitor-attributes-list)))
@@ -193,9 +201,9 @@
     dpi))
 
 
-(defun hrm/scale-font-for-dpi ()
+(defun hrm/dpi/scale-font ()
   "Pick a font size based on the DPI."
-  (let ((dpi (hrm/get-dpi)))
+  (let ((dpi (hrm/dpi/get-dpi)))
     (cond ((< dpi 135) 12)  ;; dpi=96 => 12-13/14
           ((< dpi 145) 14)  ;; dpi=140 => 14/16
           ((< dpi 155) 14)  ;; [145, 155) must be ?14/16?
@@ -203,9 +211,9 @@
           (t 16))))         ;; ?16?
 
 
-(defun hrm/set-scaled-font (face weight)
+(defun hrm/dpi/set-scaled-font (face weight)
   "Set the scaled font spec string for the specified FACE and WEIGHT."
-  (let* ((size (hrm/scale-font-for-dpi))
+  (let* ((size (hrm/dpi/scale-font))
          (font (format "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
 

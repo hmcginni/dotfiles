@@ -1,7 +1,10 @@
 function mnotify(title, msg)
-    %
+    % 
     % MNOTIFY - Use `notify-send` to display message to user
-    %
+    % 
+    %   Usage:
+    %     mnotify([title,] message)
+    % 
     
     %% Parse inputs
     %
@@ -25,7 +28,7 @@ function mnotify(title, msg)
         pngArgs = '';
     end
     
-    numWords = numel(regexp(msg,'\w*[ .]'));
+    numWords = numel(regexp(msg, '\w*[ .]'));
     timeout = num2str(200*numWords + 4000);
     args = sprintf('-t %s %s', timeout, pngArgs);
     
@@ -49,20 +52,20 @@ function icon = find_matlab_icon()
     % FIND_MATLAB_ICON - Find a MATLAB icon for notifications
     %
     
-    if ispref('mnotify','icon') && exist( getpref('mnotify','icon'), 'file')
+    if ispref('mnotify', 'icon') && exist(getpref('mnotify', 'icon'), 'file')
         
-        icon = getpref('mnotify','icon');
+        icon = getpref('mnotify', 'icon');
         return
         
     else
    
-        addpref('mnotify','icon','');
+        addpref('mnotify', 'icon', '');
         
         mlRegex = '[Mm][Aa][Tt][Ll][Aa][Bb]*.png';
         mlBinDir = fullfile(matlabroot,'bin');
-        mlIcons = mfind(mlBinDir,'-name',mlRegex);
-        homeIcons = mfind('~','-name',mlRegex);
-        usrIcons = mfind('/usr/','-name',mlRegex);
+        mlIcons = mfind(mlBinDir, '-name', mlRegex);
+        homeIcons = mfind('~', '-name', mlRegex);
+        usrIcons = mfind('/usr/', '-name', mlRegex);
         icons = vertcat(mlIcons, homeIcons, usrIcons);
         
         if isempty(icons)
@@ -71,7 +74,7 @@ function icon = find_matlab_icon()
             icon = icons(1);
         end
         
-        setpref('mnotify','icon',icon);
+        setpref('mnotify', 'icon', icon);
     
     end
     

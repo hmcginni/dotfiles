@@ -104,11 +104,11 @@ function out = sc(cmd, alias, dir)
             mpopd;
         end
         
-        isCmd = cellfun( @(x)strcmpi(x,cmd), shortcuts.Shortcuts );
+        isCmd = cellfun(@(x)strcmpi(x,cmd), shortcuts.Shortcuts);
         
-        if any( isCmd )
+        if any(isCmd)
             sc('save','-',pwd);
-            newDir = shortcuts{ isCmd, 2};
+            newDir = shortcuts{isCmd, 2};
             mpushd(char(newDir));
         else
             error('Unrecognized command "%s".',cmd)

@@ -51,9 +51,11 @@ export GTAGSLABEL="pygments"
 
 # Aliases ----------------------------------------------------------------------
 
-# general
+# function shortcuts
 alias copy='_copy'
 alias ediff='_ediff'
+alias testdir='_test_dir'
+alias newdir='_new_dir_today'
 alias open='xdg-open'
 alias q='_quiet'
 alias qfind='_qfind'
@@ -84,3 +86,4 @@ alias mlc='_ml_wrapper cmd'
 # Python
 alias py='ipython3 qtconsole &'
 alias pyc='ipython3'
+
