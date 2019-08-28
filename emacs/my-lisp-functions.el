@@ -1,4 +1,4 @@
-;;; init-lisp-functions.el --- Emacs Init File - custom lisp functions
+;;; init-lisp-functions.el -- Emacs Init File - custom lisp functions
 
 ;;; Commentary:
 ;;    Custom Elisp Functions
@@ -119,14 +119,6 @@
       (insert initial-scratch-message))))
 
 
-(defun hrm/tab-untab ()
-  "Tabify or Untabify based on 'indent-tabs-mode' variable."
-  (interactive)
-  (if (indent-tabs-mode)
-	  (tabify)
-	(untabify)))
-
-
 ;;
 ;; Theme Functions ------------------------------------------------------------
 ;;
@@ -206,9 +198,9 @@
   (let ((dpi (hrm/dpi/get-dpi)))
     (cond ((< dpi 135) 12)  ;; dpi=96 => 12-13/14
           ((< dpi 145) 14)  ;; dpi=140 => 14/16
-          ((< dpi 155) 14)  ;; [145, 155) must be ?14/16?
-          ((< dpi 165) 15)  ;; ?15/17?
-          (t 16))))         ;; ?16?
+          ((< dpi 155) 17)  ;; [145, 155) must be ?14/16?
+          ((< dpi 165) 17)  ;; ?15/17?
+          (t 17))))         ;; ?16?
 
 
 (defun hrm/dpi/set-scaled-font (face weight)
@@ -233,9 +225,5 @@
     (switch-to-buffer new-buffer-name)
     (narrow-to-defun)))
 
-
-;;
-;; End
-;;
 
 ;;; my-lisp-functions.el ends here

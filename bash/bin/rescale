@@ -34,7 +34,7 @@ then
 	font_string=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
 	font=$(echo "${font_string//\'/}" | rev | cut -d" " -f2- | rev)
 
-	font="Input"
+	# font="SF Mono"
 	# emacsclient -e '(hrm/reload-emacs-init-file)'
 
     emacsclient -e "(hrm/dpi/set-scaled-font \"$font\" \"regular\")" >/dev/null

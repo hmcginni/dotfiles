@@ -21,9 +21,6 @@ import sys
 import csv
 
 
-# SAVE_SHORTCUTS  --------------------------------------------------------- ##
-
-
 def save_shortcuts(sc_file, shortcuts):
     """
     SAVE_SHORTCUTS
@@ -39,9 +36,6 @@ def save_shortcuts(sc_file, shortcuts):
 
     except IOError:
         print("Creating new file: \"{}\".".format(sc_file))
-
-
-# LOAD SHORTCUTS  ----------------------------------------------------- ##
 
 
 def load_shortcuts(sc_file):
@@ -64,9 +58,6 @@ def load_shortcuts(sc_file):
     return shortcuts
 
 
-# MAIN  ------------------------------------------------------------------- ##
-
-
 def main():
     """
     MAIN
@@ -74,19 +65,16 @@ def main():
         Perform an action on list-of-lists "shortcuts"
     """
 
-    # PARSE INPUTS  ------------------------------------------------------- ##
-
+    # PARSE INPUTS
     argc = len(sys.argv)
     default_args = ["ls", None, os.getcwd()]
     cmd, alias, directory = sys.argv[1:argc] + default_args[argc - 1:]
 
-    # LOAD SHORTCUTS ------------------------------------------------------ ##
-
+    # LOAD SHORTCUTS
     sc_file = os.environ["HOME"] + "/sc.txt"
     shortcuts = load_shortcuts(sc_file)
 
-    # ACTIONS  ------------------------------------------------------------ ##
-
+    # ACTIONS
     if cmd in ["save", "add"]:
         if alias is None:
             print("Please set an alias (None specified)")
@@ -116,7 +104,7 @@ def main():
     elif cmd in ["ls", "list", "show"]:
         for shortcut in shortcuts:
             shortcut[1] = shortcut[1].replace(os.environ["HOME"], "~")
-            print("{} {}".format(tuple(shortcut)))
+            print("{}".format(shortcut))
 
     else:
         alias = cmd
@@ -139,11 +127,5 @@ def main():
                 os.system(go_str)
 
 
-# RUN MAIN()  ------------------------------------------------------------- ##
-
-
 if __name__ == "__main__":
     main()
-
-
-# END --------------------------------------------------------------------- ##

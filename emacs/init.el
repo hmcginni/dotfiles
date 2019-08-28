@@ -18,6 +18,8 @@
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)) t)
+ '(dap-inhibit-io nil)
+ '(dap-python-executable "python3")
  '(debug-on-error nil)
  '(display-time-mode nil)
  '(fill-column 80)
@@ -45,7 +47,15 @@
  '(line-spacing 1)
  '(linum-format "%4d ")
  '(lsp-clients-clangd-executable "clangd-8")
+ '(lsp-document-highlight-delay 0.5)
+ '(lsp-pyls-plugins-pycodestyle-enabled t)
+ '(lsp-pyls-plugins-pycodestyle-ignore (quote ("E117" "W191")))
+ '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
+ '(lsp-pyls-plugins-pycodestyle-select nil)
+ '(lsp-pyls-plugins-pylint-args [--disable=W0312 (\, C0301)])
  '(lsp-pyls-plugins-pylint-enabled nil)
+ '(lsp-pyls-plugins-yapf-enabled nil)
+ '(lsp-response-timeout 15)
  '(matlab-functions-have-end t)
  '(matlab-indent-function-body t)
  '(matlab-shell-command-switches (quote ("-nojvm")))
@@ -73,7 +83,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(company-fuzzy flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -171,8 +181,8 @@
 
 ;; Font
 ;;
-(if (display-graphic-p)
-    (hrm/dpi/set-scaled-font "Input" "regular"))
+;; (if (display-graphic-p)
+    ;; (hrm/dpi/set-scaled-font "Input" "regular"))
 
 ;; Auto-mode-alist
 ;;

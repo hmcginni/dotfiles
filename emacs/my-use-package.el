@@ -48,7 +48,9 @@
   (eldoc-mode)
   (visual-line-mode)
   :hook
-  ((emacs-lisp-mode . prettify-symbols-mode)))
+  ((emacs-lisp-mode . prettify-symbols-mode)
+   (python-mode . (lambda () (setq tab-width 4
+							  python-indent-offset 4)))))
 
 
 ;; Automatically update packages
@@ -171,12 +173,12 @@
   :config
   (setq lsp-ui-flycheck-enable t
         lsp-ui-doc-enable t
-        lsp-ui-doc-delay 1.5))
+        lsp-ui-doc-delay 1.25))
 
 
 (use-package company-lsp
   :ensure t
-  :commands company-lsp
+  :commands company-complete
   :config
   (push 'company-lsp company-backends)
   (setq company-lsp-async t
@@ -186,11 +188,21 @@
 (use-package dap-mode
   :ensure t
   :after lsp-mode
+  :bind ("C-c C-b" . dap-breakpoint-toggle)
   :config
   (dap-mode t)
   (dap-ui-mode t)
-  (dap-tooltip-mode t))
-
+  (dap-tooltip-mode t)
+  (tooltip-mode t)
+  (require 'dap-python)
+  (dap-register-debug-template "Python :: Run Simulink Tests"
+							   (list :type "python"
+									 :args "-va"
+									 :cwd nil
+									 :target-module nil
+									 :request "launch"
+									 :name "Python :: Run Simulink Tests")))
+  
 
 ;;----------------------------------------------
 ;; Smooth scrolling mode
@@ -281,10 +293,7 @@
   :ensure t
   :bind ("<f10>" . neotree-toggle)
   :hook
-  (neo-after-create . (lambda ()
-                        "Disable line numbers"
-                        (interactive)
-                        (linum-mode -1))))
+  (neo-after-create . (lambda (unused) (interactive) (linum-mode nil))))
 
 
 ;; Icons

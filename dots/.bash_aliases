@@ -29,7 +29,8 @@ reset="\[\e[00m\]"
 
 case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
-		PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
+		# PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
+		PS1="\n${green}hassan${gray} in ${blue}\w ${red} "
 		PS1+="\$(_parse_git_branch) \n${gray} $ ${reset}"
 		;;
     *)

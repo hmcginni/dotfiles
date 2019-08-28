@@ -166,11 +166,11 @@ _test_dir() {
 	#
 
 	tid=$1
-	dir=$(find "$SW_TEST_DIR" -name "*$tid" -type d)
+	dir=$(find "$SW_TEST_DIR" -name "$tid" -type d)
 
 	if [[ -n $dir ]]
 	then
-		cd "$dir"
+		pushd "$dir"
 	else
 		echo "No test folder found containing that ID."
 	fi
