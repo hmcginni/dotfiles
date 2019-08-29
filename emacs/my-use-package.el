@@ -47,10 +47,12 @@
   :delight
   (eldoc-mode)
   (visual-line-mode)
+  :diminish
+  (helm-mode)
   :hook
   ((emacs-lisp-mode . prettify-symbols-mode)
-   (python-mode . (lambda () (setq tab-width 4
-							  python-indent-offset 4)))))
+   (prog-mode . (lambda () (setq tab-width 4)))
+   (python-mode . (lambda () (setq python-indent-offset 4)))))
 
 
 ;; Automatically update packages
@@ -265,9 +267,12 @@
            ("~/status/done.txt")))))
 
 
-;; Org mode JIRA export
+;; Org mode exports
 ;;
 (use-package ox-jira
+  :ensure t)
+
+(use-package epresent
   :ensure t)
 
 

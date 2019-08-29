@@ -44,7 +44,7 @@
 		   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
 		   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(line-spacing 1)
+ '(line-spacing 0.12)
  '(linum-format "%4d ")
  '(lsp-clients-clangd-executable "clangd-8")
  '(lsp-document-highlight-delay 0.5)
@@ -67,7 +67,7 @@
  '(neo-show-updir-line nil)
  '(neo-theme (quote icons))
  '(neo-window-fixed-size t)
- '(neo-window-width 22)
+ '(neo-window-width 20)
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -83,7 +83,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(company-fuzzy flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(org-present epresent company-fuzzy flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
