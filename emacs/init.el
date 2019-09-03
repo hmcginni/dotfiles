@@ -32,11 +32,12 @@
  '(flycheck-shellcheck-follow-sources nil)
  '(font-use-system-font t)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
+ '(git-gutter:update-interval 1)
  '(global-hl-line-mode t)
  '(global-linum-mode t)
+ '(helm-mode t)
  '(inhibit-startup-screen t)
- '(initial-major-mode (quote org-mode))
- '(initial-scratch-message
+ '(initial-org-scratch-message
    (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 #+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/org.css\" />
 
@@ -47,7 +48,8 @@
  '(line-spacing 0.12)
  '(linum-format "%4d ")
  '(lsp-clients-clangd-executable "clangd-8")
- '(lsp-document-highlight-delay 0.5)
+ '(lsp-document-highlight-delay 0.75)
+ '(lsp-imenu-container-name-separator " 🡲 ")
  '(lsp-pyls-plugins-pycodestyle-enabled t)
  '(lsp-pyls-plugins-pycodestyle-ignore (quote ("E117" "W191")))
  '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
@@ -56,18 +58,24 @@
  '(lsp-pyls-plugins-pylint-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled nil)
  '(lsp-response-timeout 15)
+ '(lsp-ui-imenu-kind-position (quote left))
  '(matlab-functions-have-end t)
  '(matlab-indent-function-body t)
  '(matlab-shell-command-switches (quote ("-nojvm")))
  '(menu-bar-mode nil)
  '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(mode-line-format
+   (quote
+	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info
+	 (vc-mode vc-mode)
+	 mode-line-end-spaces)))
  '(neo-auto-indent-point t)
  '(neo-autorefresh nil)
  '(neo-mode-line-type (quote none))
- '(neo-show-updir-line nil)
+ '(neo-show-updir-line t)
  '(neo-theme (quote icons))
- '(neo-window-fixed-size t)
- '(neo-window-width 20)
+ '(neo-window-fixed-size nil)
+ '(neo-window-width 18)
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -83,7 +91,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(org-present epresent company-fuzzy flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(helm-gtags git-gutter org-present epresent company-fuzzy flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -93,6 +101,18 @@
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))
+
+
+;; Custom variables
+(defgroup hrm nil
+  "Custom variables I've created."
+  :group 'convenience)
+
+(defcustom initial-org-scratch-message nil
+  "Initial message displayed in Org-scratch buffers."
+  :group 'hrm
+  :type '(sexp))
+
 
 
 ;; ========================================================================== ;;
@@ -143,13 +163,15 @@
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
 (global-set-key (kbd "C-c C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
 (global-set-key (kbd "C-c C-<right>") (lambda () (interactive) (hrm/resize "wide")))
+(global-set-key (kbd "C-c C-<down>") (lambda () (interactive) (hrm/resize "half")))
+(global-set-key (kbd "C-c C-<up>") (lambda () (interactive) (hrm/resize "half")))
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'hrm/date-command-on-buffer)
 (global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
-(global-set-key (kbd "C-\\") 'hrm/switch-to-scratch)
+(global-set-key (kbd "C-\\") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 
 (defvar hrm/insert-map)

@@ -13,7 +13,8 @@ tput smkx
 # Functions --------------------------------------------------------------------
 
 
-if [[ -f ~/.bash_functions ]]; then
+if [[ -f ~/.bash_functions ]]
+then
     . ~/.bash_functions
 fi
 
@@ -21,10 +22,10 @@ fi
 # Variables --------------------------------------------------------------------
 
 
-blue="\[\e[1;34m\]"
+blue="\[\e[0;94m\]"
 gray="\[\e[1;90m\]"
 green="\[\e[0;32m\]"
-red="\[\e[1;31m\]"
+red="\[\e[0;91m\]"
 reset="\[\e[00m\]"
 
 case "$TERM" in
@@ -38,12 +39,14 @@ case "$TERM" in
 		;;
 esac
 
+export PS1
+export GPG_TTY
+GPG_TTY=$(tty)
+
 export hrmpc="BC:5F:F4:5A:77:41"
 export sofl1="28:f1:0e:52:44:88"
 export bamboo="ec:b1:d7:94:55:9a"
-GPG_TTY=$(tty)
-export GPG_TTY
-export PS1
+
 export PATH="$HOME/bin:$PATH"
 export GIT_EDITOR="emacsclient -a \"emacs\" "
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
@@ -52,17 +55,19 @@ export GTAGSLABEL="pygments"
 
 # Aliases ----------------------------------------------------------------------
 
+
+# general
+alias open='xdg-open'
+
 # function shortcuts
 alias copy='_copy'
 alias ediff='_ediff'
 alias testdir='_test_dir'
 alias newdir='_new_dir_today'
-alias open='xdg-open'
 alias q='_quiet'
 alias qfind='_qfind'
 alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
 alias vpn='_vpn'
-# alias vpn='pass vpn | sudo openconnect -umcginh2 --passwd-on-stdin --protocol=nc remote.covidien.com/linux'
 
 # tmux
 alias t='_tmux_go'
@@ -86,5 +91,3 @@ alias mlc='_ml_wrapper cmd'
 
 # Python
 alias py='ipython3 qtconsole &'
-alias pyc='ipython3'
-

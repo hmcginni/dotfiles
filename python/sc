@@ -40,13 +40,13 @@ def save_shortcuts(sc_file, shortcuts):
 
 def load_shortcuts(sc_file):
     """
-    LOAD_SHORTCUTS
+    load_shortcuts: Load list-of-lists "shortcuts" from a file.
 
-        Load list-of-lists "shortcuts" from text file "sc_file"
+    :param list sc_file: file containing shortcuts
     """
 
     try:
-        with open(sc_file, "rb") as sc_cache:
+        with open(sc_file, "r") as sc_cache:
             csv_reader = csv.reader(sc_cache, delimiter=",")
             shortcuts = list(csv_reader)
 

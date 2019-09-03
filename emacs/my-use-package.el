@@ -15,12 +15,10 @@
 
 
 ;; Add paths
-;;
 (let ((default-directory "~/.emacs.d/elpa")))
 
 
 ;; Enable use-package
-;;
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -31,7 +29,6 @@
 
 
 ;; Diminish and Delight modes
-;;
 (use-package diminish
   :ensure t)
 (use-package delight
@@ -42,7 +39,6 @@
 
 
 ;; Built-ins
-;;
 (use-package emacs
   :delight
   (eldoc-mode)
@@ -51,12 +47,13 @@
   (helm-mode)
   :hook
   ((emacs-lisp-mode . prettify-symbols-mode)
-   (prog-mode . (lambda () (setq tab-width 4)))
-   (python-mode . (lambda () (setq python-indent-offset 4)))))
+   (c++-mode . (lambda () (setq tab-width 4)))
+   (python-mode . (lambda () (setq python-indent-offset 4
+							  python-indent 4)))))
+
 
 
 ;; Automatically update packages
-;;
 (use-package auto-package-update
   :ensure t
   :config
@@ -68,22 +65,22 @@
 
 
 ;; Helm
-;;
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x C-r" . helm-for-files))
+		 ("C-x C-r" . helm-for-files))
   :init (require 'helm-config)
   :config
-  (helm-mode 1)
   (setq helm-lisp-fuzzy-completion t))
 
+
 ;; Helm interface for GNU Global Tags
-;;
 (use-package helm-gtags
   :ensure t
   :delight
-  :bind (("C-<f1>" . helm-gtags-dwim))
+  :bind
+  (:map helm-gtags-mode-map
+		("C-<f1>" . helm-gtags-dwim))
   :hook
   ((dired-mode . helm-gtags-mode)
    (c-mode . helm-gtags-mode)
@@ -91,9 +88,7 @@
    (python-mode . helm-gtags-mode)))
 
 
-;;-------------------------------------------
-;; Flyspell and Flycheck modes
-;;
+;; Flyspell mode
 (use-package flyspell
   :ensure t
   :diminish
@@ -110,21 +105,22 @@
     (flyspell-goto-next-error)
     (ispell-word)))
 
+
 ;; Flycheck mode
-;;
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
-  :bind (("C-<f9>" . flycheck-next-error)
-         ("M-<f9>" . flycheck-previous-error)))
+  :bind
+  (("C-<f9>" . flycheck-next-error)
+   ("M-<f9>" . flycheck-previous-error)))
 
 
-;;-------------------------------------------
-;; Company and Irony modes
-;;
+;; Company mode
 (use-package company
   :ensure t
-  :bind ("C-<tab>" . company-complete)
+  :bind
+  (:map company-mode-map
+		("C-<tab>" . company-complete))
   :hook
   ((c++-mode . company-mode)
    (python-mode . company-mode)
@@ -134,9 +130,7 @@
    (matlab-mode . company-mode)))
 
 
-;; ;;----------------------------------------------
 ;; ;; Python
-;; ;;
 ;; (use-package anaconda-mode
 ;;   :ensure t
 ;;   :delight
@@ -148,17 +142,17 @@
 ;;   (setq python-shell-interpreter "ipython3"))
 
 
-;;-------------------------------------------------
-;; Language Server Protocol
-;;
+;; Language Server Protocol mode
 (use-package lsp-mode
   :ensure t
   :commands lsp
+  :bind
+  (:map lsp-mode-map
+		("S-<f6>" . lsp-rename)
+		("C-<f1>" . lsp-find-references)
+		("<f9>" . lsp-ui-imenu))
   :hook
-  ((c++-mode . lsp)
-   (python-mode . lsp)
-   (sh-mode . lsp)
-   (css-mode . lsp)
+  (((c++-mode python-mode sh-mode) . lsp)
    (lsp-mode . lsp-ui-mode))
   :config
   (require 'lsp-clients)
@@ -172,8 +166,12 @@
   :ensure t
   :requires lsp-mode flycheck
   :commands lsp-ui-mode
+  :bind
+  (:map lsp-ui-imenu-mode-map
+		("<f9>" . lsp-ui-imenu--kill))
   :config
   (setq lsp-ui-flycheck-enable t
+		lsp-ui-sideline-ignore-duplicate t
         lsp-ui-doc-enable t
         lsp-ui-doc-delay 1.25))
 
@@ -181,9 +179,14 @@
 (use-package company-lsp
   :ensure t
   :commands company-complete
+  :bind
+  (:map lsp-mode-map
+		("C-<tab>" . company-lsp))
   :config
   (push 'company-lsp company-backends)
   (setq company-lsp-async t
+		company-transformers nil
+		company-lsp-cache-candidates nil
         company-lsp-enable-recompletion t))
 
 
@@ -196,19 +199,10 @@
   (dap-ui-mode t)
   (dap-tooltip-mode t)
   (tooltip-mode t)
-  (require 'dap-python)
-  (dap-register-debug-template "Python :: Run Simulink Tests"
-							   (list :type "python"
-									 :args "-va"
-									 :cwd nil
-									 :target-module nil
-									 :request "launch"
-									 :name "Python :: Run Simulink Tests")))
-  
+  (require 'dap-python))
 
-;;----------------------------------------------
+
 ;; Smooth scrolling mode
-;;
 (use-package smooth-scrolling
   :ensure t
   :config
@@ -217,9 +211,7 @@
   (setq scroll-preserve-screen-position 1))
 
 
-;;---------------------------------------------
 ;; Org mode
-;;
 (use-package org
   :ensure t
   :bind
@@ -241,18 +233,12 @@
                  (push '("[X]" . "☑" ) prettify-symbols-alist)
                  (push '("[-]" . "☒" ) prettify-symbols-alist)
                  (prettify-symbols-mode))))
-  :init
+  :config
   (setq org-todos-file "~/org/todos.org"
-        org-mitg-file "~/org/mitg.org"
-        org-gl-file "~/org/gl.org"
         org-log-done 'time
         org-agenda-files '("~/org"))
   (setq org-capture-templates
-        '(("m" "Meeting" entry (file+olp+datetree org-mitg-file)
-           "* %?\n \n" :kill-buffer t)
-          ("g" "GL Meeting" entry (file+olp+datetree org-gl-file)
-           "* %?\n \n" :kill-buffer t)
-          ("t" "todo" entry (file+headline org-todos-file)
+        '(("t" "todo" entry (file+headline org-todos-file)
            "* TODO %u%? [/]\n" :kill-buffer t)))
   (setq org-todo-keywords
         '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
@@ -268,23 +254,22 @@
 
 
 ;; Org mode exports
-;;
 (use-package ox-jira
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package epresent
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;; Transpose frame
-;;
 (use-package transpose-frame
   :ensure t
   :bind ("C-x t" . transpose-frame))
 
 
 ;; Magit
-;;
 (use-package magit
   :ensure t
   :diminish
@@ -293,7 +278,6 @@
 
 
 ;; Neotree Mode
-;;
 (use-package neotree
   :ensure t
   :bind ("<f10>" . neotree-toggle)
@@ -302,19 +286,18 @@
 
 
 ;; Icons
-;;
 (use-package all-the-icons
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;; Systemd Unit mode
-;;
 (use-package systemd
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;; JSON mode
-;;
 (use-package json-mode
   :ensure t
   :mode ("\\.json$" . json-mode)
@@ -323,7 +306,6 @@
 
 
 ;; MATLAB mode
-;;
 (use-package matlab-mode
   :ensure t
   :mode ("\\.m$" . matlab-mode)
@@ -336,21 +318,18 @@
 
 
 ;; Sudo edit mode
-;;
 (use-package sudo-edit
   :ensure t
   :bind ("C-c C-r" . sudo-edit))
 
 
 ;; Adaptive Wrap
-;;
 (use-package adaptive-wrap
   :ensure t
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
 
-;;------------------------------------------
+
 ;; CMake modes
-;;
 (use-package cmake-font-lock
   :ensure t
   :hook (cmake-mode . cmake-font-lock-activate)
@@ -358,7 +337,16 @@
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
 
 (use-package cmake-mode
-  :ensure t)
+  :ensure t
+  :defer t)
+
+
+;; Git gutter mode
+(use-package git-gutter
+  :ensure t
+  :bind ("C-<f5>" . git-gutter-mode)
+  :config
+  (git-gutter:linum-setup))
 
 
 ;; END

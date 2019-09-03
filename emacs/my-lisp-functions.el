@@ -14,13 +14,6 @@
 	(set-frame-width (selected-frame) width)))
 
 
-;; Try to fix Emacs colors in tmux
-(defun hrm/terminal-init-screen ()
-  "Terminal initialization function for screen."
-  (tty-run-terminal-initialization (selected-frame) "rxvt")
-  (tty-run-terminal-initialization (selected-frame) "xterm"))
-
-
 (defun hrm/move-line-up ()
   "Move up the current line."
   (interactive)
@@ -42,15 +35,6 @@
   "XOR of inputs A and B."
   (and (not (and a b))
        (or a b)))
-
-
-(defun hrm/narrow-to-eof ()
-  "Narrow from (point) to end-of-file."
-  (interactive)
-  (save-excursion
-    (narrow-to-region (- (point)
-                         (current-column))
-                      (point-max))))
 
 
 (defun hrm/toggle-comment-region ()
@@ -94,7 +78,7 @@
 
 
 (defun hrm/date-command-on-buffer ()
-  "Print date in 'ddMMMyyyy' form."
+  "Print date in 'yyyymmdd' form."
   (interactive)
   (shell-command "printf '%s' $(date +%Y%m%d)" t)
   (forward-word))
@@ -109,14 +93,16 @@
 	(backward-char 1)))
 
 
-(defun hrm/switch-to-scratch ()
-  "Go to the *scratch* buffer."
+(defun hrm/org-scratch ()
+  "Go to the *Org-scratch* buffer."
   (interactive)
-  (let ((scratch "*scratch*"))
+  (let ((scratch "*Org-scratch*"))
     (if (get-buffer scratch)
         (switch-to-buffer scratch)
       (switch-to-buffer scratch)
-      (insert initial-scratch-message))))
+	  (with-current-buffer scratch
+		(org-mode))
+      (insert initial-org-scratch-message))))
 
 
 ;;
@@ -129,18 +115,16 @@
 
 (defun hrm/post-theme-customizations ()
   "Fix font weirdness."
-  (interactive)
   (set-face-attribute
    'mode-line nil
-   :font "IBM Plex Sans Condensed:pixelsize=12:weight=medium" )
+   :font "IBM Plex Sans Condensed:pixelsize=12" )
   (set-face-attribute
    'mode-line-inactive nil
-   :font "IBM Plex Sans Condensed:pixelsize=12:weight=medium:slant=italic" ))
+   :font "IBM Plex Sans Condensed:pixelsize=12:slant=italic" ))
 
 
 (defun hrm/light-theme ()
   "Apply a light GUI theme."
-  (interactive)
   (setq hrm/global-is-light-theme t)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-light t)
@@ -151,7 +135,6 @@
 
 (defun hrm/dark-theme ()
   "Apply a dark GUI theme."
-  (interactive)
   (setq hrm/global-is-light-theme nil)
   (if (display-graphic-p)
       (progn (load-theme 'atom-one-dark t)
@@ -224,6 +207,15 @@
                           t)
     (switch-to-buffer new-buffer-name)
     (narrow-to-defun)))
+
+
+(defun hrm/narrow-to-eof ()
+  "Narrow from (point) to end-of-file."
+  (interactive)
+  (save-excursion
+    (narrow-to-region (- (point)
+                         (current-column))
+                      (point-max))))
 
 
 ;;; my-lisp-functions.el ends here

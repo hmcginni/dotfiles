@@ -35,17 +35,6 @@ _emacsclient() {
 }
 
 
-_fzf_complete_gc() {
-    #
-    # FZF_COMPLETE_GC - fuzzy branch completion in Git
-    #
-	
-	fzf_args="--height=10 --reverse"
-	FZF_COMPLETION_TRIGGER='' _fzf_complete "$fzf_args" "$@" < <(git branch -a)
-}
-complete -F _fzf_complete_gc -o default -o bashdefault "gc"
-
-
 _git_push_wrapper() {
     #
     # GIT_PUSH_WRAPPER - simplify git pushes
@@ -121,16 +110,16 @@ _parse_git_branch() {
 	
 	terminal_width=$(tput cols)
 	ellipsis=" [...]"
-	max_line_length=$(( terminal_width - ${#ellipsis} - 3 ))
+	max_line_length=$(( terminal_width - ${#ellipsis} - 2 ))
 
 	branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
 	
     if [[ -n $branch ]]
     then
 		repo=$(basename "$(git rev-parse --show-toplevel)")
-		git_line=$(printf " {%s}%s" "$repo" "$branch")
+		git_line=$(printf " {Git:%s}%s" "$repo" "$branch")
 		
-		if [[ ${#git_line} -gt $terminal_width ]]
+		if [[ ${#git_line} -gt $(( terminal_width - 2 )) ]]
 		then
 			disp_line="${git_line:0:$max_line_length}$ellipsis"
 		else
@@ -202,6 +191,10 @@ _tmux_go() {
 
 
 _tmux_run() {
+	#
+	# TMUX_RUN - run command on all TMUX panes
+	#
+	
     tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' \
 		| xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
     if [[ -z "$TMUX" ]]
