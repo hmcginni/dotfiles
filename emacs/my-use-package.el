@@ -93,8 +93,8 @@
   :ensure t
   :diminish
   :bind
-  (("C-<f9>" . flyspell-check-next-highlighted-word)
-   ("M-<f9>" . hrm\flyspell-check-previous-highlighted-word))
+  (("C-{" . flyspell-check-next-highlighted-word)
+   ("M-}" . hrm\flyspell-check-previous-highlighted-word))
   :hook
   ((text-mode . flyspell-mode)
    (org-mode . flyspell-mode))
@@ -111,8 +111,8 @@
   :ensure t
   :init (global-flycheck-mode)
   :bind
-  (("C-<f9>" . flycheck-next-error)
-   ("M-<f9>" . flycheck-previous-error)))
+  (("C-{" . flycheck-next-error)
+   ("M-}" . flycheck-previous-error)))
 
 
 ;; Company mode

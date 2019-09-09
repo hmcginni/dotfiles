@@ -91,7 +91,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(helm-gtags git-gutter org-present epresent company-fuzzy flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(helm-gtags git-gutter org-present epresent flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -105,7 +105,7 @@
 
 ;; Custom variables
 (defgroup hrm nil
-  "Custom variables I've created."
+  "My custom variables."
   :group 'convenience)
 
 (defcustom initial-org-scratch-message nil
@@ -134,20 +134,17 @@
 ;;
 
 ;; Start server
-;;
 (server-start)
 
 ;; Set variables
-;;
 (setq-default c-default-style "stroustrup"
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
 			  prettify-symbols-alist '(("lambda" . 955)
-									   ("->" . 8594)
+									   ("->" . 129034)
 									   ("=>" . 8658)))
 
 ;; Global keyboard shortcuts
-;;
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -158,6 +155,8 @@
 (global-set-key (kbd "M-n") (kbd "C-u 3 C-v"))
 (global-set-key (kbd "C-x |") 'split-window-right)
 (global-set-key (kbd "C-x -") 'split-window-below)
+(global-set-key (kbd "C-<f12>") 'highlight-symbol-at-point)
+(global-set-key (kbd "C-<f11>") (lambda () (interactive) (unhighlight-regexp t)))
 
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
@@ -165,13 +164,13 @@
 (global-set-key (kbd "C-c C-<right>") (lambda () (interactive) (hrm/resize "wide")))
 (global-set-key (kbd "C-c C-<down>") (lambda () (interactive) (hrm/resize "half")))
 (global-set-key (kbd "C-c C-<up>") (lambda () (interactive) (hrm/resize "half")))
-(global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-c M-d") 'hrm/date-command-on-buffer)
 (global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
 (global-set-key (kbd "C-\\") 'hrm/org-scratch)
+(global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 
 (defvar hrm/insert-map)
@@ -198,7 +197,6 @@
 ;;
 
 ;; Theme
-;;
 (hrm/set-theme nil)
 
 ;; Font
