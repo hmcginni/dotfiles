@@ -1,9 +1,16 @@
-;;; init-lisp-functions.el -- Emacs Init File - custom lisp functions
+;;; hrm-lisp-functions.el -- Emacs Init File - custom lisp functions
 
 ;;; Commentary:
-;;    Custom Elisp Functions
+;;    Custom Elisp Functions.
 
 ;;; Code:
+
+;; Ergoemacs functions (ergoemacs.org)
+(load "~/.emacs.d/xah-lisp-functions.el")
+
+
+
+;; hrm functions:
 
 (defun hrm/resize (size)
   "Resize Emacs to specified SIZE."
@@ -96,18 +103,17 @@
 (defun hrm/org-scratch ()
   "Go to the *Org-scratch* buffer."
   (interactive)
-  (let ((scratch "*Org-scratch*"))
-    (if (get-buffer scratch)
-        (switch-to-buffer scratch)
-      (switch-to-buffer scratch)
-	  (with-current-buffer scratch
+  (let ((org-scratch "*Org-scratch*"))
+    (if (get-buffer org-scratch)
+        (switch-to-buffer org-scratch)
+      (switch-to-buffer org-scratch)
+	  (with-current-buffer org-scratch
 		(org-mode))
       (insert initial-org-scratch-message))))
 
 
-;;
-;; Theme Functions ------------------------------------------------------------
-;;
+
+;; Theme Functions:
 
 (defvar hrm/global-is-light-theme t
   "Global variable tracking whether or not we're using the LIGHT theme.")
@@ -157,9 +163,8 @@
   (hrm/set-theme hrm/global-is-light-theme))
 
 
-;;
-;; DPI Scaling ----------------------------------------------------------------
-;;
+
+;; DPI Scaling:
 
 (defun hrm/dpi/get-dpi ()
   "Get the DPI of the display."
@@ -193,9 +198,8 @@
     (set-frame-font font)))
 
 
-;;
-;; Narrowing ------------------------------------------------------------------
-;;
+
+;; Narrowing:
 
 (defun hrm/narrow-to-defun-indirect ()
   "Create a new indirect buffer narrowed to the current function."

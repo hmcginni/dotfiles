@@ -1,7 +1,7 @@
-;;; init-use-package.el --- Emacs Init File - use-package declarations
+;;; hrm-use-package.el --- Emacs Init File - use-package declarations
 
 ;;; Commentary:
-;;    Emacs Initialization with use-package
+;;    Emacs Initialization with use-package.
 
 ;;; Code:
 
@@ -35,8 +35,8 @@
   :ensure t)
 
 
-;; Packages ---------------------------------------------------------- ;;
-
+
+;;; Packages:
 
 ;; Built-ins
 (use-package emacs
@@ -47,10 +47,10 @@
   (helm-mode)
   :hook
   ((emacs-lisp-mode . prettify-symbols-mode)
+   (prog-mode . (lambda () (setq tab-width 4)))
    (c++-mode . (lambda () (setq tab-width 4)))
    (python-mode . (lambda () (setq python-indent-offset 4
 							  python-indent 4)))))
-
 
 
 ;; Automatically update packages
@@ -64,6 +64,46 @@
   (auto-package-update-maybe))
 
 
+
+;;; Language Modes:
+
+;; JSON mode
+(use-package json-mode
+  :ensure t
+  :mode ("\\.json$" . json-mode)
+  :config
+  (setq-default js-indent-level 2))
+
+
+;; MATLAB mode
+(use-package matlab-mode
+  :ensure t
+  :mode ("\\.m$" . matlab-mode)
+  :delight
+  (mlint-minor-mode)
+  :hook ((matlab-mode . mlint-minor-mode)
+         (matlab-mode . visual-line-mode))
+  :config
+  (setq-default matlab-indent-function-body t))
+
+
+;; CMake mode highlighting
+(use-package cmake-font-lock
+  :ensure t
+  :hook (cmake-mode . cmake-font-lock-activate)
+  :config
+  (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
+
+
+;; CMake mode
+(use-package cmake-mode
+  :ensure t
+  :defer t)
+
+
+
+;;; Completion and narrowing frameworks:
+
 ;; Helm
 (use-package helm
   :ensure t
@@ -75,18 +115,106 @@
 
 
 ;; Helm interface for GNU Global Tags
-(use-package helm-gtags
-  :ensure t
-  :delight
-  :bind
-  (:map helm-gtags-mode-map
-		("C-<f1>" . helm-gtags-dwim))
-  :hook
-  ((dired-mode . helm-gtags-mode)
-   (c-mode . helm-gtags-mode)
-   (c++-mode . helm-gtags-mode)
-   (python-mode . helm-gtags-mode)))
+;; (use-package helm-gtags
+;;   :ensure t
+;;   :delight
+;;   :bind
+;;   (:map helm-gtags-mode-map
+;; 		("C-<f1>" . helm-gtags-dwim))
+;;   :hook
+;;   ((dired-mode . helm-gtags-mode)
+;;    (c-mode . helm-gtags-mode)
+;;    (c++-mode . helm-gtags-mode)
+;;    (python-mode . helm-gtags-mode)))
 
+
+;; Helm interface to Xref
+(use-package helm-xref
+  :ensure t)
+
+
+;; Company completion mode
+(use-package company
+  :ensure t
+  :bind
+  (:map company-mode-map
+		("C-<tab>" . company-complete))
+  :hook
+  ((c++-mode . company-mode)
+   (python-mode . company-mode)
+   (sh-mode . company-mode)
+   (css-mode . company-mode)
+   (emacs-lisp-mode . company-mode)
+   (matlab-mode . company-mode)))
+
+
+;; Language Server Protocol mode
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :bind
+  (:map lsp-mode-map
+		("S-<f6>" . lsp-rename)
+		("<f9>" . lsp-ui-imenu)
+  		("C-<f1>" . lsp-find-references))
+  :hook
+  (((c++-mode python-mode sh-mode) . lsp)
+   (lsp-mode . lsp-ui-mode))
+  :config
+  (require 'lsp-clients)
+  (setq lsp-enable-snippet nil
+        lsp-prefer-flymake nil
+        lsp-enable-xref t
+        lsp-auto-guess-root t))
+
+
+;; LSP UI Tweaks
+(use-package lsp-ui
+  :ensure t
+  :requires lsp-mode flycheck
+  :commands lsp-ui-mode
+  :bind
+  (:map lsp-ui-imenu-mode-map
+		("<f9>" . lsp-ui-imenu--kill))
+  :config
+  (setq lsp-ui-flycheck-enable t
+		lsp-ui-sideline-ignore-duplicate t
+		lsp-ui-sideline-show-code-actions t
+        lsp-ui-doc-enable t
+        lsp-ui-doc-delay 1.25
+		lsp-ui-doc-border "white"))
+
+
+;; LSP backend for Company completion
+(use-package company-lsp
+  :ensure t
+  :commands company-complete
+  :bind
+  (:map lsp-mode-map
+		("C-<tab>" . company-lsp))
+  :config
+  (push 'company-lsp company-backends)
+  (setq company-lsp-async t
+		company-transformers nil
+		company-lsp-cache-candidates nil
+        company-lsp-enable-recompletion t))
+
+
+;; Debugging
+(use-package dap-mode
+  :ensure t
+  :after lsp-mode
+  :bind ("C-c C-b" . dap-breakpoint-toggle)
+  :config
+  (dap-mode t)
+  (dap-ui-mode t)
+  (dap-tooltip-mode t)
+  (tooltip-mode t)
+  (require 'dap-python))
+
+
+
+;;; Spell checking modes:
 
 ;; Flyspell mode
 (use-package flyspell
@@ -115,101 +243,8 @@
    ("M-}" . flycheck-previous-error)))
 
 
-;; Company mode
-(use-package company
-  :ensure t
-  :bind
-  (:map company-mode-map
-		("C-<tab>" . company-complete))
-  :hook
-  ((c++-mode . company-mode)
-   (python-mode . company-mode)
-   (sh-mode . company-mode)
-   (css-mode . company-mode)
-   (emacs-lisp-mode . company-mode)
-   (matlab-mode . company-mode)))
-
-
-;; ;; Python
-;; (use-package anaconda-mode
-;;   :ensure t
-;;   :delight
-;;   (anaconda-mode)
-;;   :bind ("C-c C-d" . anaconda-mode-show-doc)
-;;   :hook ((python-mode . anaconda-mode)
-;;          (python-mode . anaconda-eldoc-mode))
-;;   :config
-;;   (setq python-shell-interpreter "ipython3"))
-
-
-;; Language Server Protocol mode
-(use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :bind
-  (:map lsp-mode-map
-		("S-<f6>" . lsp-rename)
-		("C-<f1>" . lsp-find-references)
-		("<f9>" . lsp-ui-imenu))
-  :hook
-  (((c++-mode python-mode sh-mode) . lsp)
-   (lsp-mode . lsp-ui-mode))
-  :config
-  (require 'lsp-clients)
-  (setq lsp-enable-snippet nil
-        lsp-prefer-flymake nil
-        lsp-enable-xref t
-        lsp-auto-guess-root t))
-
-
-(use-package lsp-ui
-  :ensure t
-  :requires lsp-mode flycheck
-  :commands lsp-ui-mode
-  :bind
-  (:map lsp-ui-imenu-mode-map
-		("<f9>" . lsp-ui-imenu--kill))
-  :config
-  (setq lsp-ui-flycheck-enable t
-		lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-doc-enable t
-        lsp-ui-doc-delay 1.25))
-
-
-(use-package company-lsp
-  :ensure t
-  :commands company-complete
-  :bind
-  (:map lsp-mode-map
-		("C-<tab>" . company-lsp))
-  :config
-  (push 'company-lsp company-backends)
-  (setq company-lsp-async t
-		company-transformers nil
-		company-lsp-cache-candidates nil
-        company-lsp-enable-recompletion t))
-
-
-(use-package dap-mode
-  :ensure t
-  :after lsp-mode
-  :bind ("C-c C-b" . dap-breakpoint-toggle)
-  :config
-  (dap-mode t)
-  (dap-ui-mode t)
-  (dap-tooltip-mode t)
-  (tooltip-mode t)
-  (require 'dap-python))
-
-
-;; Smooth scrolling mode
-(use-package smooth-scrolling
-  :ensure t
-  :config
-  (smooth-scrolling-mode 1)
-  (setq smooth-scroll-margin 15)
-  (setq scroll-preserve-screen-position 1))
-
+
+;;; Note-taking and documentation modes:
 
 ;; Org mode
 (use-package org
@@ -253,14 +288,28 @@
            ("~/status/done.txt")))))
 
 
-;; Org mode exports
+;; Org mode JIRA export
 (use-package ox-jira
   :ensure t
   :defer t)
 
+
+;; Org presentation mode
 (use-package epresent
   :ensure t
   :defer t)
+
+
+
+;;; Other addons:
+
+;; Smooth scrolling mode
+(use-package smooth-scrolling
+  :ensure t
+  :config
+  (smooth-scrolling-mode 1)
+  (setq smooth-scroll-margin 15)
+  (setq scroll-preserve-screen-position 1))
 
 
 ;; Transpose frame
@@ -297,26 +346,6 @@
   :defer t)
 
 
-;; JSON mode
-(use-package json-mode
-  :ensure t
-  :mode ("\\.json$" . json-mode)
-  :config
-  (setq-default js-indent-level 2))
-
-
-;; MATLAB mode
-(use-package matlab-mode
-  :ensure t
-  :mode ("\\.m$" . matlab-mode)
-  :delight
-  (mlint-minor-mode)
-  :hook ((matlab-mode . mlint-minor-mode)
-         (matlab-mode . visual-line-mode))
-  :config
-  (setq-default matlab-indent-function-body t))
-
-
 ;; Sudo edit mode
 (use-package sudo-edit
   :ensure t
@@ -327,18 +356,6 @@
 (use-package adaptive-wrap
   :ensure t
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
-
-
-;; CMake modes
-(use-package cmake-font-lock
-  :ensure t
-  :hook (cmake-mode . cmake-font-lock-activate)
-  :config
-  (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
-
-(use-package cmake-mode
-  :ensure t
-  :defer t)
 
 
 ;; Git gutter mode

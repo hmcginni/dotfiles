@@ -1,10 +1,10 @@
-;; Custom
-;;
+;;; init.el --- Emacs initialization file.
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+;;; Commentary:
+;;    Emacs init.
+
+;;; Code:
+
 (package-initialize)
 
 (custom-set-variables
@@ -46,10 +46,10 @@
 		   ": "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 0.12)
- '(linum-format "%4d ")
+ '(linum-format "%3d ")
  '(lsp-clients-clangd-executable "clangd-8")
  '(lsp-document-highlight-delay 0.75)
- '(lsp-imenu-container-name-separator " 🡲 ")
+ '(lsp-imenu-container-name-separator " / ")
  '(lsp-pyls-plugins-pycodestyle-enabled t)
  '(lsp-pyls-plugins-pycodestyle-ignore (quote ("E117" "W191")))
  '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
@@ -58,6 +58,11 @@
  '(lsp-pyls-plugins-pylint-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled nil)
  '(lsp-response-timeout 15)
+ '(lsp-ui-doc-delay 0.5)
+ '(lsp-ui-doc-header t)
+ '(lsp-ui-doc-include-signature t)
+ '(lsp-ui-doc-max-height 20)
+ '(lsp-ui-doc-max-width 80)
  '(lsp-ui-imenu-kind-position (quote left))
  '(matlab-functions-have-end t)
  '(matlab-indent-function-body t)
@@ -91,7 +96,8 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(helm-gtags git-gutter org-present epresent flycheck helm dap-mode dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+ '(realgud:pdb-command-name "python3 -m pdb")
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -101,6 +107,21 @@
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))
+
+
+;; END CUSTOMIZE ============================================================ ;;
+
+
+;; Start server
+(server-start)
+
+
+;; Package Init/Install
+(load "~/.emacs.d/my-use-package.el")
+
+
+;; Custom Lisp Functions
+(load "~/.emacs.d/my-lisp-functions.el")
 
 
 ;; Custom variables
@@ -114,29 +135,10 @@
   :type '(sexp))
 
 
-
-;; ========================================================================== ;;
-;; Package Init/Install
-;;
-
-(load "~/.emacs.d/my-use-package.el")
-
-
-;; ========================================================================== ;;
-;; Custom Lisp Functions
-;;
-
-(load "~/.emacs.d/my-lisp-functions.el")
-
-
-;; ========================================================================== ;;
-;; EMACS configurations
-;;
-
-;; Start server
-(server-start)
-
-;; Set variables
+
+;; Configure
+(xah/show-formfeed-as-line)
+(global-auto-revert-mode t)
 (setq-default c-default-style "stroustrup"
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
@@ -144,6 +146,8 @@
 									   ("->" . 129034)
 									   ("=>" . 8658)))
 
+
+
 ;; Global keyboard shortcuts
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C-=") 'text-scale-increase)
@@ -157,6 +161,8 @@
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-<f12>") 'highlight-symbol-at-point)
 (global-set-key (kbd "C-<f11>") (lambda () (interactive) (unhighlight-regexp t)))
+(global-set-key (kbd "<C-M-prior>") 'backward-page) ; ----- Ctrl+Alt+PageUp
+(global-set-key (kbd "<C-M-next>") 'forward-page) ; ----- Ctrl+Alt+PageDown
 
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
@@ -181,10 +187,8 @@
 (define-key hrm/insert-map (kbd "C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
 
 
-;; =============================================================================
+
 ;; Hooks
-;;
-
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flycheck-mode)
@@ -192,23 +196,21 @@
 (add-hook 'prog-mode-hook 'visual-line-mode)
 
 
-;; =============================================================================
-;; Start
-;;
-
 ;; Theme
 (hrm/set-theme nil)
+
 
 ;; Font
 ;;
 ;; (if (display-graphic-p)
     ;; (hrm/dpi/set-scaled-font "Input" "regular"))
 
+
 ;; Auto-mode-alist
-;;
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
+
 ;; Customize ===================================================================
 ;;
 
@@ -218,7 +220,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-thing ((t (:inherit (quote hl-line)))))
- '(linum ((t (:inherit (shadow default) :foreground "#707070" :height 0.8 :family "Roboto Mono"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#707070" :height 0.75 :family "Roboto Mono"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
  '(neo-banner-face ((t (:weight bold :height 0.9 :family "IBM Plex Sans Condensed"))))
  '(neo-button-face ((t (:underline nil :height 0.9 :family "IBM Plex Sans Condensed"))))
@@ -229,3 +231,4 @@
  '(neo-root-dir-face ((t (:weight bold :height 0.9 :family "IBM Plex Sans Condensed")))))
 
 (put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
