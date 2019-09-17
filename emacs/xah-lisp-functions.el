@@ -19,6 +19,5 @@ Version 2018-08-30"
           (vconcat (make-list 70 (make-glyph-code ?─ 'font-lock-comment-face))))
     (redraw-frame)))
 
-(provide 'xah-functions)
-
-;;; xah-functions.el ends here
+(provide 'xah-lisp-functions)
+;;; xah-lisp-functions.el ends here
