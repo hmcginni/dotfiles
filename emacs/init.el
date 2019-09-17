@@ -7,6 +7,10 @@
 
 (package-initialize)
 
+
+
+;;; Customize variables:
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -109,22 +113,9 @@
  '(vc-follow-symlinks t))
 
 
-;; END CUSTOMIZE ============================================================ ;;
 
+;;; Custom variables:
 
-;; Start server
-(server-start)
-
-
-;; Package Init/Install
-(load "~/.emacs.d/my-use-package.el")
-
-
-;; Custom Lisp Functions
-(load "~/.emacs.d/my-lisp-functions.el")
-
-
-;; Custom variables
 (defgroup hrm nil
   "My custom variables."
   :group 'convenience)
@@ -136,9 +127,21 @@
 
 
 
-;; Configure
+;;; Global configurations:
+
+;; Load custom libraries
+
+(load "~/.emacs.d/xah-lisp-functions.el")
+(load "~/.emacs.d/hrm-use-package.el")
+(load "~/.emacs.d/hrm-lisp-functions.el")
+
+;; Startup functions
+(server-start)
 (xah/show-formfeed-as-line)
 (global-auto-revert-mode t)
+(hrm/set-theme nil)
+
+;; Setq
 (setq-default c-default-style "stroustrup"
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
@@ -146,9 +149,17 @@
 									   ("->" . 129034)
 									   ("=>" . 8658)))
 
+;; Auto-mode-alist
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+;; Font
+;; (if (display-graphic-p)
+    ;; (hrm/dpi/set-scaled-font "Input" "regular"))
+
 
 
-;; Global keyboard shortcuts
+;;; Keyboard shortcuts:
+
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -188,7 +199,8 @@
 
 
 
-;; Hooks
+;;; Hooks:
+
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flycheck-mode)
@@ -196,23 +208,8 @@
 (add-hook 'prog-mode-hook 'visual-line-mode)
 
 
-;; Theme
-(hrm/set-theme nil)
-
-
-;; Font
-;;
-;; (if (display-graphic-p)
-    ;; (hrm/dpi/set-scaled-font "Input" "regular"))
-
-
-;; Auto-mode-alist
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-
 
-;; Customize ===================================================================
-;;
+;;; Customize faces:
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -232,3 +229,10 @@
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
+
+
+
+;;; End:
+
+(provide 'init)
+;;; init.el ends here

@@ -1,4 +1,4 @@
-;;; xah-functions.el --- ergoemacs functions
+;;; xah-lisp-functions.el --- ergoemacs functions
 
 ;;; Commentary:
 ;;

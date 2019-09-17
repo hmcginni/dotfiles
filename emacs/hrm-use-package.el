@@ -271,7 +271,8 @@
   :config
   (setq org-todos-file "~/org/todos.org"
         org-log-done 'time
-        org-agenda-files '("~/org"))
+        org-agenda-files '("~/org")
+		org-src-fontify-natively t)
   (setq org-capture-templates
         '(("t" "todo" entry (file+headline org-todos-file)
            "* TODO %u%? [/]\n" :kill-buffer t)))
@@ -290,14 +291,12 @@
 
 ;; Org mode JIRA export
 (use-package ox-jira
-  :ensure t
-  :defer t)
+  :ensure t)
 
 
 ;; Org presentation mode
 (use-package epresent
-  :ensure t
-  :defer t)
+  :ensure t)
 
 
 
@@ -366,7 +365,8 @@
   (git-gutter:linum-setup))
 
 
-;; END
-;;
+
+;;; End:
+
 (provide 'my-use-package)
 ;;; my-use-package ends here

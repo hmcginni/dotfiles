@@ -5,10 +5,6 @@
 
 ;;; Code:
 
-;; Ergoemacs functions (ergoemacs.org)
-(load "~/.emacs.d/xah-lisp-functions.el")
-
-
 
 ;; hrm functions:
 
