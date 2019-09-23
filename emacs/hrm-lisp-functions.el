@@ -96,6 +96,18 @@
 	(backward-char 1)))
 
 
+(defun hrm/scratch ()
+  "Go to the *scratch* buffer."
+  (interactive)
+  (let ((scratch "*scratch*"))
+	(if (get-buffer scratch)
+		(switch-to-buffer scratch)
+	  (switch-to-buffer scratch)
+	  (with-current-buffer scratch
+		(lisp-interaction-mode))
+	  (insert initial-scratch-message))))
+
+
 (defun hrm/org-scratch ()
   "Go to the *Org-scratch* buffer."
   (interactive)

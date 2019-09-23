@@ -261,13 +261,13 @@
    (org-mode . (lambda ()
                  "Require export options"
                  (require 'ox-jira)
-                 (require 'ox-odt)))
-   (org-mode . (lambda ()
-                 "Beautify Org Checkbox Symbol"
-                 (push '("[ ]" . "☐") prettify-symbols-alist)
-                 (push '("[X]" . "☑" ) prettify-symbols-alist)
-                 (push '("[-]" . "☒" ) prettify-symbols-alist)
-                 (prettify-symbols-mode))))
+                 (require 'ox-odt))))
+   ;; (org-mode . (lambda ()
+   ;;               "Beautify Org Checkbox Symbol"
+   ;;               (push '("[ ]" . "☐") prettify-symbols-alist)
+   ;;               (push '("[X]" . "☑" ) prettify-symbols-alist)
+   ;;               (push '("[-]" . "☒" ) prettify-symbols-alist)
+   ;;               (prettify-symbols-mode))))
   :config
   (setq org-todos-file "~/org/todos.org"
         org-log-done 'time

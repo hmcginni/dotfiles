@@ -85,6 +85,13 @@
  '(neo-theme (quote icons))
  '(neo-window-fixed-size nil)
  '(neo-window-width 18)
+ '(org-babel-load-languages
+   (quote
+	((python . t)
+	 (emacs-lisp . t)
+	 (matlab . t)
+	 (shell . t))))
+ '(org-babel-python-command "python3")
  '(org-clock-into-drawer 2)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
@@ -186,7 +193,8 @@
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "<f8>") 'hrm/toggle-theme)
-(global-set-key (kbd "C-\\") 'hrm/org-scratch)
+(global-set-key (kbd "C-\\") 'hrm/scratch)
+(global-set-key (kbd "C-|") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 
