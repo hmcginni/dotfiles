@@ -28,15 +28,8 @@
 (require 'bind-key)
 
 
-;; Diminish and Delight modes
-(use-package diminish
-  :ensure t)
-(use-package delight
-  :ensure t)
-
-
-
-;;; Packages:
+;; ─────────────────────────────────────────────────────────
+;;; Package packages:
 
 ;; Built-ins
 (use-package emacs
@@ -60,11 +53,10 @@
   (setq auto-package-update-delete-old-versions t
         auto-package-update-hide-results t
         auto-package-update-interval 7
-        auto-package-update-prompt-before-update nil)
-  (auto-package-update-maybe))
+        auto-package-update-prompt-before-update nil))
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;;; Language Modes:
 
 ;; JSON mode
@@ -101,7 +93,13 @@
   :defer t)
 
 
-
+;; Systemd Unit mode
+(use-package systemd
+  :ensure t
+  :defer t)
+
+
+;; ─────────────────────────────────────────────────────────
 ;;; Completion and narrowing frameworks:
 
 ;; Helm
@@ -115,17 +113,17 @@
 
 
 ;; Helm interface for GNU Global Tags
-;; (use-package helm-gtags
-;;   :ensure t
-;;   :delight
-;;   :bind
-;;   (:map helm-gtags-mode-map
-;; 		("C-<f1>" . helm-gtags-dwim))
-;;   :hook
-;;   ((dired-mode . helm-gtags-mode)
-;;    (c-mode . helm-gtags-mode)
-;;    (c++-mode . helm-gtags-mode)
-;;    (python-mode . helm-gtags-mode)))
+(use-package helm-gtags
+  :ensure t
+  :delight
+  :bind
+  (:map helm-gtags-mode-map
+		("C-<f1>" . helm-gtags-dwim))
+  :hook
+  ((dired-mode . helm-gtags-mode)
+   (c-mode . helm-gtags-mode)
+   (c++-mode . helm-gtags-mode)
+   (python-mode . helm-gtags-mode)))
 
 
 ;; Helm interface to Xref
@@ -148,6 +146,20 @@
    (matlab-mode . company-mode)))
 
 
+;; Icons for Company completion
+(use-package company-box
+  :ensure t
+  :delight
+  :hook (company-mode . company-box-mode))
+
+
+;; Company shell mode
+(use-package company-shell
+  :ensure t
+  :config
+  (push 'company-shell company-backends))
+
+
 ;; Language Server Protocol mode
 (use-package lsp-mode
   :ensure t
@@ -156,7 +168,8 @@
   (:map lsp-mode-map
 		("S-<f6>" . lsp-rename)
 		("<f9>" . lsp-ui-imenu)
-  		("C-<f1>" . lsp-find-references))
+  		("M-?" . lsp-find-references)
+		("<C-escape>" . lsp-ui-doc-hide))
   :hook
   (((c++-mode python-mode sh-mode) . lsp)
    (lsp-mode . lsp-ui-mode))
@@ -213,7 +226,7 @@
   (require 'dap-python))
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;;; Spell checking modes:
 
 ;; Flyspell mode
@@ -243,7 +256,7 @@
    ("M-}" . flycheck-previous-error)))
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;;; Note-taking and documentation modes:
 
 ;; Org mode
@@ -260,14 +273,9 @@
   ((org-mode . visual-line-mode)
    (org-mode . (lambda ()
                  "Require export options"
-                 (require 'ox-jira)
-                 (require 'ox-odt))))
-   ;; (org-mode . (lambda ()
-   ;;               "Beautify Org Checkbox Symbol"
-   ;;               (push '("[ ]" . "☐") prettify-symbols-alist)
-   ;;               (push '("[X]" . "☑" ) prettify-symbols-alist)
-   ;;               (push '("[-]" . "☒" ) prettify-symbols-alist)
-   ;;               (prettify-symbols-mode))))
+                 (require 'ox-odt)
+				 (require 'ox-md)
+                 (require 'ox-jira))))
   :config
   (setq org-todos-file "~/org/todos.org"
         org-log-done 'time
@@ -299,8 +307,18 @@
   :ensure t)
 
 
-
-;;; Other addons:
+;; ─────────────────────────────────────────────────────────
+;;; Display tweaks
+
+;; Diminish mode
+(use-package diminish
+  :ensure t)
+
+
+;; Delight mode
+(use-package delight
+  :ensure t)
+
 
 ;; Smooth scrolling mode
 (use-package smooth-scrolling
@@ -317,14 +335,6 @@
   :bind ("C-x t" . transpose-frame))
 
 
-;; Magit
-(use-package magit
-  :ensure t
-  :diminish
-  :bind (("C-<f2>" . magit)
-         ("C-S-b" . magit-blame)))
-
-
 ;; Neotree Mode
 (use-package neotree
   :ensure t
@@ -335,12 +345,6 @@
 
 ;; Icons
 (use-package all-the-icons
-  :ensure t
-  :defer t)
-
-
-;; Systemd Unit mode
-(use-package systemd
   :ensure t
   :defer t)
 
@@ -357,6 +361,22 @@
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
 
 
+;; Display formfeed character (^L) as a line
+(use-package page-break-lines
+  :ensure t)
+
+
+;; ─────────────────────────────────────────────────────────
+;;; Git modes:
+
+;; Magit
+(use-package magit
+  :ensure t
+  :diminish
+  :bind (("C-<f2>" . magit)
+         ("C-S-b" . magit-blame)))
+
+
 ;; Git gutter mode
 (use-package git-gutter
   :ensure t
@@ -365,8 +385,15 @@
   (git-gutter:linum-setup))
 
 
-
+;; ─────────────────────────────────────────────────────────
+;;; Project management modes:
+
+;; Projectile
+;; (use-package projectile
+;;   :ensure t)
+
+
 ;;; End:
 
-(provide 'my-use-package)
-;;; my-use-package ends here
+(provide 'hrm-use-package)
+;;; hrm-use-package ends here

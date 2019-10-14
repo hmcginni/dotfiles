@@ -111,13 +111,20 @@ _parse_git_branch() {
 	terminal_width=$(tput cols)
 	ellipsis=" [...]"
 	max_line_length=$(( terminal_width - ${#ellipsis} - 2 ))
-
-	branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
 	
+	branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
+
     if [[ -n $branch ]]
     then
-		repo=$(basename "$(git rev-parse --show-toplevel)")
-		git_line=$(printf " {Git:%s}%s" "$repo" "$branch")
+		stash=""
+
+		if [[ -n "$(git stash list)" ]]
+		then
+			stash="*"
+		fi
+		
+		repo="$stash"$(basename "$(git rev-parse --show-toplevel)")"$stash"
+		git_line=$(printf " %s |%s" "$repo" "$branch")
 		
 		if [[ ${#git_line} -gt $(( terminal_width - 2 )) ]]
 		then

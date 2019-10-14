@@ -4,23 +4,18 @@
 #        Custom stuff for ~/.bashrc including (but not limited to) aliases
 #
 
-# Enable delete functionality in st --------------------------------------------
-
+# Enable delete functionality in st
 
 tput smkx
 
-
-# Functions --------------------------------------------------------------------
-
+# Functions
 
 if [[ -f ~/.bash_functions ]]
 then
     . ~/.bash_functions
 fi
 
-
-# Variables --------------------------------------------------------------------
-
+# Variables
 
 blue="\[\e[0;94m\]"
 gray="\[\e[1;90m\]"
@@ -31,8 +26,8 @@ reset="\[\e[00m\]"
 case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
 		# PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
-		PS1="\n${green}hassan${gray} in ${blue}\w ${red} "
-		PS1+="\$(_parse_git_branch) \n${gray} $ ${reset}"
+		PS1="\n${green}\u${gray} in ${blue}\w ${red} "
+		PS1+="\$(_parse_git_branch)\n${gray} $ ${reset}"
 		;;
     *)
 		PS1="> "
@@ -52,9 +47,8 @@ export GIT_EDITOR="emacsclient -a \"emacs\" "
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 
-
-# Aliases ----------------------------------------------------------------------
-
+#--------------------
+# Aliases
 
 # general
 alias open='xdg-open'
@@ -64,6 +58,7 @@ alias copy='_copy'
 alias ediff='_ediff'
 alias testdir='_test_dir'
 alias newdir='_new_dir_today'
+alias n='newdir'
 alias q='_quiet'
 alias qfind='_qfind'
 alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
@@ -91,3 +86,6 @@ alias mlc='_ml_wrapper cmd'
 
 # Python
 alias py='ipython3 qtconsole &'
+
+# SSH
+alias slb='ssh -Y ubuntu@sl-bamboo'

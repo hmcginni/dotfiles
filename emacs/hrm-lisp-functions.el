@@ -5,17 +5,8 @@
 
 ;;; Code:
 
-
-;; hrm functions:
-
-(defun hrm/resize (size)
-  "Resize Emacs to specified SIZE."
-  (interactive)
-  (let ((width (cond ((string= size "narrow") 86)
-					 ((string= size "half") 127)
-					 ((string= size "wide") 159))))
-	(set-frame-width (selected-frame) width)))
-
+;; ─────────────────────────────────────────────────────────
+;; General Utility Functions:
 
 (defun hrm/move-line-up ()
   "Move up the current line."
@@ -77,7 +68,7 @@
 (defun hrm/reload-emacs-init-file ()
   "Reload Emacs."
   (interactive)
-  (load-file "~/.emacs.d/init.el") )
+  (load-file "~/.emacs.d/init.el"))
 
 
 (defun hrm/date-command-on-buffer ()
@@ -120,8 +111,34 @@
       (insert initial-org-scratch-message))))
 
 
-
-;; Theme Functions:
+(defun hrm/count-thing-at-point ()
+  "Count the number of instances of \"thing-at-point\" in this buffer."
+  (interactive)
+  (let* ((tap (or (thing-at-point 'symbol 'no-properties) ""))
+		 (matches (count-matches tap (point-min) (point-max))))
+	(if (string= tap "")
+		(message "No symbol at point.")
+	  (message "%d matches for \"%s\" in this buffer" matches tap))))
+	
+
+(defun hrm/comment-section (&optional char)
+  "Insert a comment section.  Optionally specify CHAR as the fill character."
+  (interactive)
+  (or char
+	  (setq char "─"))
+  (beginning-of-line)
+  (open-line 1)
+  (insert-char (string-to-char char))
+  (let ((beg (line-beginning-position))
+		(end (line-end-position))
+		num-cols-to-fill-col)
+	(comment-region beg end)
+	(setq num-cols-to-fill-col (- fill-column 20 (current-column)))
+	(insert-char (string-to-char char) num-cols-to-fill-col)
+	(forward-char)))
+
+;; ─────────────────────────────────────────────────────────
+;; Appearance Functions:
 
 (defvar hrm/global-is-light-theme t
   "Global variable tracking whether or not we're using the LIGHT theme.")
@@ -171,8 +188,14 @@
   (hrm/set-theme hrm/global-is-light-theme))
 
 
-
-;; DPI Scaling:
+(defun hrm/resize (size)
+  "Resize Emacs to specified SIZE."
+  (interactive)
+  (let ((width (cond ((string= size "narrow") 86)
+					 ((string= size "half") 127)
+					 ((string= size "wide") 159))))
+	(set-frame-width (selected-frame) width)))
+
 
 (defun hrm/dpi/get-dpi ()
   "Get the DPI of the display."
@@ -206,7 +229,7 @@
     (set-frame-font font)))
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;; Narrowing:
 
 (defun hrm/narrow-to-defun-indirect ()
@@ -230,4 +253,6 @@
                       (point-max))))
 
 
-;;; my-lisp-functions.el ends here
+;; ─────────────────────────────────────────────────────────
+(provide 'hrm-lisp-functions)
+;;; hrm-lisp-functions.el ends here

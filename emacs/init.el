@@ -8,7 +8,7 @@
 (package-initialize)
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;;; Customize variables:
 
 (custom-set-variables
@@ -18,6 +18,7 @@
  ;; If there is more than one, they won't work right.
  '(adaptive-wrap-extra-indent 3)
  '(column-number-mode t)
+ '(company-box-icons-alist (quote company-box-icons-all-the-icons))
  '(cursor-type (quote (bar . 1)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
@@ -39,6 +40,7 @@
  '(git-gutter:update-interval 1)
  '(global-hl-line-mode t)
  '(global-linum-mode t)
+ '(global-page-break-lines-mode t nil (page-break-lines))
  '(helm-mode t)
  '(inhibit-startup-screen t)
  '(initial-org-scratch-message
@@ -93,6 +95,7 @@
 	 (shell . t))))
  '(org-babel-python-command "python3")
  '(org-clock-into-drawer 2)
+ '(org-confirm-babel-evaluate nil)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
  '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
@@ -107,7 +110,11 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(company-shell page-break-lines helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+ '(page-break-lines-max-width 79)
+ '(page-break-lines-modes
+   (quote
+	(emacs-lisp-mode lisp-mode scheme-mode compilation-mode outline-mode help-mode prog-mode org-mode)))
  '(realgud:pdb-command-name "python3 -m pdb")
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
@@ -120,7 +127,7 @@
  '(vc-follow-symlinks t))
 
 
-
+
 ;;; Custom variables:
 
 (defgroup hrm nil
@@ -133,38 +140,39 @@
   :type '(sexp))
 
 
-
+
+;; ─────────────────────────────────────────────────────────
 ;;; Global configurations:
 
 ;; Load custom libraries
 
-(load "~/.emacs.d/xah-lisp-functions.el")
 (load "~/.emacs.d/hrm-use-package.el")
 (load "~/.emacs.d/hrm-lisp-functions.el")
 
 ;; Startup functions
 (server-start)
-(xah/show-formfeed-as-line)
 (global-auto-revert-mode t)
 (hrm/set-theme nil)
 
 ;; Setq
 (setq-default c-default-style "stroustrup"
               ediff-window-setup-function 'ediff-setup-windows-plain
-              frame-title-format (list "GNU Emacs • %b • " (getenv "USER"))
+              frame-title-format (list "GNU Emacs " emacs-version " • %b")
 			  prettify-symbols-alist '(("lambda" . 955)
 									   ("->" . 129034)
 									   ("=>" . 8658)))
 
-;; Auto-mode-alist
+;; Hooks and Associative Lists
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 
 ;; Font
 ;; (if (display-graphic-p)
     ;; (hrm/dpi/set-scaled-font "Input" "regular"))
 
 
-
+
+;; ─────────────────────────────────────────────────────────
 ;;; Keyboard shortcuts:
 
 (global-set-key (kbd "C-+") 'text-scale-increase)
@@ -173,15 +181,15 @@
 (global-set-key (kbd "M-;") 'visual-line-mode)
 (global-set-key (kbd "C-<f4>") 'kill-this-buffer)
 (global-set-key (kbd "C-j") 'fill-paragraph)
-(global-set-key (kbd "M-p") (kbd "C-u 3 M-v")) ; ----- scroll page behind cursor
-(global-set-key (kbd "M-n") (kbd "C-u 3 C-v"))
 (global-set-key (kbd "C-x |") 'split-window-right)
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-<f12>") 'highlight-symbol-at-point)
 (global-set-key (kbd "C-<f11>") (lambda () (interactive) (unhighlight-regexp t)))
-(global-set-key (kbd "<C-M-prior>") 'backward-page) ; ----- Ctrl+Alt+PageUp
-(global-set-key (kbd "<C-M-next>") 'forward-page) ; ----- Ctrl+Alt+PageDown
+(global-set-key (kbd "<C-prior>") 'backward-page) ; ----- Ctrl+Alt+PageUp
+(global-set-key (kbd "<C-next>") 'forward-page) ; ----- Ctrl+Alt+PageDown
+(global-set-key (kbd "C-M-#") 'count-matches)
 
+(global-set-key (kbd "M-#") 'hrm/count-thing-at-point)
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
 (global-set-key (kbd "C-c C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
@@ -197,6 +205,7 @@
 (global-set-key (kbd "C-|") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
+(global-set-key (kbd "C-x g") 'hrm/comment-section)
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
@@ -206,7 +215,7 @@
 (define-key hrm/insert-map (kbd "C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;;; Hooks:
 
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
@@ -215,8 +224,7 @@
 (add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'prog-mode-hook 'visual-line-mode)
 
-
-
+;; ─────────────────────────────────────────────────────────
 ;;; Customize faces:
 
 (custom-set-faces
@@ -239,7 +247,7 @@
 (put 'narrow-to-page 'disabled nil)
 
 
-
+;; ─────────────────────────────────────────────────────────
 ;;; End:
 
 (provide 'init)
