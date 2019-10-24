@@ -31,33 +31,6 @@
        (or a b)))
 
 
-(defun hrm/toggle-comment-region ()
-  "Comment or uncomment a region/line."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning)
-              end (region-end))
-      (setq beg (line-beginning-position)
-            end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
-
-
-(defun hrm/file-name-on-clipboard ()
-  "Copy current buffer to clipboard."
-  (interactive)
-  (let ((filename
-         (if (equal major-mode 'dired-mode)
-             default-directory
-           (buffer-file-name))))
-    (when filename
-      (with-temp-buffer
-        (insert filename)
-        (clipboard-kill-region
-         (point-min)
-         (point-max)))
-      (message filename))))
-
 
 (defun hrm/switch-to-previous-buffer ()
   "Switch to previous buffer."
@@ -71,20 +44,7 @@
   (load-file "~/.emacs.d/init.el"))
 
 
-(defun hrm/date-command-on-buffer ()
-  "Print date in 'yyyymmdd' form."
-  (interactive)
-  (shell-command "printf '%s' $(date +%Y%m%d)" t)
-  (forward-word))
 
-
-(defun hrm/inline-code (lang)
-  "Insert inline LANG snippet for Org mode."
-  (interactive)
-  (if (not (string-equal major-mode "org-mode"))
-	  (message "Invalid action: must be in org-mode")
-	(insert (format "src_%s[:exports code]{}" lang))
-	(backward-char 1)))
 
 
 (defun hrm/scratch ()
@@ -120,8 +80,10 @@
 		(message "No symbol at point.")
 	  (message "%d matches for \"%s\" in this buffer" matches tap))))
 	
+;; ─────────────────────────────────────────────────────────
+;; Editing Functions:
 
-(defun hrm/comment-section (&optional char)
+(defun hrm/new-comment-section (&optional char)
   "Insert a comment section.  Optionally specify CHAR as the fill character."
   (interactive)
   (or char
@@ -137,8 +99,53 @@
 	(insert-char (string-to-char char) num-cols-to-fill-col)
 	(forward-char)))
 
+
+(defun hrm/inline-code (lang)
+  "Insert inline LANG snippet for Org mode."
+  (interactive)
+  (if (not (string-equal major-mode "org-mode"))
+	  (message "Invalid action: must be in org-mode")
+	(insert (format "src_%s[:exports code]{}" lang))
+	(backward-char 1)))
+
+
+(defun hrm/toggle-comment-region ()
+  "Comment or uncomment a region/line."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning)
+              end (region-end))
+      (setq beg (line-beginning-position)
+            end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
+
+
+(defun hrm/date-command-on-buffer ()
+  "Print date in 'yyyymmdd' form."
+  (interactive)
+  (shell-command "printf '%s' $(date +%Y%m%d)" t)
+  (forward-word))
+
+
+(defun hrm/file-name-on-clipboard ()
+  "Copy current buffer to clipboard."
+  (interactive)
+  (let ((filename
+         (if (equal major-mode 'dired-mode)
+             default-directory
+           (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region
+         (point-min)
+         (point-max)))
+      (message filename))))
+
+
 ;; ─────────────────────────────────────────────────────────
-;; Appearance Functions:
+;; Appearance:
 
 (defvar hrm/global-is-light-theme t
   "Global variable tracking whether or not we're using the LIGHT theme.")

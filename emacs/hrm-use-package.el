@@ -217,13 +217,20 @@
 (use-package dap-mode
   :ensure t
   :after lsp-mode
-  :bind ("C-c C-b" . dap-breakpoint-toggle)
+  :delight
+  :bind (:map dap-mode-map
+			  ("C-c C-b" . dap-breakpoint-toggle)
+			  ("S-<f5>" . dap-debug)
+			  ("<f5>" . dap-continue)
+			  ("<f10>" . dap-next)
+			  ("<f11>" . dap-step-in)
+			  ("S-<f11>" . dap-step-out))
+  :init (require 'dap-python)
   :config
   (dap-mode t)
   (dap-ui-mode t)
   (dap-tooltip-mode t)
-  (tooltip-mode t)
-  (require 'dap-python))
+  (tooltip-mode t))
 
 
 ;; ─────────────────────────────────────────────────────────

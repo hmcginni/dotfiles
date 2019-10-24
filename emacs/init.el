@@ -110,7 +110,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(company-shell page-break-lines helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(gnu-elpa-keyring-update company-shell page-break-lines helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(page-break-lines-max-width 79)
  '(page-break-lines-modes
    (quote
@@ -128,6 +128,7 @@
 
 
 
+;; ─────────────────────────────────────────────────────────
 ;;; Custom variables:
 
 (defgroup hrm nil
@@ -138,7 +139,6 @@
   "Initial message displayed in Org-scratch buffers."
   :group 'hrm
   :type '(sexp))
-
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -154,7 +154,7 @@
 (global-auto-revert-mode t)
 (hrm/set-theme nil)
 
-;; Setq
+;; Set variables
 (setq-default c-default-style "stroustrup"
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs " emacs-version " • %b")
@@ -205,14 +205,17 @@
 (global-set-key (kbd "C-|") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
-(global-set-key (kbd "C-x g") 'hrm/comment-section)
+(global-set-key (kbd "C-x g") 'hrm/new-comment-section)
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
 (global-set-key (kbd "<C-insert>") hrm/insert-map)
-(define-key hrm/insert-map (kbd "C-b") (lambda () (interactive) (hrm/inline-code "bash")))
-(define-key hrm/insert-map (kbd "C-p") (lambda () (interactive) (hrm/inline-code "python")))
-(define-key hrm/insert-map (kbd "C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
+(define-key hrm/insert-map (kbd "C-b")
+  (lambda () (interactive) (hrm/inline-code "bash")))
+(define-key hrm/insert-map (kbd "C-p")
+  (lambda () (interactive) (hrm/inline-code "python")))
+(define-key hrm/insert-map (kbd "C-m")
+  (lambda () (interactive) (hrm/inline-code "matlab")))
 
 
 ;; ─────────────────────────────────────────────────────────

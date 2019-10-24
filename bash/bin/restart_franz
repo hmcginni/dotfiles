@@ -15,7 +15,7 @@ franz &>/dev/null &
 	
 while [[ -z $(pnw franz) ]]
 do
-    sleep 0.5		
+    sleep 1		
 done
 
 xdotool windowminimize "$(pnw franz)"

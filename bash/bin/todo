@@ -5,17 +5,17 @@
 #
 
 
-# Default Values =====================================================
-#
+# ──────────────────────────────────────────────────────────
+# Default Values
 
-default_todos_file="$HOME"/Dropbox/org/todos.org
+
+default_todos_file="$HOME"/org/todos.org
 default_todo_tags="home"
-
 todos_file="$default_todos_file"
 
 
-# Parse Inputs =======================================================
-#
+# ──────────────────────────────────────────────────────────
+# Parse Inputs
 
 while getopts ":o:t:" opt; do
     case ${opt} in
@@ -33,88 +33,89 @@ done
 shift $(( OPTIND - 1 ))
 
 
-# Functions ==========================================================
-#
+# ──────────────────────────────────────────────────────────
+# Functions 
 
 # Create file if it doesn't exist
-
 _setup_todo_file () {
 
     local msg=""
     
-    if [[ ! -e $todos_file ]]; then
-	msg=$(printf "Todos file \"%s\" not found. " "$todos_file")
-	msg+=$(printf "Using \"%s\".\n" "$default_todos_file")
-	notify-send "todo" "$msg"
-	todos_file="$default_todos_file"
+    if [[ ! -e $todos_file ]]
+	then
+		msg=$(printf "Todos file \"%s\" not found. " "$todos_file")
+		msg+=$(printf "Using \"%s\".\n" "$default_todos_file")
+		notify-send "todo" "$msg"
+		todos_file="$default_todos_file"
 
-	if [[ ! -e $todos_file ]]; then
-	    msg=$(printf "Creating file \"%s\"" "$todos_file")
-	    notify-send "todo" "$msg"
-	    mkdir -p "${todos_file%/*}"
-	    echo "* Unfiled" >> "$todos_file"
-	fi
+		if [[ ! -e $todos_file ]]
+		then
+			msg=$(printf "Creating file \"%s\"" "$todos_file")
+			notify-send "todo" "$msg"
+			mkdir -p "${todos_file%/*}"
+			echo "* Unfiled" >> "$todos_file"
+		fi
     fi
     
 }
 
-
 # Get todo item text
-
 _get_todo () {
 
     z_title="Todo Item"
     z_text="Enter todo item text:"
     todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
 
-    if [[ -z $todo_text ]]; then
-	exit 1
+    if [[ -z $todo_text ]]
+	then
+		exit 1
     fi
 
 }
 
-
 # Get tag list
-
 _get_tags () {
 
     local tags=""
 
-    if [[ -n ${tag_list[@]} ]]; then
-	default_tag_text=${tag_list[*]}
+    if [[ -n ${tag_list[@]} ]]
+	then
+		default_tag_text=${tag_list[*]}
     else
-	default_tag_text=$default_todo_tags
+		default_tag_text=$default_todo_tags
     fi
     
     z_title="Todo Item Tags"
     z_text="Enter tags (space delimited)"
-    tags=$(zenity --entry --title="$z_title" --text="$z_text" --entry-text="$default_tag_text" 2>/dev/null)
+    tags=$(zenity --entry --title="$z_title" --text="$z_text"
+		   --entry-text="$default_tag_text" 2>/dev/null)
 
     unset tag_list
     
-    for tag in $tags; do
-	tag_list+=($tag)
+    for tag in $tags
+	do
+		tag_list+=($tag)
     done
     
 }
 
-
 # Format tags
-
 _setup_tag_list () {
 
     local old_IFS=""
     
-    if [[ -n ${tag_list[@]} ]]; then
-	old_IFS=$IFS
-	IFS=":"
-	todo_tags=":${tag_list[*]}:"
-	IFS=$old_IFS
+    if [[ -n ${tag_list[@]} ]]
+	then
+		old_IFS=$IFS
+		IFS=":"
+		todo_tags=":${tag_list[*]}:"
+		IFS=$old_IFS
     fi
     
 }
 
 
+# ──────────────────────────────────────────────────────────
 # Format todo item
 
 _format_todo () {
@@ -127,6 +128,7 @@ _format_todo () {
 }
 
 
+# ──────────────────────────────────────────────────────────
 # Main 
 
 _main () {
@@ -143,7 +145,7 @@ _main () {
 }
 
 
-# Main ===============================================================
-#
+# ──────────────────────────────────────────────────────────
+# Main
 
 _main
