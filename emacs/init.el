@@ -25,7 +25,6 @@
  '(custom-theme-load-path (quote (custom-theme-directory t)) t)
  '(dap-inhibit-io nil)
  '(dap-python-executable "python3")
- '(debug-on-error nil)
  '(display-time-mode nil)
  '(fill-column 80)
  '(flycheck-checker-error-threshold 500)
@@ -54,17 +53,20 @@
  '(line-spacing 0.12)
  '(linum-format "%3d ")
  '(lsp-clients-clangd-executable "clangd-8")
- '(lsp-document-highlight-delay 0.75)
- '(lsp-imenu-container-name-separator " / ")
+ '(lsp-document-highlight-delay 1)
  '(lsp-pyls-plugins-pycodestyle-enabled t)
- '(lsp-pyls-plugins-pycodestyle-ignore (quote ("E117" "W191")))
+ '(lsp-pyls-plugins-pycodestyle-ignore (quote ("E117" "W191" "D200")))
  '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
  '(lsp-pyls-plugins-pycodestyle-select nil)
+ '(lsp-pyls-plugins-pydocstyle-add-ignore (quote ("D200")))
+ '(lsp-pyls-plugins-pydocstyle-enabled t)
+ '(lsp-pyls-plugins-pydocstyle-ignore (quote ("D200" "D203" "D212")))
  '(lsp-pyls-plugins-pylint-args [--disable=W0312 (\, C0301)])
- '(lsp-pyls-plugins-pylint-enabled nil)
+ '(lsp-pyls-plugins-pylint-enabled t)
  '(lsp-pyls-plugins-yapf-enabled nil)
- '(lsp-response-timeout 15)
- '(lsp-ui-doc-delay 0.5)
+ '(lsp-response-timeout 5)
+ '(lsp-treemacs-theme "all-the-icons")
+ '(lsp-ui-doc-delay 1)
  '(lsp-ui-doc-header t)
  '(lsp-ui-doc-include-signature t)
  '(lsp-ui-doc-max-height 20)
@@ -110,12 +112,11 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(gnu-elpa-keyring-update company-shell page-break-lines helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(python-black modern-cpp-font-lock gnu-elpa-keyring-update company-shell page-break-lines helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(page-break-lines-max-width 79)
  '(page-break-lines-modes
    (quote
 	(emacs-lisp-mode lisp-mode scheme-mode compilation-mode outline-mode help-mode prog-mode org-mode)))
- '(realgud:pdb-command-name "python3 -m pdb")
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 20)
  '(recentf-mode t)
@@ -133,7 +134,7 @@
 
 (defgroup hrm nil
   "My custom variables."
-  :group 'convenience)
+  :group 'custom)
 
 (defcustom initial-org-scratch-message nil
   "Initial message displayed in Org-scratch buffers."
@@ -162,13 +163,16 @@
 									   ("->" . 129034)
 									   ("=>" . 8658)))
 
+(setq gc-cons-threshold 10000000)
+
+
 ;; Hooks and Associative Lists
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
 ;; Font
 ;; (if (display-graphic-p)
-    ;; (hrm/dpi/set-scaled-font "Input" "regular"))
+;;     (hrm/dpi/set-scaled-font "Input" "regular"))
 
 
 

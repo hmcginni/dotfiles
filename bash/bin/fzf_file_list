@@ -1,17 +1,17 @@
 #!/bin/bash
 
-title="Fuzzy Finder"
+title="Fuzzy File Finder"
 
 _get_selection() {
 	trash="${HOME}/.local/share/Trash"
 	find ~ /etc /usr -path "$trash" -prune -o -type f ! -name "*~" 2>/dev/null | \
-		fzf --exact --height=10 --reverse
+		fzf --exact --height=25 --reverse --history="$HOME"/.fzf_file_history
 }
 
 _main() {
-	if selection=$(_get_selection)
+	if selection="$(_get_selection)"
 	then
-		nohup mimeopen "$selection" &>/dev/null & 
+		nohup mimeopen --no-ask "$selection" &>/dev/null & 
 		notify-send "$title" "Opening $selection"
 	fi
 }

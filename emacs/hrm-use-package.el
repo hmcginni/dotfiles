@@ -39,7 +39,9 @@
   :diminish
   (helm-mode)
   :hook
-  ((emacs-lisp-mode . prettify-symbols-mode)
+  ((prog-mode . hs-minor-mode)
+   (text-mode . hs-minor-mode)
+   (emacs-lisp-mode . prettify-symbols-mode)
    (prog-mode . (lambda () (setq tab-width 4)))
    (c++-mode . (lambda () (setq tab-width 4)))
    (python-mode . (lambda () (setq python-indent-offset 4
@@ -57,7 +59,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Language Modes:
+;;; Language modes and configuration:
 
 ;; JSON mode
 (use-package json-mode
@@ -97,6 +99,11 @@
 (use-package systemd
   :ensure t
   :defer t)
+
+
+;; C++ syntax highlighting mode
+(use-package modern-cpp-font-lock
+  :ensure t)
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -157,42 +164,54 @@
 (use-package company-shell
   :ensure t
   :config
-  (push 'company-shell company-backends))
+  (add-to-list 'company-backends '(company-shell company-shell-env)))
 
 
 ;; Language Server Protocol mode
 (use-package lsp-mode
   :ensure t
-  :commands lsp
+  :commands (lsp lsp-deferred)
   :bind
   (:map lsp-mode-map
 		("S-<f6>" . lsp-rename)
-		("<f9>" . lsp-ui-imenu)
-  		("M-?" . lsp-find-references)
-		("<C-escape>" . lsp-ui-doc-hide))
+		("<f9>" . lsp-ui-imenu))
   :hook
-  (((c++-mode python-mode sh-mode) . lsp)
-   (lsp-mode . lsp-ui-mode))
+  (((c++-mode python-mode) . lsp-deferred)
+   (lsp-deferred . (lsp-ui-mode lsp-enable-imenu)))
   :config
   (require 'lsp-clients)
-  (setq lsp-enable-snippet nil
-        lsp-prefer-flymake nil
+  (setq lsp-enable-imenu t
+		lsp-enable-semantic-highlighting t
+		lsp-enable-snippet nil
         lsp-enable-xref t
+		lsp-response-timeout 15
+		lsp-pyls-plugins-pydocstyle-enabled t
+		lsp-pyls-plugins-pylint-enabled nil
+		lsp-signature-render-all t
+		lsp-imenu-show-container-name t
+        lsp-prefer-flymake nil
         lsp-auto-guess-root t))
 
 
 ;; LSP UI Tweaks
 (use-package lsp-ui
   :ensure t
-  :requires lsp-mode flycheck
   :commands lsp-ui-mode
   :bind
+  (:map lsp-ui-mode-map
+  		("M-?" . lsp-ui-peek-find-references)
+		("M-." . lsp-ui-peek-find-definitions)
+		("<escape>" . lsp-ui-doc-hide))
   (:map lsp-ui-imenu-mode-map
 		("<f9>" . lsp-ui-imenu--kill))
   :config
   (setq lsp-ui-flycheck-enable t
+        lsp-ui-sideline-enable t
 		lsp-ui-sideline-ignore-duplicate t
 		lsp-ui-sideline-show-code-actions t
+		lsp-ui-sideline-show-hover t
+		lsp-ui-sideline-show-symbol t
+		lsp-ui-sideline-update-mode 'point
         lsp-ui-doc-enable t
         lsp-ui-doc-delay 1.25
 		lsp-ui-doc-border "white"))
@@ -201,7 +220,7 @@
 ;; LSP backend for Company completion
 (use-package company-lsp
   :ensure t
-  :commands company-complete
+  :commands company-lsp
   :bind
   (:map lsp-mode-map
 		("C-<tab>" . company-lsp))
@@ -209,7 +228,7 @@
   (push 'company-lsp company-backends)
   (setq company-lsp-async t
 		company-transformers nil
-		company-lsp-cache-candidates nil
+		company-lsp-cache-candidates t
         company-lsp-enable-recompletion t))
 
 
@@ -225,8 +244,8 @@
 			  ("<f10>" . dap-next)
 			  ("<f11>" . dap-step-in)
 			  ("S-<f11>" . dap-step-out))
-  :init (require 'dap-python)
   :config
+  (require 'dap-python)
   (dap-mode t)
   (dap-ui-mode t)
   (dap-tooltip-mode t)
@@ -346,8 +365,9 @@
 (use-package neotree
   :ensure t
   :bind ("<f10>" . neotree-toggle)
-  :hook
-  (neo-after-create . (lambda (unused) (interactive) (linum-mode nil))))
+  :hook (neo-after-create . (lambda (&rest _) (display-line-numbers-mode -1)))
+  :config
+  (setq neo-window-width 20))
 
 
 ;; Icons
@@ -371,6 +391,11 @@
 ;; Display formfeed character (^L) as a line
 (use-package page-break-lines
   :ensure t)
+
+
+(use-package python-black
+  :ensure t
+  :after python)
 
 
 ;; ─────────────────────────────────────────────────────────

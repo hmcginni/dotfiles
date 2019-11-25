@@ -1,9 +1,10 @@
 #!/bin/bash
 
-title="Fuzzy Finder"
+title="Fuzzy Application Launcher"
 
 _get_selection() {
-	compgen -c | grep -E "^.*[[:alnum:]]+.*$" | fzf --exact --height=10 --reverse
+	compgen -c | grep -E "^.*[[:alnum:]]+.*$" | \
+		fzf --exact --height=25 --reverse --history="$HOME"/.fzf_app_history
 }
 
 _main() {

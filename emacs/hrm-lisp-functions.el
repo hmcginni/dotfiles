@@ -31,7 +31,6 @@
        (or a b)))
 
 
-
 (defun hrm/switch-to-previous-buffer ()
   "Switch to previous buffer."
   (interactive)
@@ -42,9 +41,6 @@
   "Reload Emacs."
   (interactive)
   (load-file "~/.emacs.d/init.el"))
-
-
-
 
 
 (defun hrm/scratch ()
