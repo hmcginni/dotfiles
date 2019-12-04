@@ -4,10 +4,14 @@
 #        Custom stuff for ~/.bashrc including (but not limited to) aliases
 #
 
+
+# ──────────────────────────────────────────────────────────
 # Enable delete functionality in st
 
 tput smkx
 
+
+# ──────────────────────────────────────────────────────────
 # Functions
 
 if [[ -f ~/.bash_functions ]]
@@ -15,6 +19,8 @@ then
     . ~/.bash_functions
 fi
 
+
+# ──────────────────────────────────────────────────────────
 # Variables
 
 blue="\[\e[0;94m\]"
@@ -34,6 +40,10 @@ case "$TERM" in
 		;;
 esac
 
+
+# ──────────────────────────────────────────────────────────
+# Magic for fixing gpg-agent issues (??)
+
 export PS1
 export GPG_TTY
 GPG_TTY=$(tty)
@@ -43,11 +53,14 @@ export sofl1="28:f1:0e:52:44:88"
 export bamboo="ec:b1:d7:94:55:9a"
 
 export PATH="$HOME/bin:$PATH"
-export GIT_EDITOR="emacsclient -a \"emacs\" "
+export EDITOR="emacsclient -a emacs "
+export GIT_EDITOR="emacsclient -a emacs "
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 
-#--------------------
+
+# ──────────────────────────────────────────────────────────
 # Aliases
 
 # general
@@ -87,5 +100,3 @@ alias mlc='_ml_wrapper cmd'
 # Python
 alias py='ipython3 qtconsole &'
 
-# SSH
-alias slb='ssh -Y ubuntu@sl-bamboo'

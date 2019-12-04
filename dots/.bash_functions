@@ -30,7 +30,11 @@ _emacsclient() {
     # EMACSCLIENT - Open file with emacsclient
     #
 
-	file="$1"
+	if ! file=$(which "$1")
+	then
+		file=$1
+	fi
+	
     emacsclient -a "emacs" "$file" &>/dev/null &
 }
 

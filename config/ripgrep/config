@@ -1,0 +1,6 @@
+# Search hidden files and directories
+--hidden
+
+# Handle long lines
+--max-columns=150
+--max-columns-preview

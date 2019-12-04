@@ -6,7 +6,6 @@
 ;;; Code:
 
 (require 'package)
-
 (setq package-archives
       '(("melpa" . "https://melpa.org/packages/")
         ("gnu" . "https://elpa.gnu.org/packages/")
@@ -106,6 +105,13 @@
   :ensure t)
 
 
+;; Python Sphinx docstring mode
+(use-package sphinx-doc
+  :ensure t
+  :delight
+  :hook (python-mode . sphinx-doc-mode)
+  :config (sphinx-doc-mode t))
+
 ;; ─────────────────────────────────────────────────────────
 ;;; Completion and narrowing frameworks:
 
@@ -119,18 +125,18 @@
   (setq helm-lisp-fuzzy-completion t))
 
 
-;; Helm interface for GNU Global Tags
-(use-package helm-gtags
-  :ensure t
-  :delight
-  :bind
-  (:map helm-gtags-mode-map
-		("C-<f1>" . helm-gtags-dwim))
-  :hook
-  ((dired-mode . helm-gtags-mode)
-   (c-mode . helm-gtags-mode)
-   (c++-mode . helm-gtags-mode)
-   (python-mode . helm-gtags-mode)))
+;; ;; Helm interface for GNU Global Tags
+;; (use-package helm-gtags
+;;   :ensure t
+;;   :delight
+;;   :bind
+;;   (:map helm-gtags-mode-map
+;; 		("C-<f1>" . helm-gtags-dwim))
+;;   :hook
+;;   ((dired-mode . helm-gtags-mode)
+;;    (c-mode . helm-gtags-mode)
+;;    (c++-mode . helm-gtags-mode)
+;;    (python-mode . helm-gtags-mode)))
 
 
 ;; Helm interface to Xref
@@ -176,8 +182,8 @@
 		("S-<f6>" . lsp-rename)
 		("<f9>" . lsp-ui-imenu))
   :hook
-  (((c++-mode python-mode) . lsp-deferred)
-   (lsp-deferred . (lsp-ui-mode lsp-enable-imenu)))
+  (((c++-mode python-mode) . lsp)
+   (lsp . (lsp-ui-mode lsp-enable-imenu)))
   :config
   (require 'lsp-clients)
   (setq lsp-enable-imenu t
@@ -204,6 +210,12 @@
 		("<escape>" . lsp-ui-doc-hide))
   (:map lsp-ui-imenu-mode-map
 		("<f9>" . lsp-ui-imenu--kill))
+  :hook
+  (lsp-ui-doc-frame . (lambda (frame _w)
+						(set-face-attribute
+						 'default frame
+						 :height 85
+						 :family "IBM Plex Sans")))
   :config
   (setq lsp-ui-flycheck-enable t
         lsp-ui-sideline-enable t
@@ -367,7 +379,7 @@
   :bind ("<f10>" . neotree-toggle)
   :hook (neo-after-create . (lambda (&rest _) (display-line-numbers-mode -1)))
   :config
-  (setq neo-window-width 20))
+  (setq neo-window-width 30))
 
 
 ;; Icons
@@ -386,16 +398,6 @@
 (use-package adaptive-wrap
   :ensure t
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
-
-
-;; Display formfeed character (^L) as a line
-(use-package page-break-lines
-  :ensure t)
-
-
-(use-package python-black
-  :ensure t
-  :after python)
 
 
 ;; ─────────────────────────────────────────────────────────

@@ -3,41 +3,116 @@
 # RESCALE - Enlarge text on built-in display
 
 
-#
-# Update desktop environment scale factor
-#
+# ──────────────────────────────────────────────────────────
+# Detect HiDPI mode
 
-scale_factor="1"
-dconf_text_scale_key="/org/gnome/desktop/interface/text-scaling-factor"
-dconf_gui_scale_key="/com/canonical/unity/interface/text-scale-factor"
-
-if [[ $(dpi) -gt 110 ]]
-then
-    scale_factor=1.15
-else
-    scale_factor=1.0
-fi
-
-# scale_factor=$(bc -l <<< "sqrt(sqrt( $(dpi) / 96 ))")
-dconf write "$dconf_gui_scale_key" "$scale_factor"
-sleep 0.1
-dconf write "$dconf_text_scale_key" "$scale_factor"
+_hidpi(){
+	
+	test "$(dpi)" -gt 110
+	
+}
 
 
+# ──────────────────────────────────────────────────────────
+# Update JSON key with value
 
-#
-# Update Emacs
-#
+_json_update(){
 
-if pgrep emacs >/dev/null
-then
-	font_string=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
-	font=$(echo "${font_string//\'/}" | rev | cut -d" " -f2- | rev)
+	local file key value
 
-	# font="SF Mono"
-	# emacsclient -e '(hrm/reload-emacs-init-file)'
+	file="$1"
+	key="$2"
+	value="$3"
 
-    emacsclient -e "(hrm/dpi/set-scaled-font \"$font\" \"regular\")" >/dev/null
-fi
+	if which jq sponge >/dev/null 2>&1
+	then
+		jq "$key = $value" "$file" | sponge "$file"
+	else
+		printf "JQ and SPONGE must be installed.\n" >&2
+	fi
+	
+}
 
-notify-send "rescale" "Scaling text:\t${scale_factor}x\nFont Family:\t$font" -t 2500
+
+# ──────────────────────────────────────────────────────────
+# Scale Unity desktop
+
+_rescale_unity(){
+
+	local text unity
+	
+	text="/org/gnome/desktop/interface/text-scaling-factor"
+	unity="/com/canonical/unity/interface/text-scale-factor"
+
+	if _hidpi
+	then
+		scale=1.15
+	else
+		scale=1.0
+	fi
+
+	# scale=$(bc -l <<< "sqrt(sqrt( $(dpi) / 96 ))")
+	dconf write "$unity" "$scale"
+	sleep 0.1
+	dconf write "$text" "$scale"
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Scale VSCode
+
+_rescale_vscode(){
+
+	local settings zoom size
+
+	settings="$HOME/.config/Code/User/settings.json"
+	zoom='.["window.zoomLevel"]'
+	size='.["editor.fontSize"]'
+
+	if _hidpi
+	then
+		_json_update "$settings" "$zoom" "0"
+		_json_update "$settings" "$size" "12.5"
+	else
+		_json_update "$settings" "$zoom" "-0.85"
+		_json_update "$settings" "$size" "14"
+	fi
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Scale Emacs
+
+_rescale_emacs(){
+	
+	local font_dconf font
+
+	if pgrep emacs >/dev/null 2>&1
+	then
+		font_dconf=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
+		font=$(echo "${font_dconf//\'/}" | rev | cut -d" " -f2- | rev)
+		emacsclient -e "(hrm/dpi/set-scaled-font \"$font\" \"regular\")" >/dev/null
+	fi
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Main Function
+
+_main(){
+
+	notify-send "rescale" "Scaling text" -t 2500
+
+	_rescale_unity
+	_rescale_vscode
+	_rescale_emacs
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+
+_main

@@ -1,0 +1,48 @@
+{
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+  "editor.fontFamily": "'Roboto Mono', 'Input', monospace, 'Droid Sans Fallback'",
+  "workbench.startupEditor": "newUntitledFile",
+  "python.jediEnabled": false,
+  "window.zoomLevel": -0.85,
+  "editor.minimap.enabled": false,
+  "workbench.colorTheme": "Atom One Dark",
+  "search.smartCase": true,
+  "debug.console.fontSize": 12,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "autoDocstring.docstringFormat": "google",
+  "workbench.colorCustomizations": {
+    "editor.foreground": "#f0f0f0"
+  },
+  "breadcrumbs.filePath": "off",
+  "autoDocstring.includeName": true,
+  "workbench.iconTheme": "vscode-seedling-icon-theme",
+  "C_Cpp.default.intelliSenseMode": "gcc-x64",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "C_Cpp.updateChannel": "Insiders",
+  "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+  "terminal.integrated.letterSpacing": null,
+  "editor.cursorSmoothCaretAnimation": true,
+  "workbench.enableExperiments": false,
+  "C_Cpp.experimentalFeatures": "Enabled",
+  "terminal.external.linuxExec": "gnome-terminal",
+  "editor.tabCompletion": "on",
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "editor.renderWhitespace": "none",
+  "python.venvFolders": [
+    "venv"
+  ],
+  "git.confirmSync": false,
+  "workbench.sideBar.location": "left",
+  "projectManager.groupList": true,
+  "python.linting.pydocstyleEnabled": true,
+  "workbench.tree.indent": 6,
+  "editor.letterSpacing": -0.7,
+  "python.linting.pydocstyleArgs": [
+    "--ignore=D200,D203,D213,D406,D407"
+  ],
+  "editor.fontSize": 14,
+  "bashIde.path": "/snap/bin/bash-language-server"
+}
