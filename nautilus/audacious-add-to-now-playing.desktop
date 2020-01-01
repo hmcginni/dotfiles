@@ -1,0 +1,24 @@
+[Desktop Entry]
+Type=Action
+Name[en_US]=[♪] Add to "Now Playing"
+Name[en]=[♪] Add to "Now Playing"
+Name[C]=[♪] Add to "Now Playing"
+Tooltip[en_US]=Open file in Audacious "Now Playing" playlist.
+Tooltip[en]=Open file in Audacious "Now Playing" playlist.
+Tooltip[C]=Open file in Audacious "Now Playing" playlist.
+Icon[en_US]=add
+Icon[en]=add
+Icon[C]=add
+TargetToolbar=true
+ToolbarLabel[en_US]=[♪] Add to "Now Playing"
+ToolbarLabel[en]=[♪] Add to "Now Playing"
+ToolbarLabel[C]=[♪] Add to "Now Playing"
+TargetContext=false
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Name[en_US]=music
+Name[en]=music
+Name[C]=music
+Exec=audacious -e %F
+MimeTypes=audio/*;
