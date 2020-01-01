@@ -215,7 +215,7 @@
     dpi))
 
 
-(defun hrm/dpi/scale-font ()
+(defun hrm/dpi/determine-font-scaling ()
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/dpi/get-dpi)))
     (cond ((< dpi 135) 12)  ;; dpi=96 => 12-13/14
@@ -225,9 +225,9 @@
           (t 17))))         ;; ?16?
 
 
-(defun hrm/dpi/set-scaled-font (face weight)
+(defun hrm/dpi/scale-font (face weight)
   "Set the scaled font spec string for the specified FACE and WEIGHT."
-  (let* ((size (hrm/dpi/scale-font))
+  (let* ((size (hrm/dpi/determine-font-scaling))
          (font (format "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
 

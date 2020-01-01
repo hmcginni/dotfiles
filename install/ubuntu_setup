@@ -20,12 +20,12 @@ apt_package_installer() {
     sudo apt update
     sudo apt upgrade -y
     
-    sudo apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils emacs python pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme moka-icon-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor debhelper libfreetype6-dev libx11-dev libxext-dev libxft-dev pkg-config
+    sudo apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils  python ppa-purge pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor debhelper libfreetype6-dev libx11-dev libxext-dev libxft-dev pkg-config
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     
     sudo snap refresh
-    sudo snap install remmina google-play-music-desktop-player
+    sudo snap install remmina google-play-music-desktop-player emacs
 
 }
 
@@ -106,9 +106,9 @@ dconf_settings() {
     unity_schema="org.compiz.unityshell"
     launcher_path="/org/compiz/profiles/unity/plugins/unityshell/"
 
-    sans="IBM Plex Sans Condensed Text 10"
-    mono="Inconsolata 11"
-    titlebar="IBM Plex Sans Condensed Bold 10"
+    sans="IBM Plex Sans Text 10"
+    mono="Roboto Mono 10"
+    titlebar="IBM Plex Sans Bold 10"
     theme="Arc-Darker"
     icons="Arc-Icons"
     time_fmt="%A • %d %b %Y • %l:%M %p"

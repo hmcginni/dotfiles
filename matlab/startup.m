@@ -7,10 +7,8 @@ format compact
 isDesktopSession = usejava('desktop');
 
 if isDesktopSession
-    %
     % 1. Disable the search box
     % 2. Set the MATLAB Editor as the text editor
-    %
     try
         jDesk = com.mathworks.mde.desk.MLDesktop.getInstance;
         jPanel = jDesk.getMainFrame.getQuickAccessBar.getComponent.getParent.getParent;
@@ -32,18 +30,21 @@ if isDesktopSession
         
         clear 
         
+        com.mathworks.services.Prefs.setBooleanPref('EditorBuiltinEditor', true);
+        com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', '')
+  
     catch e
     end
-    
-    com.mathworks.services.Prefs.setBooleanPref('EditorBuiltinEditor', true);
-    com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', '')
 
 else
     %
     % Switch to Emacs as text editor
     %
-    com.mathworks.services.Prefs.setBooleanPref('EditorBuiltinEditor', false);
-    com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', ...
-                                               'emacsclient -a "emacs"')
+    try
+        com.mathworks.services.Prefs.setBooleanPref('EditorBuiltinEditor', false);
+        com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', ...
+                                                   'emacsclient -a "emacs"')
+    catch e
+    end
     
 end

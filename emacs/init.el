@@ -5,7 +5,7 @@
 
 ;;; Code:
 
-(package-initialize)
+;; (package-initialize)
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -29,13 +29,13 @@
  '(display-time-mode nil)
  '(fill-column 80)
  '(flycheck-checker-error-threshold 500)
- '(flycheck-clang-language-standard "c++11")
+ '(flycheck-clang-language-standard "c++17")
  '(flycheck-flake8rc "~/.config/flake8/.flake8")
  '(flycheck-matlab-mlint-executable nil)
  '(flycheck-python-flake8-executable "flake8")
  '(flycheck-python-pylint-executable "pylint3")
  '(flycheck-shellcheck-follow-sources nil)
- '(font-use-system-font nil)
+ '(font-use-system-font t)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(git-gutter:update-interval 1)
  '(global-hl-line-mode t)
@@ -74,6 +74,7 @@
  '(lsp-ui-doc-include-signature t)
  '(lsp-ui-doc-max-height 20)
  '(lsp-ui-doc-max-width 80)
+ '(lsp-ui-doc-position (quote at-point))
  '(lsp-ui-imenu-kind-position (quote left))
  '(matlab-functions-have-end t)
  '(matlab-indent-function-body t)
@@ -82,7 +83,7 @@
  '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
  '(mode-line-format
    (quote
-	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info
+	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "           " mode-line-position "           " mode-line-modes mode-line-misc-info
 	 (vc-mode vc-mode)
 	 mode-line-end-spaces)))
  '(neo-auto-indent-point t)
@@ -91,7 +92,7 @@
  '(neo-show-updir-line t)
  '(neo-theme (quote icons))
  '(neo-window-fixed-size nil)
- '(neo-window-width 18)
+ '(neo-window-width 20)
  '(org-babel-load-languages
    (quote
 	((python . t)
@@ -115,9 +116,9 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(dumb-jump dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode company-box csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
- '(recentf-max-menu-items 20)
+ '(recentf-max-menu-items 50)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(semantic-idle-breadcrumbs-format-tag-function (quote semantic-format-tag-canonical-name))
@@ -175,9 +176,19 @@
 
 ;; Font
 ;; (if (display-graphic-p)
-;;     (hrm/dpi/set-scaled-font "Input" "regular"))
+    ;; (hrm/dpi/scale-font "SF Mono" "regular"))
 
-
+;; ;; Mode Line
+;; (setq mode-line-format
+;; 	  (list
+;; 	   "             "
+;; 	   "%b"
+;; 	   "             "
+;; 	   "Ln %l,  Col %C"
+;; 	   "             "
+;; 	   "%m"
+;; 	   "             "
+;; 	   ))
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Keyboard shortcuts:
@@ -245,21 +256,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(header-line ((t (:inherit mode-line :background "2f343f" :foreground "dark gray" :weight bold :height 0.9 :family "IBM Plex Sans Condensed"))))
+ '(header-line ((t (:inherit mode-line :background "2f343f" :foreground "dark gray" :weight bold :height 0.8 :family "IBM Plex Sans"))))
  '(highlight-thing ((t (:inherit (quote hl-line)))))
- '(linum ((t (:inherit (shadow default) :foreground "#707070" :height 0.75 :family "Roboto Mono"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
- '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "IBM Plex Sans Condensed"))))
- '(lsp-ui-sideline-global ((t (:family "IBM Plex Sans Condensed"))))
+ '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "IBM Plex Sans"))))
+ '(lsp-ui-sideline-global ((t (:family "IBM Plex Sans"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
- '(neo-banner-face ((t (:weight bold :height 0.9 :family "IBM Plex Sans Condensed"))))
- '(neo-button-face ((t (:underline nil :height 0.9 :family "IBM Plex Sans Condensed"))))
- '(neo-dir-link-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
- '(neo-expand-btn-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
- '(neo-file-link-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
- '(neo-header-face ((t (:height 0.9 :family "IBM Plex Sans Condensed"))))
- '(neo-root-dir-face ((t (:weight bold :height 0.9 :family "IBM Plex Sans Condensed"))))
- '(which-func ((t nil))))
+ '(mode-line ((t (:background "#3E4451" :weight light :height 0.85 :family "IBM Plex Sans"))))
+ '(mode-line-highlight ((t (:overline "teal" :underline "teal"))))
+ '(mode-line-inactive ((t (:background "gray10" :foreground "dim gray" :slant italic :weight normal :height 70 :family "IBM Plex Sans"))))
+ '(neo-banner-face ((t (:weight bold :height 0.8 :family "IBM Plex Sans"))))
+ '(neo-button-face ((t (:underline nil :height 0.8 :family "IBM Plex Sans"))))
+ '(neo-dir-link-face ((t (:height 0.8 :family "IBM Plex Sans"))))
+ '(neo-expand-btn-face ((t (:height 0.8 :family "IBM Plex Sans"))))
+ '(neo-file-link-face ((t (:height 0.8 :family "IBM Plex Sans"))))
+ '(neo-header-face ((t (:height 0.8 :family "IBM Plex Sans"))))
+ '(neo-root-dir-face ((t (:weight bold :height 0.8 :family "IBM Plex Sans")))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)

@@ -18,7 +18,9 @@ _hidpi(){
 
 _json_update(){
 
-	local file key value
+	local file
+	local key
+	local value
 
 	file="$1"
 	key="$2"
@@ -64,19 +66,24 @@ _rescale_unity(){
 
 _rescale_vscode(){
 
-	local settings zoom size
+	local settings
+	# local zoom
+	# local size
 
 	settings="$HOME/.config/Code/User/settings.json"
 	zoom='.["window.zoomLevel"]'
-	size='.["editor.fontSize"]'
+	# size='.["editor.fontSize"]'
+	# spacing='.["editor.letterSpacing"]'
 
 	if _hidpi
 	then
-		_json_update "$settings" "$zoom" "0"
-		_json_update "$settings" "$size" "12.5"
+		_json_update "$settings" "$zoom" "-0.1"
+		# _json_update "$settings" "$size" "13.5"
+		# _json_update "$settings" "$spacing" "-0.6"
 	else
-		_json_update "$settings" "$zoom" "-0.85"
-		_json_update "$settings" "$size" "14"
+		_json_update "$settings" "$zoom" "-0.8"
+		# _json_update "$settings" "$size" "14"
+		# _json_update "$settings" "$spacing" "-0.7"
 	fi
 
 }
@@ -87,13 +94,15 @@ _rescale_vscode(){
 
 _rescale_emacs(){
 	
-	local font_dconf font
+	local font_dc
+	local font
 
 	if pgrep emacs >/dev/null 2>&1
 	then
-		font_dconf=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
-		font=$(echo "${font_dconf//\'/}" | rev | cut -d" " -f2- | rev)
-		emacsclient -e "(hrm/dpi/set-scaled-font \"$font\" \"regular\")" >/dev/null
+		# font="SF Mono"
+		font_dc=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
+		font=$(echo "${font_dc//\'/}" | rev | cut -d" " -f2- | rev)
+		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"regular\")" >/dev/null
 	fi
 
 }
@@ -114,5 +123,6 @@ _main(){
 
 
 # ──────────────────────────────────────────────────────────
+# Rescale
 
 _main

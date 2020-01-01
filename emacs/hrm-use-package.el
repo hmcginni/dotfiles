@@ -28,7 +28,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Package packages:
+;;; Package packages
 
 ;; Built-ins
 (use-package emacs
@@ -58,7 +58,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Language modes and configuration:
+;;; Language modes
 
 ;; JSON mode
 (use-package json-mode
@@ -113,7 +113,7 @@
   :config (sphinx-doc-mode t))
 
 ;; ─────────────────────────────────────────────────────────
-;;; Completion and narrowing frameworks:
+;;; Helm Modes
 
 ;; Helm
 (use-package helm
@@ -125,53 +125,60 @@
   (setq helm-lisp-fuzzy-completion t))
 
 
-;; ;; Helm interface for GNU Global Tags
-;; (use-package helm-gtags
-;;   :ensure t
-;;   :delight
-;;   :bind
-;;   (:map helm-gtags-mode-map
-;; 		("C-<f1>" . helm-gtags-dwim))
-;;   :hook
-;;   ((dired-mode . helm-gtags-mode)
-;;    (c-mode . helm-gtags-mode)
-;;    (c++-mode . helm-gtags-mode)
-;;    (python-mode . helm-gtags-mode)))
+;; Helm interface for GNU Global Tags
+(use-package helm-gtags
+  :ensure t
+  :delight
+  :bind
+  (:map helm-gtags-mode-map
+		("C-<f1>" . helm-gtags-dwim))
+  :hook
+  ((dired-mode . helm-gtags-mode)
+   (c-mode . helm-gtags-mode)
+   (c++-mode . helm-gtags-mode)
+   (python-mode . helm-gtags-mode)))
 
 
 ;; Helm interface to Xref
 (use-package helm-xref
-  :ensure t)
-
-
-;; Company completion mode
-(use-package company
   :ensure t
-  :bind
-  (:map company-mode-map
-		("C-<tab>" . company-complete))
-  :hook
-  ((c++-mode . company-mode)
-   (python-mode . company-mode)
-   (sh-mode . company-mode)
-   (css-mode . company-mode)
-   (emacs-lisp-mode . company-mode)
-   (matlab-mode . company-mode)))
+  :after helm)
 
 
-;; Icons for Company completion
-(use-package company-box
-  :ensure t
-  :delight
-  :hook (company-mode . company-box-mode))
+;; ─────────────────────────────────────────────────────────
+;; Company Modes
+
+;; ;; Company completion mode
+;; (use-package company
+;;   :ensure t
+;;   :bind
+;;   (:map company-mode-map
+;; 		("C-<tab>" . company-complete))
+;;   :hook
+;;   ((c++-mode . company-mode)
+;;    (python-mode . company-mode)
+;;    (sh-mode . company-mode)
+;;    (css-mode . company-mode)
+;;    (emacs-lisp-mode . company-mode)
+;;    (matlab-mode . company-mode)))
 
 
-;; Company shell mode
-(use-package company-shell
-  :ensure t
-  :config
-  (add-to-list 'company-backends '(company-shell company-shell-env)))
+;; ;; Icons for Company completion
+;; (use-package company-box
+;;   :ensure t
+;;   :delight
+;;   :hook (company-mode . company-box-mode))
 
+
+;; ;; Company shell mode
+;; (use-package company-shell
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'company-backends '(company-shell company-shell-env)))
+
+
+;; ─────────────────────────────────────────────────────────
+;; LSP Modes
 
 ;; Language Server Protocol mode
 (use-package lsp-mode
@@ -214,7 +221,7 @@
   (lsp-ui-doc-frame . (lambda (frame _w)
 						(set-face-attribute
 						 'default frame
-						 :height 85
+						 :height 80
 						 :family "IBM Plex Sans")))
   :config
   (setq lsp-ui-flycheck-enable t
@@ -225,8 +232,8 @@
 		lsp-ui-sideline-show-symbol t
 		lsp-ui-sideline-update-mode 'point
         lsp-ui-doc-enable t
-        lsp-ui-doc-delay 1.25
-		lsp-ui-doc-border "white"))
+        lsp-ui-doc-delay 1
+		lsp-ui-doc-border "gray20"))
 
 
 ;; LSP backend for Company completion
@@ -265,7 +272,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Spell checking modes:
+;;; Spell checking modes
 
 ;; Flyspell mode
 (use-package flyspell
@@ -295,7 +302,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Note-taking and documentation modes:
+;;; Note-taking and documentation modes
 
 ;; Org mode
 (use-package org
@@ -336,13 +343,22 @@
 
 
 ;; Org mode JIRA export
-(use-package ox-jira
-  :ensure t)
+;; (use-package ox-jira
+;;   :ensure t)
 
 
 ;; Org presentation mode
-(use-package epresent
-  :ensure t)
+;; (use-package epresent
+;;   :ensure t)
+
+
+;; ─────────────────────────────────────────────────────────
+;;; Navigation
+
+(use-package dumb-jump
+  :ensure t
+  :config
+  (setq dumb-jump-selector 'helm))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -401,7 +417,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Git modes:
+;;; Git modes
 
 ;; Magit
 (use-package magit
@@ -420,7 +436,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Project management modes:
+;;; Project management modes
 
 ;; Projectile
 ;; (use-package projectile

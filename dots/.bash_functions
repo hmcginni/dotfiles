@@ -5,18 +5,14 @@
 
 
 _copy(){
-    #
     # COPY - add line to clipboard
-    #
 
     tr -d '\n' <<< "$1" | xclip -selection clipboard
 }
 
 
 _ediff() {
-    #
     # EDIFF - Launch Emacs with ediff-files
-    #
 
     file1=$1
     file2=$2
@@ -26,9 +22,7 @@ _ediff() {
 
 
 _emacsclient() {
-    #
     # EMACSCLIENT - Open file with emacsclient
-    #
 
 	if ! file=$(which "$1")
 	then
@@ -40,9 +34,7 @@ _emacsclient() {
 
 
 _git_push_wrapper() {
-    #
     # GIT_PUSH_WRAPPER - simplify git pushes
-    #
 
     if [[ $PWD =~ hrmutils || $PWD =~ hrmcginnis ]]
     then
@@ -63,10 +55,18 @@ _git_push_wrapper() {
 }
 
 
+_load_venv() {
+	# LOAD_VENV - activate Python virtual environment
+
+	local venv
+	
+	venv=$1
+	source "$venv"/bin/activate
+}
+
+
 _ml_wrapper() {
-    #
     # ML_WRAPPER - launch MATLAB with preferred Java version
-    #
 
     export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk-amd64/jre
 
@@ -88,9 +88,7 @@ _ml_wrapper() {
 
 
 _new_dir_today() {
-	#
 	# NEW_DIR_TODAY - create a new timestamped directory
-	#
 
 	local today
 	local name
@@ -105,9 +103,7 @@ _new_dir_today() {
 
 
 _parse_git_branch() {
-    #
     # PARSE_GIT_BRANCH - add current Git branch to bash prompt
-    #
 
 	local branch
 	local repo
@@ -143,27 +139,28 @@ _parse_git_branch() {
 
 
 _qfind() {
-    #
     # QFIND - find without errors
-    #
 
     find "$@" 2>/dev/null
 }
 
 
 _quiet() {
-    #
     # QUIET - run command quietly in the background
-    #
 
-    ("$*") &>/dev/null & disown
+	if which chronic >/dev/null 2>&1
+	then
+		chronic "$@" & disown
+		# ("$*") &>/dev/null & disown
+	else
+		printf "CHRONIC utility not installed (moreutils)." >&2
+	fi
+	
 }
 
 
 _test_dir() {
-	#
 	# TEST_DIR - change to the test folder containing the provided id
-	#
 
 	tid=$1
 	dir=$(find "$SW_TEST_DIR" -name "$tid" -type d)
@@ -178,9 +175,7 @@ _test_dir() {
 
 
 _tmux_go() {
-    #
     # TMUX_GO - simplify tmux actions
-    #
 
     if [[ $# == 0 ]]
     then
@@ -202,9 +197,7 @@ _tmux_go() {
 
 
 _tmux_run() {
-	#
 	# TMUX_RUN - run command on all TMUX panes
-	#
 	
     tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' \
 		| xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
@@ -216,9 +209,7 @@ _tmux_run() {
 
 
 _vpn() {
-    #
     # VPN - wrapper function to control the MDTVPN systemd service
-    #
 
     option="$1"
     if [[ -z $option ]]

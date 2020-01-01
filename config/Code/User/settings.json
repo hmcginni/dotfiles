@@ -4,7 +4,7 @@
   "editor.fontFamily": "'Roboto Mono', 'Input', monospace, 'Droid Sans Fallback'",
   "workbench.startupEditor": "newUntitledFile",
   "python.jediEnabled": false,
-  "window.zoomLevel": -0.85,
+  "window.zoomLevel": 0,
   "editor.minimap.enabled": false,
   "workbench.colorTheme": "Atom One Dark",
   "search.smartCase": true,
@@ -43,6 +43,6 @@
   "python.linting.pydocstyleArgs": [
     "--ignore=D200,D203,D213,D406,D407"
   ],
-  "editor.fontSize": 14,
+  "editor.fontSize": 13.5,
   "bashIde.path": "/snap/bin/bash-language-server"
 }

@@ -36,8 +36,8 @@ shift $(( OPTIND - 1 ))
 # ──────────────────────────────────────────────────────────
 # Functions 
 
-# Create file if it doesn't exist
 _setup_todo_file () {
+	# Create file if it doesn't exist
 
     local msg=""
     
@@ -59,8 +59,8 @@ _setup_todo_file () {
     
 }
 
-# Get todo item text
 _get_todo () {
+	# Get todo item text
 
     z_title="Todo Item"
     z_text="Enter todo item text:"
@@ -73,8 +73,8 @@ _get_todo () {
 
 }
 
-# Get tag list
 _get_tags () {
+	# Get tag list
 
     local tags=""
 
@@ -99,8 +99,8 @@ _get_tags () {
     
 }
 
-# Format tags
 _setup_tag_list () {
+	# Format tags
 
     local old_IFS=""
     
@@ -114,11 +114,8 @@ _setup_tag_list () {
     
 }
 
-
-# ──────────────────────────────────────────────────────────
-# Format todo item
-
 _format_todo () {
+	# Format todo item
 
     todo_date=$(date "+[%Y-%m-%d %a %H:%M]")
     todo_headline=$(printf "* TODO [#A] %s %s" "$todo_text" "$todo_tags")
@@ -144,8 +141,5 @@ _main () {
 
 }
 
-
-# ──────────────────────────────────────────────────────────
-# Main
 
 _main

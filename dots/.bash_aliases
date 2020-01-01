@@ -48,6 +48,10 @@ export PS1
 export GPG_TTY
 GPG_TTY=$(tty)
 
+
+# ──────────────────────────────────────────────────────────
+# Exports
+
 export hrmpc="BC:5F:F4:5A:77:41"
 export sofl1="28:f1:0e:52:44:88"
 export bamboo="ec:b1:d7:94:55:9a"
@@ -57,7 +61,8 @@ export EDITOR="emacsclient -a emacs "
 export GIT_EDITOR="emacsclient -a emacs "
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
-export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
+export XDG_CONFIG_HOME="$HOME/.config"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 
 # ──────────────────────────────────────────────────────────
@@ -65,16 +70,15 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 
 # general
 alias open='xdg-open'
+alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
 
-# function shortcuts
 alias copy='_copy'
 alias ediff='_ediff'
 alias testdir='_test_dir'
-alias newdir='_new_dir_today'
-alias n='newdir'
+alias new='_new_dir_today'
+alias n='_new_dir_today'
 alias q='_quiet'
 alias qfind='_qfind'
-alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
 alias vpn='_vpn'
 
 # tmux
@@ -98,5 +102,4 @@ alias ml='_ml_wrapper gui'
 alias mlc='_ml_wrapper cmd'
 
 # Python
-alias py='ipython3 qtconsole &'
-
+alias load='_load_venv'
