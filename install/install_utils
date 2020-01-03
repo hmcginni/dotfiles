@@ -18,7 +18,7 @@ repoPath=${installerPath%/*}
 # associative_array[$srcPath]=$destPath
 declare -A srcToDestMap
 srcToDestMap["$repoPath/bash/bin"]="$HOME"/bin
-srcToDestMap["$repoPath/python"]="$HOME"/bin
+srcToDestMap["$repoPath/sc"]="$HOME"/bin
 srcToDestMap["$repoPath/bash/lib"]="$HOME"/lib/bash
 srcToDestMap["$repoPath/matlab"]="$HOME"/Documents/MATLAB
 srcToDestMap["$repoPath/dots"]="$HOME"

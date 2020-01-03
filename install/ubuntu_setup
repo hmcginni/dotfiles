@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# ──────────────────────────────────────────────────────────
 ## INSTALL PACKAGES
 
 apt_package_installer() {
@@ -19,16 +20,20 @@ apt_package_installer() {
 
     sudo apt update
     sudo apt upgrade -y
-    
-    sudo apt install -y git nautilus-dropbox tmux wmctrl xdotool x11-utils  python ppa-purge pass emacs-goodies-el ipython gmrun chromium-browser openconnect locate arc-theme arc-icons xfce4-notifyd xfce4-volumed unity-tweak-tool gnome-tweaks dconf-editor debhelper libfreetype6-dev libx11-dev libxext-dev libxft-dev pkg-config
+    sudo apt install -y "$(< apt_packages)"
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     
     sudo snap refresh
-    sudo snap install remmina google-play-music-desktop-player emacs
+	snaps="$(< snap_packates)"
+	for pkg in $snaps
+	do
+		sudo snap install "$pkg" --classic
+	done
 
 }
 
+# ──────────────────────────────────────────────────────────
 ## INSTALL REPOSITORY FILES
 
 repository_installer() {
@@ -48,6 +53,7 @@ repository_installer() {
 
 }
 
+# ──────────────────────────────────────────────────────────
 ## INSTALL FONTS FROM DROPBOX
 
 font_installer() {
@@ -95,6 +101,7 @@ font_installer() {
     
 }
 
+# ──────────────────────────────────────────────────────────
 ## SET UP DCONF
 
 dconf_settings() {
@@ -132,6 +139,7 @@ dconf_settings() {
     
 }
 
+# ──────────────────────────────────────────────────────────
 ## MAIN
 
 main() {

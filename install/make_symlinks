@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+# make_symlinks - make symbolic links to all files in a folder
+#
+#   Usage: _make_symlinks "source_dir" "target_dir"
+#          source_dir: folder containing files to which links should point
+#          target_dir: folder into which symbolic links should be created
+
+# ──────────────────────────────────────────────────────────
+# Helper functions
+
+_create_target_folder_hierarchy () {
+	
+	local subfolders
+	
+	mkdir -p "$target_dir"
+	subfolders=$(find "$source_dir" -type d ! -path . | sed 's|[.]/||')
+
+	for folder in $subfolders
+	do
+		mkdir -p "$target_dir/$folder"
+	done
+
+}
+
+_copy_files () {
+
+	local script
+	local files
+
+	script=$(basename "$0")
+	files=$(find "$source_dir" -type f ! -name "$script" ! -name "*[#~]")
+
+	for dot_slash_file in $files
+	do
+		file=$(basename "$(sed 's|[.]/||' <<< "$dot_slash_file")")
+		file_path=$(realpath "$file")
+		symlink_path="$target_dir/$file"
+		ln -sv "$file_path" "$symlink_path"
+	done
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Main function
+
+_make_symlinks () {
+
+	source_dir=$1
+	target_dir=$2
+
+	printf "Making symbolic links:\n\n\t%s -> %s\n\n" \
+		   "$target_dir" "$source_dir"
+	
+	_create_target_folder_hierarchy
+	_copy_files
+
+}

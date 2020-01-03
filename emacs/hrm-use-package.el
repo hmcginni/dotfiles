@@ -102,7 +102,8 @@
 
 ;; C++ syntax highlighting mode
 (use-package modern-cpp-font-lock
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;; Python Sphinx docstring mode
@@ -119,7 +120,8 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-		 ("C-x C-r" . helm-for-files))
+		 ("C-x C-r" . helm-for-files)
+		 ("C-?" . helm-apropos))
   :init (require 'helm-config)
   :config
   (setq helm-lisp-fuzzy-completion t))
@@ -148,33 +150,36 @@
 ;; ─────────────────────────────────────────────────────────
 ;; Company Modes
 
-;; ;; Company completion mode
-;; (use-package company
-;;   :ensure t
-;;   :bind
-;;   (:map company-mode-map
-;; 		("C-<tab>" . company-complete))
-;;   :hook
-;;   ((c++-mode . company-mode)
-;;    (python-mode . company-mode)
-;;    (sh-mode . company-mode)
-;;    (css-mode . company-mode)
-;;    (emacs-lisp-mode . company-mode)
-;;    (matlab-mode . company-mode)))
+;; Company completion mode
+(use-package company
+  :ensure t
+  :bind
+  (:map company-mode-map
+		("C-<tab>" . company-complete))
+  :hook
+  ((c++-mode . company-mode)
+   (python-mode . company-mode)
+   (sh-mode . company-mode)
+   (css-mode . company-mode)
+   (emacs-lisp-mode . company-mode)
+   (matlab-mode . company-mode))
+  :config
+  (setq company-idle-delay 1
+		company-tooltip-limit 20))
 
 
-;; ;; Icons for Company completion
-;; (use-package company-box
-;;   :ensure t
-;;   :delight
-;;   :hook (company-mode . company-box-mode))
+;; Icons for Company completion
+(use-package company-box
+  :ensure t
+  :delight
+  :hook (company-mode . company-box-mode))
 
 
-;; ;; Company shell mode
-;; (use-package company-shell
-;;   :ensure t
-;;   :config
-;;   (add-to-list 'company-backends '(company-shell company-shell-env)))
+;; Company shell mode
+(use-package company-shell
+  :ensure t
+  :config
+  (add-to-list 'company-backends '(company-shell company-shell-env)))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -193,7 +198,8 @@
    (lsp . (lsp-ui-mode lsp-enable-imenu)))
   :config
   (require 'lsp-clients)
-  (setq lsp-enable-imenu t
+  (setq lsp-restart 'auto-restart
+		lsp-enable-imenu t
 		lsp-enable-semantic-highlighting t
 		lsp-enable-snippet nil
         lsp-enable-xref t

@@ -1,2 +1,3 @@
 # Specify syntax highlighting for certain file types
 --map-syntax m:MATLAB
+--map-syntax el:Lisp

@@ -13,7 +13,7 @@ dbus-monitor --session "type='$type',interface='$iface'" |
     do
 	    if echo "$event" | grep "Unlocked" &>/dev/null
         then
-	        find "$UNLOCK_DIR" -xtype f -exec {} \;
+	        find "$UNLOCK_DIR" -xtype f -print0 | sort -z | xargs -0n1 bash -c
 	    fi
     done
 

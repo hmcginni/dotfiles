@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Action
+Name[en_US]=Combine PDFs
+Name[en]=Combine PDFs
+Name[C]=Combine PDFs
+Tooltip[en_US]=Combine multiple PDF files
+Tooltip[en]=Combine multiple PDF files
+Tooltip[C]=Combine multiple PDF files
+Icon[en_US]=application-pdf
+Icon[en]=application-pdf
+Icon[C]=application-pdf
+ToolbarLabel[en_US]=Combine PDFs
+ToolbarLabel[en]=Combine PDFs
+ToolbarLabel[C]=Combine PDFs
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Name[en_US]=documents
+Name[en]=documents
+Name[C]=documents
+Exec=pdftk %B cat output %w_combined.pdf
+MimeTypes=application/pdf;
+SelectionCount=>1

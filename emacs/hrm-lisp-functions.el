@@ -140,6 +140,22 @@
       (message filename))))
 
 
+(defun hrm/next-comment-section ()
+  "Navigate to the next comment section."
+  (interactive)
+  (forward-line)
+  (search-forward "─\n" nil nil 1)
+  (forward-line -1)
+  (beginning-of-line))
+
+
+(defun hrm/previous-comment-section ()
+  "Navigate to the previous comment section."
+  (interactive)
+  (search-forward "─\n" nil nil -1)
+  (beginning-of-line))
+
+
 ;; ─────────────────────────────────────────────────────────
 ;; Appearance:
 

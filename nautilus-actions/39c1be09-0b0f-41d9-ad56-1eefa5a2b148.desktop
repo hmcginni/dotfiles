@@ -13,7 +13,6 @@ TargetToolbar=true
 ToolbarLabel[en_US]=[♪] Add to "Now Playing"
 ToolbarLabel[en]=[♪] Add to "Now Playing"
 ToolbarLabel[C]=[♪] Add to "Now Playing"
-TargetContext=false
 Profiles=profile-zero;
 
 [X-Action-Profile profile-zero]

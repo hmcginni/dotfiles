@@ -1,0 +1,18 @@
+#!/bin/bash
+
+installer=$(realpath "$0")
+installer_dir=$(dirname "$installer")
+repo_dir=${installer_dir%/*}
+
+source "$repo_dir"/install/make_symlinks
+
+_install_config () {
+
+	source_dir=$(dirname "$(realpath "$0")")
+	target_dir="$HOME"/.config/
+
+	_make_symlinks "$source_dir" "$target_dir"
+
+}
+
+_install_config

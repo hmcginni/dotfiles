@@ -16,10 +16,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(Buffer-menu-use-header-line nil)
+ '(Buffer-menu-use-header-line t)
  '(adaptive-wrap-extra-indent 3)
  '(column-number-mode t)
  '(company-box-icons-alist (quote company-box-icons-all-the-icons))
+ '(company-tooltip-idle-delay 0.75)
  '(cursor-type (quote (bar . 1)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
@@ -222,6 +223,8 @@
 (global-set-key (kbd "C-|") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
+(global-set-key (kbd "C-S-<next>") 'hrm/next-comment-section)
+(global-set-key (kbd "C-S-<prior>") 'hrm/previous-comment-section)
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
@@ -256,7 +259,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(header-line ((t (:inherit mode-line :background "2f343f" :foreground "dark gray" :weight bold :height 0.8 :family "IBM Plex Sans"))))
+ '(header-line ((t (:inherit mode-line :background "#2f343f" :foreground "dark gray" :weight bold :height 0.8 :family "IBM Plex Sans"))))
  '(highlight-thing ((t (:inherit (quote hl-line)))))
  '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
