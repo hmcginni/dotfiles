@@ -9,7 +9,7 @@ source "$repo_dir"/install/make_symlinks
 _install_elisp () {
 
 	source_dir=$(dirname "$(realpath "$0")")
-	target_dir="$HOME"/.emacs.d/foo/bar/baz
+	target_dir="$HOME"/.emacs.d
 	
 	_make_symlinks "$source_dir" "$target_dir"
 	

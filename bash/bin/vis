@@ -39,17 +39,17 @@ desktop=$(tiling.getCursorDesktop)
 
 while getopts ":hd:" opt; do
     case ${opt} in
-	h )
-	    echo -e "\tHelp for vis"
-	    usage
-	    exit
-	    ;;
-	d )
-	    desktop=$OPTARG
-	    ;;
-	* )
-	    err	"Unrecognized option"
-	    ;;
+		h )
+			echo -e "\tHelp for vis"
+			usage
+			exit
+			;;
+		d )
+			desktop=$OPTARG
+			;;
+		* )
+			err	"Unrecognized option"
+			;;
     esac
 done
 shift $(( OPTIND - 1 ))
@@ -62,18 +62,30 @@ shift $(( OPTIND - 1 ))
 declare -a pexcept_array
 
 # (1) Get all PIDs for exempt applications and add them to an array
-for proc in compiz xfce4-notifyd; do
+for proc in compiz xfce4-notifyd
+do
     pexcept=$(pgrep "$proc")
-    nproc=$(wc -w <<< "$pexcept")
-    if (( nproc > 1 )); then
-	for idx in $(seq 1 "$nproc"); do
-	    pexcept_array+=($(cut -d$'\n' -f"$idx" <<< "$pexcept"))
-	done
-    else
-	pexcept_array+=("$pexcept")
-    fi
+	if [[ -n $pexcept ]]
+	then
+		nproc=$(wc -w <<< "$pexcept")
+		if (( nproc > 1 ))
+		then
+			for idx in $(seq 1 "$nproc")
+			do
+				pexcept_array+=($(cut -d$'\n' -f"$idx" <<< "$pexcept"))
+			done
+		else
+			pexcept_array+=("$pexcept")
+		fi
+	fi
 done
-pexcept_array+=($(pgrep nautilus)".*Desktop")
+
+if [[ -n $pexcept_array ]]
+then
+	pexcept_array+=($(pgrep nautilus)".*Desktop")
+else
+	pexcept_array=("No Matches")
+fi
 
 # (2) Convert array to "|" delimited string 
 old_IFS=$IFS
@@ -86,7 +98,7 @@ IFS=${old_IFS}
 allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id "$thisWID" | grep "Hidden") == "" ]]; then
-	visWIDs+=("$thisWID")
+		visWIDs+=("$thisWID")
     fi
 done
 
@@ -100,15 +112,15 @@ off=($(desk -o -d"$desktop"))
 
 for thisWID in "${visWIDs[@]}"; do
     corner=($(wmctrl -lG | grep "$thisWID" | awk '{print $3,$4}'))
-    width=$(wmctrl -lG | grep "$thisWID" | awk '{print $5}')
-    wInBound=$(( corner[0] + width > 0 ))
+    # width=$(wmctrl -lG | grep "$thisWID" | awk '{print $5}')
+    # wInBound=$(( corner[0] + width > 0 ))
     if (( corner[0] < 0 )); then
     	corner[0]=0
     fi
     xInBound=$(( corner[0] < res[0] + off[0] && corner[0] >= off[0] ))
     yInBound=$(( corner[1] < res[1] + off[1] && corner[1] >= off[1] ))
-    if (( xInBound && yInBound && wInBound )); then
-	deskVisWIDs+=("$thisWID")
+    if (( xInBound && yInBound )); then
+		deskVisWIDs+=("$thisWID")
     fi
 done
 

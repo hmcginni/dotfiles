@@ -13,12 +13,14 @@ _create_target_folder_hierarchy () {
 	
 	local subfolders
 	
-	mkdir -p "$target_dir"
-	subfolders=$(find "$source_dir" -type d ! -path . | sed 's|[.]/||')
-
+	mkdir -vp "$target_dir"
+	pushd "$source_dir"
+	subfolders=$(find . -type d ! -path . | sed 's|[.]/||')
+	popd
+	
 	for folder in $subfolders
 	do
-		mkdir -p "$target_dir/$folder"
+		mkdir -vp "$target_dir/$folder"
 	done
 
 }
@@ -29,11 +31,13 @@ _copy_files () {
 	local files
 
 	script=$(basename "$0")
-	files=$(find "$source_dir" -type f ! -name "$script" ! -name "*[#~]")
-
-	for dot_slash_file in $files
+	
+	pushd "$source_dir"
+	files=$(find . -type f ! -name "$script" ! -name "*[#~]" | sed 's|[.]/||')
+	popd
+	
+	for file in $files
 	do
-		file=$(basename "$(sed 's|[.]/||' <<< "$dot_slash_file")")
 		file_path=$(realpath "$file")
 		symlink_path="$target_dir/$file"
 		ln -sv "$file_path" "$symlink_path"

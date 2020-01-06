@@ -20,7 +20,7 @@ apt_package_installer() {
 
     sudo apt update
     sudo apt upgrade -y
-    sudo apt install -y "$(< apt_packages)"
+    sudo apt install -y $(< apt_packages)
 
     notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
     
@@ -113,9 +113,9 @@ dconf_settings() {
     unity_schema="org.compiz.unityshell"
     launcher_path="/org/compiz/profiles/unity/plugins/unityshell/"
 
-    sans="IBM Plex Sans Text 10"
+    sans="IBM Plex Sans Text 11"
     mono="Roboto Mono 10"
-    titlebar="IBM Plex Sans Bold 10"
+    titlebar="IBM Plex Sans Bold 11.5"
     theme="Arc-Darker"
     icons="Arc-Icons"
     time_fmt="%A • %d %b %Y • %l:%M %p"
@@ -149,7 +149,7 @@ main() {
     # font_installer
     
     # sudo apt install -y ubuntu-unity-desktop
-    # dconf_settings
+    dconf_settings
     echo "Goes nowhere; does nothing."
 }
 

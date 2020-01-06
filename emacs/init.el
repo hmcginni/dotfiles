@@ -176,8 +176,8 @@
 
 
 ;; Font
-;; (if (display-graphic-p)
-    ;; (hrm/dpi/scale-font "SF Mono" "regular"))
+(if (display-graphic-p)
+    (hrm/dpi/scale-font "SF Mono" "regular"))
 
 ;; ;; Mode Line
 ;; (setq mode-line-format

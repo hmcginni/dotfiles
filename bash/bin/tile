@@ -132,6 +132,11 @@ elif [[ $XDG_CURRENT_DESKTOP =~ XFCE ]]
 then
     xLeft=$(wmctrl -lG | egrep -v "0 +0" | awk '/xfce4-panel/ {print $5}')
     yTop=$(wmctrl -lG | egrep "0 +0" | awk '/xfce4-panel/ {print $6}')
+elif [[ $XDG_CURRENT_DESKTOP =~ GNOME ]]
+then
+	# Can't figure out how to query these - set in .css files :(
+	xLeft=40
+	yTop=24
 else
     utils.nerrorf "Not yet implemented."
 fi

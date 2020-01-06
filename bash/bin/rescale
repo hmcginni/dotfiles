@@ -77,7 +77,7 @@ _rescale_vscode(){
 
 	if _hidpi
 	then
-		_json_update "$settings" "$zoom" "-0.1"
+		_json_update "$settings" "$zoom" "0.3"
 		# _json_update "$settings" "$size" "13.5"
 		# _json_update "$settings" "$spacing" "-0.6"
 	else
@@ -99,9 +99,9 @@ _rescale_emacs(){
 
 	if pgrep emacs >/dev/null 2>&1
 	then
-		# font="SF Mono"
-		font_dc=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
-		font=$(echo "${font_dc//\'/}" | rev | cut -d" " -f2- | rev)
+		font="SF Mono"
+		# font_dc=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
+		# font=$(echo "${font_dc//\'/}" | rev | cut -d" " -f2- | rev)
 		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"regular\")" >/dev/null
 	fi
 
