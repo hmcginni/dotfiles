@@ -1,0 +1,79 @@
+[custom0]
+binding='<Super>x'
+command='gnome-session-quit --power-off'
+name='Shutdown | Restart menu'
+
+[custom1]
+binding='<Primary><Alt>e'
+command='emacs'
+name='Launch Emacs'
+
+[custom2]
+binding='<Super>F1'
+command='tile -v35'
+name='Tile Left'
+
+[custom3]
+binding='<Super>F2'
+command='tile -v50'
+name='Tile Middle'
+
+[custom4]
+binding='<Alt>F2'
+command='gmrun'
+name='Gmrun'
+
+[custom5]
+binding='<Super>r'
+command='rescale'
+name='Rescale'
+
+[custom10]
+binding='<Super>h'
+command='ttaudio'
+name='Connect TaoTronics'
+
+[custom6]
+binding='<Super>F3'
+command='tile -v62'
+name='Tile Right'
+
+[custom11]
+binding='<Super>c'
+command='finder fzf_application_list'
+name='Fuzzy Launcher'
+
+[custom7]
+binding='<Primary><Shift>Escape'
+command='gnome-system-monitor'
+name='Launch Gnome System Monitor'
+
+[custom12]
+binding='<Primary><Alt>f'
+command='firefox'
+name='Launch Firefox'
+
+[custom8]
+binding='Calculator'
+command='speedcrunch'
+name='Speedcrunch'
+
+[custom13]
+binding='<Super>t'
+command='todo -o"/home/hrm/org/todos.org" -tmdt'
+name='Capture Todo Item (work)'
+
+[custom9]
+binding='<Shift><Super>s'
+command='stick'
+name='Select Sticky Window'
+
+[custom14]
+binding='<Super>f'
+command='finder fzf_file_list'
+name='Fuzzy Finder'
+
+[touchpad-indicator]
+binding='<Primary><Alt>c'
+command='/usr/bin/python3 /opt/extras.ubuntu.com/touchpad-indicator/share/touchpad-indicator/change_touchpad_state.py'
+name='Touchpad-Indicator key binding'
