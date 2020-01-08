@@ -8,7 +8,11 @@ source "$repo_dir"/install/make_symlinks
 
 _install_elisp () {
 
+<<<<<<< Updated upstream
 	source_dir=$(dirname "$(realpath "$0")")
+=======
+	source_dir=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
+>>>>>>> Stashed changes
 	target_dir="$HOME"/.emacs.d
 	
 	_make_symlinks "$source_dir" "$target_dir"

@@ -94,7 +94,7 @@ _rescale_vscode(){
 
 _rescale_emacs(){
 	
-	local font_dc
+	# local font_dc
 	local font
 
 	if pgrep emacs >/dev/null 2>&1
