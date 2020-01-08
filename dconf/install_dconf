@@ -9,12 +9,13 @@ _import_keybindings () {
 	local keybind_list_file
 
 	dconf_prefix="/org/gnome/settings-daemon/plugins/media-keys"
+	
 	dconf_keybind_var="${dconf_prefix}/custom_keybindings"
-	dconf_keybind_list="${dconf_prefix}/custom_keybindings/"
 	keybind_var_file="custom-keybinds-var.dconf"
-	keybind_list_file="custom-keybinds-list.dconf"
-
 	dconf write "$dconf_keybind_var" "$(< "$keybind_var_file")"
+
+	dconf_keybind_list="${dconf_prefix}/custom_keybindings/"
+	keybind_list_file="custom-keybinds-list.dconf"
 	dconf load "$dconf_keybind_list" < "$keybind_list_file"
 
 	dconf update
@@ -25,7 +26,6 @@ _import_gnome_terminal_profiles () {
 
 	dconf_terminal_profiles="/org/gnome/terminal/legacy/profiles:/"
 	terminal_profiles_file="gnome-terminal-profiles.dconf"
-
 	dconf load "$dconf_terminal_profiles" "$terminal_profiles_file"
 
 	dconf update
