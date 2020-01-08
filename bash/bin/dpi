@@ -1,86 +1,61 @@
 #!/bin/bash
 
 #
-# DPI - get/set the actual DPI
+# DPI - get screen DPI
 #
-#     dpi [-a] [-d<N>] [args]
+#     dpi [-a|-d<N>]
 #
 
+disp=1
 
-# Initialize Data
-
-display=1
-
-
-# Parse Inputs
-
-while getopts "ad:" opt; do
-    case ${opt} in
-	a )
-        display="all"
-	    ;;
-	d )
-	    display=$OPTARG
-	    ;;
-	* )
-        exit 1
-	    ;;
-    esac
-done
-shift $((OPTIND - 1))
-
-new_dpi=$1
-
-
-# Validate Inputs
-
-if [[ $display -gt $(desk -n) ]]
-then
-    printf "Can't get DPI of display %d.\n" "$display" >&2
-    exit 1
-fi
-
-if [[ -n $new_dpi && ($new_dpi -lt 90 || $new_dpi -gt 150) ]]
-then
-    printf "Requested DPI must be ∈ [90..150].\n" >&2
-    exit 1
-fi
-
-
+# ──────────────────────────────────────────────────────────
 # Functions
 
+_parse_inputs () {
+
+	while getopts "d:" opt
+	do
+		case ${opt} in
+			d )
+				disp=$OPTARG
+				;;
+			* )
+				exit 1
+				;;
+		esac
+	done
+	shift $((OPTIND - 1))
+
+	if [[ $disp -gt $(desk -n) || $disp -lt 1 ]]
+	then
+		printf "Can't get DPI of display %d.\n" "$disp" >&2
+		exit 1
+	fi
+
+}
+
 _main () {
-    # Main function
 
     local xrandr_output
     local x_mm
-    local x_in
     local dpi
-    local output
+	declare -a dpi
     
+	_parse_inputs "$@"
+
     xrandr_output=$(xrandr --current | grep "\<connected.*mm")
-    x_mm=($(sed -r "s|.* ([[:digit:]]+)mm .*|\1|" <<< "$xrandr_output"))
-    x_dots=($(awk '{print $1}' <<< "$(desk -r)"))
+    x_mm_all=($(sed -r "s|.* ([[:digit:]]+)mm .*|\1|" <<< "$xrandr_output"))
+	x_mm=${x_mm_all[$(( disp - 1 ))]}
+    x_dots=$(awk '{print $1}' <<< "$(desk -r -d"$disp")")
 
-    for idx in $(seq 1 "${#x_mm[@]}")
-    do
-        idx=$(( idx - 1 ))
-        x_in=$(( x_mm[idx] * 10 / 254 ))
-        dpi+=($(( x_dots[idx] / x_in )))
-    done
-
-    if [[ $display == "all" ]]
-    then
-        output="${dpi[*]}"
-    else
-        idx=$(( display - 1 ))
-        output="${dpi[$idx]}"
-    fi
-
-    echo "$output"
+	dpi_float=$(bc <<< "scale=2; $x_dots / ($x_mm / 25.4)")
+	dpi=$(cut -d. -f1 <<< "$dpi_float")
+	
+    echo "$dpi"
 }
 
 
+# ──────────────────────────────────────────────────────────
 # Execute Main Function
 
-_main
+_main "$@"

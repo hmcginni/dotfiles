@@ -220,11 +220,11 @@
   "Get the DPI of the display."
   (interactive)
   (let* ((attrs (car (display-monitor-attributes-list)))
-         (display-size (assoc 'mm-size attrs))
-         (display-width (/ (cadr display-size)
+         (display-size (cdr (assoc 'mm-size attrs)))
+		 (resolution (cdddr (assoc 'geometry attrs)))
+         (display-width (/ (car display-size)
                            25.4))
-         (resolution (cdr (assoc 'geometry attrs)))
-         (x-resolution (cadr (cdr resolution)))
+         (x-resolution (car resolution))
          (dpi (/ x-resolution
                  display-width)))
     (message "DPI: %f" dpi)
@@ -238,7 +238,7 @@
           ((< dpi 145) 14)  ;; dpi=140 => 14/16
           ((< dpi 155) 15)  ;; [145, 155) must be ?14/16?
           ((< dpi 165) 15)  ;; ?15/17?
-          (t 17))))         ;; ?16?
+          (t 16))))         ;; ?16?
 
 
 (defun hrm/dpi/scale-font (face weight)
