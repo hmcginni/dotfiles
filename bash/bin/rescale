@@ -67,22 +67,22 @@ _rescale_unity(){
 _rescale_vscode(){
 
 	local settings
-	# local zoom
-	# local size
+	local zoom
+	local size
 
 	settings="$HOME/.config/Code/User/settings.json"
 	zoom='.["window.zoomLevel"]'
-	# size='.["editor.fontSize"]'
+	size='.["editor.fontSize"]'
 	# spacing='.["editor.letterSpacing"]'
 
 	if _hidpi
 	then
 		_json_update "$settings" "$zoom" "0.3"
-		# _json_update "$settings" "$size" "13.5"
+		_json_update "$settings" "$size" "13.5"
 		# _json_update "$settings" "$spacing" "-0.6"
 	else
-		_json_update "$settings" "$zoom" "-0.8"
-		# _json_update "$settings" "$size" "14"
+		_json_update "$settings" "$zoom" "-0.9"
+		_json_update "$settings" "$size" "14.5"
 		# _json_update "$settings" "$spacing" "-0.7"
 	fi
 

@@ -112,14 +112,14 @@ off=($(desk -o -d"$desktop"))
 
 for thisWID in "${visWIDs[@]}"; do
     corner=($(wmctrl -lG | grep "$thisWID" | awk '{print $3,$4}'))
-    # width=$(wmctrl -lG | grep "$thisWID" | awk '{print $5}')
-    # wInBound=$(( corner[0] + width > 0 ))
+    width=$(wmctrl -lG | grep "$thisWID" | awk '{print $5}')
+    wInBound=$(( corner[0] + width > 0 ))
     if (( corner[0] < 0 )); then
     	corner[0]=0
     fi
     xInBound=$(( corner[0] < res[0] + off[0] && corner[0] >= off[0] ))
     yInBound=$(( corner[1] < res[1] + off[1] && corner[1] >= off[1] ))
-    if (( xInBound && yInBound )); then
+    if (( xInBound && yInBound && wInBound )); then
 		deskVisWIDs+=("$thisWID")
     fi
 done

@@ -79,7 +79,7 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 # general
 alias open='xdg-open'
-alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo -k'
+alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo snap refresh; sudo -k'
 
 alias copy='_copy'
 alias ediff='_ediff'

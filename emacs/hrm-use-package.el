@@ -32,11 +32,11 @@
 
 ;; Built-ins
 (use-package emacs
-  :delight
-  (eldoc-mode)
-  (visual-line-mode)
   :diminish
-  (helm-mode)
+  (helm-mode
+   eldoc-mode
+   visual-line-mode
+   hs-minor-mode)
   :hook
   ((prog-mode . hs-minor-mode)
    (text-mode . hs-minor-mode)
@@ -72,8 +72,9 @@
 (use-package matlab-mode
   :ensure t
   :mode ("\\.m$" . matlab-mode)
-  :delight
-  (mlint-minor-mode)
+  :diminish
+  (mlint-minor-mode
+   matlab-functions-have-end-minor-mode)
   :hook ((matlab-mode . mlint-minor-mode)
          (matlab-mode . visual-line-mode))
   :config
@@ -348,14 +349,10 @@
            ("~/status/done.txt")))))
 
 
-;; Org mode JIRA export
-;; (use-package ox-jira
-;;   :ensure t)
-
-
 ;; Org presentation mode
-;; (use-package epresent
-;;   :ensure t)
+(use-package epresent
+  :ensure t
+  :defer t)
 
 
 ;; ─────────────────────────────────────────────────────────
