@@ -4,3 +4,4 @@ Xft.rgba: rgb
 Xft.hinting: 0
 Xft.hintstyle: hintnone
 Xft.lcdfilter: lcddefault
+XFT.dpi: 157

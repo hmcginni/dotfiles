@@ -4,20 +4,25 @@
 
 
 # ──────────────────────────────────────────────────────────
-# Detect HiDPI mode
+# Utility Functions
 
+# Detect very high DPI
+_very_hidpi(){
+
+	test "$(dpi)" -gt 150
+
+}
+
+# Detect high DPI
 _hidpi(){
-	
+
 	test "$(dpi)" -gt 110
 	
 }
 
-
-# ──────────────────────────────────────────────────────────
-# Update JSON key with value
-
+# Update JSON file key with value
 _json_update(){
-
+	
 	local file
 	local key
 	local value
@@ -29,6 +34,7 @@ _json_update(){
 	if which jq sponge >/dev/null 2>&1
 	then
 		jq "$key = $value" "$file" | sponge "$file"
+
 	else
 		printf "JQ and SPONGE must be installed.\n" >&2
 	fi
@@ -46,14 +52,16 @@ _rescale_unity(){
 	text="/org/gnome/desktop/interface/text-scaling-factor"
 	unity="/com/canonical/unity/interface/text-scale-factor"
 
-	if _hidpi
+	if _very_hidpi
 	then
 		scale=1.25
+	elif _hidpi
+	then
+		scale=1.10
 	else
 		scale=1.0
 	fi
 
-	# scale=$(bc -l <<< "sqrt(sqrt( $(dpi) / 96 ))")
 	dconf write "$unity" "$scale"
 	sleep 0.1
 	dconf write "$text" "$scale"
@@ -75,15 +83,18 @@ _rescale_vscode(){
 	size='.["editor.fontSize"]'
 	# spacing='.["editor.letterSpacing"]'
 
-	if _hidpi
+	if _very_hidpi
 	then
-		_json_update "$settings" "$zoom" "0.3"
-		_json_update "$settings" "$size" "13.5"
-		# _json_update "$settings" "$spacing" "-0.6"
+		_json_update "$settings" "$zoom" "-1.2"
+		_json_update "$settings" "$size" "14.5"
+
+	elif _hidpi
+	then
+		_json_update "$settings" "$zoom" "-0.6"
+		_json_update "$settings" "$size" "14.5"
 	else
 		_json_update "$settings" "$zoom" "-0.9"
 		_json_update "$settings" "$size" "14.5"
-		# _json_update "$settings" "$spacing" "-0.7"
 	fi
 
 }

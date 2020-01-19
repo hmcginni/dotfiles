@@ -1,7 +1,11 @@
 #!/bin/bash
 
 # Disable horizontal scrolling on touchpad
-xinput set-prop "DLL07BF:01 06CB:7A13 Touchpad" \
-       "Synaptics Two-Finger Scrolling" 1, 0
-notify-send "touchpad_fix" "Disabled horizontal scrolling on touchpad"
+touchpad="DLL07BF:01 06CB:7A13 Touchpad"
+
+if xinput list | grep -q "$touchpad"
+then
+	xinput set-prop "$touchpad" "Synaptics Two-Finger Scrolling" 1, 0
+	notify-send "touchpad_fix" "Disabled horizontal scrolling on touchpad"
+fi
 
