@@ -11,6 +11,11 @@ _copy(){
 }
 
 
+_create_venv() {
+	python3 -m venv "$1" --system-site-packages
+}
+
+
 _ediff() {
     # EDIFF - Launch Emacs with ediff-files
 

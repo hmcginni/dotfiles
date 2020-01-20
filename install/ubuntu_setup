@@ -3,33 +3,24 @@
 # ──────────────────────────────────────────────────────────
 ## INSTALL PACKAGES
 
-apt_package_installer() {
+package_installer() {
 
-    notify-send "hrmutils Installer" "Installing APT Packages\n\n"
+    notify-send "hrmutils Installer" "Installing Packages\n\n"
 
     if pgrep apt &>/dev/null
 	then
-		sudo pkill apt
-		sudo rm -fv /var/lib/apt/lists/lock
-		sudo rm -fv /var/cache/apt/archives/lock
-		sudo rm -fv /var/lib/dpkg/lock{,-frontend}
-    fi
-    
-    sudo add-apt-repository -y ppa:noobslab/themes
-    sudo add-apt-repository -y ppa:noobslab/icons
+		printf "\nAPT is in use -- skipping APT package installation.\n" >&2
+    else
+		sudo add-apt-repository -y ppa:noobslab/themes
+		sudo add-apt-repository -y ppa:noobslab/icons
 
-    sudo apt update
-    sudo apt upgrade -y
-    sudo apt install -y $(< apt_packages)
-
-    notify-send "hrmutils Installer" "Installing Snap Packages\n\n"
-    
-    sudo snap refresh
-	snaps="$(< snap_packates)"
-	for pkg in $snaps
-	do
-		sudo snap install "$pkg" --classic
-	done
+		sudo apt update
+		sudo apt upgrade -y
+		xargs -a apt_packages.txt -r -- sudo apt install -y
+	fi
+	
+	sudo snap refresh
+    xargs -n1 -a snap_packages.txt -r -- sudo snap install --classic
 
 }
 
@@ -94,7 +85,7 @@ font_installer() {
     mkdir -p "$dest_fonts_dir"
     for dir in $src_fonts_dir/*
 	do
-		cp -rv $dir -t "$dest_fonts_dir"
+		cp -rv "$dir" -t "$dest_fonts_dir"
     done
 
     fc-cache -fv
@@ -113,13 +104,13 @@ dconf_settings() {
     unity_schema="org.compiz.unityshell"
     launcher_path="/org/compiz/profiles/unity/plugins/unityshell/"
 
-    sans="IBM Plex Sans Text 11"
-    mono="Roboto Mono 10"
-    titlebar="IBM Plex Sans Bold 11.5"
+    sans="IBM Plex Sans Text 8.5"
+    mono="SF Mono Regular 9"
+    titlebar="IBM Plex Sans Bold 9"
     theme="Arc-Darker"
     icons="Arc-Icons"
     time_fmt="%A • %d %b %Y • %l:%M %p"
-    launcher_size=20
+    launcher_size=18
     # launcher_color="#2f343fff"
 
     gsettings set "$interface_schema" gtk-theme "$theme"
@@ -144,12 +135,11 @@ dconf_settings() {
 
 main() {
 
-    # apt_package_installer
+    package_installer
     # repository_installer
     # font_installer
-    
-    # sudo apt install -y ubuntu-unity-desktop
-    dconf_settings
+    # dconf_settings
+
     echo "Goes nowhere; does nothing."
 }
 

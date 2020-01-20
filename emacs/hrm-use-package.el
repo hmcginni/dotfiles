@@ -206,6 +206,7 @@
         lsp-enable-xref t
 		lsp-response-timeout 15
 		lsp-pyls-plugins-pydocstyle-enabled t
+		lsp-pyls-plugins-pyflakes-enabled t
 		lsp-pyls-plugins-pylint-enabled nil
 		lsp-signature-render-all t
 		lsp-imenu-show-container-name t

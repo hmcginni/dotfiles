@@ -17,7 +17,7 @@
 
 (defvar atom-one-dark-colors-alist
   '(("atom-one-dark-accent"   . "#528BFF")
-    ("atom-one-dark-fg"       . "#f0f0f0")
+    ("atom-one-dark-fg"       . "#f5f5f5")
     ("atom-one-dark-bg"       . "#2f343f")
     ("atom-one-dark-bg-1"     . "#121417")
     ("atom-one-dark-bg-hl"    . "#4e5a71")
@@ -69,7 +69,7 @@
    `(font-lock-comment-face ((t (:italic t :foreground ,atom-one-dark-mono-3))))
    `(font-lock-comment-delimiter-face ((default (:inherit (font-lock-comment-face)))))
    `(font-lock-doc-face ((t (:inherit (font-lock-string-face)))))
-   `(font-lock-function-name-face ((t (:weight semi-bold :foreground ,atom-one-dark-blue))))
+   `(font-lock-function-name-face ((t (:foreground ,atom-one-dark-blue))))
    `(font-lock-keyword-face ((t (:foreground ,atom-one-dark-purple))))
    `(font-lock-preprocessor-face ((t (:foreground ,atom-one-dark-mono-2))))
    `(font-lock-string-face ((t (:foreground ,atom-one-dark-green))))

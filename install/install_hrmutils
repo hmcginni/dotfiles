@@ -1,0 +1,15 @@
+#!/bin/bash
+
+this="${BASH_SOURCE[0]}"
+repo_dir="$(dirname "$(dirname "$(realpath "$this")")")"
+installers=(
+	"$repo_dir"/config/install_config
+	"$repo_dir"/dconf/install_dconf
+	"$repo_dir"/dots/install_dots
+	"$repo_dir"/emacs/install_elisp
+)
+
+for install_script in "${installers[@]}"
+do
+	source "$install_script"
+done

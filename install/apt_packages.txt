@@ -19,6 +19,7 @@ pkg-config
 ppa-purge
 python
 tmux
+unity
 unity-tweak-tool
 wmctrl
 x11-utils

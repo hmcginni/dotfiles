@@ -103,18 +103,4 @@ alias mlc='_ml_wrapper cmd'
 
 # Python
 alias load='_load_venv'
-
-
-# ──────────────────────────────────────────────────────────
-# Touchpad Fixes
-
-touchpad="Elan Touchpad"
-
-if xinput list | grep -q "$touchpad"
-then
-	xinput set-prop "$touchpad" "libinput Tapping Enabled" 1
-	xinput set-prop "$touchpad" "libinput Natural Scrolling Enabled" 1
-	xinput set-prop "$touchpad" "libinput Middle Emulation Enabled" 1
-	xinput set-prop "$touchpad" "libinput Accel Speed" 0.5
-	xinput set-prop "$touchpad" "libinput Horizontal Scroll Enabled" 0
-fi
+alias venv='_create_venv'
