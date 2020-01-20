@@ -62,7 +62,7 @@ shift $(( OPTIND - 1 ))
 declare -a pexcept_array
 
 # (1) Get all PIDs for exempt applications and add them to an array
-for proc in compiz xfce4-notifyd
+for proc in compiz xfce4-notifyd nemo-desktop
 do
     pexcept=$(pgrep "$proc")
 	if [[ -n $pexcept ]]
