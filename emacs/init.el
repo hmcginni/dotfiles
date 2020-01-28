@@ -68,7 +68,6 @@
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 0.12)
  '(linum-format " %3d ")
- '(lsp-clients-clangd-executable "clangd-8")
  '(lsp-document-highlight-delay 1)
  '(lsp-pyls-plugins-flake8-config "/home/hrm/.config/flake8/.flake8")
  '(lsp-pyls-plugins-flake8-enabled nil)
