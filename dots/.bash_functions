@@ -38,6 +38,15 @@ _emacsclient() {
 }
 
 
+_git_diff_wrapper() {
+
+	branch=$(git rev-parse --abbrev-ref HEAD)
+
+	git diff --name-status "$branch".."$branch""@{u}"
+	
+}
+
+
 _git_push_wrapper() {
     # GIT_PUSH_WRAPPER - simplify git pushes
 

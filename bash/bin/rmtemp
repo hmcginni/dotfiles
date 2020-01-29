@@ -22,9 +22,9 @@ find "$root_dir" -xtype l -print -delete 2>/dev/null
 #
 # In ~/src:
 #
-#   + Folders named "__pycache__" (from running Python applications
+#   + Folders named "__pycache__"
 #
-find "$src_dir" -type d -name "__pycache__" -print -delete 2>/dev/null
+find "$src_dir" -type d -name "__pycache__" -print -exec rm -rf {} 2>/dev/null \;
 
 #
 # In ~/org:

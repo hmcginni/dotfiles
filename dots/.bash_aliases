@@ -54,7 +54,6 @@ GPG_TTY=$(tty)
 
 export hrmpc="BC:5F:F4:5A:77:41"
 export sofl1="28:f1:0e:52:44:88"
-export bamboo="ec:b1:d7:94:55:9a"
 
 export PATH="$HOME/bin:$PATH"
 export EDITOR="emacsclient -a emacs "
