@@ -1,13 +1,11 @@
 function mnotify(title, msg)
     % 
-    % MNOTIFY - Use `notify-send` to display message to user
+    % MNOTIFY - Display notification message
     % 
     %   Usage:
     %     mnotify([title,] message)
-    % 
     
     %% Parse inputs
-    %
     
     if nargin == 1
         msg = title;
@@ -16,7 +14,6 @@ function mnotify(title, msg)
     
     
     %% Set `notify-send` args
-    %
     
     [status,~] = system('which notify-send');
     existNotifySend = ~status;
@@ -29,12 +26,11 @@ function mnotify(title, msg)
     end
     
     numWords = numel(regexp(msg, '\w*[ .]'));
-    timeout = num2str(200*numWords + 4000);
+    timeout = num2str(200 * numWords + 4000);
     args = sprintf('-t %s %s', timeout, pngArgs);
     
     
     %% Display Notification
-    %
     
     if existNotifySend
         execStr = sprintf('notify-send %s "%s" "%s" &', args, title, msg);
@@ -71,7 +67,7 @@ function icon = find_matlab_icon()
         if isempty(icons)
             icon = '';
         else
-            icon = icons(1);
+            icon = icons{1};
         end
         
         setpref('mnotify', 'icon', icon);

@@ -37,13 +37,10 @@ if isDesktopSession
     end
 
 else
-    %
     % Switch to Emacs as text editor
-    %
     try
         com.mathworks.services.Prefs.setBooleanPref('EditorBuiltinEditor', false);
-        com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', ...
-                                                   'emacsclient -a "emacs"')
+        com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', 'emacsclient -a "emacs"')
     catch e
     end
     

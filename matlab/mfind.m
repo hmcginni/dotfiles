@@ -2,12 +2,13 @@ function fileList = mfind(dir, name_opt, regex)
     %
     % MFIND - MATLAB wrapper to GNU find
     %
+    %   mfind(dir, ['-name'|'-wholename'], regex)
     
     %% Parse Input
     
     if ~exist( dir, 'dir' )
         error(['Directory "', dir, '" could not be found.']);
-    elseif ~any( contains({'-name','-wholename'}, name_opt) )
+    elseif ~any(contains({'-name', '-wholename'}, name_opt))
         error('Second input to MFIND must be "-name" or "-wholename".');
     end
     
@@ -29,7 +30,6 @@ function fileList = mfind(dir, name_opt, regex)
     end
     
     fileList(end) = '';
-    fileList = string( split(fileList,newline) );
-    
+    fileList = cellstr(split(fileList,newline));
     
 end

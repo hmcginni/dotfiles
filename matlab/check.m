@@ -11,17 +11,19 @@ function check(varargin)
 	
 	if ~iscellstr(varargin)
 		error('All inputs to CHECK must be product name strings.');
+        
 	end
 	
 	for productCode = string(varargin)
 		timerName = strcat('checkout_', productCode);
 		tObj = timer(...
-			'ExecutionMode','fixedSpacing',...
-			'Name',timerName,...
-			'Period',5,...
-			'StartDelay',1);
+			'ExecutionMode', 'fixedSpacing', ...
+			'Name', timerName, ...
+			'Period', 5, ...
+			'StartDelay', 1);
 		tObj.TimerFcn = {@try_license, char(productCode)};
 		start(tObj);
+        
 	end
 	
 end
@@ -43,10 +45,12 @@ function try_license(tObj,~,productCode)
 		mnotify(title, msg);
 		stop(tObj);
 		delete(tObj);
+        
 	elseif contains(msg, 'Cannot find a license for')
 		stop(tObj);
 		delete(tObj);
-		error('Unknown product "%s".', productCode);
+		warning('Unknown product "%s".', productCode);
+        
 	end
 	
 end
