@@ -135,7 +135,7 @@ dconf_settings() {
 
 main() {
 
-    package_installer
+    # package_installer
     # repository_installer
     # font_installer
     # dconf_settings
