@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# ──────────────────────────────────────────────────────────
+# Help text
+
+_usage () {
+
+	msg="
+        usage: sltest JIRA_ID
+        
+        Find full path to the test folder for the specified Jira ID.
+        
+        positional arguments:
+          JIRA_ID       Jira ticket ID
+        
+        optional arguments:
+          -h, --help    show this help message and exit
+
+		"
+	echo "$msg"
+	exit 0
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Input parser
+
+_parse_inputs () {
+
+	local id
+	
+	if [[ $1 == "-h" || $1 == "--help" ]]
+	then
+		_usage
+	else
+		id="$1"
+	fi
+
+	echo "$id"
+
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Find folder
+
+_find_folder () {
+
+	local test_root
+	local folder
+	local id
+
+	id="$1"
+	
+	test_root=${SW_TEST_DIR:-"$HOME/src/eintests"}
+	folder=$(find "$test_root" -type d -wholename "*/$id")
+
+	echo "$folder"
+	
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Main function
+
+_main () {
+
+	local id
+	local folder
+	
+	id=$(_parse_inputs "$@")
+	folder=$(_find_folder "$id")
+
+	echo "$folder"
+	
+}
+
+
+_main "$@"

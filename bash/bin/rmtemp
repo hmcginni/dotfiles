@@ -2,33 +2,32 @@
 #
 # Delete Temporary Files
 
-root_dir="$HOME"
-org_dir="$HOME"/org
-src_dir="$HOME"/src
-
 notify-send "rmtemp" "Deleting temp files ..."
 
-#
+# ──────────────────────────────────────────────────────────
 # In ~:
 #
 #   + Temp files ending in "~" or "#"
 #   + nohup.out files (from running a command in that directory with nohup)
 #   + Broken symbolic links
-#
+#   + Simulink cache files
+
+root_dir=$HOME
 find "$root_dir" -type f -name "*[~#]" -print -delete 2>/dev/null
 find "$root_dir" -type f -name "nohup.out" -print -delete 2>/dev/null
 find "$root_dir" -xtype l -print -delete 2>/dev/null
+find "$root_dir" -type f -name "*.slxc" -print -delete 2>/dev/null
 
-#
+# ──────────────────────────────────────────────────────────
 # In ~/src:
 #
+#   + Folders named "slprj"
 #   + Folders named "__pycache__"
-#
-find "$src_dir" -type d -name "__pycache__" -print -exec rm -rf {} 2>/dev/null \;
+#   + Folders named "sldv_output"
+#   + Folders named "rtwgen_tlc"
 
-#
-# In ~/org:
-#
-#   + HTML files
-#
-find "$org_dir" -type f -name "*.html" -print -delete 2>/dev/null
+root_dir=$HOME/src
+find "$root_dir" -type d -name "slprj" -print -exec rm -rf {} 2>/dev/null \;
+find "$root_dir" -type d -name "__pycache__" -print -exec rm -rf {} 2>/dev/null \;
+find "$root_dir" -type d -name "sldv_output" -print -exec rm -rf {} 2>/dev/null \;
+find "$root_dir" -type d -name "rtwgen_tlc" -print -exec rm -rf {} 2>/dev/null \;

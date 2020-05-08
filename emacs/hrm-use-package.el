@@ -122,7 +122,8 @@
   :ensure t
   :bind (("M-x" . helm-M-x)
 		 ("C-x C-r" . helm-for-files)
-		 ("C-?" . helm-apropos))
+		 ("C-?" . helm-apropos)
+		 ("C-<f1>" . xref-find-definitions))
   :init (require 'helm-config)
   :config
   (setq helm-lisp-fuzzy-completion t))
@@ -134,7 +135,7 @@
   :delight
   :bind
   (:map helm-gtags-mode-map
-		("C-<f1>" . helm-gtags-dwim))
+		("C-c C-<f1>" . helm-gtags-dwim))
   :hook
   ((dired-mode . helm-gtags-mode)
    (c-mode . helm-gtags-mode)
@@ -316,12 +317,8 @@
 (use-package org
   :ensure t
   :bind
-  (("C-c c" . org-capture)
-   ("C-c a" . org-agenda)
-   ("C-c n" . (lambda () (interactive) (org-capture nil "n")))
-   ("C-c m" . (lambda () (interactive) (org-capture nil "m")))
-   ("C-c g" . (lambda () (interactive) (org-capture nil "g")))
-   ("C-c t" . (lambda () (interactive) (org-capture nil "t"))))
+  (:map org-mode-map
+		("C-x C-k" . org-insert-link-global))
   :hook
   ((org-mode . visual-line-mode)
    (org-mode . (lambda ()

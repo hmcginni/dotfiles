@@ -40,13 +40,13 @@ case "$TERM" in
 		;;
 esac
 
+export PS1
 
 # ──────────────────────────────────────────────────────────
 # Magic for fixing gpg-agent issues (??)
 
-export PS1
-export GPG_TTY
 GPG_TTY=$(tty)
+export GPG_TTY
 
 
 # ──────────────────────────────────────────────────────────
@@ -57,7 +57,7 @@ export sofl1="28:f1:0e:52:44:88"
 
 export PATH="$HOME/bin:$PATH"
 export EDITOR="emacsclient -a emacs "
-export GIT_EDITOR="emacsclient -a emacs "
+export GIT_EDITOR=$EDITOR
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -90,8 +90,8 @@ alias tt='_tmux_run "source ~/.bashrc"'
 alias gc='git checkout'
 alias gp='_git_push_wrapper'
 alias gg='_git_push_wrapper now'
-alias gitupdate='git pull --recurse-submodules=yes; git submodule init; git submodule sync; git submodule update --recursive'
-alias gitclean='git checkout -- . && git clean -fd'
+alias gitupdate='git pull --recurse-submodules; git submodule sync; git submodule update --init --recursive'
+alias gitclean='git checkout -- .; git clean -fd'
 
 # emacs
 alias e='_emacsclient'
@@ -101,5 +101,5 @@ alias ml='_ml_wrapper gui'
 alias mlc='_ml_wrapper cmd'
 
 # Python
-alias load='_load_venv'
+alias activate='_activate_venv'
 alias venv='_create_venv'

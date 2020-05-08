@@ -7,7 +7,7 @@ source ~/lib/bash/utils
 bluetooth on &>/dev/null
 
 timeout=15
-ttMAC="E8:AB:FA:23:DA:8F"
+ttMAC="FC:58:FA:C5:B1:0D"
 agent="power on\nagent on\n"
 disconnect="disconnect $ttMAC\nuntrust $ttMAC\n"
 connect="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
@@ -30,14 +30,13 @@ then
 		sinks="$(pactl list sinks short)"
 		if (( SECONDS >= timeout ))
 		then
-			bluetooth off &>/dev/null
 			errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
 			utils.nerrorf "Error connecting to headphones" "$errStr"
 		fi
 	done
-	utils.notify "Connected to Bluetooth Device" "Connected to TT-BH040"
+	utils.notify "Connected to Bluetooth Device" "Connected to headphones"
 else
-	utils.notify "Connected to Bluetooth Device" "Already connected to TT-BH040"
+	utils.notify "Connected to Bluetooth Device" "Already connected to headphones"
 fi
 
 
@@ -49,5 +48,4 @@ printf "Connected to %s\n" "$ttMAC"
 ttsink=$(awk '/bluez/ {print $2}' <<< "$(pactl list sinks short)")
 pactl set-default-sink "$ttsink"
 pulseaudio-equalizer enable &>/dev/null
-
 

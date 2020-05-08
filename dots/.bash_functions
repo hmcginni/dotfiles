@@ -4,6 +4,16 @@
 #
 
 
+_activate_venv() {
+	# ACTIVATE_VENV - activate Python virtual environment
+
+	local venv
+	
+	venv=$1
+	source "$venv"/bin/activate
+}
+
+
 _copy(){
     # COPY - add line to clipboard
 
@@ -69,35 +79,74 @@ _git_push_wrapper() {
 }
 
 
-_load_venv() {
-	# LOAD_VENV - activate Python virtual environment
+_goto_test_folder() {
 
-	local venv
+	local id
+	local test_root
+	local test_folder
 	
-	venv=$1
-	source "$venv"/bin/activate
+	id=$1
+	test_root="$SW_TEST_DIR"
+
+	if [[ -n $id ]]
+	then
+		test_folder=$(find "$test_root" -type d -name "*$id")
+	else
+		test_folder="$test_root"
+	fi
+
+	xclip -selection clipboard <<< "cd $test_folder"
+	cd "$test_folder"
+	
 }
 
 
 _ml_wrapper() {
-    # ML_WRAPPER - launch MATLAB with preferred Java version
+    # ML_WRAPPER - launch MATLAB with custom options
+	export MATLAB_JAVA="/usr/lib/jvm/java-8-openjdk-amd64/jre"
 
-    export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk-amd64/jre
+	# ──────────────────────────────────────────────────────────
+	# Initialize variables
 
-    if [[ $1 == "gui" ]]
+	mode=$1
+	release=$2
+	
+	if [[ -z $release ]]
+	then
+		release="19b"
+	fi
+
+	ml_install=$(printf "/opt/matlab/20%s/bin/matlab" "$release")
+	
+	# ──────────────────────────────────────────────────────────
+	# Launch MATLAB
+
+	if [[ $mode == "gui" ]]
     then
-	    shift
-	    notify-send "Starting MATLAB..." "nohup matlab -desktop -nosplash $* &>/dev/null &"
-	    nohup matlab -desktop -nosplash "$@" &>/dev/null &
-    elif [[ $1 == "cmd" ]]
+	    shift 2
+	    notify-send "Starting MATLAB R20$release" "matlab -desktop -nosplash -r run hrm_startup.m &>/dev/null & disown"
+	    "$ml_install" -desktop -nosplash -r "run hrm_startup.m" &>/dev/null & disown
+
+    elif [[ $mode == "cmd" ]]
     then
-	    shift
-	    notify-send "Starting MATLAB..." "matlab -nosplash -nodesktop $*"
-	    matlab -nosplash -nodesktop "$*"
+	    shift 2
+		mljob=$(tr -cd "[:alnum:]" <<< "$(awk 'tolower($0) ~ /matlab/ {print $1}' <<< "$(jobs)")")
+
+		if [[ -n $mljob ]]
+		then
+			notify-send "MATLAB" "Moving to foreground process"
+			fg "$mljob"
+		else
+			notify-send "Starting MATLAB R20$release" "matlab -nosplash -nodesktop -r run hrm_startup.m $*"
+			"$ml_install" -nosplash -nodesktop -r "run hrm_startup.m"
+		fi
+
     else
-	    notify-send "Starting MATLAB..." "matlab $*"
-	    matlab "$*"
+		printf "ARG1 must be \"gui\" or \"cmd\"\n" >&2
+		
     fi
+
+	unset MATLAB_JAVA
 }
 
 
@@ -126,7 +175,7 @@ _parse_git_branch() {
 	ellipsis=" [...]"
 	max_line_length=$(( terminal_width - ${#ellipsis} - 2 ))
 	
-	branch=$(git branch 2>/dev/null | grep "\*" | cut -d"*" -f2)
+	branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
     if [[ -n $branch ]]
     then
@@ -137,10 +186,10 @@ _parse_git_branch() {
 			stash="*"
 		fi
 		
-		repo="$stash"$(basename "$(git rev-parse --show-toplevel)")"$stash"
-		git_line=$(printf " %s |%s" "$repo" "$branch")
+		repo="${stash}$(basename "$(git rev-parse --show-toplevel)")${stash}"
+		git_line=$(printf " %s | %s" "$repo" "$branch")
 		
-		if [[ ${#git_line} -gt $(( terminal_width - 2 )) ]]
+		if [[ ${#git_line} -gt $(( terminal_width )) ]]
 		then
 			disp_line="${git_line:0:$max_line_length}$ellipsis"
 		else
