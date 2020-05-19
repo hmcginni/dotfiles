@@ -7,14 +7,14 @@
 # Utility Functions
 
 # Detect very high DPI
-_very_hidpi(){
+_very_hidpi () {
 
 	test "$(dpi)" -gt 150
 
 }
 
 # Detect high DPI
-_hidpi(){
+_hidpi () {
 
 	test "$(dpi)" -gt 110
 	
@@ -47,14 +47,15 @@ _json_update(){
 
 _rescale_unity(){
 
-	local text unity
+	local text
+	local unity
 	
 	text="/org/gnome/desktop/interface/text-scaling-factor"
 	unity="/com/canonical/unity/interface/text-scale-factor"
 
 	if _very_hidpi
 	then
-		scale=1.25
+		scale=1.3
 	elif _hidpi
 	then
 		scale=1.10
@@ -85,16 +86,15 @@ _rescale_vscode(){
 
 	if _very_hidpi
 	then
-		_json_update "$settings" "$zoom" "-1.2"
+		_json_update "$settings" "$zoom" "-1"
 		_json_update "$settings" "$size" "14.5"
-
 	elif _hidpi
 	then
-		_json_update "$settings" "$zoom" "-0.6"
+		_json_update "$settings" "$zoom" "-1"
 		_json_update "$settings" "$size" "14.5"
 	else
 		_json_update "$settings" "$zoom" "-1"
-		_json_update "$settings" "$size" "14"
+		_json_update "$settings" "$size" "14.5"
 	fi
 
 }
