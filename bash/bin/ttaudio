@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# TTAUDIO - Connect to (and enable) TaoTronics BH-040 Wireless Headphones
+# TTAUDIO - Connect to TaoTronics Wireless Headphones
 #
 
 source ~/lib/bash/utils
@@ -14,7 +14,7 @@ connect="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
 btCmd="${agent}${disconnect}${connect}"
 
 
-#
+# ──────────────────────────────────────────────────────────
 # Send command and wait for successful connection
 #
 
@@ -22,7 +22,7 @@ sinks="$(pactl list sinks short)"
 
 if ! grep -q "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks"
 then
-	echo -e "$btCmd" | bluetoothctl &>/dev/null
+	echo -e "$btCmd" | bluetoothctl >/dev/null 2>&1
 	sleep 1
 	while ! grep -q "bluez" <<< "$sinks"
 	do
@@ -40,12 +40,12 @@ else
 fi
 
 
-#
+# ──────────────────────────────────────────────────────────
 # Set headphones as default output device & enable EQ
 #
 
 printf "Connected to %s\n" "$ttMAC"
 ttsink=$(awk '/bluez/ {print $2}' <<< "$(pactl list sinks short)")
 pactl set-default-sink "$ttsink"
-pulseaudio-equalizer enable &>/dev/null
+pulseaudio-equalizer enable >/dev/null 2>&1
 

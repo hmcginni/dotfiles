@@ -68,6 +68,7 @@ _get_todo () {
 
     if [[ -z $todo_text ]]
 	then
+		notify-send "Todo" "Aborted todo capture"
 		exit 1
     fi
 
@@ -117,9 +118,10 @@ _setup_tag_list () {
 _format_todo () {
 	# Format todo item
 
-    todo_date=$(date "+[%Y-%m-%d %a %H:%M]")
-    todo_headline=$(printf "* TODO [#A] %s %s" "$todo_text" "$todo_tags")
-    todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$todo_date")
+    todo_date_long=$(date "+[%Y-%m-%d %a %H:%M]")
+	todo_date_short=$(date "+%Y|%m|%d")
+    todo_headline=$(printf "* TODO [#A] %s %s %s" "$todo_date_short" "$todo_text" "$todo_tags")
+    todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$todo_date_long")
     todo_item=$(printf "%s\n%s" "$todo_headline" "$todo_props")
     
 }

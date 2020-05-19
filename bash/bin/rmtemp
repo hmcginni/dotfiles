@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Delete Temporary Files
 
@@ -11,12 +11,14 @@ notify-send "rmtemp" "Deleting temp files ..."
 #   + nohup.out files (from running a command in that directory with nohup)
 #   + Broken symbolic links
 #   + Simulink cache files
+#   + Automatically-generated model S-Function files (excluding ~/build)
 
-root_dir=$HOME
-find "$root_dir" -type f -name "*[~#]" -print -delete 2>/dev/null
-find "$root_dir" -type f -name "nohup.out" -print -delete 2>/dev/null
-find "$root_dir" -xtype l -print -delete 2>/dev/null
-find "$root_dir" -type f -name "*.slxc" -print -delete 2>/dev/null
+find "$HOME" -type f -name "*[~#]" -print -delete 2>/dev/null
+find "$HOME" -type f -name "nohup.out" -print -delete 2>/dev/null
+find "$HOME" -xtype l -print -delete 2>/dev/null
+find "$HOME" -type f -name "*.slxc" -print -delete 2>/dev/null
+find "$HOME" -path "$HOME/build" -prune -or -type f -name "*sfun.mexa64" -print -exec rm -rf {} \; 2>/dev/null
+
 
 # ──────────────────────────────────────────────────────────
 # In ~/src:
@@ -25,9 +27,10 @@ find "$root_dir" -type f -name "*.slxc" -print -delete 2>/dev/null
 #   + Folders named "__pycache__"
 #   + Folders named "sldv_output"
 #   + Folders named "rtwgen_tlc"
+#   + MATLAB .autosave files
 
-root_dir=$HOME/src
-find "$root_dir" -type d -name "slprj" -print -exec rm -rf {} 2>/dev/null \;
-find "$root_dir" -type d -name "__pycache__" -print -exec rm -rf {} 2>/dev/null \;
-find "$root_dir" -type d -name "sldv_output" -print -exec rm -rf {} 2>/dev/null \;
-find "$root_dir" -type d -name "rtwgen_tlc" -print -exec rm -rf {} 2>/dev/null \;
+find "$HOME/src" -type d -name "slprj" -print -exec rm -rf {} \; 2>/dev/null 
+find "$HOME/src" -type d -name "__pycache__" -print -exec rm -rf {} \; 2>/dev/null
+find "$HOME/src" -type d -name "sldv_output" -print -exec rm -rf {} \; 2>/dev/null
+find "$HOME/src" -type d -name "rtwgen_tlc" -print -exec rm -rf {} \; 2>/dev/null
+find "$HOME/src" -type f -name "*.autosave" -print -delete 2>/dev/null

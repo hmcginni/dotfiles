@@ -135,7 +135,7 @@
   :delight
   :bind
   (:map helm-gtags-mode-map
-		("C-c C-<f1>" . helm-gtags-dwim))
+		("C-x C-<f1>" . helm-gtags-dwim))
   :hook
   ((dired-mode . helm-gtags-mode)
    (c-mode . helm-gtags-mode)
@@ -317,8 +317,9 @@
 (use-package org
   :ensure t
   :bind
-  (:map org-mode-map
-		("C-x C-k" . org-insert-link-global))
+  (("C-c a" . org-agenda)
+   :map org-mode-map
+   ("C-x C-k" . org-insert-link-global))
   :hook
   ((org-mode . visual-line-mode)
    (org-mode . (lambda ()

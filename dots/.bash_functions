@@ -22,7 +22,9 @@ _copy(){
 
 
 _create_venv() {
+	
 	python3 -m venv "$1" --system-site-packages
+	
 }
 
 
@@ -48,15 +50,6 @@ _emacsclient() {
 }
 
 
-_git_diff_wrapper() {
-
-	branch=$(git rev-parse --abbrev-ref HEAD)
-
-	git diff --name-status "$branch".."$branch""@{u}"
-	
-}
-
-
 _git_push_wrapper() {
     # GIT_PUSH_WRAPPER - simplify git pushes
 
@@ -64,7 +57,7 @@ _git_push_wrapper() {
     then
 	    if [[ $1 == "now" ]]
 	    then
-	        commitMsg="[m] $(date '+%Y%m%d %I:%M%p') update"
+	        commitMsg="[m] $(date '+%Y%m%d %I:%M%p') quick update"
 	    else
 	        commitMsg="$*"
 	    fi
@@ -90,7 +83,7 @@ _goto_test_folder() {
 
 	if [[ -n $id ]]
 	then
-		test_folder=$(find "$test_root" -type d -name "*$id")
+		test_folder=$(find "$test_root" -type d -name "*ESWT_$id")
 	else
 		test_folder="$test_root"
 	fi
@@ -101,8 +94,9 @@ _goto_test_folder() {
 }
 
 
-_ml_wrapper() {
+_matlab_wrapper() {
     # ML_WRAPPER - launch MATLAB with custom options
+	
 	export MATLAB_JAVA="/usr/lib/jvm/java-8-openjdk-amd64/jre"
 
 	# ──────────────────────────────────────────────────────────
@@ -121,7 +115,7 @@ _ml_wrapper() {
 	# ──────────────────────────────────────────────────────────
 	# Launch MATLAB
 
-	if [[ $mode == "gui" ]]
+	if [[ $mode == "gui" || -z $mode ]]
     then
 	    shift 2
 	    notify-send "Starting MATLAB R20$release" "matlab -desktop -nosplash -r run hrm_startup.m &>/dev/null & disown"
@@ -130,7 +124,8 @@ _ml_wrapper() {
     elif [[ $mode == "cmd" ]]
     then
 	    shift 2
-		mljob=$(tr -cd "[:alnum:]" <<< "$(awk 'tolower($0) ~ /matlab/ {print $1}' <<< "$(jobs)")")
+		mljob=$(tr -cd "[:alnum:]" <<< "\
+				   $(awk 'tolower($0) ~ /matlab/ {print $1}' <<< "$(jobs)")")
 
 		if [[ -n $mljob ]]
 		then
@@ -140,9 +135,6 @@ _ml_wrapper() {
 			notify-send "Starting MATLAB R20$release" "matlab -nosplash -nodesktop -r run hrm_startup.m $*"
 			"$ml_install" -nosplash -nodesktop -r "run hrm_startup.m"
 		fi
-
-    else
-		printf "ARG1 must be \"gui\" or \"cmd\"\n" >&2
 		
     fi
 
@@ -176,6 +168,10 @@ _parse_git_branch() {
 	max_line_length=$(( terminal_width - ${#ellipsis} - 2 ))
 	
 	branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+	if [[ $branch == "HEAD" ]]
+	then
+		branch+=" ($(git rev-parse --short HEAD))"
+	fi
 
     if [[ -n $branch ]]
     then

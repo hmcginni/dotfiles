@@ -32,7 +32,7 @@ reset="\[\e[00m\]"
 case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
 		# PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
-		PS1="\n${green}\u${gray} in ${blue}\w ${red} "
+		PS1="\n${green}\u${gray} → ${blue}\w ${red} "
 		PS1+="\$(_parse_git_branch)\n${gray} $ ${reset}"
 		;;
     *)
@@ -97,8 +97,8 @@ alias gitclean='git checkout -- .; git clean -fd'
 alias e='_emacsclient'
 
 # MATLAB
-alias ml='_ml_wrapper gui'
-alias mlc='_ml_wrapper cmd'
+alias ml='_matlab_wrapper gui'
+alias mlc='_matlab_wrapper cmd'
 
 # Python
 alias activate='_activate_venv'
