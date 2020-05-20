@@ -1,9 +1,27 @@
 #!/bin/bash
+#
+# KEEP - move file into hrmutils repository. Replace original file with
+#        a symbolic link to the version in the hrmutils repository.
+#
+#   Usage:
+#      arg1:        name of file to keep
+#      arg2 - argN: hierarchy of folders in destination repo
+#
+#   Example:
+#      $ keep settings.json config Code User
+#     'settings.json' -> '~/repos/hrmutils/config/Code/User/settings.json'
+
+# ──────────────────────────────────────────────────────────
+# Validate inputs
 
 if (( $# < 2 )); then
     printf "Not enough inputs specified (%s)\n" "$#"
     exit 1
 fi
+
+
+# ──────────────────────────────────────────────────────────
+# Determine full path to existing file
 
 script_dir=$(readlink "$0")
 repo_dir=${script_dir%%/bash*}
@@ -13,6 +31,10 @@ link_file_fullpath=$(realpath "$link_file_relpath")
 link_dir=${link_file_fullpath%/*}
 link_filename=${link_file_fullpath##*/}
 
+
+# ──────────────────────────────────────────────────────────
+# Make the target directory if it doesn't exist
+
 shift
 
 tgt_relpath_parts="$*"
@@ -20,6 +42,10 @@ tgt_relpath=$(tr "[:blank:]" "/" <<< "$tgt_relpath_parts")
 tgt_dir="$repo_dir"/"$tgt_relpath"
 tgt_file_fullpath="$tgt_dir"/"$link_filename"
 mkdir -p "$tgt_dir"
+
+
+# ──────────────────────────────────────────────────────────
+# Move the file, then symlink back to its original location
 
 mv "$link_file_fullpath" "$tgt_file_fullpath"
 ln -sv -t "$link_dir" "$tgt_file_fullpath"
