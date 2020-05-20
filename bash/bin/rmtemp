@@ -32,5 +32,6 @@ find "$HOME" -path "$HOME/build" -prune -or -type f -name "*sfun.mexa64" -print 
 find "$HOME/src" -type d -name "slprj" -print -exec rm -rf {} \; 2>/dev/null 
 find "$HOME/src" -type d -name "__pycache__" -print -exec rm -rf {} \; 2>/dev/null
 find "$HOME/src" -type d -name "sldv_output" -print -exec rm -rf {} \; 2>/dev/null
+find "$HOME/src" -type d -name "slcov_output" -print -exec rm -rf {} \; 2>/dev/null
 find "$HOME/src" -type d -name "rtwgen_tlc" -print -exec rm -rf {} \; 2>/dev/null
 find "$HOME/src" -type f -name "*.autosave" -print -delete 2>/dev/null
