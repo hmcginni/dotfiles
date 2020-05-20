@@ -55,7 +55,7 @@ _rescale_unity(){
 
 	if _very_hidpi
 	then
-		scale=1.3
+		scale=1.25
 	elif _hidpi
 	then
 		scale=1.10
