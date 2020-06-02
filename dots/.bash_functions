@@ -118,8 +118,8 @@ _matlab_wrapper() {
 	if [[ $mode == "gui" || -z $mode ]]
     then
 	    shift 2
-	    notify-send "Starting MATLAB R20$release" "matlab -desktop -nosplash -r run hrm_startup.m &>/dev/null & disown"
-	    "$ml_install" -desktop -nosplash -r "run hrm_startup.m" &>/dev/null & disown
+	    notify-send "Starting MATLAB R20$release" "matlab -nosplash -r run hrm_startup.m"
+	    "$ml_install" -nosplash -r "run hrm_startup.m" >/dev/null 2>&1 & disown
 
     elif [[ $mode == "cmd" ]]
     then

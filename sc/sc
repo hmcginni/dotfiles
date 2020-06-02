@@ -29,6 +29,8 @@ def save_shortcuts(sc_file, shortcuts):
     """
 
     shortcuts.sort()
+    shortcuts.insert(0, ["Shortcuts", "Directories"])
+
     try:
         with open(sc_file, "wb+") as sc_cache:
             csv_writer = csv.writer(sc_cache)
@@ -48,6 +50,7 @@ def load_shortcuts(sc_file):
     try:
         with open(sc_file, "r") as sc_cache:
             csv_reader = csv.reader(sc_cache, delimiter=",")
+            next(csv_reader, None)
             shortcuts = list(csv_reader)
 
     except IOError:

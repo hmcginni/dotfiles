@@ -21,7 +21,7 @@ fi
 
 
 # ──────────────────────────────────────────────────────────
-# Variables
+# Prompt
 
 blue="\[\e[0;94m\]"
 gray="\[\e[1;90m\]"
@@ -40,21 +40,14 @@ case "$TERM" in
 		;;
 esac
 
+
+# ──────────────────────────────────────────────────────────
+# Variables
+
 export PS1
-
-# ──────────────────────────────────────────────────────────
-# Magic for fixing gpg-agent issues (??)
-
-GPG_TTY=$(tty)
-export GPG_TTY
-
-
-# ──────────────────────────────────────────────────────────
-# Exports
-
+export GPG_TTY=$(tty)
 export hrmpc="BC:5F:F4:5A:77:41"
 export sofl1="28:f1:0e:52:44:88"
-
 export PATH="$HOME/bin:$PATH"
 export EDITOR="emacsclient -a emacs "
 export GIT_EDITOR=$EDITOR
@@ -62,6 +55,8 @@ export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 export XDG_CONFIG_HOME="$HOME/.config"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
+# export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+# export LESS=" -RNFX "
 
 
 # ──────────────────────────────────────────────────────────
@@ -69,13 +64,12 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 # general
 alias open='xdg-open'
-alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo snap refresh; sudo -k'
+alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo snap refresh;'
 
 alias copy='_copy'
 alias ediff='_ediff'
 alias testdir='_test_dir'
 alias new='_new_dir_today'
-alias n='_new_dir_today'
 alias q='_quiet'
 alias qfind='_qfind'
 alias vpn='_vpn'

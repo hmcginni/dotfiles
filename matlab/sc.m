@@ -17,7 +17,7 @@ function out = sc(cmd, alias, dir)
 %        <none> [alias]               -> go to dir specified by alias
 	
 	
-%% PARSE INPUTS  ----------------------------------------------------%%
+%% PARSE INPUTS
 	
 	
 	switch nargin
@@ -28,7 +28,7 @@ function out = sc(cmd, alias, dir)
 	end
 	
 	
-	%% LOAD SHORTCUTS  --------------------------------------------------%%
+	%% LOAD SHORTCUTS
 	
 	
     home = getenv('HOME');
@@ -45,7 +45,7 @@ function out = sc(cmd, alias, dir)
 	end
 	
 	
-	%% MAIN  ------------------------------------------------------------%%
+	%% MAIN
 	
 	
 	switch cmd
@@ -104,17 +104,20 @@ function out = sc(cmd, alias, dir)
             mpopd;
         end
         
-        isCmd = cellfun(@(x)strcmpi(x,cmd), shortcuts.Shortcuts);
+        isShortcut = cellfun(@(x)strcmpi(x,cmd), shortcuts.Shortcuts);
         
-        if any(isCmd)
-            sc('save','-',pwd);
-            newDir = shortcuts{isCmd, 2};
+        if any(isShortcut)
+            sc('save', '-', pwd);
+            newDir = shortcuts{isShortcut, 2};
             mpushd(char(newDir));
+            fprintf('\n\tChanged directory to "%s"\n', char(newDir));
         else
-            error('Unrecognized command "%s".',cmd)
+            error('Unrecognized command "%s".', cmd)
         end
         
 	end
 
+	%% END
+    
+end
 
-	%% END --------------------------------------------------------------%%

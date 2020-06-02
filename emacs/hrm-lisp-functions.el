@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;; ─────────────────────────────────────────────────────────
-;; General Utility Functions:
+;; General Utility Functions
 
 (defun hrm/move-line-up ()
   "Move up the current line."
@@ -26,7 +26,7 @@
 
 
 (defun hrm/xor (a b)
-  "XOR of inputs A and B."
+  "XOR of A and B."
   (and (not (and a b))
        (or a b)))
 
@@ -77,7 +77,7 @@
 	  (message "%d matches for \"%s\" in this buffer" matches tap))))
 	
 ;; ─────────────────────────────────────────────────────────
-;; Editing Functions:
+;; Editing Functions
 
 (defun hrm/new-comment-section (&optional char)
   "Insert a comment section.  Optionally specify CHAR as the fill character."
@@ -157,20 +157,20 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;; Appearance:
+;; Appearance
 
 (defvar hrm/global-is-light-theme t
-  "Global variable tracking whether or not we're using the LIGHT theme.")
+  "Global variable tracking whether we're using the LIGHT theme.")
 
 
 (defun hrm/post-theme-customizations ()
   "Fix font weirdness."
   (set-face-attribute
    'mode-line nil
-   :font "IBM Plex Sans Condensed:pixelsize=12" )
+   :font "Tex Gyre Heros:pixelsize=10" )
   (set-face-attribute
    'mode-line-inactive nil
-   :font "IBM Plex Sans Condensed:pixelsize=12:slant=italic" ))
+   :font "Tex Gyre Heros:pixelsize=10:slant=italic" ))
 
 
 (defun hrm/light-theme ()
@@ -249,7 +249,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;; Narrowing:
+;; Narrowing
 
 (defun hrm/narrow-to-defun-indirect ()
   "Create a new indirect buffer narrowed to the current function."

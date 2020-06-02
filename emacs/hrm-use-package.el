@@ -39,7 +39,6 @@
    hs-minor-mode)
   :hook
   ((prog-mode . hs-minor-mode)
-   (text-mode . hs-minor-mode)
    (emacs-lisp-mode . prettify-symbols-mode)
    (prog-mode . (lambda () (setq tab-width 4)))
    (c++-mode . (lambda () (setq tab-width 4)))
@@ -58,7 +57,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Language modes
+;;; Languages
 
 ;; JSON mode
 (use-package json-mode
@@ -115,7 +114,7 @@
   :config (sphinx-doc-mode t))
 
 ;; ─────────────────────────────────────────────────────────
-;;; Helm Modes
+;;; Narrowing Lists
 
 ;; Helm
 (use-package helm
@@ -150,7 +149,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;; Company Modes
+;; Completion
 
 ;; Company completion mode
 (use-package company
@@ -167,7 +166,7 @@
    (matlab-mode . company-mode))
   :config
   (setq company-idle-delay 1
-		company-tooltip-limit 20))
+		company-tooltip-limit 10))
 
 
 ;; Icons for Company completion
@@ -185,7 +184,7 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;; LSP Modes
+;; Language Servers
 
 ;; Language Server Protocol mode
 (use-package lsp-mode
@@ -228,10 +227,9 @@
 		("<f9>" . lsp-ui-imenu--kill))
   :hook
   (lsp-ui-doc-frame . (lambda (frame _w)
-						(set-face-attribute
-						 'default frame
-						 :height 80
-						 :family "IBM Plex Sans")))
+						(set-face-attribute 'default frame
+											:height 80
+											:family "IBM Plex Sans")))
   :config
   (setq lsp-ui-flycheck-enable t
         lsp-ui-sideline-enable t
@@ -281,33 +279,29 @@
 
 
 ;; ─────────────────────────────────────────────────────────
+;;; Snippets
+
+;; YASnippet mode
+(use-package yasnippet
+  :ensure t)
+
+
+;; ─────────────────────────────────────────────────────────
 ;;; Spell checking modes
 
 ;; Flyspell mode
 (use-package flyspell
   :ensure t
   :diminish
-  :bind
-  (("C-{" . flyspell-check-next-highlighted-word)
-   ("M-}" . hrm\flyspell-check-previous-highlighted-word))
   :hook
   ((text-mode . flyspell-mode)
-   (org-mode . flyspell-mode))
-  :config
-  (defun hrm\flyspell-check-next-highlighted-word ()
-    "Custom function to spell check next highlighted word"
-    (interactive)
-    (flyspell-goto-next-error)
-    (ispell-word)))
+   (org-mode . flyspell-mode)))
 
 
 ;; Flycheck mode
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode)
-  :bind
-  (("C-{" . flycheck-next-error)
-   ("M-}" . flycheck-previous-error)))
+  :init (global-flycheck-mode))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -359,6 +353,7 @@
 
 (use-package dumb-jump
   :ensure t
+  :bind ("C-." . dumb-jump-go)
   :config
   (setq dumb-jump-selector 'helm))
 

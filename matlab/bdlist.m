@@ -1,9 +1,15 @@
 function mdls = bdlist
 % BDLIST - list all loaded Simulink models.
 
+    if ~isSimulinkStarted
+        disp('No Simulink models open.');
+        return
+    end
+
     mdlList = find_system('type', 'block_diagram');
     
     if isempty(mdlList)
+        disp('No Simulink models open.')
         return
     end
     

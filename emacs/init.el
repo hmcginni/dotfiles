@@ -132,7 +132,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(company-box dumb-jump dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode all-the-icons fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(all-the-icons company-box yasnippet dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
@@ -191,20 +191,9 @@
 
 
 ;; Font
-(if (display-graphic-p)
-    (hrm/dpi/scale-font "SF Mono" "normal"))
+;; (if (display-graphic-p)
+;;     (hrm/dpi/scale-font "Roboto Mono" "normal"))
 
-;; ;; Mode Line
-;; (setq mode-line-format
-;; 	  (list
-;; 	   "             "
-;; 	   "%b"
-;; 	   "             "
-;; 	   "Ln %l,  Col %C"
-;; 	   "             "
-;; 	   "%m"
-;; 	   "             "
-;; 	   ))
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Keyboard shortcuts:
@@ -274,16 +263,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(header-line ((t (:inherit mode-line :background "#2f343f" :foreground "dark gray" :weight bold :height 0.8 :family "IBM Plex Sans"))))
  '(highlight-thing ((t (:inherit (quote hl-line)))))
  '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
  '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "IBM Plex Sans"))))
  '(lsp-ui-sideline-global ((t (:family "IBM Plex Sans"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
- '(mode-line ((t (:background "#3E4451" :weight light :height 0.85 :family "IBM Plex Sans"))))
- '(mode-line-highlight ((t (:overline "teal" :underline "teal"))))
- '(mode-line-inactive ((t (:background "gray10" :foreground "dim gray" :slant italic :weight normal :height 70 :family "IBM Plex Sans"))))
+ ;; '(mode-line ((t (:weight light :height 0.85 :family "IBM Plex Sans"))))
  '(neo-banner-face ((t (:weight bold :height 0.8 :family "IBM Plex Sans"))))
  '(neo-button-face ((t (:underline nil :height 0.8 :family "IBM Plex Sans"))))
  '(neo-dir-link-face ((t (:height 0.8 :family "IBM Plex Sans"))))
