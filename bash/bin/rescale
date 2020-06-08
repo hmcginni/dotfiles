@@ -55,7 +55,7 @@ _rescale_unity(){
 
 	if _very_hidpi
 	then
-		scale=1.25
+		scale=1.15
 	elif _hidpi
 	then
 		scale=1.10
@@ -86,7 +86,7 @@ _rescale_vscode(){
 
 	if _very_hidpi
 	then
-		_json_update "$settings" "$zoom" "-1"
+		_json_update "$settings" "$zoom" "0"
 		_json_update "$settings" "$size" "14.5"
 	elif _hidpi
 	then
