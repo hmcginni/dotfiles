@@ -113,7 +113,7 @@ _rescale_emacs(){
 		# font="SF Mono"
 		font_dc=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
 		font=$(echo "${font_dc//\'/}" | rev | cut -d" " -f2- | rev)
-		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"regular\")" >/dev/null
+		emacsclient -e "(hrm/dpi/scale-font \"$font\")" >/dev/null
 	fi
 
 }

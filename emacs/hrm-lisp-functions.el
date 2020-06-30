@@ -5,6 +5,19 @@
 
 ;;; Code:
 
+
+;; ─────────────────────────────────────────────────────────
+;; Variables
+
+(defvar hrm/global-is-light-theme t
+  "Whether we're using the LIGHT theme.")
+
+(defcustom initial-org-scratch-message nil
+  "Initial message displayed in Org-scratch buffers."
+  :group 'hrm
+  :type '(sexp))
+
+
 ;; ─────────────────────────────────────────────────────────
 ;; General Utility Functions
 
@@ -75,7 +88,8 @@
 	(if (string= tap "")
 		(message "No symbol at point.")
 	  (message "%d matches for \"%s\" in this buffer" matches tap))))
-	
+
+
 ;; ─────────────────────────────────────────────────────────
 ;; Editing Functions
 
@@ -159,10 +173,6 @@
 ;; ─────────────────────────────────────────────────────────
 ;; Appearance
 
-(defvar hrm/global-is-light-theme t
-  "Global variable tracking whether we're using the LIGHT theme.")
-
-
 (defun hrm/post-theme-customizations ()
   "Fix font weirdness."
   (set-face-attribute
@@ -241,10 +251,10 @@
           (t 16))))         ;; ?16?
 
 
-(defun hrm/dpi/scale-font (face weight)
-  "Set the scaled font spec string for the specified FACE and WEIGHT."
+(defun hrm/dpi/scale-font (face)
+  "Set the scaled font spec string for the specified FACE."
   (let* ((size (hrm/dpi/determine-font-scaling))
-         (font (format "%s:size=%d:weight=%s" face size weight)))
+         (font (format "%s:size=%d" face size)))
     (set-frame-font font)))
 
 

@@ -14,7 +14,7 @@ _activate_venv() {
 }
 
 
-_copy(){
+_copy() {
     # COPY - add line to clipboard
 
     tr -d '\n' <<< "$1" | xclip -selection clipboard
@@ -88,8 +88,8 @@ _goto_test_folder() {
 		test_folder="$test_root"
 	fi
 
-	xclip -selection clipboard <<< "cd $test_folder"
-	cd "$test_folder"
+	xclip -selection clipboard <<< "pushd $test_folder"
+	pushd "$test_folder"
 	
 }
 
@@ -197,13 +197,6 @@ _parse_git_branch() {
 }
 
 
-_qfind() {
-    # QFIND - find without errors
-
-    find "$@" 2>/dev/null
-}
-
-
 _quiet() {
     # QUIET - run command quietly in the background
 
@@ -212,24 +205,9 @@ _quiet() {
 		chronic "$@" & disown
 		# ("$*") &>/dev/null & disown
 	else
-		printf "CHRONIC utility not installed (moreutils)." >&2
+		printf "\"chronic\" utility not installed (moreutils)." >&2
 	fi
 	
-}
-
-
-_test_dir() {
-	# TEST_DIR - change to the test folder containing the provided id
-
-	tid=$1
-	dir=$(find "$SW_TEST_DIR" -name "$tid" -type d)
-
-	if [[ -n $dir ]]
-	then
-		pushd "$dir"
-	else
-		echo "No test folder found containing that ID."
-	fi
 }
 
 
@@ -262,7 +240,7 @@ _tmux_run() {
 		| xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
     if [[ -z "$TMUX" ]]
     then
-	    source ~/.bashrc
+		eval "$*"
     fi
 }
 

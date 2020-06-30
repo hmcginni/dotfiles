@@ -125,7 +125,8 @@
 		 ("C-<f1>" . xref-find-definitions))
   :init (require 'helm-config)
   :config
-  (setq helm-lisp-fuzzy-completion t))
+  (setq helm-lisp-fuzzy-completion t
+		helm-ff-skip-boring-files t))
 
 
 ;; Helm interface for GNU Global Tags
@@ -170,10 +171,10 @@
 
 
 ;; Icons for Company completion
-(use-package company-box
-  :ensure t
-  :delight
-  :hook (company-mode . company-box-mode))
+;; (use-package company-box
+;;   :ensure t
+;;   :delight
+;;   :hook (company-mode . company-box-mode))
 
 
 ;; Company shell mode

@@ -1,54 +1,54 @@
 {
-    "sc":
-    {
+  "sc":
+  {
 	"inputs":
 	[
-	    {
+	  {
 		"name":"alias",
 		"kind":"required",
 		"type":"choices=sc('getaliases')'"
-	    }
+	  }
 	]
-    },
-    "bv":
-    {
+  },
+  "bv":
+  {
 	"inputs":
 	[
-	    {
+	  {
 		"name":"build_dir",
 		"kind":"required",
 		"type":"choices=strsplit(strtrim(ls(fullfile(getenv('HOME'),'build'))))"
-	    }
+	  }
 	]
-    },
-    "br":
-    {
+  },
+  "br":
+  {
 	"inputs":
 	[
-	    {
+	  {
 		"name":"repo",
 		"kind":"required",
 		"type":"choices=strsplit(strtrim(ls(fullfile(getenv('HOME'),'src'))))"
-	    }
+	  }
 	]
-    },
-    "check":
-    {
+  },
+  "check":
+  {
 	"inputs":
 	[
-	    {
+	  {
 		"name":"varargin",
 		"kind":"required",
 		"type":"choices={'MATLAB','SIMULINK','Stateflow','RTW_Embedded_Coder','MATLAB_Coder','Real-Time_Workshop','SL_Verification_Validation','Simulink_Design_Verifier'}"
-	    }
+	  }
 	]
-    },
-    "mfind":
-    {
+  },
+  "mfind":
+  {
 	"inputs":
 	[
-	    {"name":"dir",      "kind":"required", "type":["filepath"]},
-	    {"name":"name_opt",	"kind":"required", "type":"choices={'-name','-wholename'}"}
+	  {"name":"dir",      "kind":"required", "type":["filepath"]},
+	  {"name":"name_opt",	"kind":"required", "type":"choices={'-name','-wholename'}"}
 	]
-    }
+  }
 }

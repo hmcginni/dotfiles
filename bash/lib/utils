@@ -19,37 +19,6 @@ utils.errorf() {
 
 
 # ──────────────────────────────────────────────────────────
-# utils.notify
-#
-#   Usage:
-#   1. utils.notify "titleStr" "messageStr"
-#   2. utils.notify "messageStr"
-
-utils.notify() {
-    if [[ $# == 1 || $# == 2 ]]; then
-	notify-send "$@"
-    else
-	utils.errorf "Improper usage of function utils.notify"
-    fi
-}
-
-
-# ──────────────────────────────────────────────────────────
-# utils.nerrorf
-#
-#   Usage:
-#      utils.nerrorf "formatStr" "arg1" "arg2" [...] "argN"
-
-utils.nerrorf() {
-    fmtStr=$1
-    shift
-    notifyStr=$(printf "$fmtStr" "$@")
-    utils.notify "Error" "$notifyStr"
-    utils.errorf "$@"    
-}
-
-
-# ──────────────────────────────────────────────────────────
 # utils.chomp
 
 utils.chomp() {

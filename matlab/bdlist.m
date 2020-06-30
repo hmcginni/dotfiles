@@ -13,9 +13,7 @@ function mdls = bdlist
         return
     end
     
-    % ──────────────────────────────────────────────────────────
     % Display list of models unless called with an output variable
-    
     if nargout == 0
         disp('Open Simulink models:');
         disp(mdlList);

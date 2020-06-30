@@ -29,7 +29,6 @@
  '(dap-python-executable "python3")
  '(display-time-mode nil)
  '(fill-column 80)
- '(flycheck-checker-error-threshold 500)
  '(flycheck-checkers
    (quote
 	(lsp-ui ada-gnat asciidoctor asciidoc bazel-buildifier c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint css-stylelint cuda-nvcc cwl d-dmd dockerfile-hadolint emacs-lisp emacs-lisp-checkdoc erlang-rebar3 erlang eruby-erubis eruby-ruumba fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert go-staticcheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy javascript-eslint javascript-jshint javascript-standard json-jsonlint json-python-json json-jq jsonnet less less-stylelint llvm-llc lua-luacheck lua markdown-markdownlint-cli markdown-mdl nix nix-linter opam perl perl-perlcritic php php-phpmd php-phpcs processing proselint protobuf-protoc protobuf-prototool pug puppet-parser puppet-lint python-flake8 python-pylint python-pycompile python-mypy r-lintr racket rpm-rpmlint rst-sphinx rst ruby-rubocop ruby-reek ruby-rubylint ruby ruby-jruby rust-cargo rust rust-clippy scala scala-scalastyle scheme-chicken scss-lint scss-stylelint sass/scss-sass-lint sass scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim slim-lint sql-sqlint systemd-analyze tcl-nagelfar terraform terraform-tflint tex-chktex tex-lacheck texinfo textlint typescript-tslint verilog-verilator vhdl-ghdl xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby yaml-yamllint)))
@@ -54,20 +53,23 @@
  '(global-linum-mode t)
  '(global-semantic-idle-scheduler-mode t)
  '(helm-completion-style (quote emacs))
- '(helm-echo-input-in-header-line t)
- '(helm-mode t)
+ '(helm-lisp-fuzzy-completion t)
+ '(helm-locate-fuzzy-match t)
+ '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
  '(initial-org-scratch-message
-   (concat "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
-#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"/home/hrm/org/org.css\" />
+   "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
+#+HTML_HEAD: <link rel=\"stylesheet\" href=\"/home/hrm/org/org.css\" />
+#+AUTHOR: Hassan McGinnis
+#+EMAIL: hassan.r.mcginnis@medtronic.com
 
-* "
-		   (shell-command-to-string "printf '%s' $(date +%Y%m%d)")
-		   ": "))
+* 20200626: ")
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 0.12)
  '(linum-format " %3d ")
  '(lsp-document-highlight-delay 1)
+ '(lsp-headerline-breadcrumb-enable nil)
+ '(lsp-headerline-breadcrumb-face (quote mode-line))
  '(lsp-pyls-plugins-flake8-config "/home/hrm/.config/flake8/.flake8")
  '(lsp-pyls-plugins-flake8-enabled nil)
  '(lsp-pyls-plugins-pycodestyle-enabled t)
@@ -75,11 +77,11 @@
  '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
  '(lsp-pyls-plugins-pycodestyle-select nil)
  '(lsp-pyls-plugins-pydocstyle-add-ignore nil)
- '(lsp-pyls-plugins-pydocstyle-enabled t t)
+ '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(lsp-pyls-plugins-pydocstyle-ignore (quote ("D200" "D203" "D213" "D406" "D407")))
- '(lsp-pyls-plugins-pyflakes-enabled nil t)
+ '(lsp-pyls-plugins-pyflakes-enabled nil)
  '(lsp-pyls-plugins-pylint-args [--disable=W0312 (\, C0301)])
- '(lsp-pyls-plugins-pylint-enabled nil t)
+ '(lsp-pyls-plugins-pylint-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled nil)
  '(lsp-response-timeout 5)
  '(lsp-treemacs-theme "all-the-icons")
@@ -88,18 +90,19 @@
  '(lsp-ui-doc-include-signature t)
  '(lsp-ui-doc-max-height 20)
  '(lsp-ui-doc-max-width 80)
- '(lsp-ui-doc-position (quote at-point))
+ '(lsp-ui-doc-position (quote top))
  '(lsp-ui-imenu-kind-position (quote left))
+ '(lsp-ui-sideline-enable nil)
+ '(matlab-block-indent-tic-toc-flag t)
  '(matlab-fill-code t)
- '(matlab-functions-have-end t)
  '(matlab-highlight-cross-function-variables nil)
  '(matlab-indent-function-body t)
  '(matlab-shell-command-switches (quote ("-nojvm")))
  '(menu-bar-mode nil)
- '(mlint-programs (quote ("/opt/matlab/2017a/bin/glnxa64/mlint")))
+ '(mlint-programs (quote ("/opt/matlab/2019b/bin/glnxa64/mlint")))
  '(mode-line-format
    (quote
-	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "           " mode-line-position "           " mode-line-modes mode-line-misc-info
+	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "    " mode-line-position "\t\t\t" mode-line-modes mode-line-misc-info
 	 (vc-mode vc-mode)
 	 mode-line-end-spaces)))
  '(neo-auto-indent-point t)
@@ -156,11 +159,6 @@
   "My custom variables."
   :group 'custom)
 
-(defcustom initial-org-scratch-message nil
-  "Initial message displayed in Org-scratch buffers."
-  :group 'hrm
-  :type '(sexp))
-
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Global configurations:
@@ -171,9 +169,10 @@
 (load "~/.emacs.d/hrm-lisp-functions.el")
 
 ;; Startup functions
-(server-start)
+(server-start nil t)
 (global-auto-revert-mode t)
 (hrm/set-theme nil)
+(helm-mode)
 
 ;; Set variables
 (setq-default c-default-style "stroustrup"
@@ -191,8 +190,8 @@
 
 
 ;; Font
-;; (if (display-graphic-p)
-;;     (hrm/dpi/scale-font "Roboto Mono" "normal"))
+(if (display-graphic-p)
+    (hrm/dpi/scale-font "SF Mono"))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -233,8 +232,9 @@
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
 (global-set-key (kbd "<C-insert>") hrm/insert-map)
-(define-key hrm/insert-map (kbd "C--") 'hs-hide-all)
-(define-key hrm/insert-map (kbd "C-=") 'hs-show-all)
+(define-key hrm/insert-map (kbd "C--") 'hs-hide-block)
+(define-key hrm/insert-map (kbd "C-+") 'hs-show-block)
+
 (define-key hrm/insert-map (kbd "C-<insert>") 'hs-toggle-hiding)
 (define-key hrm/insert-map (kbd "C-d") 'hrm/date-command-on-buffer)
 (define-key hrm/insert-map (kbd "C-g") 'hrm/new-comment-section)
@@ -266,17 +266,16 @@
  '(highlight-thing ((t (:inherit (quote hl-line)))))
  '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
- '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "IBM Plex Sans"))))
- '(lsp-ui-sideline-global ((t (:family "IBM Plex Sans"))))
+ '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
+ '(lsp-ui-sideline-global ((t (:family "Tex Gyre Heros"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
- ;; '(mode-line ((t (:weight light :height 0.85 :family "IBM Plex Sans"))))
- '(neo-banner-face ((t (:weight bold :height 0.8 :family "IBM Plex Sans"))))
- '(neo-button-face ((t (:underline nil :height 0.8 :family "IBM Plex Sans"))))
- '(neo-dir-link-face ((t (:height 0.8 :family "IBM Plex Sans"))))
- '(neo-expand-btn-face ((t (:height 0.8 :family "IBM Plex Sans"))))
- '(neo-file-link-face ((t (:height 0.8 :family "IBM Plex Sans"))))
- '(neo-header-face ((t (:height 0.8 :family "IBM Plex Sans"))))
- '(neo-root-dir-face ((t (:weight bold :height 0.8 :family "IBM Plex Sans")))))
+ '(neo-banner-face ((t (:weight bold :height 0.8 :family "Tex Gyre Heros"))))
+ '(neo-button-face ((t (:underline nil :height 0.8 :family "Tex Gyre Heros"))))
+ '(neo-dir-link-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
+ '(neo-expand-btn-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
+ '(neo-file-link-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
+ '(neo-header-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
+ '(neo-root-dir-face ((t (:weight bold :height 0.8 :family "Tex Gyre Heros")))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
