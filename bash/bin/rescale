@@ -6,22 +6,20 @@
 # ──────────────────────────────────────────────────────────
 # Utility Functions
 
-# Detect very high DPI
 _very_hidpi () {
+	# Detect very high DPI
 
 	test "$(dpi)" -gt 150
-
 }
 
-# Detect high DPI
 _hidpi () {
+	# Detect high DPI
 
 	test "$(dpi)" -gt 110
-	
 }
 
-# Update JSON file key with value
-_json_update(){
+_json_update () {
+	# Update JSON file key with value
 	
 	local file
 	local key
@@ -34,18 +32,16 @@ _json_update(){
 	if which jq sponge >/dev/null 2>&1
 	then
 		jq "$key = $value" "$file" | sponge "$file"
-
 	else
 		printf "JQ and SPONGE must be installed.\n" >&2
 	fi
-	
 }
 
 
 # ──────────────────────────────────────────────────────────
 # Scale Unity desktop
 
-_rescale_unity(){
+_rescale_unity () {
 
 	local text
 	local unity
@@ -55,7 +51,7 @@ _rescale_unity(){
 
 	if _very_hidpi
 	then
-		scale=1.25
+		scale=1.15
 	elif _hidpi
 	then
 		scale=1.10
@@ -66,14 +62,13 @@ _rescale_unity(){
 	dconf write "$unity" "$scale"
 	sleep 0.1
 	dconf write "$text" "$scale"
-
 }
 
 
 # ──────────────────────────────────────────────────────────
 # Scale VSCode
 
-_rescale_vscode(){
+_rescale_vscode () {
 
 	local settings
 	local zoom
@@ -86,7 +81,7 @@ _rescale_vscode(){
 
 	if _very_hidpi
 	then
-		_json_update "$settings" "$zoom" "-1"
+		_json_update "$settings" "$zoom" "0"
 		_json_update "$settings" "$size" "14.5"
 	elif _hidpi
 	then
@@ -95,17 +90,17 @@ _rescale_vscode(){
 	else
 		_json_update "$settings" "$zoom" "-1"
 		_json_update "$settings" "$size" "14.5"
-	fi
 
+	fi
 }
 
 
 # ──────────────────────────────────────────────────────────
 # Scale Emacs
 
-_rescale_emacs(){
-	
-	# local font_dc
+_rescale_emacs () {
+
+	local font_dc
 	local font
 
 	if pgrep emacs >/dev/null 2>&1
@@ -115,21 +110,19 @@ _rescale_emacs(){
 		font=$(echo "${font_dc//\'/}" | rev | cut -d" " -f2- | rev)
 		emacsclient -e "(hrm/dpi/scale-font \"$font\")" >/dev/null
 	fi
-
 }
 
 
 # ──────────────────────────────────────────────────────────
 # Main Function
 
-_main(){
+_main () {
 
 	notify-send "rescale" "Scaling text" -t 2500
 
 	_rescale_unity
 	_rescale_vscode
 	_rescale_emacs
-
 }
 
 

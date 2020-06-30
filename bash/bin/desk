@@ -9,31 +9,41 @@
 #                        1,2, and 3 resolution and offset
 #
 #   Dependencies: xrandr
-#
-################################################################################
 
 
-#-------------------------------------------------------------------------------
-# Parse Inputs
+usage () {
 
-
-function usage()
-{
-    printf "\n\tOn line: %s\n" "${BASH_LINENO[0]}"
     printf "\tUsage: \n\t  desk [-n(umdesks)][-r(es)][-o(ff)][-a(ll)][-d desktop]\n"
+	exit
+	
 }
 
-if [[ $# == 0 ]]; then
-    usage
-    exit
+error () {
+
+	message=$1
+	
+	printf "\n\tError on line: %s\n\t%s\n\n" "${BASH_LINENO[0]}" "$message" >&2
+	usage
+	exit 1
+	
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Parse Inputs
+
+if [[ $# == 0 ]]
+then
+	error "No inputs provided."
 fi
 
-while getopts ":hnroad:" opt; do
+
+while getopts ":hnroad:" opt
+do
     case ${opt} in
 	h )
-	    echo -e "\tHelp for desk"
+	    echo -e "\n\tHelp for desk\n"
 	    usage
-	    exit
 	    ;;
 	n )
 	    prDesks=true
@@ -53,16 +63,14 @@ while getopts ":hnroad:" opt; do
 	    desktop=$OPTARG
 	    ;;
 	* )
-	    echo -e "\tUnrecognized option"
-	    usage
-	    exit 1
+	    error "Unrecognized option."
 	    ;;
     esac
 done
 shift $(( OPTIND - 1 ))
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Parse xrandr
 
 
@@ -75,14 +83,15 @@ res=$(tr "\n" " " <<< $(sed -r 's|\+\w+||g' <<< "$deskInfo"))
 offset=$(tr "\n" " " <<< $(sed -r 's|\w+x\w+\+||g' <<< "$deskInfo"))
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Outputs
 
 
-if [[ -n $desktop ]]; then
-    if [[ $desktop > $numDesks ]]; then
-		echo "Invalid Desktop number requested."
-		exit 1
+if [[ -n $desktop ]]
+then
+    if [[ $desktop > $numDesks ]]
+	then
+		error "Invalid Desktop number requested."
     fi
 
     res=$(cut -d" " -f"$desktop" <<< $res)
@@ -92,6 +101,6 @@ fi
 res=$(sed 's|x| |g' <<< $res)
 offset=$(sed 's|+| |g' <<< $offset)
 
-${prDesks:-false}  && echo "$numDesks"
-${prRes:-false}    && echo "$res"
+${prDesks:-false} && echo "$numDesks"
+${prRes:-false} && echo "$res"
 ${prOffset:-false} && echo "$offset"
