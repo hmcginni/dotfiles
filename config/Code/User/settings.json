@@ -2,7 +2,7 @@
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
   "editor.fontFamily": "'SF Mono', 'Input', monospace, 'Droid Sans Fallback'",
-  "editor.fontWeight": "350",
+  "editor.fontWeight": "400",
   "workbench.startupEditor": "newUntitledFile",
   "python.jediEnabled": false,
   "window.zoomLevel": -1,

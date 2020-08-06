@@ -7,7 +7,7 @@
 ################################################################################
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Utility Functions
 
 
@@ -25,15 +25,14 @@ function err()
     utils.errorf "\n\t%s\n\tError on line: ${BASH_LINENO[0]}\n" "$1"
 }
 
-
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Defaults
 
 
 desktop=$(tiling.getCursorDesktop)
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Parse Inputs
 
 
@@ -55,47 +54,47 @@ done
 shift $(( OPTIND - 1 ))
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Find all visible windows
 
 
-declare -a pexcept_array
+declare -a pnotile_array
 
 # (1) Get all PIDs for exempt applications and add them to an array
 for proc in compiz xfce4-notifyd nemo-desktop
 do
-    pexcept=$(pgrep "$proc")
-	if [[ -n $pexcept ]]
+    pnotile=$(pgrep "$proc")
+	if [[ -n $pnotile ]]
 	then
-		nproc=$(wc -w <<< "$pexcept")
+		nproc=$(wc -w <<< "$pnotile")
 		if (( nproc > 1 ))
 		then
 			for idx in $(seq 1 "$nproc")
 			do
-				pexcept_array+=($(cut -d$'\n' -f"$idx" <<< "$pexcept"))
+				pnotile_array+=($(cut -d$'\n' -f"$idx" <<< "$pnotile"))
 			done
 		else
-			pexcept_array+=("$pexcept")
+			pnotile_array+=("$pnotile")
 		fi
 	fi
 done
 
-if [[ -n $pexcept_array ]]
+if [[ -n ${pnotile_array[*]} ]]
 then
-	pexcept_array+=($(pgrep nautilus)".*Desktop")
+	pnotile_array+=($(pgrep nautilus)".*Desktop")
 else
-	pexcept_array=("No Matches")
+	pnotile_array=("No Matches")
 fi
 
 # (2) Convert array to "|" delimited string 
 old_IFS=$IFS
 IFS='|'
-pexcept_regex=$(tr -s "|" "|" <<< "${pexcept_array[*]}")
+pnotile_regex=$(tr -s "|" "|" <<< "${pnotile_array[*]}")
 IFS=${old_IFS}
 
 # (3) Use (2) as regex specification for egrep (in other words, find all lines
 #     that don't include any of the PIDs for the specified applications)
-allWIDs=$(wmctrl -lp | egrep -v "($pexcept_regex)" | awk '{print $1}')
+allWIDs=$(wmctrl -lp | egrep -v "($pnotile_regex)" | awk '{print $1}')
 for thisWID in $allWIDs; do
     if [[ $(xwininfo -wm -id "$thisWID" | grep "Hidden") == "" ]]; then
 		visWIDs+=("$thisWID")
@@ -103,7 +102,7 @@ for thisWID in $allWIDs; do
 done
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # Find visible windows on specified desktop
 
 
@@ -127,5 +126,5 @@ done
 echo "${deskVisWIDs[@]}"
 
 
-#-------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────
 # END

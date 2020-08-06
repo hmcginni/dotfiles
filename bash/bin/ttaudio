@@ -4,7 +4,7 @@
 #
 
 source ~/lib/bash/utils
-bluetooth on &>/dev/null
+bluetooth on >/dev/null 2>&1
 
 timeout=15
 ttMAC="FC:58:FA:C5:B1:0D"

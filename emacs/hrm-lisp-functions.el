@@ -69,14 +69,15 @@
 
 
 (defun hrm/org-scratch ()
-  "Go to the *Org-scratch* buffer."
+  "Go to the Org-scratch buffer."
   (interactive)
-  (let ((org-scratch "*Org-scratch*"))
+  (let ((org-scratch "scratch.org"))
     (if (get-buffer org-scratch)
         (switch-to-buffer org-scratch)
       (switch-to-buffer org-scratch)
 	  (with-current-buffer org-scratch
-		(org-mode))
+		(org-mode)
+		(setq-local desktop-save-buffer 't))
       (insert initial-org-scratch-message))))
 
 
@@ -248,13 +249,13 @@
           ((< dpi 145) 13)  ;; dpi=140 => 14/16
           ((< dpi 155) 14)  ;; [145, 155) must be ?14/16?
           ((< dpi 165) 15)  ;; ?15/17?
+
           (t 16))))         ;; ?16?
 
-
-(defun hrm/dpi/scale-font (face)
-  "Set the scaled font spec string for the specified FACE."
+(defun hrm/dpi/scale-font (face weight)
+  "Set the scaled font specification string for FACE and WEIGHT."
   (let* ((size (hrm/dpi/determine-font-scaling))
-         (font (format "%s:size=%d" face size)))
+         (font (format "%s:size=%d:weight=%s" face size weight)))
     (set-frame-font font)))
 
 

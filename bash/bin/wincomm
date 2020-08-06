@@ -1,7 +1,13 @@
 #!/bin/bash
 
-wid=$(sed -E "s#[^0]+([[:alnum:]]+).+#\1#" <<< $(xwininfo) )
-wid=$(sed 's|x|x0|' <<< $wid)
-pid=$(awk '{print $3}' <<< $(grep "$wid" <<< "$(wmctrl -lp)") )
+if [ $# -eq 0 ]
+then
+	wid=$(sed -E "s#[^0]+([[:alnum:]]+).+#\1#" <<< $(xwininfo) )
+else
+	wid=$1
+fi
 
-ps -o comm $pid
+wid=$(sed 's|x|x0|' <<< $wid)
+pid=$(awk '{print $3}' <(grep "$wid" <<< "$(wmctrl -lp)"))
+
+tail -1 <(ps -o comm "$pid")

@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# .BASH_FUNCTIONS - Custom bash functions
+# Custom bash functions
 #
 
 
 _activate_venv() {
-	# ACTIVATE_VENV - activate Python virtual environment
+	# Activate Python virtual environment
 
 	local venv
 	
@@ -15,7 +15,7 @@ _activate_venv() {
 
 
 _copy() {
-    # COPY - add line to clipboard
+	# Add line to clipboard
 
     tr -d '\n' <<< "$1" | xclip -selection clipboard
 }
@@ -29,7 +29,7 @@ _create_venv() {
 
 
 _ediff() {
-    # EDIFF - Launch Emacs with ediff-files
+	# Launch Emacs with ediff-files
 
     file1=$1
     file2=$2
@@ -39,7 +39,7 @@ _ediff() {
 
 
 _emacsclient() {
-    # EMACSCLIENT - Open file with emacsclient
+	# Open file with emacsclient
 
 	if ! file=$(which "$1")
 	then
@@ -51,7 +51,7 @@ _emacsclient() {
 
 
 _git_push_wrapper() {
-    # GIT_PUSH_WRAPPER - simplify git pushes
+	# Simplify git pushes
 
     if [[ $PWD =~ hrmutils || $PWD =~ hrmcginnis ]]
     then
@@ -72,6 +72,38 @@ _git_push_wrapper() {
 }
 
 
+_git_update_eintestframework() {
+
+	local eintests=""
+	local framework=""
+	local branch=""
+	local id=""
+	local commit_msg=""
+	local current=""
+	local updated=""
+
+	eintests="$SW_TEST_DIR"
+	framework="$eintests"/eintestframework
+	branch="$(git -C "$eintests" rev-parse --abbrev-ref HEAD)"
+	id="$(cut -d- -f1-2 <<< $branch)"
+	commit_msg=$(printf "%s update eintestframework" "$id")
+
+	current=$(git -C "$framework" rev-parse HEAD)
+	updated=$(git -C "$framework" rev-parse origin/master)
+
+	if [[ $current != $updated ]]
+	then
+		git -C "$eintests" submodule update --remote --recursive
+		git -C "$eintests" add "$framework"
+		git -C "$eintests" commit -m "$commit_msg"
+		notify-send "EinTests" "EinTestFramework submodule has been updated to latest version"
+	else
+		notify-send "EinTests" "EinTestFramework is already the latest version"
+	fi
+	
+}
+
+
 _goto_test_folder() {
 
 	local id
@@ -83,7 +115,7 @@ _goto_test_folder() {
 
 	if [[ -n $id ]]
 	then
-		test_folder=$(find "$test_root" -type d -name "*ESWT_$id")
+		test_folder=$(dirname $(fd Automate.*"$id" "$SW_TEST_DIR"))
 	else
 		test_folder="$test_root"
 	fi
@@ -95,7 +127,7 @@ _goto_test_folder() {
 
 
 _matlab_wrapper() {
-    # ML_WRAPPER - launch MATLAB with custom options
+	# Launch MATLAB with custom options
 	
 	export MATLAB_JAVA="/usr/lib/jvm/java-8-openjdk-amd64/jre"
 
@@ -142,8 +174,8 @@ _matlab_wrapper() {
 }
 
 
-_new_dir_today() {
-	# NEW_DIR_TODAY - create a new timestamped directory
+_new_timestamped_directory() {
+	# Create a new timestamped directory
 
 	local today
 	local name
@@ -151,21 +183,22 @@ _new_dir_today() {
 	
 	args=$*
 	today="$(date +%Y%m%d)"
-	name="${today}-${args// /-}"
+	name="$today-${args// /-}"
+	name=${name%%-}
 	mkdir -p "$name"
 	echo "Created \"$name\""
 }
 
 
 _parse_git_branch() {
-    # PARSE_GIT_BRANCH - add current Git branch to bash prompt
+    # Add current Git branch to bash prompt
 
 	local branch
 	local repo
 	
 	terminal_width=$(tput cols)
 	ellipsis=" [...]"
-	max_line_length=$(( terminal_width - ${#ellipsis} - 2 ))
+	max_line_length=$(( terminal_width - ${#ellipsis} ))
 	
 	branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 	if [[ $branch == "HEAD" ]]
@@ -198,7 +231,7 @@ _parse_git_branch() {
 
 
 _quiet() {
-    # QUIET - run command quietly in the background
+    # Run command quietly in the background
 
 	if which chronic >/dev/null 2>&1
 	then
@@ -211,8 +244,32 @@ _quiet() {
 }
 
 
+_run_simulink_test() {
+
+	local id=""
+	local sltools=""
+	local log=""
+
+	id_number=$1
+
+	if [[ $id_number =~ ^[0-9]{4,5}$ ]]
+	then
+		
+		id="ESWT-$id_number"
+		sltools="$SW_TEST_DIR"/eintestframework/Tools/Bamboo/Simulink
+		log="${id}-batch-execution-stdout-log.txt"
+		python3.7 "$sltools"/run_simulink_tests.py -vv -f <(echo -e "$id") | tee "$log"
+
+	else
+		printf "\nInvalid ID.\n" >&2
+		return 1
+	fi
+
+}
+
+
 _tmux_go() {
-    # TMUX_GO - simplify tmux actions
+    # Simplify tmux actions
 
     if [[ $# == 0 ]]
     then
@@ -234,19 +291,20 @@ _tmux_go() {
 
 
 _tmux_run() {
-	# TMUX_RUN - run command on all TMUX panes
+	# Run command on all TMUX panes
 	
-    tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' \
-		| xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
-    if [[ -z "$TMUX" ]]
-    then
+	if [[ -n "$TMUX" ]]
+	then
+		tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' \
+			| xargs -I PANE tmux send-keys -t PANE "$*" Enter clear Enter
+	else
 		eval "$*"
     fi
 }
 
 
 _vpn() {
-    # VPN - wrapper function to control the MDTVPN systemd service
+	# Wrapper function to control the MDTVPN systemd service
 
     option="$1"
     if [[ -z $option ]]

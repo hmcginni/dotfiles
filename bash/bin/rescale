@@ -21,9 +21,9 @@ _hidpi () {
 _json_update () {
 	# Update JSON file key with value
 	
-	local file
-	local key
-	local value
+	local file=""
+	local key=""
+	local value=""
 
 	file="$1"
 	key="$2"
@@ -33,7 +33,8 @@ _json_update () {
 	then
 		jq "$key = $value" "$file" | sponge "$file"
 	else
-		printf "JQ and SPONGE must be installed.\n" >&2
+		printf "JQ and SPONGE utilities must be installed.\n" >&2
+		exit 1
 	fi
 }
 
@@ -43,8 +44,8 @@ _json_update () {
 
 _rescale_unity () {
 
-	local text
-	local unity
+	local text=""
+	local unity=""
 	
 	text="/org/gnome/desktop/interface/text-scaling-factor"
 	unity="/com/canonical/unity/interface/text-scale-factor"
@@ -70,9 +71,9 @@ _rescale_unity () {
 
 _rescale_vscode () {
 
-	local settings
-	local zoom
-	local size
+	local settings=""
+	local zoom=""
+	local size=""
 
 	settings="$HOME/.config/Code/User/settings.json"
 	zoom='.["window.zoomLevel"]'
@@ -90,7 +91,6 @@ _rescale_vscode () {
 	else
 		_json_update "$settings" "$zoom" "-1"
 		_json_update "$settings" "$size" "14.5"
-
 	fi
 }
 
@@ -100,15 +100,14 @@ _rescale_vscode () {
 
 _rescale_emacs () {
 
-	local font_dc
-	local font
+	local font_dconf=""
+	local font=""
 
-	if pgrep emacs >/dev/null 2>&1
+	if test "$(pgrep emacs)"
 	then
-		# font="SF Mono"
-		font_dc=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
-		font=$(echo "${font_dc//\'/}" | rev | cut -d" " -f2- | rev)
-		emacsclient -e "(hrm/dpi/scale-font \"$font\")" >/dev/null
+		font_dconf=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
+		font=$(echo "${font_dconf//\'/}" | rev | cut -d" " -f2- | rev)
+		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"normal\")" >/dev/null
 	fi
 }
 

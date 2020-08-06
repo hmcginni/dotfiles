@@ -8,10 +8,9 @@
 # ──────────────────────────────────────────────────────────
 # Default Values
 
-
-default_todos_file="$HOME"/org/todos.org
+default_capture_file="$HOME"/org/todos.org
 default_todo_tags="home"
-todos_file="$default_todos_file"
+capture_file="$default_capture_file"
 
 
 # ──────────────────────────────────────────────────────────
@@ -19,15 +18,12 @@ todos_file="$default_todos_file"
 
 while getopts ":o:t:" opt; do
     case ${opt} in
-	o )
-	    todos_file=$OPTARG
-	    ;;
-	t )
-	    tag_list+=($OPTARG)
-	    ;;
-	* )
-	    err	"Unrecognized option"
-	    ;;
+		o) capture_file=$OPTARG
+	       ;;
+		t) tag_list+=($OPTARG)
+	       ;;
+		*) printf "Unrecognized option\n" >&2
+	       ;;
     esac
 done
 shift $(( OPTIND - 1 ))
@@ -36,39 +32,39 @@ shift $(( OPTIND - 1 ))
 # ──────────────────────────────────────────────────────────
 # Functions 
 
-_setup_todo_file () {
+_set_up_file () {
 	# Create file if it doesn't exist
 
     local msg=""
     
-    if [[ ! -e $todos_file ]]
+    if [[ ! -e $capture_file ]]
 	then
-		msg=$(printf "Todos file \"%s\" not found. " "$todos_file")
-		msg+=$(printf "Using \"%s\".\n" "$default_todos_file")
+		msg=$(printf "Todos file \"%s\" not found. " "$capture_file")
+		msg+=$(printf "Using \"%s\".\n" "$default_capture_file")
 		notify-send "todo" "$msg"
-		todos_file="$default_todos_file"
+		capture_file="$default_capture_file"
 
-		if [[ ! -e $todos_file ]]
+		if [[ ! -e $capture_file ]]
 		then
-			msg=$(printf "Creating file \"%s\"" "$todos_file")
+			msg=$(printf "Creating file \"%s\"" "$capture_file")
 			notify-send "todo" "$msg"
-			mkdir -p "${todos_file%/*}"
-			echo "* Unfiled" >> "$todos_file"
+			mkdir -p "${capture_file%/*}"
+			echo "* Unfiled" >> "$capture_file"
 		fi
     fi
     
 }
 
-_get_todo () {
-	# Get todo item text
+_get_msg () {
+	# Get message text
 
-    z_title="Todo Item"
-    z_text="Enter todo item text:"
-    todo_text=$(zenity --entry --title="$z_title" --text="$z_text" 2>/dev/null)
+    title="Todo Item"
+    prompt="Enter todo item text:"
+    todo_text=$(zenity --entry --title="$title" --text="$prompt" 2>/dev/null)
 
     if [[ -z $todo_text ]]
 	then
-		notify-send "Todo" "Aborted todo capture"
+		notify-send "todo" "Aborted todo capture"
 		exit 1
     fi
 
@@ -79,7 +75,7 @@ _get_tags () {
 
     local tags=""
 
-    if [[ -n ${tag_list[@]} ]]
+    if [[ -n ${tag_list[*]} ]]
 	then
 		default_tag_text=${tag_list[*]}
     else
@@ -100,12 +96,12 @@ _get_tags () {
     
 }
 
-_setup_tag_list () {
+_format_tag_list () {
 	# Format tags
 
     local old_IFS=""
     
-    if [[ -n ${tag_list[@]} ]]
+    if [[ -n ${tag_list[*]} ]]
 	then
 		old_IFS=$IFS
 		IFS=":"
@@ -115,13 +111,13 @@ _setup_tag_list () {
     
 }
 
-_format_todo () {
+_format_msg () {
 	# Format todo item
 
-    todo_date_long=$(date "+[%Y-%m-%d %a %H:%M]")
-	todo_date_short=$(date "+%Y|%m|%d")
-    todo_headline=$(printf "* TODO [#A] %s %s %s" "$todo_date_short" "$todo_text" "$todo_tags")
-    todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$todo_date_long")
+    timestamp_long=$(date "+[%Y-%m-%d %a %H:%M]")
+	timestamp_short=$(date "+%Y|%m|%d")
+    todo_headline=$(printf "* TODO [#A] %s %s %s" "$timestamp_short" "$todo_text" "$todo_tags")
+    todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$timestamp_long")
     todo_item=$(printf "%s\n%s" "$todo_headline" "$todo_props")
     
 }
@@ -132,14 +128,14 @@ _format_todo () {
 
 _main () {
     
-    _setup_todo_file
-    _get_todo
+    _set_up_file
+    _get_msg
     _get_tags
-    _setup_tag_list
-    _format_todo
+    _format_tag_list
+    _format_msg
 
-    echo "$todo_item" >> "$todos_file"
-    notify-send "Saved item to $todos_file" "$todo_text"
+    echo "$todo_item" >> "$capture_file"
+    notify-send "Saved item to $capture_file" "$todo_text"
 
 }
 

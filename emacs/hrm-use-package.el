@@ -114,7 +114,7 @@
   :config (sphinx-doc-mode t))
 
 ;; ─────────────────────────────────────────────────────────
-;;; Narrowing Lists
+;;; Narrowing Lists (Helm)
 
 ;; Helm
 (use-package helm
@@ -171,10 +171,10 @@
 
 
 ;; Icons for Company completion
-;; (use-package company-box
-;;   :ensure t
-;;   :delight
-;;   :hook (company-mode . company-box-mode))
+(use-package company-box
+  :ensure t
+  :delight
+  :hook (company-mode . company-box-mode))
 
 
 ;; Company shell mode
@@ -277,14 +277,6 @@
   (dap-ui-mode t)
   (dap-tooltip-mode t)
   (tooltip-mode t))
-
-
-;; ─────────────────────────────────────────────────────────
-;;; Snippets
-
-;; YASnippet mode
-(use-package yasnippet
-  :ensure t)
 
 
 ;; ─────────────────────────────────────────────────────────

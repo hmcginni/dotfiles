@@ -1,19 +1,36 @@
 #!/bin/bash
 
-title="Fuzzy File Finder"
 
-_get_selection() {
-	trash="${HOME}/.local/share/Trash"
-	find ~ /etc /usr -path "$trash" -prune -o -type f ! -name "*~" 2>/dev/null | \
-		fzf --exact --height=25 --reverse --history="$HOME"/.fzf_file_history
+_list_files () {
+
+	# find ~ /etc /usr -path "$trash" -prune -o -type f ! -name "*~" 2>/dev/null | \
+	fd ".*" "$HOME" /etc /usr --exclude "Trash" --type f --hidden --absolute-path --follow \
+		| fzf --exact --height=25 --reverse --history="$HOME"/.fzf_file_history
+
 }
 
-_main() {
-	if selection="$(_get_selection)"
+
+_open_selection () {
+
+	local title=""
+	local filepath=""
+	local filename=""
+
+	title="Fuzzy File Finder"
+	if filepath="$(_list_files)"
 	then
-		nohup mimeopen --no-ask "$selection" &>/dev/null & 
-		notify-send "$title" "Opening $selection"
+		filename="$(basename "$filepath")"
+		nohup mimeopen --no-ask "$filepath" >/dev/null 2>&1 &
+		notify-send "$title" "Opening $filename"
 	fi
+
+}
+
+
+_main () {
+
+	_open_selection
+
 }
 
 _main

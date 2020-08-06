@@ -102,7 +102,7 @@
  '(mlint-programs (quote ("/opt/matlab/2019b/bin/glnxa64/mlint")))
  '(mode-line-format
    (quote
-	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "    " mode-line-position "\t\t\t" mode-line-modes mode-line-misc-info
+	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "    " mode-line-position "			" mode-line-modes mode-line-misc-info
 	 (vc-mode vc-mode)
 	 mode-line-end-spaces)))
  '(neo-auto-indent-point t)
@@ -131,11 +131,18 @@
 	 ("\\.x?html?\\'" . default)
 	 ("\\.pdf\\'" . "evince %s"))))
  '(org-html-htmlize-output-type (quote css))
+ '(org-html-indent t)
+ '(org-html-postamble t)
+ '(org-html-postamble-format
+   (quote
+	(("en" "<div class=\"org-postamble\"><p>Author: %a</p>
+<p>Last Updated: %T</p>
+<p>Created with <a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> using <a href=\"https://orgmode.org/\">Org mode</a></p></div>"))))
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(all-the-icons company-box yasnippet dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(all-the-icons company-box dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
@@ -171,8 +178,9 @@
 ;; Startup functions
 (server-start nil t)
 (global-auto-revert-mode t)
+(helm-mode t)
+(desktop-save-mode 1)
 (hrm/set-theme nil)
-(helm-mode)
 
 ;; Set variables
 (setq-default c-default-style "stroustrup"
@@ -181,7 +189,6 @@
 			  prettify-symbols-alist '(("lambda" . 955)
 									   ("->" . 129034)
 									   ("=>" . 8658)))
-
 (setq gc-cons-threshold 10000000)
 
 
@@ -191,11 +198,11 @@
 
 ;; Font
 (if (display-graphic-p)
-    (hrm/dpi/scale-font "SF Mono"))
+    (hrm/dpi/scale-font "SF Mono" "normal"))
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Keyboard shortcuts:
+;;; Keyboard shortcuts
 
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C-=") 'text-scale-increase)
