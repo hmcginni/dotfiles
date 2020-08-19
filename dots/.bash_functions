@@ -244,6 +244,14 @@ _quiet() {
 }
 
 
+_rmtemp () {
+
+	cleantemp
+	find "$HOME" -xtype l -print -delete 2>/dev/null
+
+}
+
+
 _run_simulink_test() {
 
 	local id=""

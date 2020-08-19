@@ -56,8 +56,6 @@ export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 export XDG_CONFIG_HOME="$HOME/.config"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-# export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-# export LESS=" -RNFX "
 
 
 # ──────────────────────────────────────────────────────────
@@ -73,6 +71,7 @@ alias ediff='_ediff'
 alias new='_new_timestamped_directory'
 alias q='_quiet'
 alias qfind='_qfind'
+alias rmtemp='_rmtemp'
 alias vpn='_vpn'
 
 # tmux

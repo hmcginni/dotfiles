@@ -4,7 +4,23 @@
 #
 
 source ~/lib/bash/utils
-bluetooth on >/dev/null 2>&1
+
+
+# ──────────────────────────────────────────────────────────
+# Exit if already connected to headphones
+
+sinks="$(pactl list sinks short)"
+
+if grep -q "bluez" <<< "$sinks"
+then
+	notify-send "ttaudio" "Already connected to Bluetooth device"
+	exit 0
+fi
+
+
+# ──────────────────────────────────────────────────────────
+# Send command and wait for successful connection
+#
 
 timeout=15
 ttMAC="FC:58:FA:C5:B1:0D"
@@ -13,12 +29,7 @@ disconnect="disconnect $ttMAC\nuntrust $ttMAC\n"
 connect="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
 btCmd="${agent}${disconnect}${connect}"
 
-
-# ──────────────────────────────────────────────────────────
-# Send command and wait for successful connection
-#
-
-sinks="$(pactl list sinks short)"
+bluetooth on >/dev/null 2>&1
 
 if ! grep -q "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks"
 then
@@ -31,12 +42,12 @@ then
 		if (( SECONDS >= timeout ))
 		then
 			errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
-			utils.nerrorf "Error connecting to headphones" "$errStr"
+			utils.errorf "Error connecting to headphones" "$errStr"
 		fi
 	done
-	utils.notify "Connected to Bluetooth Device" "Connected to headphones"
+	notify-send "ttaudio" "Connected to headphones"
 else
-	utils.notify "Connected to Bluetooth Device" "Already connected to headphones"
+	notify-send "ttaudio" "Already connected to headphones"
 fi
 
 
