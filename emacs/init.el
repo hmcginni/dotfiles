@@ -36,7 +36,7 @@
  '(flycheck-disabled-checkers (quote (python-flake8 python-pycompile python-pylint)))
  '(flycheck-flake8rc "~/.config/flake8/.flake8")
  '(flycheck-mode-hook (quote (flycheck-mode-set-explicitly)))
- '(flycheck-mode-line-prefix "Err/Warn")
+ '(flycheck-mode-line-prefix "Code issues")
  '(flycheck-pycheckers-checkers (quote (pyflakes mypy2 mypy3)))
  '(flycheck-pycheckers-max-line-length 80)
  '(flycheck-python-flake8-executable "flake8")
@@ -60,10 +60,9 @@
  '(initial-org-scratch-message
    "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
 #+HTML_HEAD: <link rel=\"stylesheet\" href=\"/home/hrm/org/org.css\" />
-#+AUTHOR: Hassan McGinnis
-#+EMAIL: hassan.r.mcginnis@medtronic.com
+#+TITLE:
 
-* 20200626: ")
+")
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 0.12)
  '(linum-format " %3d ")
@@ -180,7 +179,6 @@
 (global-auto-revert-mode t)
 (helm-mode t)
 (desktop-save-mode 1)
-(hrm/set-theme nil)
 
 ;; Set variables
 (setq-default c-default-style "stroustrup"
@@ -198,7 +196,9 @@
 
 ;; Font
 (if (display-graphic-p)
-    (hrm/dpi/scale-font "SF Mono" "normal"))
+	(progn
+	  (hrm/set-theme nil)
+	  (hrm/dpi/scale-font "SF Mono" "medium")))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -217,7 +217,7 @@
 (global-set-key (kbd "<C-prior>") 'backward-page) ; ----- Ctrl+Alt+PageUp
 (global-set-key (kbd "<C-next>") 'forward-page) ; ----- Ctrl+Alt+PageDown
 (global-set-key (kbd "C-M-#") 'count-matches)
-
+(global-set-key (kbd "C-<f1>") 'xref-find-definitions)
 (global-set-key (kbd "M-#") 'hrm/count-thing-at-point)
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
@@ -274,7 +274,7 @@
  '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
  '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
- '(lsp-ui-sideline-global ((t (:family "Tex Gyre Heros"))))
+ '(lsp-ui-sideline-global ((t (:height 0.9 :family "Tex Gyre Heros"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
  '(neo-banner-face ((t (:weight bold :height 0.8 :family "Tex Gyre Heros"))))
  '(neo-button-face ((t (:underline nil :height 0.8 :family "Tex Gyre Heros"))))

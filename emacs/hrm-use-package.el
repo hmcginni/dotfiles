@@ -120,13 +120,13 @@
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-		 ("C-x C-r" . helm-for-files)
-		 ("C-?" . helm-apropos)
-		 ("C-<f1>" . xref-find-definitions))
+		 ("C-x C-r" . helm-for-files))
   :init (require 'helm-config)
   :config
-  (setq helm-lisp-fuzzy-completion t
-		helm-ff-skip-boring-files t))
+  (setq helm-candidate-number-limit 100
+		helm-ff-skip-boring-files t
+		helm-lisp-fuzzy-completion t
+		helm-locate-command "locate -b %s -e -A --regex %s"))
 
 
 ;; Helm interface for GNU Global Tags
@@ -170,6 +170,21 @@
 		company-tooltip-limit 10))
 
 
+;; LSP backend for Company completion
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp
+  :bind
+  (:map lsp-mode-map
+		("C-<tab>" . company-lsp))
+  :config
+  (push 'company-lsp company-backends)
+  (setq company-lsp-async t
+		company-transformers nil
+		company-lsp-cache-candidates t
+        company-lsp-enable-recompletion t))
+
+
 ;; Icons for Company completion
 (use-package company-box
   :ensure t
@@ -199,7 +214,6 @@
   (((c++-mode python-mode) . lsp)
    (lsp . (lsp-ui-mode lsp-enable-imenu)))
   :config
-  (require 'lsp-clients)
   (setq lsp-restart 'auto-restart
 		lsp-enable-imenu t
 		lsp-enable-semantic-highlighting t
@@ -242,21 +256,6 @@
         lsp-ui-doc-enable t
         lsp-ui-doc-delay 1
 		lsp-ui-doc-border "gray20"))
-
-
-;; LSP backend for Company completion
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp
-  :bind
-  (:map lsp-mode-map
-		("C-<tab>" . company-lsp))
-  :config
-  (push 'company-lsp company-backends)
-  (setq company-lsp-async t
-		company-transformers nil
-		company-lsp-cache-candidates t
-        company-lsp-enable-recompletion t))
 
 
 ;; Debugging
@@ -342,16 +341,6 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Navigation
-
-(use-package dumb-jump
-  :ensure t
-  :bind ("C-." . dumb-jump-go)
-  :config
-  (setq dumb-jump-selector 'helm))
-
-
-;; ─────────────────────────────────────────────────────────
 ;;; Display tweaks
 
 ;; Diminish mode
@@ -385,7 +374,7 @@
   :bind ("<f10>" . neotree-toggle)
   :hook (neo-after-create . (lambda (&rest _) (display-line-numbers-mode -1)))
   :config
-  (setq neo-window-width 30))
+  (setq neo-window-width 20))
 
 
 ;; Icons

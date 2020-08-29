@@ -4,8 +4,10 @@
 #
 
 
-_activate_venv() {
-	# Activate Python virtual environment
+# ──────────────────────────────────────────────────────────
+# Activate Python virtual environment
+
+_activate_venv () {
 
 	local venv
 	
@@ -14,22 +16,28 @@ _activate_venv() {
 }
 
 
-_copy() {
-	# Add line to clipboard
+# ──────────────────────────────────────────────────────────
+# Add line to clipboard
 
+_copy () {
     tr -d '\n' <<< "$1" | xclip -selection clipboard
 }
 
 
-_create_venv() {
+# ──────────────────────────────────────────────────────────
+# Create a Python virtual environment
+
+_create_venv () {
 	
 	python3 -m venv "$1" --system-site-packages
 	
 }
 
 
-_ediff() {
-	# Launch Emacs with ediff-files
+# ──────────────────────────────────────────────────────────
+# Launch Emacs with ediff-files
+
+_ediff () {
 
     file1=$1
     file2=$2
@@ -38,8 +46,10 @@ _ediff() {
 }
 
 
-_emacsclient() {
-	# Open file with emacsclient
+# ──────────────────────────────────────────────────────────
+# Open file with emacsclient
+
+_emacsclient () {
 
 	if ! file=$(which "$1")
 	then
@@ -50,8 +60,10 @@ _emacsclient() {
 }
 
 
-_git_push_wrapper() {
-	# Simplify git pushes
+# ──────────────────────────────────────────────────────────
+# Simplify git pushes
+
+_git_push_wrapper () {
 
     if [[ $PWD =~ hrmutils || $PWD =~ hrmcginnis ]]
     then
@@ -72,7 +84,10 @@ _git_push_wrapper() {
 }
 
 
-_git_update_eintestframework() {
+# ──────────────────────────────────────────────────────────
+# MDT - Update EinTestFramework submodule
+
+_git_update_eintestframework () {
 
 	local eintests=""
 	local framework=""
@@ -104,7 +119,10 @@ _git_update_eintestframework() {
 }
 
 
-_goto_test_folder() {
+# ──────────────────────────────────────────────────────────
+# MDT - Go to the specified EinTests folder
+
+_goto_test_folder () {
 
 	local id
 	local test_root
@@ -126,14 +144,11 @@ _goto_test_folder() {
 }
 
 
-_matlab_wrapper() {
-	# Launch MATLAB with custom options
+# ──────────────────────────────────────────────────────────
+# Launch MATLAB with custom options
+
+_matlab_wrapper () {
 	
-	export MATLAB_JAVA="/usr/lib/jvm/java-8-openjdk-amd64/jre"
-
-	# ──────────────────────────────────────────────────────────
-	# Initialize variables
-
 	mode=$1
 	release=$2
 	
@@ -143,9 +158,7 @@ _matlab_wrapper() {
 	fi
 
 	ml_install=$(printf "/opt/matlab/20%s/bin/matlab" "$release")
-	
-	# ──────────────────────────────────────────────────────────
-	# Launch MATLAB
+	export MATLAB_JAVA="/usr/lib/jvm/java-8-openjdk-amd64/jre"
 
 	if [[ $mode == "gui" || -z $mode ]]
     then
@@ -174,8 +187,10 @@ _matlab_wrapper() {
 }
 
 
-_new_timestamped_directory() {
-	# Create a new timestamped directory
+# ──────────────────────────────────────────────────────────
+# Create a new timestamped directory
+
+_new_timestamped_directory () {
 
 	local today
 	local name
@@ -190,26 +205,24 @@ _new_timestamped_directory() {
 }
 
 
-_parse_git_branch() {
-    # Add current Git branch to bash prompt
+# ──────────────────────────────────────────────────────────
+# Add current Git branch to bash prompt
 
-	local branch
-	local repo
+_parse_git_branch () {
 	
 	terminal_width=$(tput cols)
 	ellipsis=" [...]"
 	max_line_length=$(( terminal_width - ${#ellipsis} ))
-	
 	branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-	if [[ $branch == "HEAD" ]]
-	then
-		branch+=" ($(git rev-parse --short HEAD))"
-	fi
 
     if [[ -n $branch ]]
     then
-		stash=""
-
+		if [[ $branch == "HEAD" ]]
+		then
+			git_sha=$(git rev-parse --short HEAD)
+			branch+=" ($git_sha)"
+		fi
+		
 		if [[ -n "$(git stash list)" ]]
 		then
 			stash="*"
@@ -230,19 +243,23 @@ _parse_git_branch() {
 }
 
 
-_quiet() {
-    # Run command quietly in the background
+# ──────────────────────────────────────────────────────────
+# Run command quietly in the background
+
+_quiet () {
 
 	if which chronic >/dev/null 2>&1
 	then
 		chronic "$@" & disown
-		# ("$*") &>/dev/null & disown
 	else
 		printf "\"chronic\" utility not installed (moreutils)." >&2
 	fi
 	
 }
 
+
+# ──────────────────────────────────────────────────────────
+# Remove temporary/junk files
 
 _rmtemp () {
 
@@ -252,7 +269,10 @@ _rmtemp () {
 }
 
 
-_run_simulink_test() {
+# ──────────────────────────────────────────────────────────
+# MDT - Run the specified Simulink test
+
+_run_simulink_test () {
 
 	local id=""
 	local sltools=""
@@ -276,8 +296,10 @@ _run_simulink_test() {
 }
 
 
-_tmux_go() {
-    # Simplify tmux actions
+# ──────────────────────────────────────────────────────────
+# Simplify tmux actions
+
+_tmux_go () {
 
     if [[ $# == 0 ]]
     then
@@ -298,8 +320,10 @@ _tmux_go() {
 }
 
 
-_tmux_run() {
-	# Run command on all TMUX panes
+# ──────────────────────────────────────────────────────────
+# Run command on all TMUX panes
+
+_tmux_run () {
 	
 	if [[ -n "$TMUX" ]]
 	then
@@ -311,8 +335,10 @@ _tmux_run() {
 }
 
 
-_vpn() {
-	# Wrapper function to control the MDTVPN systemd service
+# ──────────────────────────────────────────────────────────
+# MDT - Wrapper function to control the MDTVPN systemd service
+
+_vpn () {
 
     option="$1"
     if [[ -z $option ]]
@@ -321,4 +347,15 @@ _vpn() {
     fi
     
     sudo systemctl "$option" mdtvpn.service
+}
+
+
+# ──────────────────────────────────────────────────────────
+# Print current weather conditions
+
+_weather () {
+
+	fmt="\n%C+|+%t+(feels+like+%f)+|+Humidity:+%h+|+Wind:+%w\n"
+	curl wttr.in/Natick?format=$fmt
+
 }

@@ -40,12 +40,18 @@ case "$TERM" in
 		;;
 esac
 
+export PS1
+
+
+# ──────────────────────────────────────────────────────────
+# gpg-agent
+
+export GPG_TTY=$(tty)
+
 
 # ──────────────────────────────────────────────────────────
 # Variables
 
-export PS1
-export GPG_TTY=$(tty)
 export hrmpc="BC:5F:F4:5A:77:41"
 export hrmlaptop="F8:75:A4:45:4B:3A"
 export sofl1="28:f1:0e:52:44:88"
@@ -64,15 +70,16 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 # general
 alias bc='bc -l'
 alias rg='rg -L'
+alias files='_quiet nautilus .'
 alias open='xdg-open'
 alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo snap refresh;'
 alias copy='_copy'
 alias ediff='_ediff'
 alias new='_new_timestamped_directory'
 alias q='_quiet'
-alias qfind='_qfind'
 alias rmtemp='_rmtemp'
 alias vpn='_vpn'
+alias weather='_weather'
 
 # tmux
 alias t='_tmux_go'
@@ -86,9 +93,11 @@ alias gg='_git_push_wrapper now'
 alias gitupdate='git pull --recurse-submodules; git submodule sync; git submodule update --init --recursive'
 alias gitclean='git checkout -- .; git clean -fd'
 alias gitfwupdate='_git_update_eintestframework'
+alias gco="git for-each-ref --format='%(refname:short)' refs/heads | fzf --exact | xargs git checkout"
 
 # emacs
 alias e='_emacsclient'
+alias edit='_emacsclient'
 
 # MATLAB
 alias ml='_matlab_wrapper gui'
@@ -98,5 +107,3 @@ alias mlc='_matlab_wrapper cmd'
 alias activate='_activate_venv'
 alias venv='_create_venv'
 
-# MDT
-alias run='_run_simulink_test'

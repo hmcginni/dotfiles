@@ -107,7 +107,7 @@ _rescale_emacs () {
 	then
 		font_dconf=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
 		font=$(echo "${font_dconf//\'/}" | rev | cut -d" " -f2- | rev)
-		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"normal\")" >/dev/null
+		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"medium\")" >/dev/null
 	fi
 }
 

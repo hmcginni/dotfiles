@@ -1,20 +1,17 @@
 #!/bin/bash
 
 
-title="Fuzzy Finder"
-
-
 _init() {
 	
 	. ~/.fzf.bash
 	fzf_action=$1
-	fzf_action=${fzf_action:="fzf_file_list"}
 	
 }
 
 
 _main() {
 	
+	title="Fuzzy Finder"
 	cmd="sh -c $fzf_action"
 	size=(60 25)
 	off=(100 100)
