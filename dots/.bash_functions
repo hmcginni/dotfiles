@@ -286,7 +286,10 @@ _run_simulink_test () {
 		id="ESWT-$id_number"
 		sltools="$SW_TEST_DIR"/eintestframework/Tools/Bamboo/Simulink
 		log="${id}-batch-execution-stdout-log.txt"
+
+		pushd ~/Documents/medtronic/test_runs/
 		python3.7 "$sltools"/run_simulink_tests.py -vv -f <(echo -e "$id") | tee "$log"
+		popd
 
 	else
 		printf "\nInvalid ID.\n" >&2

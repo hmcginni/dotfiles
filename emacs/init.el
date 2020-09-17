@@ -19,8 +19,6 @@
  '(Buffer-menu-use-header-line t)
  '(adaptive-wrap-extra-indent 3)
  '(column-number-mode t)
- '(company-box-icons-alist (quote company-box-icons-all-the-icons))
- '(company-tooltip-idle-delay 0.75)
  '(cursor-type (quote (bar . 1)))
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
@@ -81,17 +79,14 @@
  '(lsp-pyls-plugins-pyflakes-enabled nil)
  '(lsp-pyls-plugins-pylint-args [--disable=W0312 (\, C0301)])
  '(lsp-pyls-plugins-pylint-enabled nil)
- '(lsp-pyls-plugins-yapf-enabled nil)
+ '(lsp-pyls-plugins-yapf-enabled t)
  '(lsp-response-timeout 5)
- '(lsp-treemacs-theme "all-the-icons")
  '(lsp-ui-doc-delay 1)
  '(lsp-ui-doc-header t)
  '(lsp-ui-doc-include-signature t)
  '(lsp-ui-doc-max-height 20)
  '(lsp-ui-doc-max-width 80)
  '(lsp-ui-doc-position (quote top))
- '(lsp-ui-imenu-kind-position (quote left))
- '(lsp-ui-sideline-enable nil)
  '(matlab-block-indent-tic-toc-flag t)
  '(matlab-fill-code t)
  '(matlab-highlight-cross-function-variables nil)
@@ -141,7 +136,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(all-the-icons company-box dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update company-shell helm-xref dap-mode helm-gtags git-gutter org-present epresent flycheck helm dap-python company-lsp lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column magit delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(company git-gutter all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
@@ -175,10 +170,8 @@
 (load "~/.emacs.d/hrm-lisp-functions.el")
 
 ;; Startup functions
-(server-start nil t)
 (global-auto-revert-mode t)
 (helm-mode t)
-(desktop-save-mode 1)
 
 ;; Set variables
 (setq-default c-default-style "stroustrup"
@@ -194,10 +187,12 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
-;; Font
+;; Appearance (font and color theme)
+(hrm/set-theme nil)
 (if (display-graphic-p)
 	(progn
-	  (hrm/set-theme nil)
+	  (server-start nil t)
+	  (desktop-save-mode 1)
 	  (hrm/dpi/scale-font "SF Mono" "medium")))
 
 
@@ -274,7 +269,6 @@
  '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
  '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
- '(lsp-ui-sideline-global ((t (:height 0.9 :family "Tex Gyre Heros"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
  '(neo-banner-face ((t (:weight bold :height 0.8 :family "Tex Gyre Heros"))))
  '(neo-button-face ((t (:underline nil :height 0.8 :family "Tex Gyre Heros"))))

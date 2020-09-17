@@ -157,46 +157,12 @@
   :ensure t
   :bind
   (:map company-mode-map
-		("C-<tab>" . company-complete))
-  :hook
-  ((c++-mode . company-mode)
-   (python-mode . company-mode)
-   (sh-mode . company-mode)
-   (css-mode . company-mode)
-   (emacs-lisp-mode . company-mode)
-   (matlab-mode . company-mode))
+		("C-<tab>" . company-capf))
+  :hook (after-init . global-company-mode)
   :config
+  (require 'company-capf)
   (setq company-idle-delay 1
-		company-tooltip-limit 10))
-
-
-;; LSP backend for Company completion
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp
-  :bind
-  (:map lsp-mode-map
-		("C-<tab>" . company-lsp))
-  :config
-  (push 'company-lsp company-backends)
-  (setq company-lsp-async t
-		company-transformers nil
-		company-lsp-cache-candidates t
-        company-lsp-enable-recompletion t))
-
-
-;; Icons for Company completion
-(use-package company-box
-  :ensure t
-  :delight
-  :hook (company-mode . company-box-mode))
-
-
-;; Company shell mode
-(use-package company-shell
-  :ensure t
-  :config
-  (add-to-list 'company-backends '(company-shell company-shell-env)))
+		company-tooltip-limit 15))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -212,19 +178,17 @@
 		("<f9>" . lsp-ui-imenu))
   :hook
   (((c++-mode python-mode) . lsp)
-   (lsp . (lsp-ui-mode lsp-enable-imenu)))
+   (lsp . lsp-ui-mode))
   :config
   (setq lsp-restart 'auto-restart
-		lsp-enable-imenu t
 		lsp-enable-semantic-highlighting t
 		lsp-enable-snippet nil
         lsp-enable-xref t
-		lsp-response-timeout 15
+		lsp-response-timeout 5
 		lsp-pyls-plugins-pydocstyle-enabled t
 		lsp-pyls-plugins-pyflakes-enabled t
 		lsp-pyls-plugins-pylint-enabled nil
 		lsp-signature-render-all t
-		lsp-imenu-show-container-name t
         lsp-prefer-flymake nil
         lsp-auto-guess-root t))
 
@@ -238,44 +202,21 @@
   		("M-?" . lsp-ui-peek-find-references)
 		("M-." . lsp-ui-peek-find-definitions)
 		("<escape>" . lsp-ui-doc-hide))
-  (:map lsp-ui-imenu-mode-map
-		("<f9>" . lsp-ui-imenu--kill))
-  :hook
-  (lsp-ui-doc-frame . (lambda (frame _w)
-						(set-face-attribute 'default frame
-											:height 80
-											:family "IBM Plex Sans")))
+  ;; :hook
+  ;; (lsp-ui-doc-frame . (lambda (frame _w)
+  ;; 						(set-face-attribute 'default frame
+  ;; 											:height 80
+  ;; 											:family "IBM Plex Sans")))
   :config
   (setq lsp-ui-flycheck-enable t
         lsp-ui-sideline-enable t
 		lsp-ui-sideline-ignore-duplicate t
 		lsp-ui-sideline-show-code-actions t
-		lsp-ui-sideline-show-hover t
 		lsp-ui-sideline-show-symbol t
 		lsp-ui-sideline-update-mode 'point
         lsp-ui-doc-enable t
         lsp-ui-doc-delay 1
 		lsp-ui-doc-border "gray20"))
-
-
-;; Debugging
-(use-package dap-mode
-  :ensure t
-  :after lsp-mode
-  :delight
-  :bind (:map dap-mode-map
-			  ("C-c C-b" . dap-breakpoint-toggle)
-			  ("S-<f5>" . dap-debug)
-			  ("<f5>" . dap-continue)
-			  ("<f10>" . dap-next)
-			  ("<f11>" . dap-step-in)
-			  ("S-<f11>" . dap-step-out))
-  :config
-  (require 'dap-python)
-  (dap-mode t)
-  (dap-ui-mode t)
-  (dap-tooltip-mode t)
-  (tooltip-mode t))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -358,8 +299,8 @@
   :ensure t
   :config
   (smooth-scrolling-mode 1)
-  (setq smooth-scroll-margin 15)
-  (setq scroll-preserve-screen-position 1))
+  (setq smooth-scroll-margin 15
+		scroll-preserve-screen-position 1))
 
 
 ;; Transpose frame
@@ -398,28 +339,12 @@
 ;; ─────────────────────────────────────────────────────────
 ;;; Git modes
 
-;; Magit
-(use-package magit
-  :ensure t
-  :diminish
-  :bind (("C-<f2>" . magit)
-         ("C-S-b" . magit-blame)))
-
-
 ;; Git gutter mode
 (use-package git-gutter
   :ensure t
   :bind ("C-<f5>" . git-gutter-mode)
   :config
   (git-gutter:linum-setup))
-
-
-;; ─────────────────────────────────────────────────────────
-;;; Project management modes
-
-;; Projectile
-;; (use-package projectile
-;;   :ensure t)
 
 
 ;;; End:
