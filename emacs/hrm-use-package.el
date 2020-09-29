@@ -39,7 +39,7 @@
    hs-minor-mode)
   :hook
   ((prog-mode . hs-minor-mode)
-   (emacs-lisp-mode . prettify-symbols-mode)
+   ((emacs-lisp-mode org-mode) . prettify-symbols-mode)
    (prog-mode . (lambda () (setq tab-width 4)))
    (c++-mode . (lambda () (setq tab-width 4)))
    (python-mode . (lambda () (setq python-indent-offset 4
@@ -164,6 +164,13 @@
   (setq company-idle-delay 1
 		company-tooltip-limit 15))
 
+;; Company-mode icons
+(use-package company-box
+  :diminish
+  :ensure t
+  :hook (company-mode . company-box-mode))
+  
+
 
 ;; ─────────────────────────────────────────────────────────
 ;; Language Servers
@@ -202,11 +209,11 @@
   		("M-?" . lsp-ui-peek-find-references)
 		("M-." . lsp-ui-peek-find-definitions)
 		("<escape>" . lsp-ui-doc-hide))
-  ;; :hook
-  ;; (lsp-ui-doc-frame . (lambda (frame _w)
-  ;; 						(set-face-attribute 'default frame
-  ;; 											:height 80
-  ;; 											:family "IBM Plex Sans")))
+  :hook
+  (lsp-ui-doc-frame . (lambda (frame _w)
+  						(set-face-attribute 'default frame
+  											:height 80
+  											:family "IBM Plex Sans")))
   :config
   (setq lsp-ui-flycheck-enable t
         lsp-ui-sideline-enable t
@@ -275,6 +282,12 @@
            ("~/status/done.txt")))))
 
 
+;; Org Jira export mode
+
+(use-package ox-jira
+  :ensure t)
+
+
 ;; Org presentation mode
 (use-package epresent
   :ensure t
@@ -334,17 +347,6 @@
 (use-package adaptive-wrap
   :ensure t
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
-
-
-;; ─────────────────────────────────────────────────────────
-;;; Git modes
-
-;; Git gutter mode
-(use-package git-gutter
-  :ensure t
-  :bind ("C-<f5>" . git-gutter-mode)
-  :config
-  (git-gutter:linum-setup))
 
 
 ;;; End:

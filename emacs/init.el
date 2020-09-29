@@ -67,6 +67,7 @@
  '(lsp-document-highlight-delay 1)
  '(lsp-headerline-breadcrumb-enable nil)
  '(lsp-headerline-breadcrumb-face (quote mode-line))
+ '(lsp-pyls-configuration-sources ["flake8"])
  '(lsp-pyls-plugins-flake8-config "/home/hrm/.config/flake8/.flake8")
  '(lsp-pyls-plugins-flake8-enabled nil)
  '(lsp-pyls-plugins-pycodestyle-enabled t)
@@ -79,7 +80,9 @@
  '(lsp-pyls-plugins-pyflakes-enabled nil)
  '(lsp-pyls-plugins-pylint-args [--disable=W0312 (\, C0301)])
  '(lsp-pyls-plugins-pylint-enabled nil)
+ '(lsp-pyls-plugins-rope-completion-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled t)
+ '(lsp-pyls-rename-backend (quote rope))
  '(lsp-response-timeout 5)
  '(lsp-ui-doc-delay 1)
  '(lsp-ui-doc-header t)
@@ -136,7 +139,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(company git-gutter all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)

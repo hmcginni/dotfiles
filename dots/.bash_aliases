@@ -68,7 +68,7 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 # Aliases
 
 # general
-alias bc='bc -l'
+alias c='_bc'
 alias rg='rg -L'
 alias files='_quiet nautilus .'
 alias open='xdg-open'
@@ -78,6 +78,7 @@ alias ediff='_ediff'
 alias new='_new_timestamped_directory'
 alias q='_quiet'
 alias rmtemp='_rmtemp'
+alias refresh='source "$HOME"/.bashrc'
 alias vpn='_vpn'
 alias weather='_weather'
 

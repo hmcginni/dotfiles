@@ -17,6 +17,14 @@ _activate_venv () {
 
 
 # ──────────────────────────────────────────────────────────
+# Simplify `bc` usage
+
+_bc () {
+	bc -l <<< "$@"
+}
+
+
+# ──────────────────────────────────────────────────────────
 # Add line to clipboard
 
 _copy () {
@@ -274,26 +282,29 @@ _rmtemp () {
 
 _run_simulink_test () {
 
-	local id=""
+	local test_id=""
+	local build_id=""
 	local sltools=""
 	local log=""
 
-	id_number=$1
+	test_id_number=$1
+	build_id=$2
 
-	if [[ $id_number =~ ^[0-9]{4,5}$ ]]
+	if [[ $test_id_number =~ ^[0-9]{4,5}$ ]]
 	then
 		
-		id="ESWT-$id_number"
+		test_id="ESWT-$test_id_number"
+		test -z "$build_id" && build_id=${test_id//-/_}
 		sltools="$SW_TEST_DIR"/eintestframework/Tools/Bamboo/Simulink
-		log="${id}-batch-execution-stdout-log.txt"
+		log="${build_id}-batch-execution-stdout-log.txt"
 
-		pushd ~/Documents/medtronic/test_runs/
-		python3.7 "$sltools"/run_simulink_tests.py -vv -f <(echo -e "$id") | tee "$log"
-		popd
+		python3.7 "$sltools"/run_simulink_tests.py -vv -f <(echo -e "$test_id") -b "$build_id" | tee "$log"
 
 	else
+		
 		printf "\nInvalid ID.\n" >&2
 		return 1
+		
 	fi
 
 }
