@@ -267,17 +267,6 @@ _quiet () {
 
 
 # ──────────────────────────────────────────────────────────
-# Remove temporary/junk files
-
-_rmtemp () {
-
-	cleantemp
-	find "$HOME" -xtype l -print -delete 2>/dev/null
-
-}
-
-
-# ──────────────────────────────────────────────────────────
 # MDT - Run the specified Simulink test
 
 _run_simulink_test () {
