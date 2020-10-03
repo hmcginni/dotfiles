@@ -42,7 +42,7 @@
  '(flycheck-python-mypy-executable "mypy")
  '(flycheck-python-mypy-ini "~/.config/mypy/mypy.ini")
  '(flycheck-python-pylint-executable "pylint3")
- '(flycheck-shellcheck-follow-sources nil)
+ '(flycheck-shellcheck-follow-sources t)
  '(font-use-system-font t)
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(git-gutter:update-interval 1)
@@ -183,7 +183,9 @@
 			  prettify-symbols-alist '(("lambda" . 955)
 									   ("->" . 129034)
 									   ("=>" . 8658)))
-(setq gc-cons-threshold 10000000)
+(setq frame-resize-pixelwise t
+	  window-resize-pixelwise t
+	  gc-cons-threshold 10000000)
 
 
 ;; Hooks and Associative Lists

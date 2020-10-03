@@ -18,7 +18,7 @@ function matchList = mgrep(varargin)
     grepArgs = repmat('%s ', 1, nargin);
     systemCmdFmt = sprintf('%s %s 2>/dev/null', grepCmd, grepArgs);
     systemCmd = sprintf(systemCmdFmt, varargin{:});
-    
+
     [status, matchList] = system(systemCmd);
     
     if status

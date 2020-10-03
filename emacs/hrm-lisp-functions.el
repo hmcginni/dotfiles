@@ -249,8 +249,8 @@
           ((< dpi 145) 13)  ;; dpi=140 => 14/16
           ((< dpi 155) 14)  ;; [145, 155) must be ?14/16?
           ((< dpi 165) 15)  ;; ?15/17?
-
           (t 16))))         ;; ?16?
+
 
 (defun hrm/dpi/scale-font (face weight)
   "Set the scaled font specification string for FACE and WEIGHT."
