@@ -15,7 +15,13 @@ function check(varargin)
     end
 
 	for feature = string(varargin)
-        if license('test', feature) && isempty(license('inuse', feature))
+        if ~license('test', feature)
+            warning('Unknown product "%s".', feature);
+
+        elseif ~isempty(license('inuse', feature))
+            warning('Product "%s" is already in use.', feature);
+
+        else
             timerName = strcat('checkout_', feature);
             tObj = timer(...
                 'ExecutionMode', 'fixedSpacing', ...
@@ -26,16 +32,8 @@ function check(varargin)
             tObj.TimerFcn = {@check_license, char(feature)};
             start(tObj);
 
-        elseif ~license('test', feature)
-            warning('Unknown product "%s".', feature);
-
-        else
-            warning('Product "%s" is already in use.', feature);
-
         end
-
 	end
-	
 end
 
 
@@ -47,9 +45,8 @@ function check_license(tObj, ~, feature)
 	% CHECK_LICENSE - check availability of a "feature" license
 	%
 	
-    available = is_available(tObj, feature);
-	
-	if available
+    if is_available(tObj, feature);
+
         stop(tObj);
         delete(tObj);
         [status, msg] = license('checkout', feature);
@@ -60,9 +57,7 @@ function check_license(tObj, ~, feature)
             mnotify(title, msg);
             
         end
-        
     end
-	
 end
 
 
