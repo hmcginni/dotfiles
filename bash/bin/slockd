@@ -3,7 +3,7 @@
 # SCREEN_UNLOCK - Listen for dbus screen unlock signal
 #
 
-UNLOCK_DIR=$HOME/bin/unlock.d
+UNLOCK_DIR="$HOME"/repos/hrmutils/bash/bin/unlock.d
 type="signal"
 iface="com.canonical.Unity.Session"
 

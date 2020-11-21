@@ -264,7 +264,7 @@
   :config
   (setq org-todos-file "~/org/todos.org"
         org-log-done 'time
-        org-agenda-files '("~/org")
+        org-agenda-files '("~/org" "~/Dropbox/org/todos.org")
 		org-src-fontify-natively t)
   (setq org-capture-templates
         '(("t" "todo" entry (file+headline org-todos-file)
@@ -307,6 +307,14 @@
   :ensure t)
 
 
+;; Indentation markers
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (python-mode . highlight-indent-guides-mode)
+  :config
+  (set-face-background 'highlight-indentation-face "#626d82"))
+
+
 ;; Smooth scrolling mode
 (use-package smooth-scrolling
   :ensure t
@@ -319,7 +327,7 @@
 ;; Transpose frame
 (use-package transpose-frame
   :ensure t
-  :bind ("C-x t" . transpose-frame))
+  :bind ("C-x '" . transpose-frame))
 
 
 ;; Neotree Mode

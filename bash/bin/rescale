@@ -89,7 +89,7 @@ _rescale_vscode () {
 		_json_update "$settings" "$zoom" "-1"
 		_json_update "$settings" "$size" "14.5"
 	else
-		_json_update "$settings" "$zoom" "-1"
+		_json_update "$settings" "$zoom" "-1.1"
 		_json_update "$settings" "$size" "14.5"
 	fi
 }

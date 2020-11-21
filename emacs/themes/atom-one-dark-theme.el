@@ -23,7 +23,7 @@
     ("atom-one-dark-bg-hl"    . "#4e5a71")
     ("atom-one-dark-mono-1"   . "#ABB2BF")
     ("atom-one-dark-mono-2"   . "#828997")
-    ("atom-one-dark-mono-3"   . "#777F8E")
+    ("atom-one-dark-mono-3"   . "#626d82") ;#777F8E
     ("atom-one-dark-cyan"     . "#56B6C2")
     ("atom-one-dark-blue"     . "#61AFEF")
     ("atom-one-dark-purple"   . "#C678DD")

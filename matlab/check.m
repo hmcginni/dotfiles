@@ -77,7 +77,6 @@ function available = is_available(tObj, feature)
         error('Unable to reach license server.');
 
     end
-
     
     usersLine = lines{isUsersLine};
     numIssuedCell = regexp(usersLine, '(\d+) \w* issued', 'tokens');

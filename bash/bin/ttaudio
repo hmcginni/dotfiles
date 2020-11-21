@@ -3,8 +3,6 @@
 # TTAUDIO - Connect to TaoTronics Wireless Headphones
 #
 
-source ~/lib/bash/utils
-
 
 # ──────────────────────────────────────────────────────────
 # Exit if already connected to headphones
@@ -41,8 +39,9 @@ then
 		sinks="$(pactl list sinks short)"
 		if (( SECONDS >= timeout ))
 		then
-			errStr=$(printf "%s Exceeded timeout (%d)" "${0--/*/}" "$timeout")
-			utils.errorf "Error connecting to headphones" "$errStr"
+			errStr=$(printf "Connection Error: exceeded timeout (%d)" "$timeout")
+			notify-send "ttaudio" "$errStr"
+			exit 1
 		fi
 	done
 	notify-send "ttaudio" "Connected to headphones"

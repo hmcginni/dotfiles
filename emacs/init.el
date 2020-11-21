@@ -70,6 +70,7 @@
  '(lsp-pyls-configuration-sources ["flake8"])
  '(lsp-pyls-plugins-flake8-config "/home/hrm/.config/flake8/.flake8")
  '(lsp-pyls-plugins-flake8-enabled nil)
+ '(lsp-pyls-plugins-jedi-completion-fuzzy t)
  '(lsp-pyls-plugins-pycodestyle-enabled t)
  '(lsp-pyls-plugins-pycodestyle-ignore (quote ("E117" "W191" "D200")))
  '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
@@ -82,7 +83,7 @@
  '(lsp-pyls-plugins-pylint-enabled nil)
  '(lsp-pyls-plugins-rope-completion-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled t)
- '(lsp-pyls-rename-backend (quote rope))
+ '(lsp-pyls-rename-backend (quote jedi))
  '(lsp-response-timeout 5)
  '(lsp-ui-doc-delay 1)
  '(lsp-ui-doc-header t)
@@ -135,11 +136,12 @@
 	(("en" "<div class=\"org-postamble\"><p>Author: %a</p>
 <p>Last Updated: %T</p>
 <p>Created with <a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> using <a href=\"https://orgmode.org/\">Org mode</a></p></div>"))))
+ '(org-lowest-priority 68)
  '(org-reverse-note-order t)
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(highlight-indent-guides company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
@@ -173,7 +175,6 @@
 (load "~/.emacs.d/hrm-lisp-functions.el")
 
 ;; Startup functions
-(global-auto-revert-mode t)
 (helm-mode t)
 
 ;; Set variables
@@ -197,7 +198,7 @@
 (if (display-graphic-p)
 	(progn
 	  (server-start nil t)
-	  (desktop-save-mode 1)
+	  (desktop-save-mode 0)
 	  (hrm/dpi/scale-font "SF Mono" "medium")))
 
 
@@ -271,7 +272,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-thing ((t (:inherit (quote hl-line)))))
- '(linum ((t (:inherit (shadow default) :foreground "#707070" :weight light :height 0.7 :family "Roboto Mono"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#626d82" :weight regular :height 0.8 :family "Roboto Mono"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
  '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
