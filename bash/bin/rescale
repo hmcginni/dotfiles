@@ -9,13 +9,13 @@
 _very_hidpi () {
 	# Detect very high DPI
 
-	test "$(dpi)" -gt 150
+	test "$(dpi)" -ge 140
 }
 
 _hidpi () {
 	# Detect high DPI
 
-	test "$(dpi)" -gt 110
+	test "$(dpi)" -ge 110
 }
 
 _json_update () {
@@ -52,7 +52,7 @@ _rescale_unity () {
 
 	if _very_hidpi
 	then
-		scale=1.15
+		scale=1.25
 	elif _hidpi
 	then
 		scale=1.10
@@ -82,7 +82,7 @@ _rescale_vscode () {
 
 	if _very_hidpi
 	then
-		_json_update "$settings" "$zoom" "0"
+		_json_update "$settings" "$zoom" "-1.1"
 		_json_update "$settings" "$size" "14.5"
 	elif _hidpi
 	then

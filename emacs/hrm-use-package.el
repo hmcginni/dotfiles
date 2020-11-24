@@ -307,12 +307,12 @@
   :ensure t)
 
 
-;; Indentation markers
-(use-package highlight-indent-guides
-  :ensure t
-  :hook (python-mode . highlight-indent-guides-mode)
-  :config
-  (set-face-background 'highlight-indentation-face "#626d82"))
+;; ;; Indentation markers
+;; (use-package highlight-indent-guides
+;;   :ensure t
+;;   :hook (python-mode . highlight-indent-guides-mode)
+;;   :config
+;;   (set-face-background 'highlight-indentation-face "#626d82"))
 
 
 ;; Smooth scrolling mode

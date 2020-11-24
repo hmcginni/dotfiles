@@ -141,7 +141,7 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(highlight-indent-guides company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
@@ -185,8 +185,7 @@
 									   ("->" . 129034)
 									   ("=>" . 8658)))
 (setq frame-resize-pixelwise t
-	  window-resize-pixelwise t
-	  gc-cons-threshold 10000000)
+	  window-resize-pixelwise t)
 
 
 ;; Hooks and Associative Lists
@@ -234,8 +233,8 @@
 (global-set-key (kbd "C-|") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
-(global-set-key (kbd "C-S-<next>") 'hrm/next-comment-section)
-(global-set-key (kbd "C-S-<prior>") 'hrm/previous-comment-section)
+(global-set-key (kbd "C-~") 'hrm/next-comment-section)
+(global-set-key (kbd "C-!") 'hrm/previous-comment-section)
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
