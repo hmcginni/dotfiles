@@ -1,11 +1,32 @@
 #!/bin/bash
 
-# Disable horizontal scrolling on touchpad
-touchpad="DLL07BF:01 06CB:7A13 Touchpad"
+libinput_touchpad="Elan Touchpad"
+synaptic_touchpad="DLL07BF:01 06CB:7A13 Touchpad"
 
-if xinput list | grep -q "$touchpad"
+notify-send "Touchpad" "Adjusting touchpad settings" -t 2500
+
+if xinput list | grep -q "$synaptic_touchpad"
 then
-	xinput set-prop "$touchpad" "Synaptics Two-Finger Scrolling" 1, 0
-	notify-send "touchpad_fix" "Disabled horizontal scrolling on touchpad"
+	# Disable horizontal scrolling
+	xinput set-prop "$synaptic_touchpad" "Synaptics Two-Finger Scrolling" 1, 0
+
+elif xinput list | grep -q "$libinput_touchpad"
+then
+
+	# Enable tap to select
+	xinput set-prop "$libinput_touchpad" "libinput Tapping Enabled" 1
+
+	# Enable natural scrolling
+	xinput set-prop "$libinput_touchpad" "libinput Natural Scrolling Enabled" 1
+
+	# Enable three-finger tap to middle click
+	xinput set-prop "$libinput_touchpad" "libinput Middle Emulation Enabled" 1
+
+	# Set acceleration to 0.4 (out of 1)
+	xinput set-prop "$libinput_touchpad" "libinput Accel Speed" 0.35
+
+	# Disable horizontal scrolling
+	xinput set-prop "$libinput_touchpad" "libinput Horizontal Scroll Enabled" 0
+
 fi
 

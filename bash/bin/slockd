@@ -3,17 +3,17 @@
 # SCREEN_UNLOCK - Listen for dbus screen unlock signal
 #
 
-UNLOCK_DIR="$HOME"/repos/hrmutils/bash/bin/unlock.d
+UNLOCK_DIR="$HOME"/bin/unlock.d
 type="signal"
 iface="com.canonical.Unity.Session"
 
-find "$UNLOCK_DIR" -xtype f -exec {} \;
+find -L "$UNLOCK_DIR" -type f -exec {} ";"
 dbus-monitor --session "type='$type',interface='$iface'" |
     while read event
     do
 	    if echo "$event" | grep "Unlocked" &>/dev/null
         then
-	        find "$UNLOCK_DIR" -xtype f -print0 | sort -z | xargs -0n1 bash -c
+	        find -L "$UNLOCK_DIR" -type f -print0 | sort -z | xargs -0n1 bash -c
 	    fi
     done
 

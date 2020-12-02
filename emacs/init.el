@@ -191,14 +191,13 @@
 ;; Hooks and Associative Lists
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-
 ;; Appearance (font and color theme)
 (hrm/set-theme nil)
-(if (display-graphic-p)
-	(progn
-	  (server-start nil t)
-	  (desktop-save-mode 0)
-	  (hrm/dpi/scale-font "SF Mono" "medium")))
+(when (display-graphic-p)
+  (server-start nil t)
+  (desktop-save-mode 0)
+  (unless font-use-system-font
+	(hrm/dpi/scale-font "Input Mono Narrow Semi-Condensed" "medium")))
 
 
 ;; ─────────────────────────────────────────────────────────

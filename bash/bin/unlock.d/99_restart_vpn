@@ -2,9 +2,9 @@
 #
 # Restart VPN
 
-notify_title="Unlock Actions"
+notify_title="Medtronic VPN"
 if pass hrm | sudo -S systemctl status mdtvpn | grep -q "active (running)"
 then
 	pass hrm | sudo -S systemctl restart mdtvpn
-	notify-send "$notify_title" "VPN Restarted"
+	notify-send "$notify_title" "Medtronic VPN service restarted"
 fi
