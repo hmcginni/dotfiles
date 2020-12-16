@@ -113,6 +113,12 @@
   :hook (python-mode . sphinx-doc-mode)
   :config (sphinx-doc-mode t))
 
+
+;; Python "Black" formatter
+(use-package python-black
+  :ensure t
+  :after python)
+
 ;; ─────────────────────────────────────────────────────────
 ;;; Narrowing Lists (Helm)
 
@@ -181,7 +187,7 @@
   :commands (lsp lsp-deferred)
   :bind
   (:map lsp-mode-map
-		("S-<f6>" . lsp-rename)
+		("<f2>" . lsp-rename)
 		("<f9>" . lsp-ui-imenu))
   :hook
   (((c++-mode python-mode) . lsp)
@@ -215,7 +221,7 @@
   											:height 80
   											:family "IBM Plex Sans")))
   :config
-  (setq lsp-ui-flycheck-enable t
+  (setq lsp-ui-flycheck-enable nil
         lsp-ui-sideline-enable t
 		lsp-ui-sideline-ignore-duplicate t
 		lsp-ui-sideline-show-code-actions t
@@ -330,13 +336,13 @@
   :bind ("C-x '" . transpose-frame))
 
 
-;; Neotree Mode
-(use-package neotree
-  :ensure t
-  :bind ("<f10>" . neotree-toggle)
-  :hook (neo-after-create . (lambda (&rest _) (display-line-numbers-mode -1)))
-  :config
-  (setq neo-window-width 20))
+;; ;; Neotree Mode
+;; (use-package neotree
+;;   :ensure t
+;;   :bind ("<f10>" . neotree-toggle)
+;;   :hook (neo-after-create . (lambda (&rest _) (display-line-numbers-mode -1)))
+;;   :config
+;;   (setq neo-window-width 20))
 
 
 ;; Icons

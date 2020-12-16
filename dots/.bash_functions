@@ -13,6 +13,7 @@ _activate_venv () {
 	
 	venv=$1
 	source "$venv"/bin/activate
+
 }
 
 
@@ -20,7 +21,9 @@ _activate_venv () {
 # Simplify `bc` usage
 
 _bc () {
+
 	bc -l <<< "$@"
+
 }
 
 
@@ -28,7 +31,9 @@ _bc () {
 # Add line to clipboard
 
 _copy () {
+
     tr -d '\n' <<< "$1" | xclip -selection clipboard
+
 }
 
 
@@ -51,6 +56,7 @@ _ediff () {
     file2=$2
 
     emacs --eval "(ediff-files \"$file1\" \"$file2\")"
+
 }
 
 
@@ -64,7 +70,8 @@ _emacsclient () {
 		file=$1
 	fi
 	
-    emacsclient -a "emacs" "$file" &>/dev/null &
+    emacsclient -a "emacs" "$file" >/dev/null 2>&1 &
+
 }
 
 
@@ -89,6 +96,7 @@ _git_push_wrapper () {
     else
 	    echo "git push not possible here."
     fi
+
 }
 
 
@@ -192,6 +200,7 @@ _matlab_wrapper () {
     fi
 
 	unset MATLAB_JAVA
+
 }
 
 
@@ -210,13 +219,14 @@ _new_timestamped_directory () {
 	name=${name%%-}
 	mkdir -p "$name"
 	echo "Created \"$name\""
+
 }
 
 
 # ──────────────────────────────────────────────────────────
 # Add current Git branch to bash prompt
 
-_parse_git_branch () {
+_git_branch_prompt () {
 	
 	terminal_width=$(tput cols)
 	ellipsis=" [...]"
@@ -248,6 +258,7 @@ _parse_git_branch () {
 	fi
 
 	printf "\n%s" "$disp_line"
+
 }
 
 
@@ -300,6 +311,16 @@ _run_simulink_test () {
 
 
 # ──────────────────────────────────────────────────────────
+# Spell checker
+
+_spell_checker () {
+
+	aspell -a <<< "$@"
+
+}
+
+
+# ──────────────────────────────────────────────────────────
 # Simplify tmux actions
 
 _tmux_go () {
@@ -320,6 +341,7 @@ _tmux_go () {
     fi
     
     tmux $tmux_args || tmux rename-session "$1"
+
 }
 
 
@@ -335,6 +357,7 @@ _tmux_run () {
 	else
 		eval "$*"
     fi
+
 }
 
 
@@ -350,6 +373,7 @@ _vpn () {
     fi
     
     sudo systemctl "$option" mdtvpn.service
+
 }
 
 

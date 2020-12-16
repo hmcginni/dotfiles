@@ -33,7 +33,7 @@ case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
 		# PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
 		PS1="\n${green}\u${gray} → ${blue}\w ${red} "
-		PS1+="\$(_parse_git_branch)\n${gray} $ ${reset}"
+		PS1+="\$(_git_branch_prompt)\n${gray} $ ${reset}"
 		;;
     *)
 		PS1="> "
@@ -78,6 +78,7 @@ alias ediff='_ediff'
 alias new='_new_timestamped_directory'
 alias q='_quiet'
 alias refresh='source "$HOME"/.bashrc'
+alias sp='_spell_checker'
 alias vpn='_vpn'
 alias weather='_weather'
 

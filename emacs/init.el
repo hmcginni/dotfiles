@@ -141,7 +141,8 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd neotree adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+ '(python-black-extra-args (quote ("-l 80")))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
@@ -197,7 +198,7 @@
   (server-start nil t)
   (desktop-save-mode 0)
   (unless font-use-system-font
-	(hrm/dpi/scale-font "Input Mono Narrow Semi-Condensed" "medium")))
+	(hrm/dpi/scale-font "SF Mono" "Regular")))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -270,17 +271,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-thing ((t (:inherit (quote hl-line)))))
- '(linum ((t (:inherit (shadow default) :foreground "#626d82" :weight regular :height 0.8 :family "Roboto Mono"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#626d82" :weight regular :height 0.8 :family "Iosevka Term"))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
  '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
- '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
- '(neo-banner-face ((t (:weight bold :height 0.8 :family "Tex Gyre Heros"))))
- '(neo-button-face ((t (:underline nil :height 0.8 :family "Tex Gyre Heros"))))
- '(neo-dir-link-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
- '(neo-expand-btn-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
- '(neo-file-link-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
- '(neo-header-face ((t (:height 0.8 :family "Tex Gyre Heros"))))
- '(neo-root-dir-face ((t (:weight bold :height 0.8 :family "Tex Gyre Heros")))))
+ '(markdown-inline-code-face ((t (:inherit font-lock-constant-face)))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)

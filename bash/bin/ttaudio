@@ -27,7 +27,7 @@ disconnect="disconnect $ttMAC\nuntrust $ttMAC\n"
 connect="trust $ttMAC\npair $ttMAC\nconnect $ttMAC\nquit"
 btCmd="${agent}${disconnect}${connect}"
 
-bluetooth on >/dev/null 2>&1
+pass hrm | sudo -S systemctl start bluetooth
 
 if ! grep -q "$(sed -r "s|:|_|g" <<< $ttMAC)" <<< "$sinks"
 then
