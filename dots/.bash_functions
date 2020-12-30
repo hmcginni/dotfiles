@@ -55,7 +55,10 @@ _ediff () {
     file1=$1
     file2=$2
 
-    emacs --eval "(ediff-files \"$file1\" \"$file2\")"
+	if [ -f "$file1" ] && [ -f "$file2" ]
+	then
+		emacs --eval "(ediff-files \"$file1\" \"$file2\")"
+	fi
 
 }
 

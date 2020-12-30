@@ -57,6 +57,14 @@
 
 
 ;; ─────────────────────────────────────────────────────────
+;;; Emacs configuration packages
+
+;; Which-key mode
+;; (use-package which-key
+;;   :ensure t)
+
+
+;; ─────────────────────────────────────────────────────────
 ;;; Languages
 
 ;; JSON mode

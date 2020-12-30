@@ -52,7 +52,7 @@
  '(global-semantic-idle-scheduler-mode t)
  '(helm-completion-style (quote emacs))
  '(helm-lisp-fuzzy-completion t)
- '(helm-locate-fuzzy-match t)
+ '(helm-locate-fuzzy-match nil)
  '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
  '(initial-org-scratch-message
@@ -193,7 +193,7 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; Appearance (font and color theme)
-(hrm/set-theme nil)
+(hrm/set-theme t)
 (when (display-graphic-p)
   (server-start nil t)
   (desktop-save-mode 0)
@@ -271,7 +271,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-thing ((t (:inherit (quote hl-line)))))
- '(linum ((t (:inherit (shadow default) :foreground "#626d82" :weight regular :height 0.8 :family "Iosevka Term"))))
+ '(linum ((t (:inherit (shadow default) :foreground "#626d82" :height 0.8))))
  '(lsp-ui-doc-background ((t (:background "#272A36"))))
  '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face)))))
