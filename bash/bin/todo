@@ -115,8 +115,7 @@ _format_msg () {
 	# Format todo item
 
     timestamp_long=$(date "+[%Y-%m-%d %a %H:%M]")
-	timestamp_short=$(date "+%Y|%m|%d")
-    todo_headline=$(printf "* TODO [#A] %s %s %s" "$timestamp_short" "$todo_text" "$todo_tags")
+    todo_headline=$(printf "* TODO [#A] %s %s" "$todo_text" "$todo_tags")
     todo_props=$(printf "  :PROPERTIES:\n  :CREATED:  %s\n  :END:" "$timestamp_long")
     todo_item=$(printf "%s\n%s" "$todo_headline" "$todo_props")
     

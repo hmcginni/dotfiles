@@ -308,6 +308,12 @@
   :defer t)
 
 
+;; Org Query Language
+(use-package org-ql
+  :ensure t
+  :defer t)
+
+
 ;; ─────────────────────────────────────────────────────────
 ;;; Display tweaks
 
