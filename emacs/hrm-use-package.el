@@ -178,11 +178,11 @@
   (setq company-idle-delay 1
 		company-tooltip-limit 15))
 
-;; Company-mode icons
-(use-package company-box
-  :diminish
-  :ensure t
-  :hook (company-mode . company-box-mode))
+;; ;; Company-mode icons
+;; (use-package company-box
+;;   :diminish
+;;   :ensure t
+;;   :hook (company-mode . company-box-mode))
   
 
 
@@ -223,11 +223,6 @@
   		("M-?" . lsp-ui-peek-find-references)
 		("M-." . lsp-ui-peek-find-definitions)
 		("<escape>" . lsp-ui-doc-hide))
-  :hook
-  (lsp-ui-doc-frame . (lambda (frame _w)
-  						(set-face-attribute 'default frame
-  											:height 80
-  											:family "IBM Plex Sans")))
   :config
   (setq lsp-ui-flycheck-enable nil
         lsp-ui-sideline-enable t
@@ -264,42 +259,28 @@
 ;; Org mode
 (use-package org
   :ensure t
-  :bind
-  (("C-c a" . org-agenda)
-   :map org-mode-map
-   ("C-x C-k" . org-insert-link-global))
-  :hook
-  ((org-mode . visual-line-mode)
-   (org-mode . (lambda ()
-                 "Require export options"
-                 (require 'ox-odt)
-				 (require 'ox-md)
-                 (require 'ox-jira))))
+  :hook (org-mode . visual-line-mode)
+  :bind (("C-c ." . org-capture)
+		 ("C-c a" . org-agenda))
   :config
-  (setq org-todos-file "~/org/todos.org"
+  (setq org-mood-log-file "~/Dropbox/org/mood.org"
+		org-todos-file "~/org/todos.org"
         org-log-done 'time
         org-agenda-files '("~/org" "~/Dropbox/org/todos.org")
-		org-src-fontify-natively t)
+		org-src-fontify-natively t
+		org-todo-keywords '((sequence "todo" "in progress" "|" "done" "canceled")))
   (setq org-capture-templates
-        '(("t" "todo" entry (file+headline org-todos-file)
-           "* TODO %u%? [/]\n" :kill-buffer t)))
-  (setq org-todo-keywords
-        '((sequence "TODO" "IN PROGRESS" "?" "|" "DONE" "CANCELED")
-          (sequence "QUESTION" "DEFECT" "|" "FILED" "RESOLVED")))
-  (setq org-agenda-custom-commands
-        '(("w" "Completed TODOs this week" agenda ""
-           ((org-agenda-span 14)
-            (org-agenda-start-on-weekday -7)
-            (org-agenda-start-with-log-mode t)
-            (org-agenda-skip-function
-             '(org-agenda-skip-entry-if 'notregexp ".*DONE.*:mdt:")))
-           ("~/status/done.txt")))))
+		'(("t" "todo" entry (file+headline org-todos-file)
+		   "* TODO %u%? [/]\n" :kill-buffer t)
+		  ("m" "mood" entry (file+olp+datetree org-mood-log-file)
+				"* %u\n  %^{mood}p\n + %?" :kill-buffer t))))
 
 
 ;; Org Jira export mode
 
 (use-package ox-jira
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;; Org presentation mode

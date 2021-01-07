@@ -47,7 +47,7 @@
  '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(git-gutter:update-interval 1)
  '(global-flycheck-mode t)
- '(global-hl-line-mode t)
+ '(global-hl-line-mode nil)
  '(global-linum-mode t)
  '(global-semantic-idle-scheduler-mode t)
  '(helm-completion-style (quote emacs))
@@ -56,11 +56,11 @@
  '(helm-recentf-fuzzy-match t)
  '(inhibit-startup-screen t)
  '(initial-org-scratch-message
-   "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
-#+HTML_HEAD: <link rel=\"stylesheet\" href=\"/home/hrm/org/org.css\" />
+   (substitute-in-file-name "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
+#+HTML_HEAD: <link rel=\"stylesheet\" href=\"$HOME/org/org.css\" />
 #+TITLE:
 
-")
+"))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
  '(line-spacing 0.12)
  '(linum-format " %3d ")
@@ -68,7 +68,7 @@
  '(lsp-headerline-breadcrumb-enable nil)
  '(lsp-headerline-breadcrumb-face (quote mode-line))
  '(lsp-pyls-configuration-sources ["flake8"])
- '(lsp-pyls-plugins-flake8-config "/home/hrm/.config/flake8/.flake8")
+ '(lsp-pyls-plugins-flake8-config "~/.config/flake8/.flake8")
  '(lsp-pyls-plugins-flake8-enabled nil)
  '(lsp-pyls-plugins-jedi-completion-fuzzy t)
  '(lsp-pyls-plugins-pycodestyle-enabled t)
@@ -120,6 +120,7 @@
  '(org-clock-into-drawer 2)
  '(org-confirm-babel-evaluate nil)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
+ '(org-export-backends (quote (ascii html latex md odt confluence)))
  '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
  '(org-file-apps
@@ -198,7 +199,7 @@
   (server-start nil t)
   (desktop-save-mode 0)
   (unless font-use-system-font
-	(hrm/dpi/scale-font "SF Mono" "Regular")))
+	(hrm/dpi/scale-font "Hrm Mono" "medium")))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -272,9 +273,8 @@
  ;; If there is more than one, they won't work right.
  '(highlight-thing ((t (:inherit (quote hl-line)))))
  '(linum ((t (:inherit (shadow default) :foreground "#626d82" :height 0.8))))
- '(lsp-ui-doc-background ((t (:background "#272A36"))))
- '(lsp-ui-doc-header ((t (:background "dim gray" :foreground "black" :family "Tex Gyre Heros"))))
- '(markdown-inline-code-face ((t (:inherit font-lock-constant-face)))))
+ '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
+ '(variable-pitch ((t (:family "IBM Plex Sans")))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
