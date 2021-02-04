@@ -18,7 +18,7 @@
 (defvar atom-one-light-colors-alist
   '(("atom-one-light-accent"   . "#526FFF")
     ("atom-one-light-fg"       . "#42444f")
-    ("atom-one-light-bg"       . "#FAFAFA")
+    ("atom-one-light-bg"       . "#fcfcfc")
     ("atom-one-light-bg-1"     . "#E5E5E6")  ;; MEBEE?
     ("atom-one-light-bg-hl"    . "#D0D5DB")  ;; F0F0F0
     ("atom-one-light-modeline" . "#7E7E7E")

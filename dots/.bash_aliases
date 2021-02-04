@@ -56,12 +56,12 @@ export hrmpc="BC:5F:F4:5A:77:41"
 export hrmlaptop="F8:75:A4:45:4B:3A"
 export sofl1="28:f1:0e:52:44:88"
 export PATH="$HOME/bin:$PATH"
-export EDITOR="emacsclient -a emacs "
+export EDITOR="emacsclient -c"
+export VISUAL="emacsclient -c -a emacs"
 export GIT_EDITOR=$EDITOR
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 export XDG_CONFIG_HOME="$HOME/.config"
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 
 # ──────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ alias c='_bc'
 alias rg='rg -L'
 alias files='_quiet nautilus .'
 alias open='xdg-open'
-alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo snap refresh;'
+alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt -y upgrade; sudo apt -y autoremove; sudo snap refresh;'
 alias copy='_copy'
 alias ediff='_ediff'
 alias new='_new_timestamped_directory'

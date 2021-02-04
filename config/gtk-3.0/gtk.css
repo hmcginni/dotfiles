@@ -1,3 +1,7 @@
 vte-terminal, VteTerminal {
     padding: 15px;
 }
+
+window#Emacs.background box#pane {
+	padding: 15px;
+}

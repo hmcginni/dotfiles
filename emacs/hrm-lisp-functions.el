@@ -82,7 +82,7 @@
 
 
 (defun hrm/count-thing-at-point ()
-  "Count the number of instances of \"thing-at-point\" in this buffer."
+  "Count the number of instances of `thing-at-point' in this buffer."
   (interactive)
   (let* ((tap (or (thing-at-point 'symbol 'no-properties) ""))
 		 (matches (count-matches tap (point-min) (point-max))))
@@ -132,11 +132,18 @@
     (comment-or-uncomment-region beg end)))
 
 
-(defun hrm/date-command-on-buffer ()
+(defun hrm/insert-date ()
   "Print date in 'yyyymmdd' form."
   (interactive)
-  (shell-command "printf '%s' $(date +%Y%m%d)" t)
-  (forward-word))
+  (insert (shell-command-to-string "printf '%s' $(date +%Y%m%d)")))
+
+
+(defun hrm/insert-date-time ()
+  "Print timestamp in 'yyyymmdd_HHMMSS' form."
+  (interactive)
+  (if (derived-mode-p 'org-mode)
+	  (org-time-stamp '(16) t)
+	(insert (shell-command-to-string "printf '%s' $(date +%Y%m%d_%H%M%S)"))))
 
 
 (defun hrm/file-name-on-clipboard ()
@@ -188,27 +195,24 @@
   "Apply a light GUI theme."
   (setq hrm/global-is-light-theme t)
   (if (display-graphic-p)
-      (progn (load-theme 'atom-one-light t)
-             (hrm/post-theme-customizations))
-    (load-theme 'cmd-atom-one-light t)
-    (hrm/post-theme-customizations)))
+	  (load-theme 'atom-one-light t)
+    (load-theme 'cmd-atom-one-light t)))
 
 
 (defun hrm/dark-theme ()
   "Apply a dark GUI theme."
   (setq hrm/global-is-light-theme nil)
   (if (display-graphic-p)
-      (progn (load-theme 'atom-one-dark t)
-             (hrm/post-theme-customizations))
-    (load-theme 'cmd-atom-one-dark t)
-    (hrm/post-theme-customizations)))
+      (load-theme 'atom-one-dark t)
+    (load-theme 'cmd-atom-one-dark t)))
 
 
 (defun hrm/set-theme (light)
   "Customize Emacs theme; use a LIGHT color theme if `t` and dark if `nil`."
   (if light
       (hrm/light-theme)
-    (hrm/dark-theme)))
+    (hrm/dark-theme))
+  (hrm/post-theme-customizations))
 
 
 (defun hrm/toggle-theme ()

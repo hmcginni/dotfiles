@@ -5,8 +5,6 @@
 
 ;;; Code:
 
-;; (package-initialize)
-
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Customize variables:
@@ -33,8 +31,9 @@
  '(flycheck-clang-language-standard "c++17")
  '(flycheck-disabled-checkers (quote (python-flake8 python-pycompile python-pylint)))
  '(flycheck-flake8rc "~/.config/flake8/.flake8")
+ '(flycheck-idle-change-delay 0.9)
  '(flycheck-mode-hook (quote (flycheck-mode-set-explicitly)))
- '(flycheck-mode-line-prefix "Code issues")
+ '(flycheck-mode-line-prefix "Issues")
  '(flycheck-pycheckers-checkers (quote (pyflakes mypy2 mypy3)))
  '(flycheck-pycheckers-max-line-length 80)
  '(flycheck-python-flake8-executable "flake8")
@@ -49,7 +48,6 @@
  '(global-flycheck-mode t)
  '(global-hl-line-mode nil)
  '(global-linum-mode t)
- '(global-semantic-idle-scheduler-mode t)
  '(helm-completion-style (quote emacs))
  '(helm-lisp-fuzzy-completion t)
  '(helm-locate-fuzzy-match nil)
@@ -62,7 +60,7 @@
 
 "))
  '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(line-spacing 0.12)
+ '(line-spacing 0.1)
  '(linum-format " %3d ")
  '(lsp-document-highlight-delay 1)
  '(lsp-headerline-breadcrumb-enable nil)
@@ -85,12 +83,15 @@
  '(lsp-pyls-plugins-yapf-enabled t)
  '(lsp-pyls-rename-backend (quote jedi))
  '(lsp-response-timeout 5)
- '(lsp-ui-doc-delay 1)
+ '(lsp-ui-doc-delay 0.5)
  '(lsp-ui-doc-header t)
  '(lsp-ui-doc-include-signature t)
  '(lsp-ui-doc-max-height 20)
  '(lsp-ui-doc-max-width 80)
  '(lsp-ui-doc-position (quote top))
+ '(lsp-ui-doc-show-with-mouse nil)
+ '(lsp-ui-sideline-delay 0.5)
+ '(lsp-ui-sideline-diagnostic-max-line-length 85)
  '(matlab-block-indent-tic-toc-flag t)
  '(matlab-fill-code t)
  '(matlab-highlight-cross-function-variables nil)
@@ -103,26 +104,31 @@
 	("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "    " mode-line-position "			" mode-line-modes mode-line-misc-info
 	 (vc-mode vc-mode)
 	 mode-line-end-spaces)))
- '(neo-auto-indent-point t)
- '(neo-autorefresh nil)
- '(neo-mode-line-type (quote none))
- '(neo-show-updir-line t)
- '(neo-theme (quote icons))
- '(neo-window-fixed-size nil)
- '(neo-window-width 20)
+ '(org-agenda-custom-commands
+   (quote
+	(("T" "TODOs (by Priority)"
+	  ((tags-todo "+PRIORITY=\"A\""
+				  ((org-agenda-overriding-header "Today")))
+	   (tags-todo "+PRIORITY=\"B\""
+				  ((org-agenda-overriding-header "This Week")))
+	   (tags-todo "+PRIORITY=\"C\""
+				  ((org-agenda-overriding-header "This Month"))))
+	  nil nil))))
+ '(org-agenda-todo-keyword-format "%-11s")
  '(org-babel-load-languages
    (quote
 	((python . t)
 	 (emacs-lisp . t)
 	 (matlab . t)
 	 (shell . t))))
- '(org-babel-python-command "python3")
+ '(org-babel-python-command "python3.7")
  '(org-clock-into-drawer 2)
  '(org-confirm-babel-evaluate nil)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
- '(org-export-backends (quote (ascii html latex md odt confluence)))
+ '(org-export-backends (quote (ascii html md odt org)))
  '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
+ '(org-fancy-priorities-list (quote ("[#today]" "[#week]" "[#month]" "[#tbd]")))
  '(org-file-apps
    (quote
 	((auto-mode . emacs)
@@ -138,20 +144,23 @@
 <p>Last Updated: %T</p>
 <p>Created with <a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> using <a href=\"https://orgmode.org/\">Org mode</a></p></div>"))))
  '(org-lowest-priority 68)
+ '(org-modules
+   (quote
+	(ol-docview ol-eww ol-gnus org-habit ol-info ol-irc org-tempo ol-w3m ox-slack)))
+ '(org-priority-lowest 68)
  '(org-reverse-note-order t)
+ '(org-tags-column -70)
+ '(org-tags-sort-function (quote org-string-collate-lessp))
+ '(org-time-stamp-custom-formats (quote ("%a" . "<%m/%d/%y %a %H:%M>")))
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(python-black-extra-args (quote ("-l 80")))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
- '(semantic-idle-breadcrumbs-format-tag-function (quote semantic-format-tag-canonical-name))
- '(semantic-idle-breadcrumbs-format-tag-list-function (quote semantic-idle-breadcrumbs--format-linear))
- '(semantic-idle-breadcrumbs-header-line-prefix "      •  ")
- '(semantic-idle-breadcrumbs-separator (quote mode-specific))
  '(show-paren-mode t)
  '(tab-width 4)
  '(text-scale-mode-step 1.1)
@@ -159,7 +168,7 @@
  '(vc-follow-symlinks t))
 
 
-
+(system-name)
 ;; ─────────────────────────────────────────────────────────
 ;;; Custom variables:
 
@@ -187,7 +196,7 @@
 									   ("->" . 129034)
 									   ("=>" . 8658)))
 (setq frame-resize-pixelwise t
-	  window-resize-pixelwise t)
+      window-resize-pixelwise t)
 
 
 ;; Hooks and Associative Lists
@@ -199,14 +208,14 @@
   (server-start nil t)
   (desktop-save-mode 0)
   (unless font-use-system-font
-	(hrm/dpi/scale-font "Hrm Mono" "medium")))
+	(hrm/dpi/scale-font "Roboto Mono" "normal")))
 
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Keyboard shortcuts
 
 (global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-set 0)))
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "M-;") 'visual-line-mode)
 (global-set-key (kbd "C-<f4>") 'kill-this-buffer)
@@ -215,36 +224,41 @@
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-<f12>") 'highlight-symbol-at-point)
 (global-set-key (kbd "C-<f11>") (lambda () (interactive) (unhighlight-regexp t)))
-(global-set-key (kbd "<C-prior>") 'backward-page) ; ----- Ctrl+Alt+PageUp
-(global-set-key (kbd "<C-next>") 'forward-page) ; ----- Ctrl+Alt+PageDown
+(global-set-key (kbd "<C-~>") 'backward-page)
+(global-set-key (kbd "<C-!>") 'forward-page)
 (global-set-key (kbd "C-M-#") 'count-matches)
 (global-set-key (kbd "C-<f1>") 'xref-find-definitions)
+(global-set-key (kbd "M-\\") 'just-one-space)
 (global-set-key (kbd "M-#") 'hrm/count-thing-at-point)
 (global-set-key (kbd "s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "s-<down>") 'hrm/move-line-down)
-(global-set-key (kbd "C-c C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
-(global-set-key (kbd "C-c C-<right>") (lambda () (interactive) (hrm/resize "wide")))
-(global-set-key (kbd "C-c C-<down>") (lambda () (interactive) (hrm/resize "half")))
-(global-set-key (kbd "C-c C-<up>") (lambda () (interactive) (hrm/resize "half")))
 (global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
-(global-set-key (kbd "<f8>") 'hrm/toggle-theme)
 (global-set-key (kbd "C-\\") 'hrm/scratch)
 (global-set-key (kbd "C-|") 'hrm/org-scratch)
 (global-set-key (kbd "C-x n f") 'hrm/narrow-to-eof)
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
-(global-set-key (kbd "C-~") 'hrm/next-comment-section)
-(global-set-key (kbd "C-!") 'hrm/previous-comment-section)
+(global-set-key (kbd "C-<prior>") 'hrm/previous-comment-section) ; ----- Ctrl+PageDown
+(global-set-key (kbd "C-<next>") 'hrm/next-comment-section) ; ----- Ctrl+PageUp
+
+(defvar hrm/appearance-map)
+(define-prefix-command 'hrm/appearance-map)
+(global-set-key (kbd "M-SPC") hrm/appearance-map)
+(define-key hrm/appearance-map (kbd "M-SPC") 'hrm/toggle-theme)
+(define-key hrm/appearance-map (kbd "M-<left>") (lambda () (interactive) (hrm/resize "narrow")))
+(define-key hrm/appearance-map (kbd "M-<right>") (lambda () (interactive) (hrm/resize "wide")))
+(define-key hrm/appearance-map (kbd "M-<down>") (lambda () (interactive) (hrm/resize "half")))
+(define-key hrm/appearance-map (kbd "M-<up>") (lambda () (interactive) (hrm/resize "half")))
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
 (global-set-key (kbd "<C-insert>") hrm/insert-map)
 (define-key hrm/insert-map (kbd "C--") 'hs-hide-block)
 (define-key hrm/insert-map (kbd "C-+") 'hs-show-block)
-
 (define-key hrm/insert-map (kbd "C-<insert>") 'hs-toggle-hiding)
-(define-key hrm/insert-map (kbd "C-d") 'hrm/date-command-on-buffer)
+(define-key hrm/insert-map (kbd "C-d") 'hrm/insert-date)
+(define-key hrm/insert-map (kbd "C-t") 'hrm/insert-date-time)
 (define-key hrm/insert-map (kbd "C-g") 'hrm/new-comment-section)
 (define-key hrm/insert-map (kbd "C-b")
   (lambda () (interactive) (hrm/inline-code "bash")))
@@ -262,6 +276,7 @@
 (add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'prog-mode-hook 'visual-line-mode)
+(add-hook 'server-done-hook 'lower-frame)
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Customize faces:
@@ -273,7 +288,12 @@
  ;; If there is more than one, they won't work right.
  '(highlight-thing ((t (:inherit (quote hl-line)))))
  '(linum ((t (:inherit (shadow default) :foreground "#626d82" :height 0.8))))
+ '(lsp-ui-sideline-symbol ((t (:foreground "grey" :box nil :height 0.9))))
+ '(lsp-ui-sideline-symbol-info ((t (:height 0.9))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
+ '(mode-line ((t (:background "#7E7E7E" :foreground "#EAEAEA" :height 0.9 :family "Tex Gyre Heros"))))
+ '(mode-line-buffer-id ((t (:weight bold))))
+ '(org-priority ((t (:inherit outline-7 :height 0.9))))
  '(variable-pitch ((t (:family "IBM Plex Sans")))))
 
 (put 'narrow-to-region 'disabled nil)

@@ -22,7 +22,7 @@ _activate_venv () {
 
 _bc () {
 
-	bc -l <<< "$@"
+	bc -l <<< "$*"
 
 }
 
@@ -181,13 +181,11 @@ _matlab_wrapper () {
 
 	if [[ $mode == "gui" || -z $mode ]]
     then
-	    shift 2
 	    notify-send "Starting MATLAB R20$release" "matlab -nosplash -r run hrm_startup.m"
 	    "$ml_install" -nosplash -r "run hrm_startup.m" >/dev/null 2>&1 & disown
 
     elif [[ $mode == "cmd" ]]
     then
-	    shift 2
 		mljob=$(tr -cd "[:alnum:]" <<< "\
 				   $(awk 'tolower($0) ~ /matlab/ {print $1}' <<< "$(jobs)")")
 

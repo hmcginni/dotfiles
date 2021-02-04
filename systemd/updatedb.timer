@@ -2,8 +2,8 @@
 Description=UpdateDB Timer
 
 [Timer]
-OnStartupSec=1min
-OnUnitActiveSec=5min
+OnStartupSec=30s
+OnUnitActiveSec=30s
 
 [Install]
 WantedBy=timers.target

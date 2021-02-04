@@ -12,7 +12,7 @@ _init() {
 _main() {
 	
 	title="Fuzzy Finder"
-	cmd="sh -c $fzf_action"
+	cmd="bash -c $fzf_action"
 	size=(60 25)
 	off=(100 100)
 	dims=$(printf "%dx%d+%d+%d" "${size[@]}" "${off[@]}")

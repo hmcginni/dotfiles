@@ -57,7 +57,7 @@ else
         com.mathworks.services.Prefs.setBooleanPref('EditorBuiltinEditor', false);
         com.mathworks.services.Prefs.setStringPref('EditorOtherEditor', 'emacsclient -a "emacs"');
     catch e
-        disp('Unable to set Emacs as the text editor.');
+        fprintf('\nUnable to set Emacs as the text editor.\n%s\n', e.message);
     end
     
 end

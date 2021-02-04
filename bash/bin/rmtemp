@@ -2,7 +2,7 @@
 #
 # Delete Temporary Files
 
-notify-send "rmtemp" "Deleting temp files ..."
+notify-send "rmtemp" "Deleting temp files"
 
 # ──────────────────────────────────────────────────────────
 # In ~:
@@ -12,12 +12,13 @@ notify-send "rmtemp" "Deleting temp files ..."
 #   + Simulink cache files
 #   + Automatically-generated model S-Function files (excluding ~/build)
 
-path=$HOME
+root_dir=$HOME
 
-fd --no-ignore --hidden .*[~#]$ "$path" --exec rm -rv {}
+fd --no-ignore --hidden .*[~#]$ "$root_dir" --exec rm -rv {}
+fd --no-ignore --hidden nohup\.out "$root_dir" --exec rm -rv {}
 find "$HOME" -xtype l -print -delete 2>/dev/null
-fd --no-ignore .*\.slxc$ "$path" --exec rm -rv {}
-fd --no-ignore --exclude build .*sfun\.mexa64 "$path" --exec rm -rv {}
+fd --no-ignore .*\.slxc$ "$root_dir" --exec rm -rv {}
+fd --no-ignore --exclude build .*sfun\.mexa64 "$root_dir" --exec rm -rv {}
 
 
 # ──────────────────────────────────────────────────────────
@@ -28,10 +29,10 @@ fd --no-ignore --exclude build .*sfun\.mexa64 "$path" --exec rm -rv {}
 #   + Folders named "sldv_output"
 #   + Folders named "rtwgen_tlc"
 
-path=$HOME/src
+root_dir=$HOME/src
 
-fd --no-ignore --type directory slprj "$path" --exec rm -rv {}
-fd --no-ignore --type directory __pycache__ "$path" --exec rm -rv {}
-fd --no-ignore --type directory sldv_output "$path" --exec rm -rv {}
-fd --no-ignore --type directory slcov_output "$path" --exec rm -rv {}
-fd --no-ignore --type directory rtwgen_tlc "$path" --exec rm -rv {}
+fd --no-ignore --type directory slprj "$root_dir" --exec rm -rv {}
+fd --no-ignore --type directory __pycache__ "$root_dir" --exec rm -rv {}
+fd --no-ignore --type directory sldv_output "$root_dir" --exec rm -rv {}
+fd --no-ignore --type directory slcov_output "$root_dir" --exec rm -rv {}
+fd --no-ignore --type directory rtwgen_tlc "$root_dir" --exec rm -rv {}

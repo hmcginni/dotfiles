@@ -3,7 +3,7 @@
 
 _list_files () {
 
-	fd ".*" "$HOME" /etc /usr -E "Trash" -E "*~" --type f --hidden \
+	fd ".*" "$HOME" /etc /usr -E "Trash" -E "*~" -E "refs" --type f --hidden \
 	   --absolute-path --follow \
 		| fzf --exact --height=25 --reverse --history="$HOME"/.fzf_file_history
 
@@ -20,7 +20,7 @@ _open_selection () {
 	if filepath="$(_list_files)"
 	then
 		filename="$(basename "$filepath")"
-		nohup mimeopen --no-ask "$filepath" >/dev/null 2>&1 &
+		nohup emacsclient -a emacs "$filepath" &
 		notify-send "$title" "Opening $filename"
 	fi
 

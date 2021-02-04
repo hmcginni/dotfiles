@@ -9,7 +9,7 @@
 (setq package-archives
       '(("melpa" . "https://melpa.org/packages/")
         ("gnu" . "https://elpa.gnu.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")))
+        ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
 
@@ -22,8 +22,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(eval-when-compile
-  (require 'use-package))
+(eval-when-compile (require 'use-package))
 (require 'bind-key)
 
 
@@ -32,18 +31,16 @@
 
 ;; Built-ins
 (use-package emacs
-  :diminish
-  (helm-mode
-   eldoc-mode
-   visual-line-mode
-   hs-minor-mode)
-  :hook
-  ((prog-mode . hs-minor-mode)
-   ((emacs-lisp-mode org-mode) . prettify-symbols-mode)
-   (prog-mode . (lambda () (setq tab-width 4)))
-   (c++-mode . (lambda () (setq tab-width 4)))
-   (python-mode . (lambda () (setq python-indent-offset 4
-							  python-indent 4)))))
+  :diminish (helm-mode
+			 eldoc-mode
+			 visual-line-mode
+			 hs-minor-mode)
+  :hook ((prog-mode . hs-minor-mode)
+		 ((emacs-lisp-mode org-mode) . prettify-symbols-mode)
+		 (prog-mode . (lambda () (setq tab-width 4)))
+		 (c++-mode . (lambda () (setq tab-width 4)))
+		 (python-mode . (lambda () (setq python-indent-offset 4
+									python-indent 4)))))
 
 
 ;; Automatically update packages
@@ -79,9 +76,8 @@
 (use-package matlab-mode
   :ensure t
   :mode ("\\.m$" . matlab-mode)
-  :diminish
-  (mlint-minor-mode
-   matlab-functions-have-end-minor-mode)
+  :diminish (mlint-minor-mode
+			 matlab-functions-have-end-minor-mode)
   :hook ((matlab-mode . mlint-minor-mode)
          (matlab-mode . visual-line-mode))
   :config
@@ -97,21 +93,15 @@
 
 
 ;; CMake mode
-(use-package cmake-mode
-  :ensure t
-  :defer t)
+(use-package cmake-mode :ensure t :defer t)
 
 
 ;; Systemd Unit mode
-(use-package systemd
-  :ensure t
-  :defer t)
+(use-package systemd :ensure t :defer t)
 
 
 ;; C++ syntax highlighting mode
-(use-package modern-cpp-font-lock
-  :ensure t
-  :defer t)
+(use-package modern-cpp-font-lock :ensure t :defer t)
 
 
 ;; Python Sphinx docstring mode
@@ -123,9 +113,7 @@
 
 
 ;; Python "Black" formatter
-(use-package python-black
-  :ensure t
-  :after python)
+(use-package python-black :ensure t :after python)
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Narrowing Lists (Helm)
@@ -147,20 +135,16 @@
 (use-package helm-gtags
   :ensure t
   :delight
-  :bind
-  (:map helm-gtags-mode-map
-		("C-x C-<f1>" . helm-gtags-dwim))
-  :hook
-  ((dired-mode . helm-gtags-mode)
-   (c-mode . helm-gtags-mode)
-   (c++-mode . helm-gtags-mode)
-   (python-mode . helm-gtags-mode)))
+  :bind (:map helm-gtags-mode-map
+			  ("C-x C-<f1>" . helm-gtags-dwim))
+  :hook ((dired-mode . helm-gtags-mode)
+		 (c-mode . helm-gtags-mode)
+		 (c++-mode . helm-gtags-mode)
+		 (python-mode . helm-gtags-mode)))
 
 
 ;; Helm interface to Xref
-(use-package helm-xref
-  :ensure t
-  :after helm)
+(use-package helm-xref :ensure t :after helm)
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -169,9 +153,8 @@
 ;; Company completion mode
 (use-package company
   :ensure t
-  :bind
-  (:map company-mode-map
-		("C-<tab>" . company-capf))
+  :bind (:map company-mode-map
+			  ("C-<tab>" . company-capf))
   :hook (after-init . global-company-mode)
   :config
   (require 'company-capf)
@@ -193,13 +176,11 @@
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
-  :bind
-  (:map lsp-mode-map
-		("<f2>" . lsp-rename)
-		("<f9>" . lsp-ui-imenu))
-  :hook
-  (((c++-mode python-mode) . lsp)
-   (lsp . lsp-ui-mode))
+  :bind (:map lsp-mode-map
+			  ("<f2>" . lsp-rename)
+			  ("<f9>" . lsp-ui-imenu))
+  :hook (((c++-mode python-mode) . lsp)
+		 (lsp . lsp-ui-mode))
   :config
   (setq lsp-restart 'auto-restart
 		lsp-enable-semantic-highlighting t
@@ -254,43 +235,42 @@
 
 
 ;; ─────────────────────────────────────────────────────────
-;;; Note-taking and documentation modes
+;;; Org-related packages
 
-;; Org mode
+(defun hrm/org-show-todos ()
+  "Show `org-agenda' TODO list, grouped by priority."
+  (interactive)
+  (org-agenda nil "T")
+  (beginning-of-buffer))
+
 (use-package org
   :ensure t
   :hook (org-mode . visual-line-mode)
-  :bind (("C-c ." . org-capture)
-		 ("C-c a" . org-agenda))
+  :bind (("C-c a" . org-agenda)
+		 ("C-c C-t" . hrm/org-show-todos))
   :config
   (setq org-mood-log-file "~/Dropbox/org/mood.org"
-		org-todos-file "~/org/todos.org"
         org-log-done 'time
-        org-agenda-files '("~/org" "~/Dropbox/org/todos.org")
+        org-agenda-files '("~/org/todos.org" "~/Dropbox/org/todos.org")
 		org-src-fontify-natively t
-		org-todo-keywords '((sequence "todo" "in progress" "|" "done" "canceled")))
-  (setq org-capture-templates
-		'(("t" "todo" entry (file+headline org-todos-file)
-		   "* TODO %u%? [/]\n" :kill-buffer t)
-		  ("m" "mood" entry (file+olp+datetree org-mood-log-file)
-				"* %u\n  %^{mood}p\n + %?" :kill-buffer t))))
+		org-todo-keywords '((sequence "todo" "in progress" "|" "done" "canceled"))))
 
 
-;; Org Jira export mode
-
-(use-package ox-jira
-  :ensure t
-  :defer t)
+;; Org Jira export backend
+;; (use-package ox-jira :ensure t :defer t)
 
 
 ;; Org presentation mode
-(use-package epresent
-  :ensure t
-  :defer t)
+(use-package epresent :ensure t :defer t)
 
 
 ;; Org Query Language
-(use-package org-ql
+(use-package org-ql :ensure t :defer t)
+
+
+;; Customize TODO item priorities
+(use-package org-fancy-priorities
+  :hook (org-mode . org-fancy-priorities-mode)
   :ensure t
   :defer t)
 
@@ -299,13 +279,11 @@
 ;;; Display tweaks
 
 ;; Diminish mode
-(use-package diminish
-  :ensure t)
+(use-package diminish :ensure t)
 
 
 ;; Delight mode
-(use-package delight
-  :ensure t)
+(use-package delight :ensure t)
 
 
 ;; ;; Indentation markers
@@ -321,8 +299,8 @@
   :ensure t
   :config
   (smooth-scrolling-mode 1)
-  (setq smooth-scroll-margin 15
-		scroll-preserve-screen-position 1))
+  (setq smooth-scroll-margin 10
+		scroll-preserve-screen-position nil))
 
 
 ;; Transpose frame
@@ -341,9 +319,7 @@
 
 
 ;; Icons
-(use-package all-the-icons
-  :ensure t
-  :defer t)
+(use-package all-the-icons :ensure t :defer t)
 
 
 ;; Sudo edit mode
