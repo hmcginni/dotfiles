@@ -73,7 +73,7 @@ _emacsclient () {
 		file=$1
 	fi
 	
-    emacsclient -a "emacs" "$file" >/dev/null 2>&1 &
+    emacsclient -c -a "" "$file" >/dev/null 2>&1 &
 
 }
 

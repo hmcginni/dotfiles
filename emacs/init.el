@@ -155,13 +155,16 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(sr-speedbar org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(python-black-extra-args (quote ("-l 80")))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
+ '(sr-speedbar-default-width 30)
+ '(sr-speedbar-right-side nil)
+ '(sr-speedbar-skip-other-window-p t)
  '(tab-width 4)
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
@@ -205,8 +208,6 @@
 ;; Appearance (font and color theme)
 (hrm/set-theme t)
 (when (display-graphic-p)
-  (server-start nil t)
-  (desktop-save-mode 0)
   (unless font-use-system-font
 	(hrm/dpi/scale-font "Roboto Mono" "normal")))
 

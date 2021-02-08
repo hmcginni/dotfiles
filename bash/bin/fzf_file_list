@@ -20,17 +20,20 @@ _open_selection () {
 	if filepath="$(_list_files)"
 	then
 		filename="$(basename "$filepath")"
-		nohup emacsclient -a emacs "$filepath" &
+		nohup mimeopen --no-ask "$filepath" >/dev/null 2>&1 &
 		notify-send "$title" "Opening $filename"
 	fi
 
 }
 
 
-_main () {
+_fzf_file_list () {
 
 	_open_selection
 
 }
 
-_main
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
+then
+	_fzf_file_list "$@"
+fi

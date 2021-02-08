@@ -71,7 +71,6 @@
   :config
   (setq-default js-indent-level 2))
 
-
 ;; MATLAB mode
 (use-package matlab-mode
   :ensure t
@@ -83,7 +82,6 @@
   :config
   (setq-default matlab-indent-function-body t))
 
-
 ;; CMake mode highlighting
 (use-package cmake-font-lock
   :ensure t
@@ -91,18 +89,14 @@
   :config
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
 
-
 ;; CMake mode
 (use-package cmake-mode :ensure t :defer t)
-
 
 ;; Systemd Unit mode
 (use-package systemd :ensure t :defer t)
 
-
 ;; C++ syntax highlighting mode
 (use-package modern-cpp-font-lock :ensure t :defer t)
-
 
 ;; Python Sphinx docstring mode
 (use-package sphinx-doc
@@ -111,9 +105,9 @@
   :hook (python-mode . sphinx-doc-mode)
   :config (sphinx-doc-mode t))
 
-
 ;; Python "Black" formatter
 (use-package python-black :ensure t :after python)
+
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Narrowing Lists (Helm)
@@ -130,7 +124,6 @@
 		helm-lisp-fuzzy-completion t
 		helm-locate-command "locate -b %s -e -A --regex %s"))
 
-
 ;; Helm interface for GNU Global Tags
 (use-package helm-gtags
   :ensure t
@@ -141,7 +134,6 @@
 		 (c-mode . helm-gtags-mode)
 		 (c++-mode . helm-gtags-mode)
 		 (python-mode . helm-gtags-mode)))
-
 
 ;; Helm interface to Xref
 (use-package helm-xref :ensure t :after helm)
@@ -168,7 +160,6 @@
 ;;   :hook (company-mode . company-box-mode))
   
 
-
 ;; ─────────────────────────────────────────────────────────
 ;; Language Servers
 
@@ -193,7 +184,6 @@
 		lsp-signature-render-all t
         lsp-prefer-flymake nil
         lsp-auto-guess-root t))
-
 
 ;; LSP UI Tweaks
 (use-package lsp-ui
@@ -227,7 +217,6 @@
   ((text-mode . flyspell-mode)
    (org-mode . flyspell-mode)))
 
-
 ;; Flycheck mode
 (use-package flycheck
   :ensure t
@@ -255,18 +244,14 @@
 		org-src-fontify-natively t
 		org-todo-keywords '((sequence "todo" "in progress" "|" "done" "canceled"))))
 
-
 ;; Org Jira export backend
 ;; (use-package ox-jira :ensure t :defer t)
-
 
 ;; Org presentation mode
 (use-package epresent :ensure t :defer t)
 
-
 ;; Org Query Language
 (use-package org-ql :ensure t :defer t)
-
 
 ;; Customize TODO item priorities
 (use-package org-fancy-priorities
@@ -281,10 +266,11 @@
 ;; Diminish mode
 (use-package diminish :ensure t)
 
-
 ;; Delight mode
 (use-package delight :ensure t)
 
+;; Buffer list in side panel
+(use-package sr-speedbar :ensure t)
 
 ;; ;; Indentation markers
 ;; (use-package highlight-indent-guides
@@ -292,7 +278,6 @@
 ;;   :hook (python-mode . highlight-indent-guides-mode)
 ;;   :config
 ;;   (set-face-background 'highlight-indentation-face "#626d82"))
-
 
 ;; Smooth scrolling mode
 (use-package smooth-scrolling
@@ -302,31 +287,18 @@
   (setq smooth-scroll-margin 10
 		scroll-preserve-screen-position nil))
 
-
 ;; Transpose frame
 (use-package transpose-frame
   :ensure t
-  :bind ("C-x '" . transpose-frame))
-
-
-;; ;; Neotree Mode
-;; (use-package neotree
-;;   :ensure t
-;;   :bind ("<f10>" . neotree-toggle)
-;;   :hook (neo-after-create . (lambda (&rest _) (display-line-numbers-mode -1)))
-;;   :config
-;;   (setq neo-window-width 20))
-
+  :bind ("C-x C-t" . transpose-frame))
 
 ;; Icons
 (use-package all-the-icons :ensure t :defer t)
-
 
 ;; Sudo edit mode
 (use-package sudo-edit
   :ensure t
   :bind ("C-c C-r" . sudo-edit))
-
 
 ;; Adaptive Wrap
 (use-package adaptive-wrap
