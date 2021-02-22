@@ -29,10 +29,17 @@ green="\[\e[0;32m\]"
 red="\[\e[0;91m\]"
 reset="\[\e[00m\]"
 
+if [ -n "$DOCKER" ]
+then
+	uname_color="${blue/0/1}"
+else
+	uname_color="$green"
+fi
+
 case "$TERM" in
     xterm*|rxvt*|eterm*|screen*|st*)
 		# PS1="\n${blue}\u${gray} @ ${green}\h${gray} → ${blue}\w ${red} "
-		PS1="\n${green}\u${gray} → ${blue}\w ${red} "
+		PS1="\n${uname_color}\u${gray} → ${blue}\w ${red} "
 		PS1+="\$(_git_branch_prompt)\n${gray} $ ${reset}"
 		;;
     *)
@@ -69,10 +76,11 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # general
 alias c='_bc'
+alias gpg='gpg2'
 alias rg='rg -L'
-alias files='_quiet nautilus .'
+alias files='_quiet nautilus -w .'
 alias open='xdg-open'
-alias update='pass hrm | sudo -S apt autoclean; sudo apt update; sudo apt -y upgrade; sudo apt -y autoremove; sudo snap refresh;'
+alias update='pass mcginh2 | sudo -S apt autoclean; sudo apt update; sudo apt -y upgrade; sudo apt -y autoremove; sudo snap refresh;'
 alias copy='_copy'
 alias ediff='_ediff'
 alias new='_new_timestamped_directory'

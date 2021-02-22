@@ -262,6 +262,17 @@ _git_branch_prompt () {
 
 }
 
+_docker_prompt () {
+
+	if [ -n "$DOCKER" ]
+	then
+		prompt="image: $DOCKER"
+	fi
+
+	printf "\n%s" "$DOCKER"
+	
+}
+
 
 # ──────────────────────────────────────────────────────────
 # Run command quietly in the background

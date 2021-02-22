@@ -5,7 +5,7 @@
 #   1. README files
 #   2. .bashrc
 #   3. temp files (ends with # or ~)
-except="README.* .bashrc .*[#~]+"
+except="README.* .bashrc .*[#~]+ install.*"
 
 
 # Get path to repo

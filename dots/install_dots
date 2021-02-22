@@ -8,7 +8,7 @@ source "$repo_dir"/install/make_symlinks
 
 _install_dots () {
 
-	source_dir=$(dirname "$(realpath "$0")")
+	source_dir="$installer_dir"
 	target_dir="$HOME"
 
 	_make_symlinks "$source_dir" "$target_dir"

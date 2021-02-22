@@ -51,6 +51,7 @@ _copy_files () {
 
 _make_symlinks () {
 
+	script=$0
 	source_dir=$1
 	target_dir=$2
 

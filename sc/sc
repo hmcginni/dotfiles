@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
     SC - Create directory shortcuts stored in ${HOME}/sc.txt
 
@@ -32,11 +32,11 @@ def save_shortcuts(sc_file, shortcuts):
     shortcuts.insert(0, ["Shortcuts", "Directories"])
 
     try:
-        with open(sc_file, "wb+") as sc_cache:
+        with open(sc_file, "w+") as sc_cache:
             csv_writer = csv.writer(sc_cache)
             csv_writer.writerows(shortcuts)
 
-    except IOError:
+    except FileNotFoundError:
         print("Creating new file: \"{}\".".format(sc_file))
 
 
@@ -53,9 +53,9 @@ def load_shortcuts(sc_file):
             next(csv_reader, None)
             shortcuts = list(csv_reader)
 
-    except IOError:
+    except FileNotFoundError:
         print("Shortcuts file \"{}\" not found".format(sc_file))
-        shortcuts = [["Shortcuts", "Directories"]]
+        shortcuts = []
         save_shortcuts(sc_file, shortcuts)
 
     return shortcuts

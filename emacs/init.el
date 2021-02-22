@@ -82,6 +82,7 @@
  '(lsp-pyls-plugins-rope-completion-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled t)
  '(lsp-pyls-rename-backend (quote jedi))
+ '(lsp-pyls-server-command (quote ("~/.local/bin/pyls")))
  '(lsp-response-timeout 5)
  '(lsp-ui-doc-delay 0.5)
  '(lsp-ui-doc-header t)
@@ -121,7 +122,7 @@
 	 (emacs-lisp . t)
 	 (matlab . t)
 	 (shell . t))))
- '(org-babel-python-command "python3.7")
+ '(org-babel-python-command "python3")
  '(org-clock-into-drawer 2)
  '(org-confirm-babel-evaluate nil)
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
@@ -168,7 +169,6 @@
  '(vc-follow-symlinks t))
 
 
-(system-name)
 ;; ─────────────────────────────────────────────────────────
 ;;; Custom variables:
 
@@ -195,21 +195,27 @@
 			  prettify-symbols-alist '(("lambda" . 955)
 									   ("->" . 129034)
 									   ("=>" . 8658)))
-(setq frame-resize-pixelwise t
-      window-resize-pixelwise t)
-
+(setq visible-bell t
+	  ring-bell-function #'ignore
+	  frame-resize-pixelwise t
+	  window-resize-pixelwise t)
 
 ;; Hooks and Associative Lists
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; Appearance (font and color theme)
-(hrm/set-theme t)
+(hrm/set-theme nil)
 (when (display-graphic-p)
-  (server-start nil t)
+  (server-start)
   (desktop-save-mode 0)
+  ;; (setq font-use-system-font nil)
   (unless font-use-system-font
 	(hrm/dpi/scale-font "Roboto Mono" "normal")))
 
+  ;; (setq left-margin-width 2)
+  ;; (setq right-margin-width 2)
+  ;; (setq header-line-format " ")
+  ;; (set-window-buffer nil (current-buffer))
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Keyboard shortcuts
@@ -230,8 +236,8 @@
 (global-set-key (kbd "C-<f1>") 'xref-find-definitions)
 (global-set-key (kbd "M-\\") 'just-one-space)
 (global-set-key (kbd "M-#") 'hrm/count-thing-at-point)
-(global-set-key (kbd "s-<up>") 'hrm/move-line-up)
-(global-set-key (kbd "s-<down>") 'hrm/move-line-down)
+(global-set-key (kbd "C-s-<up>") 'hrm/move-line-up)
+(global-set-key (kbd "C-s-<down>") 'hrm/move-line-down)
 (global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
 (global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
@@ -244,12 +250,12 @@
 
 (defvar hrm/appearance-map)
 (define-prefix-command 'hrm/appearance-map)
-(global-set-key (kbd "M-SPC") hrm/appearance-map)
-(define-key hrm/appearance-map (kbd "M-SPC") 'hrm/toggle-theme)
-(define-key hrm/appearance-map (kbd "M-<left>") (lambda () (interactive) (hrm/resize "narrow")))
-(define-key hrm/appearance-map (kbd "M-<right>") (lambda () (interactive) (hrm/resize "wide")))
-(define-key hrm/appearance-map (kbd "M-<down>") (lambda () (interactive) (hrm/resize "half")))
-(define-key hrm/appearance-map (kbd "M-<up>") (lambda () (interactive) (hrm/resize "half")))
+(global-set-key (kbd "C-`") hrm/appearance-map)
+(define-key hrm/appearance-map (kbd "C-`") 'hrm/toggle-theme)
+(define-key hrm/appearance-map (kbd "C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
+(define-key hrm/appearance-map (kbd "C-<right>") (lambda () (interactive) (hrm/resize "wide")))
+(define-key hrm/appearance-map (kbd "C-<down>") (lambda () (interactive) (hrm/resize "half")))
+(define-key hrm/appearance-map (kbd "C-<up>") (lambda () (interactive) (hrm/resize "half")))
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)

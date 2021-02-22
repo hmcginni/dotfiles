@@ -250,7 +250,7 @@
   "Pick a font size based on the DPI."
   (let ((dpi (hrm/dpi/get-dpi)))
     (cond ((< dpi 135) 12)  ;; dpi=96 => 12-13/14
-          ((< dpi 145) 15)  ;; dpi=140 => 14/16
+          ((< dpi 145) 14)  ;; dpi=140 => 14/16
           ((< dpi 155) 16)  ;; [145, 155) must be ?14/16?
           ((< dpi 165) 17)  ;; ?15/17?
           (t 18))))         ;; ?16?

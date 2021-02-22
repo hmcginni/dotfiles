@@ -245,6 +245,7 @@
 
 (use-package org
   :ensure t
+  :pin org
   :hook (org-mode . visual-line-mode)
   :bind (("C-c a" . org-agenda)
 		 ("C-c C-t" . hrm/org-show-todos))

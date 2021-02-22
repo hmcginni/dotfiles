@@ -9,7 +9,7 @@
 _very_hidpi () {
 	# Detect very high DPI
 
-	test "$(dpi)" -ge 140
+	test "$(dpi)" -ge 145
 }
 
 _hidpi () {
@@ -44,10 +44,9 @@ _json_update () {
 
 _rescale_unity () {
 
-	local text=""
 	local unity=""
-	
-	text="/org/gnome/desktop/interface/text-scaling-factor"
+	local scale=""
+
 	unity="/com/canonical/unity/interface/text-scale-factor"
 
 	if _very_hidpi
@@ -55,14 +54,15 @@ _rescale_unity () {
 		scale=1.25
 	elif _hidpi
 	then
-		scale=1.10
+		scale=1.15
 	else
 		scale=1.0
 	fi
 
 	dconf write "$unity" "$scale"
 	sleep 0.1
-	dconf write "$text" "$scale"
+	gsettings set org.gnome.desktop.interface text-scaling-factor "$scale"
+
 }
 
 

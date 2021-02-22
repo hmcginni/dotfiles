@@ -20,7 +20,7 @@ _open_selection () {
 	if filepath="$(_list_files)"
 	then
 		filename="$(basename "$filepath")"
-		nohup emacsclient -a emacs "$filepath" &
+		nohup mimeopen "$filepath" &
 		notify-send "$title" "Opening $filename"
 	fi
 

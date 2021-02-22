@@ -1,11 +1,11 @@
 {
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
-  "editor.fontFamily": "'SF Mono', 'Input', monospace, 'Droid Sans Fallback'",
+  "editor.fontFamily": "'hrm mono', 'SF Mono', monospace, 'Droid Sans Fallback'",
   "editor.fontWeight": "400",
   "workbench.startupEditor": "newUntitledFile",
   "python.jediEnabled": false,
-  "window.zoomLevel": -1,
+  "window.zoomLevel": -0.75,
   "editor.minimap.enabled": false,
   "search.smartCase": true,
   "debug.console.fontSize": 12,
@@ -44,7 +44,7 @@
     "--ignore=D200,D203,D213,D406,D407"
   ],
   "bashIde.path": "/snap/bin/bash-language-server",
-  "editor.fontSize": 14.5,
+  "editor.fontSize": 14,
   "workbench.colorTheme": "Atom One Dark",
   "window.menuBarVisibility": "toggle"
 }
