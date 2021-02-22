@@ -194,17 +194,19 @@
 (defun hrm/light-theme ()
   "Apply a light GUI theme."
   (setq hrm/global-is-light-theme t)
-  (if (display-graphic-p)
-	  (load-theme 'atom-one-light t)
-    (load-theme 'cmd-atom-one-light t)))
+  (load-theme 'atom-one-light t))
+  ;; (if (display-graphic-p)
+  ;; 	  (load-theme 'atom-one-light t)
+  ;;   (load-theme 'cmd-atom-one-light t)))
 
 
 (defun hrm/dark-theme ()
   "Apply a dark GUI theme."
   (setq hrm/global-is-light-theme nil)
-  (if (display-graphic-p)
-      (load-theme 'atom-one-dark t)
-    (load-theme 'cmd-atom-one-dark t)))
+  (load-theme 'atom-one-dark t))
+  ;; (if (display-graphic-p)
+  ;;     (load-theme 'atom-one-dark t)
+  ;;   (load-theme 'cmd-atom-one-dark t)))
 
 
 (defun hrm/set-theme (light)
