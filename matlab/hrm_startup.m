@@ -1,7 +1,3 @@
-%% Add utils to path
-
-addpath('~/src/utils/functions');
-
 %% Compact output format
 
 format compact

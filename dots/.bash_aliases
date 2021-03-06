@@ -63,12 +63,13 @@ export hrmpc="BC:5F:F4:5A:77:41"
 export hrmlaptop="F8:75:A4:45:4B:3A"
 export sofl1="28:f1:0e:52:44:88"
 export PATH="$HOME/bin:$PATH"
-export VISUAL='emacsclient -c -a ""'
+export VISUAL='emacsclient -a "emacs"'
 export EDITOR="$VISUAL"
 export GIT_EDITOR=$EDITOR
 export GTAGSCONF="/usr/local/share/gtags/gtags.conf"
 export GTAGSLABEL="pygments"
 export XDG_CONFIG_HOME="$HOME/.config"
+export LESS="-RiFM --mouse --wheel-lines=3"
 
 
 # ──────────────────────────────────────────────────────────
@@ -107,6 +108,7 @@ alias gco="git for-each-ref --format='%(refname:short)' refs/heads | fzf --exact
 # emacs
 alias e='_emacsclient'
 alias edit='_emacsclient'
+alias tasks='_export_org_todos'
 
 # MATLAB
 alias ml='_matlab_wrapper gui'

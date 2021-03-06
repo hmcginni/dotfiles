@@ -73,7 +73,23 @@ _emacsclient () {
 		file=$1
 	fi
 	
-    emacsclient -c -a "" "$file" >/dev/null 2>&1 &
+    emacsclient -n -a "" "$file" >/dev/null 2>&1 &
+
+}
+
+
+# Export org-agenda TODO list (PRIORITY "A")
+
+_export_org_todos () {
+
+	local today
+	local output
+	local todos
+
+	today="$(date +%Y%m%d)"
+	output="${HOME}/org/${today}-org-todos.txt"
+	todos="$(emacs -batch -Q -l ~/.emacs.d/init.el -eval '(org-batch-agenda-csv "A")' 2>/dev/null)"
+	awk -F"," '{print $2"|||"$5}' <<< "$todos" | column -s "|||" -t > "$output"
 
 }
 

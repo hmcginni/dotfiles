@@ -226,18 +226,25 @@
 ;; ─────────────────────────────────────────────────────────
 ;;; Org-related packages
 
+(defun hrm/org-show-todos-today ()
+  "Show top-priority `org-agenda' TODO list."
+  (interactive)
+  (org-agenda nil "A")
+  (beginning-of-buffer)
+  (delete-other-windows))
+
 (defun hrm/org-show-todos ()
   "Show `org-agenda' TODO list, grouped by priority."
   (interactive)
   (org-agenda nil "T")
-  (beginning-of-buffer))
+  (beginning-of-buffer)
+  (delete-other-windows))
 
 (use-package org
   :ensure t
   :pin org
   :hook (org-mode . visual-line-mode)
-  :bind (("C-c a" . org-agenda)
-		 ("C-c C-t" . hrm/org-show-todos))
+  :bind ("C-c a" . org-agenda)
   :config
   (setq org-mood-log-file "~/Dropbox/org/mood.org"
         org-log-done 'time
@@ -271,7 +278,14 @@
 (use-package delight :ensure t)
 
 ;; Buffer list in side panel
-(use-package sr-speedbar :ensure t)
+(use-package sr-speedbar
+  :ensure t
+  :bind ("C-S-d" . sr-speedbar-toggle))
+
+;; ;; Doom modeline
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :init (doom-modeline-mode 1))
 
 ;; ;; Indentation markers
 ;; (use-package highlight-indent-guides
@@ -299,6 +313,7 @@
 ;; Sudo edit mode
 (use-package sudo-edit
   :ensure t
+  :demand t
   :bind ("C-c C-r" . sudo-edit))
 
 ;; Adaptive Wrap

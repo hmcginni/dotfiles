@@ -46,5 +46,6 @@
   "bashIde.path": "/snap/bin/bash-language-server",
   "editor.fontSize": 14,
   "workbench.colorTheme": "Atom One Dark",
-  "window.menuBarVisibility": "toggle"
+  "window.menuBarVisibility": "toggle",
+  "python.languageServer": "Pylance"
 }

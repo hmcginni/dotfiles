@@ -74,11 +74,11 @@
  '(lsp-pyls-plugins-pycodestyle-max-line-length 80)
  '(lsp-pyls-plugins-pycodestyle-select nil)
  '(lsp-pyls-plugins-pydocstyle-add-ignore nil)
- '(lsp-pyls-plugins-pydocstyle-enabled t)
+ '(lsp-pyls-plugins-pydocstyle-enabled t t)
  '(lsp-pyls-plugins-pydocstyle-ignore (quote ("D200" "D203" "D213" "D406" "D407")))
- '(lsp-pyls-plugins-pyflakes-enabled nil)
+ '(lsp-pyls-plugins-pyflakes-enabled nil t)
  '(lsp-pyls-plugins-pylint-args [--disable=W0312 (\, C0301)])
- '(lsp-pyls-plugins-pylint-enabled nil)
+ '(lsp-pyls-plugins-pylint-enabled nil t)
  '(lsp-pyls-plugins-rope-completion-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled t)
  '(lsp-pyls-rename-backend (quote jedi))
@@ -107,7 +107,10 @@
 	 mode-line-end-spaces)))
  '(org-agenda-custom-commands
    (quote
-	(("T" "TODOs (by Priority)"
+	(("A" "TODOs: PRIORITY \"A\" (due today)" tags-todo "+PRIORITY=\"A\""
+	  ((org-agenda-overriding-header "Today"))
+	  nil)
+	 ("T" "TODOs (by Priority)"
 	  ((tags-todo "+PRIORITY=\"A\""
 				  ((org-agenda-overriding-header "Today")))
 	   (tags-todo "+PRIORITY=\"B\""
@@ -156,13 +159,17 @@
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(doom-modeline org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(python-black-extra-args (quote ("-l 80")))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
+ '(sr-speedbar-default-width 20)
+ '(sr-speedbar-max-width 40)
+ '(sr-speedbar-right-side nil)
+ '(sr-speedbar-skip-other-window-p t)
  '(tab-width 4)
  '(text-scale-mode-step 1.1)
  '(tool-bar-mode nil)
@@ -176,6 +183,23 @@
   "My custom variables."
   :group 'custom)
 
+;; ─────────────────────────────────────────────────────────
+;;; Hooks: 
+(add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flycheck-mode)
+(add-hook 'text-mode-hook 'visual-line-mode)
+(add-hook 'prog-mode-hook 'visual-line-mode)
+(add-hook 'server-done-hook 'lower-frame)
+(add-hook 'server-switch-hook
+		  (lambda ()
+			(unless (mapcan
+					 (lambda (frame)
+					   (assq 'display (frame-parameters frame)))
+					 (frame-list))
+			  (make-frame '((window-system . x)
+							(wait-for-wm . nil))))))
+
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Global configurations:
@@ -187,14 +211,15 @@
 
 ;; Startup functions
 (helm-mode t)
+(linum-mode)
 
 ;; Set variables
 (setq-default c-default-style "stroustrup"
+			  linum-mode t
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs " emacs-version " • %b")
-			  prettify-symbols-alist '(("lambda" . 955)
-									   ("->" . 129034)
-									   ("=>" . 8658)))
+			  prettify-symbols-alist '(("lambda" . ?λ)
+									   ("->" . ?→)))
 (setq visible-bell t
 	  ring-bell-function #'ignore
 	  frame-resize-pixelwise t
@@ -202,20 +227,18 @@
 
 ;; Hooks and Associative Lists
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'default-frame-alist '((window-system . x)
+									(inhibit-double-buffering . t)))
 
 ;; Appearance (font and color theme)
 (hrm/set-theme nil)
-(when (display-graphic-p)
-  (server-start)
-  (desktop-save-mode 0)
-  ;; (setq font-use-system-font nil)
-  (unless font-use-system-font
-	(hrm/dpi/scale-font "Roboto Mono" "normal")))
+(unless font-use-system-font
+  (hrm/dpi/scale-font "Roboto Mono" "normal"))
 
-  ;; (setq left-margin-width 2)
-  ;; (setq right-margin-width 2)
-  ;; (setq header-line-format " ")
-  ;; (set-window-buffer nil (current-buffer))
+;; (setq left-margin-width 2)
+;; (setq right-margin-width 2)
+;; (setq header-line-format " ")
+;; (set-window-buffer nil (current-buffer))
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Keyboard shortcuts
@@ -235,6 +258,7 @@
 (global-set-key (kbd "C-M-#") 'count-matches)
 (global-set-key (kbd "C-<f1>") 'xref-find-definitions)
 (global-set-key (kbd "M-\\") 'just-one-space)
+
 (global-set-key (kbd "M-#") 'hrm/count-thing-at-point)
 (global-set-key (kbd "C-s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "C-s-<down>") 'hrm/move-line-down)
@@ -247,6 +271,7 @@
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 (global-set-key (kbd "C-<prior>") 'hrm/previous-comment-section) ; ----- Ctrl+PageDown
 (global-set-key (kbd "C-<next>") 'hrm/next-comment-section) ; ----- Ctrl+PageUp
+(global-set-key (kbd "C-c C-t") 'hrm/org-show-todos)
 
 (defvar hrm/appearance-map)
 (define-prefix-command 'hrm/appearance-map)
@@ -273,16 +298,6 @@
 (define-key hrm/insert-map (kbd "C-m")
   (lambda () (interactive) (hrm/inline-code "matlab")))
 
-
-;; ─────────────────────────────────────────────────────────
-;;; Hooks:
-
-(add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flycheck-mode)
-(add-hook 'text-mode-hook 'visual-line-mode)
-(add-hook 'prog-mode-hook 'visual-line-mode)
-(add-hook 'server-done-hook 'lower-frame)
 
 ;; ─────────────────────────────────────────────────────────
 ;;; Customize faces:
