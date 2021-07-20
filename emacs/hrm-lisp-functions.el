@@ -10,12 +10,17 @@
 ;; Variables
 
 (defvar hrm/global-is-light-theme t
-  "Whether we're using the LIGHT theme.")
+  "Whether the LIGHT theme is enabled.")
 
-(defcustom initial-org-scratch-message nil
+(defcustom hrm/initial-org-scratch-message nil
   "Initial message displayed in Org-scratch buffers."
   :group 'hrm
   :type '(sexp))
+
+(defcustom hrm/weekly-org-notes-dir nil
+  "Location of weekly org-notes files."
+  :group 'hrm
+  :type '(directory))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -53,7 +58,9 @@
 (defun hrm/reload-emacs-init-file ()
   "Reload Emacs."
   (interactive)
-  (load-file "~/.emacs.d/init.el"))
+  (load-file "~/.emacs.d/init.el")
+  (if (derived-mode-p 'org-mode)
+	  (org-mode-restart)))
 
 
 (defun hrm/scratch ()
@@ -71,6 +78,7 @@
 (defun hrm/org-scratch ()
   "Go to the Org-scratch buffer."
   (interactive)
+  (hrm/org/update-scratch-message)
   (let ((org-scratch "scratch.org"))
     (if (get-buffer org-scratch)
         (switch-to-buffer org-scratch)
@@ -78,7 +86,40 @@
 	  (with-current-buffer org-scratch
 		(org-mode)
 		(setq-local desktop-save-buffer 't))
-      (insert initial-org-scratch-message))))
+      (insert hrm/initial-org-scratch-message))))
+
+(defun hrm/org/update-scratch-message ()
+  "Create the initial text for a new Org-mode scratch buffer."
+  (interactive)
+  (custom-set-variables
+   '(hrm/initial-org-scratch-message
+	 (format
+	  "#+options: toc:nil num:nil \\n:nil ::t -:t
+#+html_head: <link rel=\"stylesheet\" href=\"/home/mcginh2/org/org.css\" />
+#+title:
+#+author: %s
+#+date: %s
+
+" user-full-name
+(string-trim-right
+ (shell-command-to-string "date -d \"monday this week\"  +%Y%m%d"))))))
+
+(defun hrm/open-weekly-org-notes-buffer ()
+  "Go to the weekly notes Org-mode buffer."
+  (interactive)
+  (let* ((tomorrow (org-time-string-to-time (org-read-date nil nil "+1")))
+		 (mon (org-read-date nil nil "--mon" nil tomorrow))
+		 (today (format-time-string "%Y%m%d"))
+		 (notes-filename (concat mon "-notes.org"))
+		 (notes-file (concat hrm/weekly-org-notes-dir notes-filename)))
+	(message "%s" mon)
+    (if (get-buffer notes-filename)
+        (switch-to-buffer notes-filename)
+      (find-file notes-file)
+	  (with-current-buffer notes-filename
+		(org-mode)
+		(setq-local desktop-save-buffer 't))
+      (insert hrm/initial-org-scratch-message))))
 
 
 (defun hrm/count-thing-at-point ()
@@ -89,6 +130,17 @@
 	(if (string= tap "")
 		(message "No symbol at point.")
 	  (message "%d matches for \"%s\" in this buffer" matches tap))))
+
+
+(defun hrm/occur-thing-at-point ()
+  "Run `occur' on `thing-at-point'."
+  (interactive)
+  (let* ((tap (or (thing-at-point 'symbol 'no-properties) ""))
+		 (matches (count-matches tap (point-min) (point-max))))
+	(if (string= tap "")
+		(message "No symbol at point.")
+	  (occur tap)
+	  (other-window 1))))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -136,6 +188,13 @@
   "Print date in 'yyyymmdd' form."
   (interactive)
   (insert (shell-command-to-string "printf '%s' $(date +%Y%m%d)")))
+
+
+(defun hrm/insert-monday-date ()
+  "Print date of last Monday in 'yyyymmdd' form."
+  (interactive)
+  (insert (shell-command-to-string
+		   "printf '%s' $(date -dlast-monday +%Y%m%d)")))
 
 
 (defun hrm/insert-date-time ()
@@ -227,10 +286,10 @@
 (defun hrm/resize (size)
   "Resize Emacs to specified SIZE."
   (interactive)
-  (let ((width (cond ((string= size "narrow") 86)
-					 ((string= size "half") 127)
-					 ((string= size "wide") 159))))
-	(set-frame-width (selected-frame) width)))
+  (let ((width (cond ((string= size "narrow") 674)
+					 ((string= size "half") 898)
+					 ((string= size "wide") 1143))))
+	(set-frame-width (selected-frame) width nil t)))
 
 
 (defun hrm/dpi/get-dpi ()

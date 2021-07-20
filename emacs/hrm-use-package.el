@@ -158,7 +158,7 @@
 ;;   :diminish
 ;;   :ensure t
 ;;   :hook (company-mode . company-box-mode))
-  
+
 
 ;; ─────────────────────────────────────────────────────────
 ;; Language Servers
@@ -166,10 +166,12 @@
 ;; Language Server Protocol mode
 (use-package lsp-mode
   :ensure t
+  :demand t
   :commands (lsp lsp-deferred)
-  :bind (:map lsp-mode-map
-			  ("<f2>" . lsp-rename)
-			  ("<f9>" . lsp-ui-imenu))
+  :bind
+  (:map lsp-mode-map
+		("<f2>" . lsp-rename)
+		("<f9>" . lsp-ui-imenu))
   :hook (((c++-mode python-mode) . lsp)
 		 (lsp . lsp-ui-mode))
   :config
@@ -196,14 +198,9 @@
 		("<escape>" . lsp-ui-doc-hide))
   :config
   (setq lsp-ui-flycheck-enable nil
-        lsp-ui-sideline-enable t
-		lsp-ui-sideline-ignore-duplicate t
-		lsp-ui-sideline-show-code-actions t
-		lsp-ui-sideline-show-symbol t
-		lsp-ui-sideline-update-mode 'point
+        lsp-ui-sideline-enable nil
         lsp-ui-doc-enable t
-        lsp-ui-doc-delay 1
-		lsp-ui-doc-border "gray20"))
+        lsp-ui-doc-delay 1))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -240,32 +237,48 @@
   (beginning-of-buffer)
   (delete-other-windows))
 
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
 (use-package org
   :ensure t
   :pin org
-  :hook (org-mode . visual-line-mode)
-  :bind ("C-c a" . org-agenda)
+  :hook ((org-after-todo-statistics-mode . org-summary-todo)
+		 (org-agenda-mode . (lambda ()
+							  (visual-line-mode -1)
+							  (toggle-truncate-lines 1))))
+  :bind (("C-c a" . org-agenda)
+		 (:map org-mode-map
+			   ("C-c C-t" . nil)))
   :config
-  (setq org-mood-log-file "~/Dropbox/org/mood.org"
-        org-log-done 'time
-        org-agenda-files '("~/org/todos.org" "~/Dropbox/org/todos.org")
-		org-src-fontify-natively t
-		org-todo-keywords '((sequence "todo" "in progress" "|" "done" "canceled"))))
+  (setq org-log-done 'time
+		org-startup-indented t
+        org-agenda-files `("~/org/todos.org"
+						   "~/Dropbox/org/todos.org")
+						   ;; ,hrm/weekly-org-notes-dir)
+		org-todo-keywords '((sequence "todo" "in progress" "?" "|" "done" "canceled"))
+		org-src-fontify-natively t))
 
 ;; Org Jira export backend
-;; (use-package ox-jira :ensure t :defer t)
+(use-package ox-jira :ensure t)
+
+;; Org Slack export backend
+(use-package ox-slack :ensure t)
 
 ;; Org presentation mode
-(use-package epresent :ensure t :defer t)
+;; (use-package epresent :ensure t :defer t)
 
 ;; Org Query Language
 (use-package org-ql :ensure t :defer t)
 
 ;; Customize TODO item priorities
 (use-package org-fancy-priorities
-  :hook (org-mode . org-fancy-priorities-mode)
   :ensure t
-  :defer t)
+  :defer t
+  :hook ((org-mode . org-fancy-priorities-mode)
+		 (org-agenda-mode . org-fancy-priorities-mode)))
 
 
 ;; ─────────────────────────────────────────────────────────

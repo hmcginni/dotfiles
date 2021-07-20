@@ -1,11 +1,10 @@
 {
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
-  "editor.fontFamily": "'hrm mono', 'SF Mono', monospace, 'Droid Sans Fallback'",
+  "editor.fontFamily": "mono, Roboto Mono, 'Droid Sans Fallback'",
   "editor.fontWeight": "400",
   "workbench.startupEditor": "newUntitledFile",
   "python.jediEnabled": false,
-  "window.zoomLevel": -0.75,
   "editor.minimap.enabled": false,
   "search.smartCase": true,
   "debug.console.fontSize": 12,
@@ -22,7 +21,6 @@
   "diffEditor.ignoreTrimWhitespace": false,
   "C_Cpp.updateChannel": "Insiders",
   "C_Cpp.clang_format_path": "/usr/bin/clang-format",
-  "terminal.integrated.letterSpacing": null,
   "editor.cursorSmoothCaretAnimation": true,
   "workbench.enableExperiments": false,
   "C_Cpp.experimentalFeatures": "Enabled",
@@ -39,13 +37,17 @@
   "projectManager.groupList": true,
   "python.linting.pydocstyleEnabled": true,
   "workbench.tree.indent": 6,
-  "editor.letterSpacing": -0.6,
+  "editor.letterSpacing": -0.65,
   "python.linting.pydocstyleArgs": [
     "--ignore=D200,D203,D213,D406,D407"
   ],
   "bashIde.path": "/snap/bin/bash-language-server",
-  "editor.fontSize": 14,
-  "workbench.colorTheme": "Atom One Dark",
   "window.menuBarVisibility": "toggle",
-  "python.languageServer": "Pylance"
+  "python.languageServer": "Pylance",
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
+  },
+  "window.zoomLevel": -0.75,
+  "workbench.colorTheme": "Atom One Dark",
+  "editor.fontSize": 14
 }

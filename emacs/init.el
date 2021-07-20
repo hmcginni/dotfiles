@@ -21,9 +21,12 @@
  '(custom-safe-themes t)
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-theme-load-path (quote (custom-theme-directory t)) t)
- '(dap-inhibit-io nil)
- '(dap-python-executable "python3")
+ '(debug-on-error nil)
+ '(delete-selection-mode t)
+ '(display-line-numbers t)
+ '(display-line-numbers-width 3)
  '(display-time-mode nil)
+ '(electric-indent-mode nil)
  '(fill-column 80)
  '(flycheck-checkers
    (quote
@@ -43,30 +46,33 @@
  '(flycheck-python-pylint-executable "pylint3")
  '(flycheck-shellcheck-follow-sources nil)
  '(font-use-system-font t)
- '(fringe-mode (quote (10 . 20)) nil (fringe))
  '(git-gutter:update-interval 1)
  '(global-flycheck-mode t)
  '(global-hl-line-mode nil)
- '(global-linum-mode t)
+ '(global-visual-line-mode t)
  '(helm-completion-style (quote emacs))
  '(helm-lisp-fuzzy-completion t)
  '(helm-locate-fuzzy-match nil)
  '(helm-recentf-fuzzy-match t)
- '(inhibit-startup-screen t)
- '(initial-org-scratch-message
-   (substitute-in-file-name "#+OPTIONS: toc:nil num:nil \\n:nil ::t -:t
-#+HTML_HEAD: <link rel=\"stylesheet\" href=\"$HOME/org/org.css\" />
-#+TITLE:
+ '(hrm/initial-org-scratch-message
+   (format "#+options: toc:nil num:nil \\n:nil ::t -:t
+#+html_head: <link rel=\"stylesheet\" href=\"/home/mcginh2/org/org.css\" />
+#+title:
+#+author: %s
+#+date: %s
 
-"))
- '(irony-additional-clang-options (quote ("-pthread" "-std=c++11")))
- '(line-spacing 0.1)
- '(linum-format " %3d ")
+" user-full-name
+(string-trim-right
+ (shell-command-to-string "date -d \"monday this week\"  +%Y%m%d"))))
+ '(hrm/weekly-org-notes-dir "/home/mcginh2/Documents/org/weekly/")
+ '(hs-isearch-open t)
+ '(inhibit-startup-screen t)
+ '(line-number-mode t)
+ '(line-spacing 0.2)
  '(lsp-document-highlight-delay 1)
- '(lsp-headerline-breadcrumb-enable nil)
+ '(lsp-headerline-breadcrumb-enable t)
  '(lsp-headerline-breadcrumb-face (quote mode-line))
- '(lsp-pyls-configuration-sources ["flake8"])
- '(lsp-pyls-plugins-flake8-config "~/.config/flake8/.flake8")
+ '(lsp-headerline-breadcrumb-segments (quote (symbols)))
  '(lsp-pyls-plugins-flake8-enabled nil)
  '(lsp-pyls-plugins-jedi-completion-fuzzy t)
  '(lsp-pyls-plugins-pycodestyle-enabled t)
@@ -90,9 +96,12 @@
  '(lsp-ui-doc-max-height 20)
  '(lsp-ui-doc-max-width 80)
  '(lsp-ui-doc-position (quote top))
- '(lsp-ui-doc-show-with-mouse nil)
+ '(lsp-ui-doc-show-with-cursor nil)
+ '(lsp-ui-doc-show-with-mouse t)
  '(lsp-ui-sideline-delay 0.5)
  '(lsp-ui-sideline-diagnostic-max-line-length 85)
+ '(lsp-ui-sideline-enable nil)
+ '(matlab-align-to-paren nil)
  '(matlab-block-indent-tic-toc-flag t)
  '(matlab-fill-code t)
  '(matlab-highlight-cross-function-variables nil)
@@ -107,18 +116,22 @@
 	 mode-line-end-spaces)))
  '(org-agenda-custom-commands
    (quote
-	(("A" "TODOs: PRIORITY \"A\" (due today)" tags-todo "+PRIORITY=\"A\""
+	(("A" "TODOs: PRIORITY \"A\" (due today)" tags-todo "+PRIORITY=\"A\"&-notes"
 	  ((org-agenda-overriding-header "Today"))
 	  nil)
 	 ("T" "TODOs (by Priority)"
-	  ((tags-todo "+PRIORITY=\"A\""
+	  ((tags-todo "+PRIORITY=\"A\"&-notes"
 				  ((org-agenda-overriding-header "Today")))
-	   (tags-todo "+PRIORITY=\"B\""
+	   (tags-todo "+PRIORITY=\"B\"&-notes"
+				  ((org-agenda-overriding-header "Tomorrow")))
+	   (tags-todo "+PRIORITY=\"C\"&-notes"
 				  ((org-agenda-overriding-header "This Week")))
-	   (tags-todo "+PRIORITY=\"C\""
-				  ((org-agenda-overriding-header "This Month"))))
-	  nil nil))))
- '(org-agenda-todo-keyword-format "%-11s")
+	   (tags-todo "+PRIORITY=\"D\"&-notes"
+				  ((org-agenda-overriding-header "Backlog"))))
+	  ((org-overriding-columns-format "%60ITEM %TAGS"))
+	  nil))))
+ '(org-agenda-files (quote ("~/org/todos.org" "~/Dropbox/org/todos.org")))
+ '(org-agenda-loop-over-headlines-in-active-region nil)
  '(org-babel-load-languages
    (quote
 	((python . t)
@@ -126,13 +139,16 @@
 	 (matlab . t)
 	 (shell . t))))
  '(org-babel-python-command "python3")
+ '(org-beamer-frame-level 2)
+ '(org-beamer-theme "metropolis")
+ '(org-checkbox-hierarchical-statistics nil)
  '(org-clock-into-drawer 2)
  '(org-confirm-babel-evaluate nil)
+ '(org-ellipsis " ▼")
  '(org-entities-user (quote (("chcl" "" nil "&#x2610;" "" "" ""))))
- '(org-export-backends (quote (ascii html md odt org)))
  '(org-export-headline-levels 4)
  '(org-export-with-sub-superscripts (quote {}))
- '(org-fancy-priorities-list (quote ("[#today]" "[#week]" "[#month]" "[#tbd]")))
+ '(org-fancy-priorities-list (quote ("↑" "=" "-" "↓")))
  '(org-file-apps
    (quote
 	((auto-mode . emacs)
@@ -140,26 +156,37 @@
 	 ("\\.x?html?\\'" . default)
 	 ("\\.pdf\\'" . "evince %s"))))
  '(org-html-htmlize-output-type (quote css))
- '(org-html-indent t)
+ '(org-html-indent nil)
  '(org-html-postamble t)
  '(org-html-postamble-format
    (quote
 	(("en" "<div class=\"org-postamble\"><p>Author: %a</p>
 <p>Last Updated: %T</p>
-<p>Created with <a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> using <a href=\"https://orgmode.org/\">Org mode</a></p></div>"))))
+<p>HTML Generated with <a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> using <a href=\"https://orgmode.org/\">Org mode</a></p></div>"))))
+ '(org-indent-indentation-per-level 1)
+ '(org-link-frame-setup
+   (quote
+	((vm . vm-visit-folder-other-frame)
+	 (vm-imap . vm-visit-imap-folder-other-frame)
+	 (gnus . org-gnus-no-new-news)
+	 (file . find-file)
+	 (wl . wl-other-frame))))
+ '(org-list-indent-offset 2)
  '(org-lowest-priority 68)
  '(org-modules
    (quote
-	(ol-docview ol-eww ol-gnus org-habit ol-info ol-irc org-tempo ol-w3m ox-slack)))
+	(org-ctags ol-docview ol-info org-mouse org-tempo ox-slack ox-jira)))
  '(org-priority-lowest 68)
  '(org-reverse-note-order t)
- '(org-tags-column -70)
+ '(org-startup-indented t)
+ '(org-tags-column 0)
  '(org-tags-sort-function (quote org-string-collate-lessp))
- '(org-time-stamp-custom-formats (quote ("%a" . "<%m/%d/%y %a %H:%M>")))
+ '(org-time-stamp-custom-formats (quote ("<%Y%m%d>" . "<%m/%d/%y %a %H:%M>")))
+ '(org-use-property-inheritance t)
  '(org-use-sub-superscripts (quote {}))
  '(package-selected-packages
    (quote
-	(doom-modeline org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present epresent flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
+	(hyperbole magit nord-theme page-break-lines doom-modeline org-fancy-priorities org ox-slack org-ql python-black company-box ox-md ox-odt company all-the-icons dump-jump sphinx-doc modern-cpp-font-lock gnu-elpa-keyring-update helm-xref helm-gtags org-present flycheck helm dap-python lsp-ui lsp-mode htmlize coffee-mode fill-column-indicator visual-fill-column delight ox-gfm adaptive-wrap-mode format-all github-theme dired-toggle sudo-edit matlab-mode markdown-mode json-mode csv-mode cmake-font-lock cmake-mode systemd adaptive-wrap ox-jira smooth-scrolling transpose-frame auto-package-update diminish use-package)))
  '(python-black-extra-args (quote ("-l 80")))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-menu-items 50)
@@ -175,7 +202,6 @@
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))
 
-
 ;; ─────────────────────────────────────────────────────────
 ;;; Custom variables:
 
@@ -184,19 +210,18 @@
   :group 'custom)
 
 ;; ─────────────────────────────────────────────────────────
-;;; Hooks: 
+;;; Hooks:
+
 (add-hook 'sh-mode-hook (lambda () (sh-electric-here-document-mode -1)))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flycheck-mode)
-(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'prog-mode-hook 'visual-line-mode)
 (add-hook 'server-done-hook 'lower-frame)
 (add-hook 'server-switch-hook
 		  (lambda ()
-			(unless (mapcan
-					 (lambda (frame)
-					   (assq 'display (frame-parameters frame)))
-					 (frame-list))
+			(unless (mapcan (lambda (frame)
+							  (assq 'display (frame-parameters frame)))
+							(frame-list))
 			  (make-frame '((window-system . x)
 							(wait-for-wm . nil))))))
 
@@ -211,11 +236,9 @@
 
 ;; Startup functions
 (helm-mode t)
-(linum-mode)
 
 ;; Set variables
 (setq-default c-default-style "stroustrup"
-			  linum-mode t
               ediff-window-setup-function 'ediff-setup-windows-plain
               frame-title-format (list "GNU Emacs " emacs-version " • %b")
 			  prettify-symbols-alist '(("lambda" . ?λ)
@@ -227,17 +250,19 @@
 
 ;; Hooks and Associative Lists
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-(add-to-list 'default-frame-alist '((window-system . x)
-									(inhibit-double-buffering . t)))
+(add-to-list 'default-frame-alist '(window-system . x))
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+(add-to-list 'default-frame-alist '(font . "SF Mono-9"))
 
 ;; Appearance (font and color theme)
-(hrm/set-theme nil)
+(hrm/set-theme t)
 (unless font-use-system-font
-  (hrm/dpi/scale-font "Roboto Mono" "normal"))
+  (message "Using SF Mono")
+  (hrm/dpi/scale-font "SF Mono" "Regular"))
 
-;; (setq left-margin-width 2)
-;; (setq right-margin-width 2)
-;; (setq header-line-format " ")
+(setq left-margin-width 2)
+(setq right-margin-width 2)
+(setq header-line-format " ")
 ;; (set-window-buffer nil (current-buffer))
 
 ;; ─────────────────────────────────────────────────────────
@@ -247,7 +272,6 @@
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-set 0)))
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "M-;") 'visual-line-mode)
-(global-set-key (kbd "C-<f4>") 'kill-this-buffer)
 (global-set-key (kbd "C-j") 'fill-paragraph)
 (global-set-key (kbd "C-x |") 'split-window-right)
 (global-set-key (kbd "C-x -") 'split-window-below)
@@ -257,13 +281,16 @@
 (global-set-key (kbd "<C-!>") 'forward-page)
 (global-set-key (kbd "C-M-#") 'count-matches)
 (global-set-key (kbd "C-<f1>") 'xref-find-definitions)
+(global-set-key (kbd "<mouse-8>") 'previous-buffer)
+(global-set-key (kbd "<mouse-9>") 'next-buffer)
+(global-set-key (kbd "<drag-mouse-9>") 'next-buffer)
 (global-set-key (kbd "M-\\") 'just-one-space)
-
+(global-set-key (kbd "C-<f4>") 'kill-current-buffer)
 (global-set-key (kbd "M-#") 'hrm/count-thing-at-point)
 (global-set-key (kbd "C-s-<up>") 'hrm/move-line-up)
 (global-set-key (kbd "C-s-<down>") 'hrm/move-line-down)
-(global-set-key (kbd "C-S-r") 'hrm/reload-emacs-init-file)
-(global-set-key (kbd "C-b") 'hrm/switch-to-previous-buffer)
+(global-set-key (kbd "<f5>") 'hrm/reload-emacs-init-file)
+(global-set-key (kbd "C-<escape>") 'hrm/switch-to-previous-buffer)
 (global-set-key (kbd "C-x C-g") 'hrm/toggle-comment-region)
 (global-set-key (kbd "C-\\") 'hrm/scratch)
 (global-set-key (kbd "C-|") 'hrm/org-scratch)
@@ -271,32 +298,34 @@
 (global-set-key (kbd "C-x n i") 'hrm/narrow-to-defun-indirect)
 (global-set-key (kbd "C-<prior>") 'hrm/previous-comment-section) ; ----- Ctrl+PageDown
 (global-set-key (kbd "C-<next>") 'hrm/next-comment-section) ; ----- Ctrl+PageUp
-(global-set-key (kbd "C-c C-t") 'hrm/org-show-todos)
+(define-key occur-mode-map (kbd "C-g") 'quit-window)
 
-(defvar hrm/appearance-map)
-(define-prefix-command 'hrm/appearance-map)
-(global-set-key (kbd "C-`") hrm/appearance-map)
-(define-key hrm/appearance-map (kbd "C-`") 'hrm/toggle-theme)
-(define-key hrm/appearance-map (kbd "C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
-(define-key hrm/appearance-map (kbd "C-<right>") (lambda () (interactive) (hrm/resize "wide")))
-(define-key hrm/appearance-map (kbd "C-<down>") (lambda () (interactive) (hrm/resize "half")))
-(define-key hrm/appearance-map (kbd "C-<up>") (lambda () (interactive) (hrm/resize "half")))
+(defvar hrm/general-map)
+(define-prefix-command 'hrm/general-map)
+(global-set-key (kbd "C-z") 'hrm/general-map)
+(define-key hrm/general-map (kbd "C-b") 'hrm/switch-to-previous-buffer)
+(define-key hrm/general-map (kbd "C-c") 'kill-emacs)
+(define-key hrm/general-map (kbd "C-t") 'hrm/org-show-todos)
+(define-key hrm/general-map (kbd "C-T") 'hrm/org-show-todos-today)
+(define-key hrm/general-map (kbd "C-z") 'hrm/toggle-theme)
+(define-key hrm/general-map (kbd "C-s") 'hrm/occur-thing-at-point)
+(define-key hrm/general-map (kbd "C-<left>") (lambda () (interactive) (hrm/resize "narrow")))
+(define-key hrm/general-map (kbd "C-<right>") (lambda () (interactive) (hrm/resize "wide")))
+(define-key hrm/general-map (kbd "C-<down>") (lambda () (interactive) (hrm/resize "half")))
+(define-key hrm/general-map (kbd "C-<up>") (lambda () (interactive) (hrm/resize "half")))
 
 (defvar hrm/insert-map)
 (define-prefix-command 'hrm/insert-map)
-(global-set-key (kbd "<C-insert>") hrm/insert-map)
+(global-set-key (kbd "<C-insert>") 'hrm/insert-map)
 (define-key hrm/insert-map (kbd "C--") 'hs-hide-block)
 (define-key hrm/insert-map (kbd "C-+") 'hs-show-block)
 (define-key hrm/insert-map (kbd "C-<insert>") 'hs-toggle-hiding)
 (define-key hrm/insert-map (kbd "C-d") 'hrm/insert-date)
 (define-key hrm/insert-map (kbd "C-t") 'hrm/insert-date-time)
 (define-key hrm/insert-map (kbd "C-g") 'hrm/new-comment-section)
-(define-key hrm/insert-map (kbd "C-b")
-  (lambda () (interactive) (hrm/inline-code "bash")))
-(define-key hrm/insert-map (kbd "C-p")
-  (lambda () (interactive) (hrm/inline-code "python")))
-(define-key hrm/insert-map (kbd "C-m")
-  (lambda () (interactive) (hrm/inline-code "matlab")))
+(define-key hrm/insert-map (kbd "C-b") (lambda () (interactive) (hrm/inline-code "bash")))
+(define-key hrm/insert-map (kbd "C-p") (lambda () (interactive) (hrm/inline-code "python")))
+(define-key hrm/insert-map (kbd "C-m") (lambda () (interactive) (hrm/inline-code "matlab")))
 
 
 ;; ─────────────────────────────────────────────────────────
@@ -307,19 +336,22 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(header-line ((t (:inherit default :box nil :family "sans"))))
  '(highlight-thing ((t (:inherit (quote hl-line)))))
- '(linum ((t (:inherit (shadow default) :foreground "#626d82" :height 0.8))))
- '(lsp-ui-sideline-symbol ((t (:foreground "grey" :box nil :height 0.9))))
- '(lsp-ui-sideline-symbol-info ((t (:height 0.9))))
+ '(line-number ((t (:inherit (shadow default) :foreground "#626d82" :height 0.8))))
+ '(line-number-current-line ((t (:inherit line-number :foreground "#00d5f7"))))
  '(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
- '(mode-line ((t (:background "#7E7E7E" :foreground "#EAEAEA" :height 0.9 :family "Tex Gyre Heros"))))
- '(mode-line-buffer-id ((t (:weight bold))))
- '(org-priority ((t (:inherit outline-7 :height 0.9))))
- '(variable-pitch ((t (:family "IBM Plex Sans")))))
+ '(matlab-cellbreak-face ((t (:inherit font-lock-builtin-face :overline t :weight bold))))
+ '(mode-line ((t (:background "#7E7E7E" :foreground "#EAEAEA" :height 80 :family "sans"))))
+ '(org-document-info ((((class color) (background light)) (:foreground "cyan4")) (((class color) (background dark)) (:foreground "pale turquoise")) (t nil)))
+ '(org-ellipsis ((t (:slant normal))))
+ '(org-priority ((t (:inherit outline-7)))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
-
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(face-attribute 'font-lock-builtin-face :foreground)
 
 ;; ─────────────────────────────────────────────────────────
 ;;; End:

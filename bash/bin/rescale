@@ -54,7 +54,7 @@ _rescale_unity () {
 		scale=1.25
 	elif _hidpi
 	then
-		scale=1.15
+		scale=1.12
 	else
 		scale=1.0
 	fi
@@ -105,9 +105,9 @@ _rescale_emacs () {
 
 	if test "$(pgrep emacs)"
 	then
-		font_dconf=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
-		font=$(echo "${font_dconf//\'/}" | rev | cut -d" " -f2- | rev)
-		emacsclient -e "(hrm/dpi/scale-font \"$font\" \"medium\")" >/dev/null
+		# font_dconf=$(dconf read /org/gnome/desktop/interface/monospace-font-name)
+		# font=$(echo "${font_dconf//\'/}" | rev | cut -d" " -f2- | rev)
+		emacsclient -e "(hrm/reload-emacs-init-file)" >/dev/null
 	fi
 }
 

@@ -118,3 +118,22 @@ alias mlc='_matlab_wrapper cmd'
 alias activate='_activate_venv'
 alias venv='_create_venv'
 
+# Docker
+alias iosevka_build="_iosevka_build"
+
+_iosevka_build () {
+
+	local hrm_mono_dir
+	local iosevka_dir
+
+	hrm_mono_dir="$HOME/.local/share/fonts/mono/Hrm_Mono"
+	iosevka_dir="$HOME/repos/Iosevka"
+
+	pushd "$iosevka_dir"
+	docker run -it --rm --cpus=2 --memory=2g --memory-swap=2g -v $(pwd):/build avivace/iosevka-build
+	popd
+
+	rm -rfv "$hrm_mono_dir"
+	cp "$iosevka_dir/dist/hrm-mono/ttf" "$hrm_mono_dir"
+
+}

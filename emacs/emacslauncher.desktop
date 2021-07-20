@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Emacs Launcher
+GenericName=Text Editor
+Comment=Launch Emacs
+MimeType=
+Exec=emacsclient -c -n -a ""
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;Utility;
+StartupWMClass=Emacs

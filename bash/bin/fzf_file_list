@@ -3,9 +3,8 @@
 
 _list_files () {
 
-	fd ".*" "$HOME" /etc /usr -E "Trash" -E "*~" -E "refs" --type f --hidden \
-	   --absolute-path --follow \
-		| fzf --exact --height=25 --reverse --history="$HOME"/.fzf_file_history
+	fd ".*" "$HOME" /etc /usr /opt -E "Trash" -E "*~" -E "refs" -t f -H -a |\
+		fzf --exact --height=25 --reverse --history="$HOME"/.fzf_file_history
 
 }
 
